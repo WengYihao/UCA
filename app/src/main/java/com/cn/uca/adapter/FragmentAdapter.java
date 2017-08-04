@@ -14,6 +14,11 @@ import java.util.List;
 public class FragmentAdapter extends FragmentPagerAdapter{
     private List<Fragment> list;
 
+    /**
+     * 123456
+     * @param fm
+     * @param list
+     */
     public FragmentAdapter(FragmentManager fm, List<Fragment> list) {
         super(fm);
         this.list = list;
