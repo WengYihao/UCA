@@ -32,6 +32,7 @@ import java.util.List;
 
 /**
  * Created by asus on 2017/8/4.
+ * 图片轮播
  */
 
 public class Banner extends FrameLayout implements ViewPager.OnPageChangeListener {

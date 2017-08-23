@@ -13,22 +13,28 @@ import com.cn.uca.R;
 import com.cn.uca.adapter.FragmentAdapter;
 import com.cn.uca.ui.fragment.HomeFragment;
 import com.cn.uca.ui.fragment.UserFragment;
+import com.cn.uca.ui.fragment.YueKaFragment;
 
 import java.util.ArrayList;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
 
     private HomeFragment homeFragment;
+    private YueKaFragment yueKaFragment;
     private UserFragment userFragment;
     private ViewPager mPager;
     private ArrayList<Fragment> fragmentList;
     private View homeLayout;
+    private View yuekaLayout;
     private View userLayout;
 
+
     private ImageView homeImage;
+    private ImageView yuekaImage;
     private ImageView userImage;
 
     private TextView homeText;
+    private TextView yuekaText;
     private TextView userText;
 
     @Override
@@ -46,17 +52,21 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      */
     private void initView() {
         homeLayout = findViewById(R.id.home_layout);
+        yuekaLayout = findViewById(R.id.yueka_layout);
         userLayout = findViewById(R.id.user_layout);
 
         homeImage = (ImageView) findViewById(R.id.home_image);
+        yuekaImage = (ImageView)findViewById(R.id.yueka_image);
         userImage = (ImageView) findViewById(R.id.user_image);
 
         homeText = (TextView) findViewById(R.id.home_text);
+        yuekaText = (TextView)findViewById(R.id.yueka_text);
         userText = (TextView) findViewById(R.id.user_text);
 
         mPager = (ViewPager) findViewById(R.id.content);
-
+        mPager .setOffscreenPageLimit(3);//viewpager缓存的界面数
         homeLayout.setOnClickListener(this);
+        yuekaLayout.setOnClickListener(this);
         userLayout.setOnClickListener(this);
 
         fragmentList = new ArrayList<>();
@@ -68,12 +78,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      */
     private void initFragment() {
         homeFragment = new HomeFragment();
+        yueKaFragment = new YueKaFragment();
         userFragment = new UserFragment();
         fragmentList.add(homeFragment);
+        fragmentList.add(yueKaFragment);
         fragmentList.add(userFragment);
 
-        mPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), fragmentList) {
-        });
+        mPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), fragmentList));
         mPager.setCurrentItem(0);
         mPager.setOnPageChangeListener(onPageChangeListener);
 
@@ -86,9 +97,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 setTabSelection(0);
                 mPager.setCurrentItem(0);
                 break;
-            case R.id.user_layout:
+            case R.id.yueka_layout:
                 setTabSelection(1);
                 mPager.setCurrentItem(1);
+                break;
+            case R.id.user_layout:
+                setTabSelection(2);
+                mPager.setCurrentItem(2);
                 break;
         }
     }
@@ -131,6 +146,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case 1:
                 // 当点击了语言设置tab时，改变控件的图片和文字颜色
+                yuekaImage.setImageResource(R.mipmap.yueka_select);
+                yuekaText.setTextColor(Color.parseColor("#fa753c"));
+                break;
+            case 2:
                 userImage.setImageResource(R.mipmap.user_select);
                 userText.setTextColor(Color.parseColor("#fa753c"));
                 break;
@@ -143,6 +162,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private void clearSelection() {
         homeImage.setImageResource(R.mipmap.home_normal);
         homeText.setTextColor(Color.parseColor("#82858b"));
+        yuekaImage.setImageResource(R.mipmap.yueka_normal);
+        yuekaText.setTextColor(Color.parseColor("#82858b"));
         userImage.setImageResource(R.mipmap.user_normal);
         userText.setTextColor(Color.parseColor("#82858b"));
     }

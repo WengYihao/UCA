@@ -15,7 +15,6 @@ import com.cn.uca.view.HackyViewPager;
 import java.util.ArrayList;
 
 public class ImagePagerActivity extends FragmentActivity {
-
     private static final String STATE_POSITION = "STATE_POSITION";
     public static final String EXTRA_IMAGE_INDEX = "image_index";
     public static final String EXTRA_IMAGE_URLS = "image_urls";
@@ -26,9 +25,10 @@ public class ImagePagerActivity extends FragmentActivity {
 
     @SuppressWarnings("deprecation")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_pager);
+
         pagerPosition = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);
         ArrayList<String> urls = getIntent().getStringArrayListExtra(EXTRA_IMAGE_URLS);
 
@@ -88,5 +88,6 @@ public class ImagePagerActivity extends FragmentActivity {
             String url = fileList.get(position);
             return ImageDetailFragment.newInstance(url);
         }
+
     }
 }

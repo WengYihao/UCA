@@ -1,13 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cn.uca.ui.LoginActivity">
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/ori">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/a"
+        android:layout_below="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="123456"/>
-</android.support.constraint.ConstraintLayout>
+        android:layout_marginTop="10dp"
+        android:gravity="center" >
+
+        <com.cn.uca.view.MyEditText
+            android:id="@+id/username_et"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:phoneNumber="true"
+            android:hint="请输入账号" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_below="@+id/a"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <com.cn.uca.view.MyEditText
+            android:id="@+id/password_et"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:phoneNumber="true"
+            android:inputType="textPassword"
+            android:hint="请输入密码" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_aa"
+       android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/b">
+
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/ori"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="登录" />
+    </RelativeLayout>
+
+</RelativeLayout>

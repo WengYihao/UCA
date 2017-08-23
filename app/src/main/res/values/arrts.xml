@@ -32,4 +32,9 @@
         <!--<attr name="indicator_animator" format="reference" />-->
         <!--<attr name="indicator_animator_reverse" format="reference" />-->
     </declare-styleable>
+    <!-- 吸顶 -->
+    <declare-styleable name="StickyScrollView">
+        <attr name="stuckShadowHeight" format="dimension" />
+        <attr name="stuckShadowDrawable" format="reference" />
+    </declare-styleable>
 </resources>

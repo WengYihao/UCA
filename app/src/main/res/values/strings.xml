@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">UCA</string>
+    <string name="login">登录</string>
     <string name="homeFragment_menu_home_text">首页</string>
+    <string name="homeFragment_menu_yueka_text">约咖</string>
     <string name="homeFragment_menu_user_text">我的</string>
     <string name="viewpager_indicator">%1$d/%2$d</string>
 </resources>

@@ -2,6 +2,7 @@ package com.cn.uca.util;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 
 public class SetListView {
