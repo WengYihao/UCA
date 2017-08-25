@@ -14,6 +14,9 @@ import com.cn.uca.config.MyApplication;
 
 import java.util.List;
 
+/**
+ * 城市选择字母适配器
+ */
 
 public class PlaceAdapter extends BaseAdapter{
 	private String [] list;

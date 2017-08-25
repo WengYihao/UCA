@@ -18,12 +18,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cn.uca.R;
 import com.cn.uca.badger.ShortcutBadger;
 import com.cn.uca.config.Constant;
+import com.cn.uca.ui.CollectionActivity;
+import com.cn.uca.ui.InformationActivity;
 import com.cn.uca.ui.LocationActivity;
+import com.cn.uca.ui.OrderActivity;
+import com.cn.uca.ui.SettingActivity;
 import com.cn.uca.util.AndroidClass;
 import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.OpenPhoto;
@@ -60,7 +66,8 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private ArrayList<String> li = new ArrayList<>();
     private Button open,set,clean;
     private ImageView bbb;
-//    private IWXAPI api;
+    private TextView setting;
+    private LinearLayout userInfo,myOrder,myCollection;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
@@ -73,6 +80,19 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private void initView(){
         pic = (CircleImageView)view.findViewById(R.id.pic);
         pic.setOnClickListener(this);
+
+        setting = (TextView)view.findViewById(R.id.setting);
+        setting.setOnClickListener(this);
+
+        userInfo = (LinearLayout)view.findViewById(R.id.userInfo);
+        userInfo.setOnClickListener(this);
+
+        myOrder = (LinearLayout)view.findViewById(R.id.myOrder);
+        myOrder.setOnClickListener(this);
+
+        myCollection = (LinearLayout)view.findViewById(R.id.myCollection);
+        myCollection.setOnClickListener(this);
+
 //
 //        open = (Button)view.findViewById(R.id.open);
 //        open.setOnClickListener(this);
@@ -113,6 +133,18 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 Constant.api.sendReq(req);
 //                ToastXutil.show(api.openWXApp()+"---");
 
+                break;
+            case R.id.setting:
+                startActivity(new Intent(getActivity(), SettingActivity.class));
+                break;
+            case R.id.userInfo:
+                startActivity(new Intent(getActivity(), InformationActivity.class));
+                break;
+            case R.id.myOrder:
+                startActivity(new Intent(getActivity(), OrderActivity.class));
+                break;
+            case R.id.myCollection:
+                startActivity(new Intent(getActivity(), CollectionActivity.class));
                 break;
 //            case R.id.open:
 //                startActivity(new Intent(getActivity(), LocationActivity.class));

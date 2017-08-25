@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="0dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="0dp"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/aaa"
@@ -10,4 +12,25 @@
         android:layout_height="200dp"
         android:src="@mipmap/edc"
         android:scaleType="fitXY"/>
+    <com.cn.uca.view.RatingStarView
+        android:id="@+id/haha"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        app:cornerRadius="4dp"
+        app:starMargin="12dp"
+        app:strokeWidth="2px"
+        app:starForegroundColor="@color/yellow"
+        app:starBackgroundColor="@color/gray"
+        app:starNum="5"
+        app:rating="1.5"
+        app:enableSelectRating="false"
+        app:starThickness="0.7"
+        app:drawStrokeForEmptyStar="false"
+        app:drawStrokeForHalfStar="true"
+        android:background="@color/white"/>
+    <TextView
+        android:id="@+id/wawa"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@color/aa"/>
 </LinearLayout>

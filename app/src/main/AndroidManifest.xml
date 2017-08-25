@@ -163,18 +163,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.LoginActivity"></activity>
+        <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.WelcomActivity" />
         <activity android:name=".ui.ImagePagerActivity" />
         <activity android:name=".ui.LocationActivity" />
         <activity android:name=".ui.CityActivity" />
         <activity android:name=".ui.PlaneTicketActivity" />
-        <activity android:name=".ui.HaActivity" />
         <activity android:name=".ui.HotleActivity" />
         <activity android:name=".ui.TourismActivity" />
-        <activity android:name=".wxapi.WXEntryActivity"
-            android:exported="true">
-        </activity>
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true" />
+        <activity android:name=".ui.RaidersActivity" />
+        <activity android:name=".ui.SearchActivity" />
+        <activity android:name=".ui.IndianaActivity" />
+        <activity android:name=".ui.SettingActivity" />
+        <activity android:name=".ui.InformationActivity" />
+        <activity android:name=".ui.OrderActivity" />
+        <activity android:name=".ui.CollectionActivity"></activity>
     </application>
 
 </manifest>

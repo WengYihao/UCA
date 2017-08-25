@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +13,26 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.animate.ScaleInOutTransformer;
 import com.cn.uca.config.BannerConfig;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
+import com.cn.uca.server.QueryHttp;
 import com.cn.uca.ui.CityActivity;
 import com.cn.uca.ui.HotleActivity;
+import com.cn.uca.ui.IndianaActivity;
 import com.cn.uca.ui.PlaneTicketActivity;
+import com.cn.uca.ui.RaidersActivity;
+import com.cn.uca.ui.SearchActivity;
 import com.cn.uca.ui.TourismActivity;
 import com.cn.uca.util.OpenPhoto;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.Banner;
+import com.cn.uca.view.MyEditText;
 import com.cn.uca.view.PullToRefreshView;
 import com.cn.uca.view.StickyScrollView;
 import com.jaeger.library.StatusBarUtil;
@@ -49,6 +57,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
     private int height; //透明内容高度
     private TextView planeTicket,hotle,tourism,oneRaiders,oneIndiana;//机票、酒店、旅游、一元攻略、一元夺宝
     private ImageView img;
+    private TextView search_et;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,6 +79,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
         oneRaiders = (TextView)view.findViewById(R.id.oneRaiders);
         oneIndiana = (TextView)view.findViewById(R.id.oneIndiana);
         img = (ImageView)view.findViewById(R.id.img);
+        search_et = (TextView) view.findViewById(R.id.search_et);
 
         locationHint.setOnClickListener(this);
         planeTicket.setOnClickListener(this);
@@ -77,6 +87,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
         tourism.setOnClickListener(this);
         oneRaiders.setOnClickListener(this);
         oneIndiana.setOnClickListener(this);
+        search_et.setOnClickListener(this);
 
         images.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic1xjab4j30ci08cjrv.jpg");
         images.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
@@ -142,10 +153,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
                 startActivity(new Intent(getActivity(), TourismActivity.class));
                 break;
             case R.id.oneRaiders:
-
+                startActivity(new Intent(getActivity(), RaidersActivity.class));
                 break;
             case R.id.oneIndiana:
-
+                startActivity(new Intent(getActivity(),IndianaActivity.class));
+                break;
+            case R.id.search_et:
+                startActivity(new Intent(getActivity(),SearchActivity.class));
                 break;
         }
     }

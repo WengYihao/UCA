@@ -114,17 +114,18 @@
                 android:id="@+id/search"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="8dp"
                 android:layout_centerVertical="true"
                 android:background="@mipmap/search_nav" />
 
-            <com.cn.uca.view.MyEditText
+            <TextView
                 android:layout_toRightOf="@id/search"
+                android:id="@+id/search_et"
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
-                android:textCursorDrawable="@drawable/color_cursor"
+                android:gravity="center_vertical"
                 android:layout_centerVertical="true"
                 android:background="@color/white"
                 android:hint="请输入搜索关键字"
