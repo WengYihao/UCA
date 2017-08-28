@@ -1,4 +1,4 @@
-package com.cn.uca.impl;
+package com.cn.uca.impl.banner;
 
 /**
  * Created by asus on 2017/8/4.

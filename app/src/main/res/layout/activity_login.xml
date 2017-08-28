@@ -1,78 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.LoginActivity">
+    android:orientation="vertical"
+    tools:context="com.cn.uca.ui.LoginActivity"
+    android:background="@color/ori">
 
     <RelativeLayout
-        android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/ori">
+        android:layout_height="0dp"
+        android:layout_weight="2">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@color/aa"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
-            android:text="@string/login"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/a"
-        android:layout_below="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center" >
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
 
-        <com.cn.uca.view.MyEditText
-            android:id="@+id/username_et"
-            android:gravity="center"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/ori"
+                    android:gravity="center"
+                    android:hint="手机号"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginRight="10dp"
+                    android:scaleType="matrix"
+                    android:src="@color/white" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"></RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:phoneNumber="true"
-            android:hint="请输入账号" />
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal">
 
-    <RelativeLayout
-        android:id="@+id/b"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:layout_below="@+id/a"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_weight="4"
+                android:orientation="vertical">
 
-        <com.cn.uca.view.MyEditText
-            android:id="@+id/password_et"
-            android:gravity="center"
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/ori"
+                    android:gravity="center"
+                    android:hint="验证码"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:scaleType="matrix"
+                    android:src="@color/white" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/send"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="发送验证码"
+                    android:textColor="@color/ori"
+                    android:textCursorDrawable="@drawable/color_cursor"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:phoneNumber="true"
-            android:inputType="textPassword"
-            android:hint="请输入密码" />
-    </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="30dp">
+            <TextView
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="登录"
+                android:textColor="@color/ori"
+                android:background="@drawable/search_background"
+                android:padding="10dp"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+            <TextView
+                android:id="@+id/otherLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="账号密码登录"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_marginTop="15dp"/>
+        </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/login_aa"
-       android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_below="@id/b">
-
-        <TextView
-            android:id="@+id/login"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/ori"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:text="登录" />
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="30dp">
 
-</RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:id="@+id/alipayLogin"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/aa"
+                    android:layout_alignParentBottom="true"
+                    />
+
+                <TextView
+                    android:id="@+id/weChatLogin"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@id/alipayLogin"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/aa" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

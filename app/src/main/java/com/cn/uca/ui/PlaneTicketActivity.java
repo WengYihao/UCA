@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.ui.fragment.OneWayFragment;
 import com.cn.uca.ui.fragment.TwoWayFragment;
-import com.jaeger.library.StatusBarUtil;
 
 public class PlaneTicketActivity extends FragmentActivity implements View.OnClickListener{
 
@@ -27,7 +26,7 @@ public class PlaneTicketActivity extends FragmentActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plane_ticket);
 
-        StatusBarUtil.setTranslucentForImageView(this, 0, view);//设置状态栏透明
+//        StatusBarUtil.setTranslucentForImageView(this, 0, view);//设置状态栏透明
 
         initView();
     }

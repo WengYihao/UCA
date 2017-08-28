@@ -1,10 +1,8 @@
 package com.cn.uca.ui.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +11,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.animate.ScaleInOutTransformer;
 import com.cn.uca.config.BannerConfig;
 import com.cn.uca.config.MyApplication;
-import com.cn.uca.impl.CallBack;
-import com.cn.uca.impl.OnBannerListener;
+import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
-import com.cn.uca.server.QueryHttp;
 import com.cn.uca.ui.CityActivity;
 import com.cn.uca.ui.HotleActivity;
 import com.cn.uca.ui.IndianaActivity;
@@ -32,10 +27,7 @@ import com.cn.uca.ui.TourismActivity;
 import com.cn.uca.util.OpenPhoto;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.Banner;
-import com.cn.uca.view.MyEditText;
-import com.cn.uca.view.PullToRefreshView;
 import com.cn.uca.view.StickyScrollView;
-import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +36,7 @@ import java.util.List;
  * Created by asus on 2017/8/2.
  */
 
-public class HomeFragment extends Fragment implements View.OnClickListener,OnBannerListener, StickyScrollView.OnScrollChangedListener{
+public class HomeFragment extends Fragment implements View.OnClickListener,OnBannerListener{
 
     private View view;
     private StickyScrollView stickyScrollView;//滑动界面
@@ -53,7 +45,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
     private Banner banner;//图片轮播
     private List<String> images=new ArrayList<>();//图片地址集合
     private List<String> titles = new ArrayList<>();//标题集合
-    private PullToRefreshView pullToRefreshView;//刷新界面
     private int height; //透明内容高度
     private TextView planeTicket,hotle,tourism,oneRaiders,oneIndiana;//机票、酒店、旅游、一元攻略、一元夺宝
     private ImageView img;
@@ -68,7 +59,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
     }
 
     private void initView(){
-        pullToRefreshView = (PullToRefreshView)view.findViewById(R.id.pull);
         stickyScrollView = (StickyScrollView) view.findViewById(R.id.scrollView);
         banner = (Banner)view.findViewById(R.id.banner);
         llTitle = (RelativeLayout) view.findViewById(R.id.ll_good_detail);
@@ -109,32 +99,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
                 .start();
         banner.updateBannerStyle(BannerConfig.NUM_INDICATOR_TITLE);
 
-        stickyScrollView.setOnScrollListener(this);
-        StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), img);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) llTitle.getLayoutParams();
         params.setMargins(0, getStatusHeight(), 0, 0);
         llTitle.setLayoutParams(params);
-
-        pullToRefreshView.setIsUpLoad(true);
-        pullToRefreshView.setIsPull(false);
-         //上拉加载
-        pullToRefreshView.setOnFooterRefreshListener(new PullToRefreshView.OnFooterRefreshListener() {
-            @Override
-            public void onFooterRefresh(PullToRefreshView view) {
-                pullToRefreshView.onFooterRefreshComplete();
-                ToastXutil.show("上拉");
-            }
-        });
-        // 下拉更新
-        pullToRefreshView.setOnHeaderRefreshListener(new PullToRefreshView.OnHeaderRefreshListener() {
-
-            @Override
-            public void onHeaderRefresh(PullToRefreshView view) {
-                pullToRefreshView.onHeaderRefreshComplete();
-//                llTitle.setVisibility(View.GONE);
-                ToastXutil.show("下拉");
-            }
-        });
     }
 
     @Override
@@ -220,27 +187,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
                         .removeGlobalOnLayoutListener(this);
             }
         });
-    }
-    @Override
-    public void onScrollChanged(int l, int t, int oldl, int oldt) {
-        if (t <= 0) {
-            llTitle.setBackgroundColor(Color.argb((int) 0, 255, 255, 255));
-            StatusBarUtil.setTranslucentForImageView(getActivity(), 0, img);
-        } else if (t > 0 && t <= height) {
-            float scale = (float) t / height;
-            int alpha = (int) (255 * scale);
-            llTitle.setBackgroundColor(Color.argb((int) alpha, 19, 181, 177));//设置标题栏的透明度及颜色
-            StatusBarUtil.setTranslucentForImageView(getActivity(), alpha, img);//设置状态栏的透明度
-        } else {
-            llTitle.setBackgroundColor(Color.argb((int) 255, 19, 181, 177));
-            StatusBarUtil.setTranslucentForImageView(getActivity(), 255, img);
-        }
-        int scrollY = stickyScrollView.getScrollY();
-        if (scrollY<0){
-            llTitle.setVisibility(View.GONE);
-        }else{
-            llTitle.setVisibility(View.VISIBLE);
-        }
-
     }
 }

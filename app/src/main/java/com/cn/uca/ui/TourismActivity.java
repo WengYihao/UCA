@@ -18,7 +18,6 @@ import com.cn.uca.util.SetListView;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.HorizontalListView;
 import com.cn.uca.view.MyEditText;
-import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public class TourismActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tourism);
-        StatusBarUtil.setTranslucentForImageView(this, 0, view);//设置状态栏透明
+//        StatusBarUtil.setTranslucentForImageView(this, 0, view);//设置状态栏透明
 
         initView();
     }

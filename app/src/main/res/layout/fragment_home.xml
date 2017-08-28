@@ -3,105 +3,85 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.cn.uca.view.PullToRefreshView
-        android:id="@+id/pull"
+    <com.cn.uca.view.StickyScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <com.cn.uca.view.StickyScrollView
-            android:id="@+id/scrollView"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_below="@id/title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <RelativeLayout
-                android:layout_below="@id/title"
+            android:layout_height="match_parent">
+            <com.cn.uca.view.Banner
+                android:id="@+id/banner"
+                app:layout_id="@layout/banner_custom_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <com.cn.uca.view.Banner
-                    android:id="@+id/banner"
-                    app:layout_id="@layout/banner_custom_viewpager"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"/>
-                <LinearLayout
-                    android:id="@+id/ll_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:layout_below="@+id/banner"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="7dp"
-                    android:layout_marginEnd="7dp">
-                    <TextView
-                        android:id="@+id/planeTicket"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@color/aa"
-                        android:text="机票"
-                        android:gravity="center"/>
-                    <TextView
-                        android:id="@+id/hotel"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@color/blue"
-                        android:text="酒店"
-                        android:gravity="center"/>
-                    <TextView
-                        android:id="@+id/tourism"
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@color/pink"
-                        android:text="旅游"
-                        android:gravity="center"/>
-                </LinearLayout>
+                android:layout_height="200dp"/>
+            <LinearLayout
+                android:id="@+id/ll_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_below="@+id/banner"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="7dp"
+                android:layout_marginEnd="7dp">
+                <TextView
+                    android:id="@+id/planeTicket"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@color/aa"
+                    android:text="机票"
+                    android:gravity="center"/>
+                <TextView
+                    android:id="@+id/hotel"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@color/blue"
+                    android:text="酒店"
+                    android:gravity="center"/>
+                <TextView
+                    android:id="@+id/tourism"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@color/pink"
+                    android:text="旅游"
+                    android:gravity="center"/>
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/aa"
-                    android:layout_below="@id/ll_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center">
-                    <TextView
-                        android:id="@+id/oneRaiders"
-                        android:layout_width="150dp"
-                        android:layout_height="50dp"
-                        android:background="@color/red"
-                        android:text="一元攻略"
-                        android:gravity="center"/>
-                    <TextView
-                        android:id="@+id/oneIndiana"
-                        android:layout_width="150dp"
-                        android:layout_height="50dp"
-                        android:background="@color/gray"
-                        android:text="一元夺宝"
-                        android:gravity="center"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/aa">
-
-                    <ImageView
-                        android:id="@+id/img"
-                        android:layout_width="match_parent"
-                        android:layout_height="500dp"/>
-                </LinearLayout>
-            </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/aa"
+                android:layout_below="@id/ll_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/oneRaiders"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:background="@color/red"
+                    android:text="一元攻略"
+                    android:gravity="center"/>
+                <TextView
+                    android:id="@+id/oneIndiana"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:background="@color/gray"
+                    android:text="一元夺宝"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </RelativeLayout>
 
 
-        </com.cn.uca.view.StickyScrollView>
-    </com.cn.uca.view.PullToRefreshView>
+    </com.cn.uca.view.StickyScrollView>
 
     <RelativeLayout
         android:id="@+id/ll_good_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         >
         <RelativeLayout
             android:layout_width="200dp"

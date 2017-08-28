@@ -2,6 +2,7 @@ package com.cn.uca.config;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.cn.uca.server.QueryHttp;
 import com.cn.uca.util.SystemUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -19,11 +20,15 @@ public class MyApplication extends Application {
 	private static Context mContext;
 	public static int width;
 	public static int height;
+	public static QueryHttp server;
 
 	public static Context getContext() {
 		return mContext;
 	}
 
+	public static QueryHttp getServer(){
+		return server;
+	}
 	// 应用程序的入口
 	@Override
 	public void onCreate() {
@@ -39,6 +44,7 @@ public class MyApplication extends Application {
 		ImageLoader.getInstance().init(config);
 		// 上下文
 		mContext = getApplicationContext();
+		server = new QueryHttp();
 		JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
 //        Log.i("999", JPushInterface.getRegistrationID(getApplicationContext())+"****************");

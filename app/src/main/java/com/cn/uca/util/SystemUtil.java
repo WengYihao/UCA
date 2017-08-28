@@ -214,10 +214,10 @@ public class SystemUtil
 			return date;
 		}
     public static String UtilDateToString(Date date) {
-	    	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 			String dateString = sdf.format(date);
 			return dateString;
-		}
+	}
 	/*时间戳转换成字符窜*/
     public static String getDateToString(long time) 
     {

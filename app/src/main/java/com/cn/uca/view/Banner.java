@@ -23,8 +23,8 @@ import com.cn.uca.handler.WeakHandler;
 import com.cn.uca.R;
 import com.cn.uca.config.BannerConfig;
 import com.cn.uca.impl.ImageLoaderInterface;
-import com.cn.uca.impl.OnBannerClickListener;
-import com.cn.uca.impl.OnBannerListener;
+import com.cn.uca.impl.banner.OnBannerClickListener;
+import com.cn.uca.impl.banner.OnBannerListener;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

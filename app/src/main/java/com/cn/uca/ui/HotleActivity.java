@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.ui.fragment.FarmFragment;
 import com.cn.uca.ui.fragment.HotleFragment;
-import com.jaeger.library.StatusBarUtil;
 
 public class HotleActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -27,7 +26,7 @@ public class HotleActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotle);
-        StatusBarUtil.setTranslucentForImageView(this, 0, view);//设置状态栏透明
+//        StatusBarUtil.setTranslucentForImageView(this, 0, view);//设置状态栏透明
 
         initView();
     }

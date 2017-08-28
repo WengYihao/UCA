@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.cn.uca.adapter.FragmentAdapter;
 import com.cn.uca.ui.fragment.HomeFragment;
 import com.cn.uca.ui.fragment.UserFragment;
 import com.cn.uca.ui.fragment.YueKaFragment;
+import com.cn.uca.util.FitStateUI;
 
 import java.util.ArrayList;
 
@@ -40,10 +42,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_main);
 
         initView();
         initFragment();
+
 
     }
 

@@ -1,4 +1,4 @@
-package com.cn.uca.impl;
+package com.cn.uca.impl.banner;
 
 
 /**

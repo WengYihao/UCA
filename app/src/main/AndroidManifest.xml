@@ -163,7 +163,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.LoginActivity" >
+
+        </activity>
         <activity android:name=".ui.WelcomActivity" />
         <activity android:name=".ui.ImagePagerActivity" />
         <activity android:name=".ui.LocationActivity" />
@@ -180,7 +182,8 @@
         <activity android:name=".ui.SettingActivity" />
         <activity android:name=".ui.InformationActivity" />
         <activity android:name=".ui.OrderActivity" />
-        <activity android:name=".ui.CollectionActivity"></activity>
+        <activity android:name=".ui.CollectionActivity" />
+        <activity android:name=".ui.WalletActivity"></activity>
     </application>
 
 </manifest>

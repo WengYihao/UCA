@@ -16,39 +16,30 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cn.uca.R;
-import com.cn.uca.badger.ShortcutBadger;
 import com.cn.uca.config.Constant;
 import com.cn.uca.ui.CollectionActivity;
 import com.cn.uca.ui.InformationActivity;
-import com.cn.uca.ui.LocationActivity;
 import com.cn.uca.ui.OrderActivity;
 import com.cn.uca.ui.SettingActivity;
-import com.cn.uca.util.AndroidClass;
+import com.cn.uca.ui.WalletActivity;
 import com.cn.uca.util.GraphicsBitmapUtils;
-import com.cn.uca.util.OpenPhoto;
-import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
-import com.jaeger.library.StatusBarUtil;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.opensdk.modelmsg.WXTextObject;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by asus on 2017/8/2.
@@ -64,15 +55,14 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     File tempFile = new File(Environment.getExternalStorageDirectory(), getPhotoFileName());
     private byte[] photodata = null;
     private ArrayList<String> li = new ArrayList<>();
-    private Button open,set,clean;
     private ImageView bbb;
     private TextView setting;
     private LinearLayout userInfo,myOrder,myCollection;
+    private RelativeLayout layout1,layout2,layout3,layout4,layout5;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_user, null);
-
         initView();
         return view;
     }
@@ -93,6 +83,19 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         myCollection = (LinearLayout)view.findViewById(R.id.myCollection);
         myCollection.setOnClickListener(this);
 
+        layout1 = (RelativeLayout)view.findViewById(R.id.layout1);
+        layout2 = (RelativeLayout)view.findViewById(R.id.layout2);
+        layout3 = (RelativeLayout)view.findViewById(R.id.layout3);
+        layout4 = (RelativeLayout)view.findViewById(R.id.layout4);
+        layout5 = (RelativeLayout)view.findViewById(R.id.layout5);
+
+        layout1.setOnClickListener(this);
+        layout2.setOnClickListener(this);
+        layout3.setOnClickListener(this);
+        layout4.setOnClickListener(this);
+        layout5.setOnClickListener(this);
+
+
 //
 //        open = (Button)view.findViewById(R.id.open);
 //        open.setOnClickListener(this);
@@ -106,12 +109,8 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         li.add("content://media/external/images/media/49930");
         li.add("content://media/external/images/media/41773");
         li.add("content://media/external/images/media/41771");
-//        ImageLoader.getInstance().displayImage("content://media/external/images/media/49930",pic);
 
         bbb = (ImageView)view.findViewById(R.id.bbb);
-
-        StatusBarUtil.setTranslucentForImageViewInFragment(getActivity(), bbb);
-//        StatusBarUtil.setTranslucentForImageView(getActivity(), 255, bbb);//设置状态栏的透明度
     }
 
     @Override
@@ -145,6 +144,21 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.myCollection:
                 startActivity(new Intent(getActivity(), CollectionActivity.class));
+                break;
+            case R.id.layout1:
+                startActivity(new Intent(getActivity(), WalletActivity.class));
+                break;
+            case R.id.layout2:
+
+                break;
+            case R.id.layout3:
+
+                break;
+            case R.id.layout4:
+
+                break;
+            case R.id.layout5:
+
                 break;
 //            case R.id.open:
 //                startActivity(new Intent(getActivity(), LocationActivity.class));
@@ -298,5 +312,4 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 }

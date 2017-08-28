@@ -2,35 +2,76 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="0dp"
     android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/aaa"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@mipmap/edc"
-        android:scaleType="fitXY"/>
-    <com.cn.uca.view.RatingStarView
-        android:id="@+id/haha"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        app:cornerRadius="4dp"
-        app:starMargin="12dp"
-        app:strokeWidth="2px"
-        app:starForegroundColor="@color/yellow"
-        app:starBackgroundColor="@color/gray"
-        app:starNum="5"
-        app:rating="1.5"
-        app:enableSelectRating="false"
-        app:starThickness="0.7"
-        app:drawStrokeForEmptyStar="false"
-        app:drawStrokeForHalfStar="true"
-        android:background="@color/white"/>
-    <TextView
-        android:id="@+id/wawa"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:background="@color/aa"/>
+        android:layout_height="60dp"
+        android:background="@color/ori">
+
+        <TextView
+            android:id="@+id/a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:text="约咖"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/aa"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+        <TextView
+            android:id="@+id/place"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="深圳"
+            android:layout_marginLeft="15dp"
+            android:padding="5dp"
+            android:background="@drawable/shape_gray_back"/>
+
+        <TextView
+            android:id="@+id/startTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:gravity="center"
+            android:text="2017.8.4"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/shape_gray_back"/>
+        <TextView
+            android:id="@+id/vv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/startTime"
+            android:text="--"
+            android:padding="5dp"
+        android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/endTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:gravity="center"
+            android:text="2017.8.7"
+            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/vv"
+            android:background="@drawable/shape_gray_back"/>
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
 </LinearLayout>
