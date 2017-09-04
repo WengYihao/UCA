@@ -16,29 +16,39 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
+import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.config.Constant;
+import com.cn.uca.config.MyApplication;
+import com.cn.uca.impl.CallBack;
 import com.cn.uca.ui.CollectionActivity;
 import com.cn.uca.ui.InformationActivity;
 import com.cn.uca.ui.OrderActivity;
 import com.cn.uca.ui.SettingActivity;
 import com.cn.uca.ui.WalletActivity;
+import com.cn.uca.util.AndroidClass;
 import com.cn.uca.util.GraphicsBitmapUtils;
+import com.cn.uca.util.SystemUtil;
+import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -54,9 +64,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     // 创建一个以当前时间为名称的文件
     File tempFile = new File(Environment.getExternalStorageDirectory(), getPhotoFileName());
     private byte[] photodata = null;
-    private ArrayList<String> li = new ArrayList<>();
-    private ImageView bbb;
-    private TextView setting;
+    private TextView setting,nickName,age,sex,state;
     private LinearLayout userInfo,myOrder,myCollection;
     private RelativeLayout layout1,layout2,layout3,layout4,layout5;
 
@@ -64,6 +72,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_user, null);
         initView();
+        getUserInfo();
         return view;
     }
 
@@ -83,6 +92,11 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         myCollection = (LinearLayout)view.findViewById(R.id.myCollection);
         myCollection.setOnClickListener(this);
 
+        nickName = (TextView)view.findViewById(R.id.nickName);
+        age = (TextView)view.findViewById(R.id.age);
+        sex = (TextView)view.findViewById(R.id.sex);
+        state = (TextView)view.findViewById(R.id.state);
+
         layout1 = (RelativeLayout)view.findViewById(R.id.layout1);
         layout2 = (RelativeLayout)view.findViewById(R.id.layout2);
         layout3 = (RelativeLayout)view.findViewById(R.id.layout3);
@@ -94,44 +108,15 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         layout3.setOnClickListener(this);
         layout4.setOnClickListener(this);
         layout5.setOnClickListener(this);
-
-
-//
-//        open = (Button)view.findViewById(R.id.open);
-//        open.setOnClickListener(this);
-//
-//        set = (Button)view.findViewById(R.id.set);
-//        set.setOnClickListener(this);
-//
-//        clean = (Button)view.findViewById(R.id.clean);
-//        clean.setOnClickListener(this);
-
-        li.add("content://media/external/images/media/49930");
-        li.add("content://media/external/images/media/41773");
-        li.add("content://media/external/images/media/41771");
-
-        bbb = (ImageView)view.findViewById(R.id.bbb);
     }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.pic:
-////                AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(getActivity(), arrayString, title, onDialogClick);
-////                dialog.show();
-//                OpenPhoto.imageUrl(getActivity(),li.size(),li);
-//                创建微信api并注册到微信
-//
-                Constant.api = WXAPIFactory.createWXAPI(getActivity(), Constant.WX_APP_ID, true);
-                Constant.api.registerApp(Constant.WX_APP_ID);
-                Log.i("123",Constant.api.isWXAppInstalled()+"---");
-//                //发起登录请求
-                final SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";
-                req.state = "wechat_sdk_demo_test";
-                Constant.api.sendReq(req);
-//                ToastXutil.show(api.openWXApp()+"---");
-
+                AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(getActivity(), arrayString, title, onDialogClick);
+                dialog.show();
                 break;
             case R.id.setting:
                 startActivity(new Intent(getActivity(), SettingActivity.class));
@@ -173,6 +158,64 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 //                break;
         }
     }
+
+    private void getUserInfo(){
+        MyApplication.getServer().getUserInfo(new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                Gson gson = new Gson();
+                UserInfo info = gson.fromJson(response.toString(),new TypeToken<UserInfo>(){}.getType());
+                Log.i("123",info.toString());
+                try{
+                    ImageLoader.getInstance().displayImage(info.getUser_head_portrait(), pic);
+                    nickName.setText(info.getUser_nick_name());
+                    if (!info.getUser_birth_date().equals("")){
+                        Date date = SystemUtil.StringToUtilDate(info.getUser_birth_date());
+                        age.setText(SystemUtil.getAge(date)+"岁");
+                    }else{
+                        age.setText("未知");
+                    }
+                    switch (info.getSex_id()){
+                        case 1://男
+                            sex.setText("男");
+                            break;
+                        case 2://女
+                            sex.setText("女");
+                            break;
+                        case 3://保密
+                            sex.setText("保密");
+                            break;
+                    }
+                    switch (info.getBind_identity_state_id()){
+                        case 1:
+                            state.setText("已认证");
+                            break;
+                        case 2:
+                            state.setText("待审核");
+                            break;
+                        case 3:
+                            state.setText("未认证");
+                            break;
+                    }
+
+                }catch (Exception e){
+                    Log.i("456",e.getMessage()+"报错");
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+                ToastXutil.show(errorMsg);
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+                Log.i("456",error.getMessage());
+
+            }
+        });
+    }
+
     // 对话框
     android.content.DialogInterface.OnClickListener onDialogClick = new android.content.DialogInterface.OnClickListener() {
         @Override
@@ -234,7 +277,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private String getPhotoFileName() {
         Date date = new Date(System.currentTimeMillis());
         SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
-        return dateFormat.format(date) + ".jpg";
+        return dateFormat.format(date) + ".png";
     }
     /**
      * 剪裁图片
@@ -258,7 +301,6 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         intent.putExtra("return-data", true);
         intent.putExtra("uri",uri);
 
-        Log.i("123",uri+"");
         startActivityForResult(intent, Constant.PHOTO_REQUEST_CUT);
     }
 
@@ -288,20 +330,41 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 Drawable drawable = new BitmapDrawable((Bitmap) msg.obj);
                 pic.setImageDrawable(drawable);
                 photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
-            } else {
+                ByteArrayInputStream bais = new ByteArrayInputStream(photodata);
+                MyApplication.getServer().uploadPic(bais, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                        if (i == 200){
+                            try {
+                                JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
+                                Log.i("123",jsonObject+"****");
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                        ToastXutil.show("上传失败");
+                    }
+                });
             }
         };
     };
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Constant.PHOTO_REQUEST_TAKEPHOTO:
-                startPhotoZoom(Uri.fromFile(tempFile), 300);
+                startPhotoZoom(Uri.fromFile(tempFile), 400);
                 break;
             case Constant.PHOTO_REQUEST_GALLERY:
                 if (data != null) {
-                    startPhotoZoom(data.getData(), 300);
+                    startPhotoZoom(data.getData(), 400);
                 }
                 break;
             case Constant.PHOTO_REQUEST_CUT:

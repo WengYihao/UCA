@@ -1,4 +1,4 @@
-package com.cn.uca.bean;
+package com.cn.uca.bean.datepicker;
 
 /**
  * Created by codbking on 2016/9/22.

@@ -25,7 +25,7 @@
             android:layout_alignParentStart="true" />
         <ImageView
             android:id="@+id/back"
-            android:padding="10dp"
+            android:padding="@dimen/padding_10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/back"/>
@@ -42,27 +42,27 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/view"
             android:orientation="horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginLeft="@dimen/padding_20"
+            android:layout_marginRight="@dimen/padding_20">
 
             <RadioButton
                 android:id="@+id/hotel"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/padding_50"
                 android:layout_weight="1"
                 android:button="@null"
                 android:gravity="center"
-                android:text="酒店"
+                android:text="@string/hotelActivity_btn_hotel_text"
                 android:textColor="@drawable/selector_menu_text_color"/>
 
             <RadioButton
                 android:id="@+id/farm"
                 android:layout_width="0dp"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/padding_50"
                 android:layout_weight="1"
                 android:button="@null"
                 android:gravity="center"
-                android:text="民宿"
+                android:text="@string/hotelActivity_btn_farm_text"
                 android:textColor="@drawable/selector_menu_text_color" />
         </RadioGroup>
         <FrameLayout
@@ -71,8 +71,8 @@
             android:layout_height="match_parent"
             android:layout_below="@id/radioGroup"
             android:background="@color/white"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginLeft="@dimen/padding_20"
+            android:layout_marginRight="@dimen/padding_20">
         </FrameLayout>
     </RelativeLayout>
 </RelativeLayout>

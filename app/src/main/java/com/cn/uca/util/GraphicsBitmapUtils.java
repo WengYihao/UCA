@@ -1,5 +1,6 @@
 package com.cn.uca.util;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -19,6 +20,8 @@ import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
+import android.util.Log;
 
 
 @SuppressLint("SdCardPath")
@@ -143,32 +146,65 @@ public static byte[] Bitmap2Bytes(Bitmap bm,int cos){
     return baos.toByteArray();   
    } 
  
- public static  void writerFileForBitmap(Bitmap bitmap)
+ public static boolean writerFileForBitmap(Bitmap bitmap,String fileName)
 	{
-
-		
-	    String filename="/sdcard/10.8/"+System.currentTimeMillis()+".png";
-	 
-	  
-	    
-	    File f=new File(filename);
+//	    String filename="/sdcard/10.8/"+System.currentTimeMillis()+".png";
+	    File f = new File(fileName);
 	    FileOutputStream fos=null;
 	    try {
 			f.createNewFile();
-			fos=new FileOutputStream(f);
+			fos = new FileOutputStream(f);
 			bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
 			fos.flush();
 			fos.close();
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			Log.i("456",e.getMessage()+"////");
+			return false;
 		}
-	    
-	    
-	
+	}
+
+	//保存bitmap到sd卡
+	public static boolean saveSD(Bitmap bitmap,String path,String fileName) {
+		try {
+			File file = new File(path + "/" + fileName);
+			//判断sd是否存在
+			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+				//判断文件夹是否存在
+				File mm = new File(path);
+				if (!mm.exists()) {
+					mm.mkdirs();
+				}
+				//保存bitmap到sd卡
+				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
+				//把bitmap写入到文件
+				bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+				//清空缓存
+				bos.flush();
+				bos.close();
+				return true;
+			}else{
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public static Bitmap drawable2Bitmap(Drawable drawable) {
+		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+				drawable.getIntrinsicHeight(),
+				drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                   : Bitmap.Config.RGB_565);
+		Canvas canvas = new Canvas(bitmap);
+		drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+		drawable.draw(canvas);
+		return bitmap;
+
 	}
  /**
   * 图片合成
-  * @param bitmap
   * @return
   */
 @SuppressWarnings("unused")
@@ -316,8 +352,7 @@ private Bitmap gerZoomRotateBitmap(
  /** 
   * 图片反转 
   *  
-  * @param bm 
-  * @param flag 
+  * @param flag
   *            0为水平反转，1为垂直反转 
   * @return 
   */  

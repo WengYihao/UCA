@@ -342,6 +342,9 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
 //        city_hot = getResources().getStringArray(R.array.hot_list);
 //    }
 
+    /**
+     * 历史城市
+     */
     private void hisCityInit() {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = db.rawQuery(

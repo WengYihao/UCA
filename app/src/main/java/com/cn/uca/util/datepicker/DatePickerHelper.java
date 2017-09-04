@@ -126,9 +126,9 @@ public class DatePickerHelper {
         }
         tem.add(YEAR_START);
 
-        for (int i = YEAR_START + 1; i < YEAR_START + yearLimt; i++) {
-            tem.add(i);
-        }
+//        for (int i = YEAR_START + 1; i < YEAR_START + yearLimt; i++) {
+//            tem.add(i);
+//        }
         return tem.toArray(new Integer[0]);
     }
 

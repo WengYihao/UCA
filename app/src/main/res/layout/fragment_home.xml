@@ -30,25 +30,24 @@
                 android:layout_marginEnd="7dp">
                 <TextView
                     android:id="@+id/planeTicket"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@color/aa"
-                    android:text="机票"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/plant_ticketbackgrouond"
                     android:gravity="center"/>
                 <TextView
                     android:id="@+id/hotel"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@color/blue"
-                    android:text="酒店"
-                    android:gravity="center"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/hotel_background"
+                    android:gravity="center"
+                    android:layout_marginLeft="20px"/>
                 <TextView
                     android:id="@+id/tourism"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@color/pink"
-                    android:text="旅游"
-                    android:gravity="center"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/tourism_background"
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -81,8 +80,7 @@
     <RelativeLayout
         android:id="@+id/ll_good_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="200dp"
             android:layout_height="30dp"

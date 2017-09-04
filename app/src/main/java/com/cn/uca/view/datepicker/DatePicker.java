@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.adapter.datePicker.WheelGeneralAdapter;
-import com.cn.uca.bean.DateType;
+import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.impl.datepicker.OnChangeLisener;
 import com.cn.uca.util.datepicker.DatePickerHelper;
 import com.cn.uca.util.datepicker.DateUtils;

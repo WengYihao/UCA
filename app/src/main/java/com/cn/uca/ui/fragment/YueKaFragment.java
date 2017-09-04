@@ -5,20 +5,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.amap.api.maps.model.Text;
 import com.cn.uca.R;
 import com.cn.uca.adapter.YueKaAdapter;
-import com.cn.uca.bean.DateType;
+import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.bean.YueKaBean;
 import com.cn.uca.impl.datepicker.OnSureLisener;
 import com.cn.uca.util.SystemUtil;
-import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.datepicker.DatePickDialog;
 
 import java.util.ArrayList;
@@ -32,11 +28,12 @@ import java.util.List;
 public class YueKaFragment extends Fragment implements View.OnClickListener,OnSureLisener{
 
     private View view;
+    private RelativeLayout llTitle;
     private ListView listView;
     private YueKaAdapter yueKaAdapter;
     private List<YueKaBean> list;
     private List<String> lable1,lable2,img1,img2;
-    private TextView startTime,endTime;
+    private TextView stateTitle,startTime,endTime;
     private boolean index;
 
     @Override
@@ -48,7 +45,10 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,OnSu
     }
 
     private void ininView() {
+        stateTitle = (TextView)view.findViewById(R.id.stateTitle);
+        stateTitle.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SystemUtil.getStatusHeight(getActivity())));
         listView  = (ListView)view.findViewById(R.id.listView);
+        llTitle = (RelativeLayout)view.findViewById(R.id.llTitle);
         startTime = (TextView)view.findViewById(R.id.startTime);
         endTime = (TextView)view.findViewById(R.id.endTime);
 
@@ -102,7 +102,6 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,OnSu
         yueKaAdapter = new YueKaAdapter(list,getActivity());
 
         listView.setAdapter(yueKaAdapter);
-
     }
 
     @Override
@@ -121,7 +120,7 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,OnSu
     private void showDatePickDialog(DateType type) {
         DatePickDialog dialog = new DatePickDialog(getActivity());
         //设置上下年分限制
-        dialog.setYearLimt(5);
+        dialog.setYearLimt(0);
         //设置标题
         dialog.setTitle("选择时间");
         //设置类型
@@ -142,6 +141,5 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,OnSu
         }else{
             endTime.setText(SystemUtil.UtilDateToString(date));
         }
-//        ToastXutil.show(date.toString()+"--");
     }
 }

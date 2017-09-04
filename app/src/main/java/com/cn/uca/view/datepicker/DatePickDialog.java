@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.bean.DateType;
+import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.impl.datepicker.OnChangeLisener;
 import com.cn.uca.impl.datepicker.OnSureLisener;
 import com.cn.uca.util.datepicker.DateUtils;

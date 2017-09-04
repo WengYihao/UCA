@@ -83,26 +83,36 @@ public class SystemUtil
 		return dpi;
 	}
 	/**获取状态栏的高度**/
-	public static int getStatusBarHeight() 
-	{
-		Class<?> c = null;
-		Object obj = null;
-		Field field = null;
-		int x = 0, statusBarHeight = 0;
-		Context context = MyApplication.getInstance();
-		try 
-		{
-			c = Class.forName("com.android.internal.R$dimen");
-			obj = c.newInstance();
-			field = c.getField("status_bar_height");
-			x = Integer.parseInt(field.get(obj).toString());
-			statusBarHeight = context.getResources().getDimensionPixelSize(x);
-		} 
-		catch (Exception e1) 
-		{
-			e1.printStackTrace();
-		}
-		return statusBarHeight;
+//	public static int getStatusBarHeight()
+//	{
+//		Class<?> c = null;
+//		Object obj = null;
+//		Field field = null;
+//		int x = 0, statusBarHeight = 0;
+//		Context context = MyApplication.getInstance();
+//		try
+//		{
+//			c = Class.forName("com.android.internal.R$dimen");
+//			obj = c.newInstance();
+//			field = c.getField("status_bar_height");
+//			x = Integer.parseInt(field.get(obj).toString());
+//			statusBarHeight = context.getResources().getDimensionPixelSize(x);
+//		}
+//		catch (Exception e1)
+//		{
+//			e1.printStackTrace();
+//		}
+//		return statusBarHeight;
+//	}
+
+	/**
+	 * 获取状态栏高度
+	 * @return
+	 */
+	public static int getStatusHeight(Activity activity) {
+		int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+		return activity.getResources().getDimensionPixelSize(resourceId);
+
 	}
 	// 判断sd卡是否存在
 	public static boolean hasSDCard() 
@@ -208,13 +218,49 @@ public class SystemUtil
 		String str = formatter.format(curDate); 
 		return str;
 	}
+
+	/**
+	 * 日期转换字符串
+	 * @param DateTimeString
+	 * @return
+	 * @throws ParseException
+	 */
 	 public static Date StringToUtilDate(String DateTimeString) throws ParseException {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date date = sdf.parse(DateTimeString);
 			return date;
+	 }
+
+	//由出生日期获得年龄
+	public static  int getAge(Date birthDay) throws Exception {
+		Calendar cal = Calendar.getInstance();
+
+		if (cal.before(birthDay)) {
+			throw new IllegalArgumentException(
+					"The birthDay is before Now.It's unbelievable!");
 		}
-    public static String UtilDateToString(Date date) {
-	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+		int yearNow = cal.get(Calendar.YEAR);
+		int monthNow = cal.get(Calendar.MONTH);
+		int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
+		cal.setTime(birthDay);
+
+		int yearBirth = cal.get(Calendar.YEAR);
+		int monthBirth = cal.get(Calendar.MONTH);
+		int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
+
+		int age = yearNow - yearBirth;
+
+		if (monthNow <= monthBirth) {
+			if (monthNow == monthBirth) {
+				if (dayOfMonthNow < dayOfMonthBirth) age--;
+			}else{
+				age--;
+			}
+		}
+		return age;
+	}
+	public static String UtilDateToString(Date date) {
+	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String dateString = sdf.format(date);
 			return dateString;
 	}

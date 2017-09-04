@@ -3,6 +3,7 @@ package com.cn.uca.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,21 +15,31 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.animate.ScaleInOutTransformer;
 import com.cn.uca.config.BannerConfig;
+import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
+import com.cn.uca.secretkey.RSAUtils;
 import com.cn.uca.ui.CityActivity;
 import com.cn.uca.ui.HotleActivity;
-import com.cn.uca.ui.IndianaActivity;
 import com.cn.uca.ui.PlaneTicketActivity;
 import com.cn.uca.ui.RaidersActivity;
 import com.cn.uca.ui.SearchActivity;
 import com.cn.uca.ui.TourismActivity;
 import com.cn.uca.util.OpenPhoto;
+import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
+import com.cn.uca.secretkey.Base64;
+import com.cn.uca.secretkey.MD5;
 import com.cn.uca.view.Banner;
 import com.cn.uca.view.StickyScrollView;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import org.apache.http.Header;
+import org.json.JSONObject;
+
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +111,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
         banner.updateBannerStyle(BannerConfig.NUM_INDICATOR_TITLE);
 
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) llTitle.getLayoutParams();
-        params.setMargins(0, getStatusHeight(), 0, 0);
+        params.setMargins(0, SystemUtil.getStatusHeight(getActivity()), 0, 0);
         llTitle.setLayoutParams(params);
     }
 
@@ -123,7 +134,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
                 startActivity(new Intent(getActivity(), RaidersActivity.class));
                 break;
             case R.id.oneIndiana:
-                startActivity(new Intent(getActivity(),IndianaActivity.class));
                 break;
             case R.id.search_et:
                 startActivity(new Intent(getActivity(),SearchActivity.class));
@@ -131,15 +141,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
         }
     }
 
-    /**
-     * 获取状态栏高度
-     * @return
-     */
-    private int getStatusHeight() {
-        int resourceId = getActivity().getResources().getIdentifier("status_bar_height", "dimen", "android");
-        return getResources().getDimensionPixelSize(resourceId);
 
-    }
     @Override
     public void OnBannerClick(int position) {
         ToastXutil.show(position+""+images.get(position));
@@ -180,8 +182,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
         viewTreeObserver1.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                height = height - llTitle.getHeight() - getStatusHeight();//计算滑动的总距离
-                stickyScrollView.setStickTop(llTitle.getHeight() + getStatusHeight());//设置距离多少悬浮
+                height = height - llTitle.getHeight() - SystemUtil.getStatusHeight(getActivity());//计算滑动的总距离
+                stickyScrollView.setStickTop(llTitle.getHeight() + SystemUtil.getStatusHeight(getActivity()));//设置距离多少悬浮
                 //注意要移除
                 llTitle.getViewTreeObserver()
                         .removeGlobalOnLayoutListener(this);

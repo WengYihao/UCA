@@ -146,16 +146,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case 0:
                 // 当点击了主页tab时，改变控件的图片和文字颜色
                 homeImage.setImageResource(R.mipmap.home_select);
-                homeText.setTextColor(Color.parseColor("#fa753c"));
+                homeText.setTextColor(getResources().getColor(R.color.ori));
                 break;
             case 1:
                 // 当点击了语言设置tab时，改变控件的图片和文字颜色
                 yuekaImage.setImageResource(R.mipmap.yueka_select);
-                yuekaText.setTextColor(Color.parseColor("#fa753c"));
+                yuekaText.setTextColor(getResources().getColor(R.color.ori));
                 break;
             case 2:
                 userImage.setImageResource(R.mipmap.user_select);
-                userText.setTextColor(Color.parseColor("#fa753c"));
+                userText.setTextColor(getResources().getColor(R.color.ori));
                 break;
         }
     }
@@ -165,10 +165,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      */
     private void clearSelection() {
         homeImage.setImageResource(R.mipmap.home_normal);
-        homeText.setTextColor(Color.parseColor("#82858b"));
+        homeText.setTextColor(getResources().getColor(R.color.gray2));
         yuekaImage.setImageResource(R.mipmap.yueka_normal);
-        yuekaText.setTextColor(Color.parseColor("#82858b"));
+        yuekaText.setTextColor(getResources().getColor(R.color.gray2));
         userImage.setImageResource(R.mipmap.user_normal);
-        userText.setTextColor(Color.parseColor("#82858b"));
+        userText.setTextColor(getResources().getColor(R.color.gray2));
     }
 }

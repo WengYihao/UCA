@@ -109,6 +109,7 @@
                     app:border_width="1dp" />
 
                 <TextView
+                    android:id="@+id/nickName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -118,6 +119,7 @@
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -127,6 +129,7 @@
                     android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/sex"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
@@ -134,12 +137,12 @@
                     android:background="@color/aa" />
 
                 <TextView
+                    android:id="@+id/state"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/search_background"
-                    android:text="未认证"
                     android:textColor="@color/grey2"
                     android:padding="5dp"
                     android:textSize="10sp" />

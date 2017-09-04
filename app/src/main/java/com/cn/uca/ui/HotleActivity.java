@@ -25,7 +25,7 @@ public class HotleActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hotle);
+        setContentView(R.layout.activity_hotel);
 //        StatusBarUtil.setTranslucentForImageView(this, 0, view);//设置状态栏透明
 
         initView();

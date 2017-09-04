@@ -7,12 +7,12 @@
         android:name="com.cn.uca.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
     <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -35,6 +35,11 @@
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:name=".config.MyApplication"
@@ -156,14 +161,8 @@
             android:name="JPUSH_APPKEY"
             android:value="541edc96fd6fdb5066972eb3" />
 
-        <activity android:name=".ui.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.LoginActivity" >
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.LoginActivity">
 
         </activity>
         <activity android:name=".ui.WelcomActivity" />
@@ -183,7 +182,18 @@
         <activity android:name=".ui.InformationActivity" />
         <activity android:name=".ui.OrderActivity" />
         <activity android:name=".ui.CollectionActivity" />
-        <activity android:name=".ui.WalletActivity"></activity>
+        <activity android:name=".ui.WalletActivity" />
+        <activity android:name=".ui.LoadActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.InfoActivity" />
+        <activity android:name=".ui.InfoSexActivity" />
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.SettingPasswordActivity"></activity>
     </application>
 
 </manifest>

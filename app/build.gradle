@@ -25,6 +25,13 @@ android {
             }
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
 
 dependencies {
@@ -42,6 +49,8 @@ dependencies {
     compile files('libs/pinyin4android1.0.jar')
     compile files('libs/pinyin4j-2.5.0.jar')
     compile files('libs/libammsdk.jar')
+    compile files('libs/httpmime-4.3.4.jar')
+    compile files('libs/android-async-http-1.4.8.jar')
     compile 'com.github.bumptech.glide:glide:4.0.0'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
