@@ -395,8 +395,8 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
             dbHelper.createDataBase();
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Cursor cursor = db.rawQuery(
-                    "select * from city where name like \"%" + keyword
-                            + "%\" or pinyin like \"%" + keyword + "%\"", null);
+                    "select * from city where city_name like \"%" + keyword
+                            + "%\" or city_pinyin like \"%" + keyword + "%\" or city_abbreviation like \"%" +keyword +"%\"", null);
             City city;
             Log.e("info", "length = " + cursor.getCount());
             while (cursor.moveToNext()) {
@@ -587,7 +587,7 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
             } else if (viewType == 2) {
                 convertView = inflater.inflate(R.layout.total_item, null);
             } else {
-                if (convertView == null && viewType != 2) {
+                if (convertView == null && viewType != 2 && viewType != 1) {
                     convertView = inflater.inflate(R.layout.list_item, null);
                     holder = new ViewHolder();
                     holder.alpha = (TextView) convertView
