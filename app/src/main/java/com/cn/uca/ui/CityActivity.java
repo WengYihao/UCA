@@ -64,7 +64,7 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
     private OverlayThread overlayThread; // 显示首字母对话框
     private ArrayList<City> allCity_lists; // 所有城市列表
     private ArrayList<City> city_lists;// 城市列表
-    private String [] city_hot;
+    private ArrayList<City> city_hot;
     private ArrayList<City> city_result;
     private ArrayList<String> city_history;
     private EditText sh;
@@ -82,7 +82,7 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
         setContentView(R.layout.activity_city);
         personList = (ListView) findViewById(R.id.list_view);
         allCity_lists = new ArrayList<City>();
-        city_hot = getResources().getStringArray(R.array.hot_list);
+        city_hot = new ArrayList<City>();
         city_result = new ArrayList<City>();
         city_history = new ArrayList<String>();
         resultList = (ListView) findViewById(R.id.search_result);
@@ -129,7 +129,8 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
             }
         });
         letterListView = (LetterListView) findViewById(R.id.MyLetterListView01);
-        letterListView.setOnTouchingLetterChangedListener(new LetterListViewListener());
+        letterListView
+                .setOnTouchingLetterChangedListener(new LetterListViewListener());
         alphaIndexer = new HashMap<String, Integer>();
         handler = new Handler();
         overlayThread = new OverlayThread();
@@ -171,7 +172,7 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
         });
         initOverlay();
         cityInit();
-//        hotCityInit();
+        hotCityInit();
         hisCityInit();
         setAdapter(allCity_lists, city_hot, city_history);
 
@@ -203,7 +204,7 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
             currentCity = updateWithNewLocation(getLocation());
             city_history.add(currentCity);
             adapter.notifyDataSetChanged();
-            if (currentCity == null || currentCity.equals("")) {
+            if (currentCity == null && currentCity.equals("")) {
                 locateProcess = 3; // 定位失败
                 personList.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -331,20 +332,46 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
 
     }
     private void cityInit() {
+        City city = new City("历史", "1"); // 最近访问的城市
+        allCity_lists.add(city);
+        city = new City("热门", "2"); // 热门城市
+        allCity_lists.add(city);
+        city = new City("全部", "3"); // 全部城市
+        allCity_lists.add(city);
         city_lists = getCityList();
         allCity_lists.addAll(city_lists);
     }
 
-//    /**
-//     * 热门城市
-//     */
-//    public void hotCityInit() {
-//        city_hot = getResources().getStringArray(R.array.hot_list);
-//    }
-
     /**
-     * 历史城市
+     * 热门城市
      */
+    public void hotCityInit() {
+        City city = new City("上海", "2");
+        city_hot.add(city);
+        city = new City("北京", "2");
+        city_hot.add(city);
+        city = new City("广州", "2");
+        city_hot.add(city);
+        city = new City("深圳", "2");
+        city_hot.add(city);
+        city = new City("武汉", "2");
+        city_hot.add(city);
+        city = new City("天津", "2");
+        city_hot.add(city);
+        city = new City("西安", "2");
+        city_hot.add(city);
+        city = new City("南京", "2");
+        city_hot.add(city);
+        city = new City("杭州", "2");
+        city_hot.add(city);
+        city = new City("成都", "2");
+        city_hot.add(city);
+        city = new City("重庆", "2");
+        city_hot.add(city);
+        city = new City("苏州","2");
+        city_hot.add(city);
+    }
+
     private void hisCityInit() {
         SQLiteDatabase db = helper.getReadableDatabase();
         Cursor cursor = db.rawQuery(
@@ -384,21 +411,16 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
         String [] list = "jhuynbggggg".split("");
         StringBuilder a = null;
         StringBuilder builder = new StringBuilder(keyword);
-        for (int i = 0; i < list.length; i++) {
-//			"%"+list[i];
-            Log.i("123", list[i]+"------");
-//			a.append("%"+list[i]);
-        }
-//		Log.i("123", a+"------");
         DBHelper dbHelper = new DBHelper(this);
         try {
             dbHelper.createDataBase();
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Cursor cursor = db.rawQuery(
                     "select * from city where city_name like \"%" + keyword
-                            + "%\" or city_pinyin like \"%" + keyword + "%\" or city_abbreviation like \"%" +keyword +"%\"", null);
+                            + "%\" or city_pinyin like \"%" + keyword + "%\" or city_abbreviation like \"%" + keyword + "%\"", null);
+
+            //select * from city where city_name like '%sz%' or city_pinyin like '%sz%' or city_abbreviation like '%sz%';
             City city;
-            Log.e("info", "length = " + cursor.getCount());
             while (cursor.moveToNext()) {
                 city = new City(cursor.getString(1), cursor.getString(2));
                 city_result.add(city);
@@ -429,7 +451,7 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
         }
     };
 
-    private void setAdapter(List<City> list, String [] hotList,
+    private void setAdapter(List<City> list, List<City> hotList,
                             List<String> hisCity) {
         adapter = new ListAdapter(this, list, hotList, hisCity);
         personList.setAdapter(adapter);
@@ -484,12 +506,12 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
         private Context context;
         private LayoutInflater inflater;
         private List<City> list;
-        private String [] hotList;
+        private List<City> hotList;
         private List<String> hisCity;
         final int VIEW_TYPE = 4;
 
         public ListAdapter(Context context, List<City> list,
-                           String [] hotList, List<String> hisCity) {
+                           List<City> hotList, List<String> hisCity) {
             this.inflater = LayoutInflater.from(context);
             this.list = list;
             this.context = context;
@@ -541,7 +563,7 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             int viewType = getItemViewType(position);
-             if (viewType == 0) { // 历史访问城市
+            if (viewType == 0) { // 历史访问城市
                 convertView = inflater.inflate(R.layout.recent_city, null);
                 GridView rencentCity = (GridView) convertView
                         .findViewById(R.id.recent_city);
@@ -572,10 +594,10 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
                                             int position, long id) {
 
                         Toast.makeText(getApplicationContext(),
-                                city_hot[position].toString()+"3",
+                                city_hot.get(position).getName()+"3",
                                 Toast.LENGTH_SHORT).show();
-                        InsertCity(city_hot[position]);
-                        city_history.add(city_hot[position]);
+                        InsertCity(city_hot.get(position).getName());
+                        city_history.add(city_hot.get(position).getName());
                         adapter.notifyDataSetChanged();
 
                     }
@@ -587,7 +609,7 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
             } else if (viewType == 2) {
                 convertView = inflater.inflate(R.layout.total_item, null);
             } else {
-                if (convertView == null && viewType != 2 && viewType != 1) {
+                if (convertView == null && viewType != 2) {
                     convertView = inflater.inflate(R.layout.list_item, null);
                     holder = new ViewHolder();
                     holder.alpha = (TextView) convertView
@@ -623,9 +645,9 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
     class HotCityAdapter extends BaseAdapter {
         private Context context;
         private LayoutInflater inflater;
-        private String[] hotCitys;
+        private List<City> hotCitys;
 
-        public HotCityAdapter(Context context,String[] hotCitys) {
+        public HotCityAdapter(Context context, List<City> hotCitys) {
             this.context = context;
             inflater = LayoutInflater.from(this.context);
             this.hotCitys = hotCitys;
@@ -633,7 +655,7 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
 
         @Override
         public int getCount() {
-            return hotCitys.length;
+            return hotCitys.size();
         }
 
         @Override
@@ -650,7 +672,7 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
         public View getView(int position, View convertView, ViewGroup parent) {
             convertView = inflater.inflate(R.layout.item_city, null);
             TextView city = (TextView) convertView.findViewById(R.id.city);
-            city.setText(hotCitys[position]);
+            city.setText(hotCitys.get(position).getName());
             return convertView;
         }
     }
@@ -792,4 +814,3 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
         }
     }
 }
-

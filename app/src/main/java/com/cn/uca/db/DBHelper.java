@@ -47,7 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	private final Context myContext;
 
 	/**
-	 * 如果数据库文件较大，使用FileSplit分割为小于1M的小文件 此例中分割为 hello.db.101 hello.db.102
+	 * 如果数据库文件较大，使用FileSplit分割为小于1M的小文件此例中分割为 hello.db.101 hello.db.102
 	 * hello.db.103
 	 */
 	// 第一个文件名后缀׺

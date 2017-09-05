@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/padding_8">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -121,27 +122,30 @@
                     android:horizontalSpacing="5dp"
                     android:numColumns="3"></GridView>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:drawableLeft="@mipmap/home_select"
+                    android:text="10"
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:gravity="center"/>
+                <TextView
+                    android:id="@+id/evaluate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="非常棒的一次旅行，伴游非常会聊天"
+                    android:background="@color/grey2"
+                    android:padding="@dimen/padding_5"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="@dimen/padding_5"/>
+
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/evaluate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="非常棒的一次旅行，伴游非常会聊天"
-            android:layout_marginLeft="15dp"/>
-        <TextView
-            android:id="@+id/sum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:drawableLeft="@mipmap/home_select"
-            android:text="10"
-            android:layout_marginRight="10dp"
-            android:gravity="center"/>
-    </RelativeLayout>
 </LinearLayout>

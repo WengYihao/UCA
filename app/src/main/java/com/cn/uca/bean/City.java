@@ -30,4 +30,11 @@ public class City {
 		this.pinyi = pinyi;
 	}
 
+	@Override
+	public String toString() {
+		return "City{" +
+				"name='" + name + '\'' +
+				", pinyi='" + pinyi + '\'' +
+				'}';
+	}
 }
