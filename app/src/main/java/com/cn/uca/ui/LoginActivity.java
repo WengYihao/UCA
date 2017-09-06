@@ -28,6 +28,7 @@ import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.MyEditText;
 import com.cn.uca.wxapi.WXEntryActivity;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import org.apache.http.Header;
@@ -101,29 +102,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * 手机号登录
+     */
     private void phoneLogin(){
         try {
+            final String phoneNumber = username.getText().toString().trim();
             String passwordText = password.getText().toString().trim();
             PublicKey publicKey = RSAUtils.loadPublicKey(Constant.PUBLIC_KEY);
             byte[] encryptByte = RSAUtils.encryptData(MD5.getMD5(passwordText).getBytes(), publicKey);
             String afterencrypt = Base64.encode(encryptByte);
-            MyApplication.getServer().phoneLogin(afterencrypt, new AsyncHttpResponseHandler() {
+            MyApplication.getServer().phoneLogin(phoneNumber,afterencrypt, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int i, Header[] headers, byte[] bytes) {
                     try {
                         if (i == 200){
                             JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
                             int code  = jsonObject.getInt("code");
+                            Log.i("123",code+"1212121212");
                             switch (code){
                                 case 0:
                                     ToastXutil.show("登录成功");
                                     SharePreferenceXutil.setSuccess(true);
                                     SharePreferenceXutil.saveAccountToken(jsonObject.getJSONObject("data").getString("account_token"));
+                                    SharePreferenceXutil.savePhoneNumber(phoneNumber);
                                     SharePreferenceXutil.setExit(false);
                                     Intent intent = new Intent();
                                     intent.setClass(LoginActivity.this,MainActivity.class);
                                     startActivity(intent);
                                     LoginActivity.this.finish();
+                                    break;
+                                case 74:
+                                    ToastXutil.show("账号不正确");
                                     break;
                             }
                         }

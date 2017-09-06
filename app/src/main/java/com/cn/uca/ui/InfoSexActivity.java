@@ -115,13 +115,13 @@ public class InfoSexActivity extends AppCompatActivity implements View.OnClickLi
         if (intent != null){
             String sex = intent.getStringExtra("sex");
             switch (sex){
-                case "1":
+                case "男":
                     man.setChecked(true);
                     break;
-                case "2":
+                case "女":
                     woman.setChecked(true);
                     break;
-                case "3":
+                case "保密":
                     secrecy.setChecked(true);
                     break;
             }

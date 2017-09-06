@@ -9,8 +9,11 @@ public class MyConfig {
 	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";     //获取微信token
 	public static final String weChatLogin = url+"/user/query/userLogin_weixin.do";//微信登录
 	public static final String uplodePic = url+"user/update/uploadHeadPortrait.do";//上传用户头像
-	public static final String getUerInfo = url+"user/query/getUserBriefInfo.do";//获取用户信息
+	public static final String getUserBriefInfo = url+"user/query/getUserBriefInfo.do";//获取简单用户信息
 	public static final String setUserInfo = url+"user/update/setUserInfo.do";//修改用户信息
 	public static final String phoneLogin = url+"user/query/phone_login.do"; //手机用户登录
 	public static final String phoneRegister = url+"user/update/userRegister.do";//手机号注册
+	public static final String getUserInfo = url+"user/query/getUserInfo.do";//获取用户信息
+	public static final String getUserPush = url+"user/query/getUserSetting.do";//获取用户推送设置
+	public static final String setUserPush = url+"user/update/updateUserSetting.do";//用户是否推送
 }

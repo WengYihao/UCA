@@ -15,6 +15,7 @@ import com.cn.uca.adapter.FragmentAdapter;
 import com.cn.uca.ui.fragment.HomeFragment;
 import com.cn.uca.ui.fragment.UserFragment;
 import com.cn.uca.ui.fragment.YueKaFragment;
+import com.cn.uca.util.ActivityCollector;
 import com.cn.uca.util.FitStateUI;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_main);
 
+        ActivityCollector.addActivity(this);
         initView();
         initFragment();
 

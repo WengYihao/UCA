@@ -3,18 +3,25 @@ package com.cn.uca.ui;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.datepicker.OnSureLisener;
+import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.datepicker.DatePickDialog;
+import com.cn.uca.view.dialog.ToastDialog;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -28,6 +35,9 @@ public class InformationActivity extends AppCompatActivity implements View.OnCli
 
     private RelativeLayout layout1,layout2,layout3,layout4,layout5,layout6,layout7;
     private TextView nickName,sex,birthDate,phone;
+    private String userName,userSex,userAge,userPhoneNumber;
+    private int sexId;
+    private ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +45,11 @@ public class InformationActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_information);
 
         initView();
+        getInfo();
     }
 
     private void initView() {
+        back = (ImageView)findViewById(R.id.back);
         layout1 = (RelativeLayout)findViewById(R.id.layout1);
         layout2 = (RelativeLayout)findViewById(R.id.layout2);
         layout3 = (RelativeLayout)findViewById(R.id.layout3);
@@ -46,6 +58,7 @@ public class InformationActivity extends AppCompatActivity implements View.OnCli
         layout6 = (RelativeLayout)findViewById(R.id.layout6);
         layout7 = (RelativeLayout)findViewById(R.id.layout7);
 
+        back.setOnClickListener(this);
         layout1.setOnClickListener(this);
         layout2.setOnClickListener(this);
         layout3.setOnClickListener(this);
@@ -66,24 +79,33 @@ public class InformationActivity extends AppCompatActivity implements View.OnCli
         Intent intent = new Intent();
         intent.setClass(InformationActivity.this,InfoActivity.class);
         switch (view.getId()){
+            case R.id.back:
+                sendInfo();
+                break;
             case R.id.layout1:
                 intent.putExtra("type","nickName");
-                intent.putExtra("nickName","哈哈");
+                intent.putExtra("nickName",userName);
                 startActivityForResult(intent,0);
                 break;
             case R.id.layout2:
                 Intent intent1 = new Intent();
                 intent1.setClass(InformationActivity.this,InfoSexActivity.class);
-                intent1.putExtra("sex","1");
+                intent1.putExtra("sex",userSex);
                 startActivityForResult(intent1,0);
                 break;
             case R.id.layout3:
                 showDatePickDialog(DateType.TYPE_YMD);
                 break;
             case R.id.layout4:
-                intent.putExtra("type","phone");
-                intent.putExtra("phone","15112360329");
-                startActivityForResult(intent,0);
+                if (!StringXutil.isEmpty(SharePreferenceXutil.getPhoneNumber())){
+                    intent.putExtra("type","phone");
+                    intent.putExtra("phone", SharePreferenceXutil.getPhoneNumber());
+                    startActivityForResult(intent,0);
+                }else{
+                    intent.putExtra("type","phone");
+                    intent.putExtra("phone", "");
+                    startActivityForResult(intent,0);
+                }
                 break;
             case R.id.layout5:
 
@@ -121,23 +143,28 @@ public class InformationActivity extends AppCompatActivity implements View.OnCli
                 String type = data.getStringExtra("type");
                 switch (type){
                     case "nickName":
-                        nickName.setText(data.getStringExtra("nickName"));
+                        userName = data.getStringExtra("nickName");
+                        nickName.setText(userName);
                         break;
                     case "sex":
                         switch (data.getStringExtra("sex")){
                             case "1":
-                                sex.setText("男");
+                                userSex = "男";
+                                sex.setText(userSex);
                                 break;
                             case "2":
-                                sex.setText("女");
+                                userSex = "女";
+                                sex.setText(userSex);
                                 break;
                             case "3":
-                                sex.setText("保密");
+                                userSex = "保密";
+                                sex.setText(userSex);
                                 break;
                         }
                         break;
                     case "date":
-                        birthDate.setText(data.getStringExtra("date"));
+                        userAge = data.getStringExtra("date");
+                        birthDate.setText(userAge);
                         break;
                     case "phone":
                         phone.setText(data.getStringExtra("phone"));
@@ -161,6 +188,7 @@ public class InformationActivity extends AppCompatActivity implements View.OnCli
                         if (code == 0){
                             ToastXutil.show("修改成功");
                             birthDate.setText(SystemUtil.UtilDateToString(date));
+                            userAge = SystemUtil.UtilDateToString(date);
                         }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -174,5 +202,40 @@ public class InformationActivity extends AppCompatActivity implements View.OnCli
             public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
             }
         });
+    }
+
+    public void getInfo() {
+        Intent intent = getIntent();
+        if (intent != null){
+            userName = intent.getStringExtra("userName");
+            userAge = intent.getStringExtra("userAge");
+            userSex = intent.getStringExtra("userSex");
+            nickName.setText(userName);
+            sex.setText(userSex);
+            birthDate.setText(userAge);
+            if (!StringXutil.isEmpty(SharePreferenceXutil.getPhoneNumber())){
+                phone.setText(SharePreferenceXutil.getPhoneNumber());
+            }else{
+                phone.setText("");
+            }
+        }
+    }
+
+    private void sendInfo(){
+        Intent intent = new Intent();
+        intent.putExtra("userName",userName);
+        intent.putExtra("userAge",userAge);
+        intent.putExtra("userSex",userSex);
+        setResult(0, intent);
+        this.finish();
+    }
+
+    /**
+     * 按下返回键时调用
+     */
+    @Override
+    public void onBackPressed() {
+        sendInfo();
+        super.onBackPressed();
     }
 }

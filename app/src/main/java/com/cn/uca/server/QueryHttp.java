@@ -94,13 +94,24 @@ public class QueryHttp extends BaseServer{
     }
 
     /**
+     * 获取j简单用户信息
+     * @param callBack
+     */
+    public void getUserBriefInfo(CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        post3(MyConfig.getUserBriefInfo,map,callBack);
+    }
+
+
+    /**
      * 获取用户信息
      * @param callBack
      */
     public void getUserInfo(CallBack callBack){
         Map<String,String> map = new HashMap<>();
         map.put("account_token",SharePreferenceXutil.getAccountToken());
-        post3(MyConfig.getUerInfo,map,callBack);
+        post3(MyConfig.getUserInfo,map,callBack);
     }
 
     /**
@@ -123,10 +134,10 @@ public class QueryHttp extends BaseServer{
      * @param password
      * @param handler
      */
-    public void phoneLogin(String password,AsyncHttpResponseHandler handler){
+    public void phoneLogin(String phoneNumber,String password,AsyncHttpResponseHandler handler){
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("phone_number","15875536869");
+        params.put("phone_number",phoneNumber);
         params.put("encryption_password",password);
         client.post(MyConfig.phoneLogin,params,handler);
     }
@@ -143,5 +154,27 @@ public class QueryHttp extends BaseServer{
         map.put("encryption_password",bean.getEncryption_password());
         map.put("registration_id","123456789");
         post3(MyConfig.phoneRegister,map,callBack);
+    }
+
+    /**
+     * 获取用户推送
+     * @param callBack
+     */
+    public void getUserPush(CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        get(MyConfig.getUserPush,map,callBack);
+    }
+
+    /**
+     * 设置用户是否推送
+     * @param open_push
+     * @param callBack
+     */
+    public void setUserPush(boolean open_push,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        map.put("open_push",open_push+"");
+        post4(MyConfig.setUserPush,map,callBack);
     }
 }

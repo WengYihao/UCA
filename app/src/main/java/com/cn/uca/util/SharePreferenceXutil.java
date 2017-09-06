@@ -114,4 +114,68 @@ public class SharePreferenceXutil {
 		return getSp().getString("accountToken", "");
 	}
 
+	/**
+	 * 保存用户绑定的手机号
+	 * @param phoneNumber
+	 */
+	public static void savePhoneNumber(String phoneNumber) {
+		getSp().edit().putString("phoneNumber", phoneNumber).commit();
+	}
+
+	/**
+	 * 获取用户绑定的手机号
+	 * @return
+	 */
+	public static String getPhoneNumber() {
+		return getSp().getString("phoneNumber", "");
+	}
+
+	/**
+	 * 保存用户昵称
+	 * @param nickName
+	 */
+	public static void saveNickName(String nickName) {
+		getSp().edit().putString("nickName", nickName).commit();
+	}
+
+	/**
+	 * 获取用户昵称
+	 * @return
+	 */
+	public static String getNickName() {
+		return getSp().getString("nickName", "");
+	}
+
+
+	/**
+	 * 保存用户年龄
+	 * @param userAge
+	 */
+	public static void saveUserAge(String userAge) {
+		getSp().edit().putString("userAge", userAge).commit();
+	}
+
+	/**
+	 * 获取用户年龄
+	 * @return
+	 */
+	public static String getUserAge() {
+		return getSp().getString("userAge", "");
+	}
+
+	/**
+	 * 保存用户性别
+	 * @param userSex
+	 */
+	public static void saveUserSex(String userSex) {
+		getSp().edit().putString("userSex", userSex).commit();
+	}
+
+	/**
+	 * 获取用户性别
+	 * @return
+	 */
+	public static String getUserSex() {
+		return getSp().getString("userSex", "");
+	}
 }

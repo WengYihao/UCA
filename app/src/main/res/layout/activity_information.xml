@@ -11,9 +11,10 @@
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/padding_50"
-        android:background="@color/ori" >
+        android:background="@color/ori">
 
         <ImageView
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -28,6 +29,7 @@
             android:textColor="#ffffff"
             android:textSize="@dimen/text_22" />
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -204,7 +206,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/padding_10"
-                android:text="15112360329@163.com"
                 android:textSize="@dimen/text_14" />
 
             <ImageView

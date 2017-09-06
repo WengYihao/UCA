@@ -33,6 +33,7 @@ import com.cn.uca.ui.SettingActivity;
 import com.cn.uca.ui.WalletActivity;
 import com.cn.uca.util.AndroidClass;
 import com.cn.uca.util.GraphicsBitmapUtils;
+import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
@@ -67,6 +68,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private TextView setting,nickName,age,sex,state;
     private LinearLayout userInfo,myOrder,myCollection;
     private RelativeLayout layout1,layout2,layout3,layout4,layout5;
+    private String userName,userAge,userSex;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
@@ -122,7 +124,12 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), SettingActivity.class));
                 break;
             case R.id.userInfo:
-                startActivity(new Intent(getActivity(), InformationActivity.class));
+                Intent intent = new Intent();
+                intent.setClass(getActivity(),InformationActivity.class);
+                intent.putExtra("userName",userName);
+                intent.putExtra("userAge",userAge);
+                intent.putExtra("userSex",userSex);
+                startActivityForResult(intent,0);
                 break;
             case R.id.myOrder:
                 startActivity(new Intent(getActivity(), OrderActivity.class));
@@ -160,17 +167,18 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     }
 
     private void getUserInfo(){
-        MyApplication.getServer().getUserInfo(new CallBack() {
+        MyApplication.getServer().getUserBriefInfo(new CallBack() {
             @Override
             public void onResponse(Object response) {
                 Gson gson = new Gson();
                 UserInfo info = gson.fromJson(response.toString(),new TypeToken<UserInfo>(){}.getType());
-                Log.i("123",info.toString());
                 try{
                     ImageLoader.getInstance().displayImage(info.getUser_head_portrait(), pic);
-                    nickName.setText(info.getUser_nick_name());
+                    userName = info.getUser_nick_name();
+                    nickName.setText(userName);
+                    userAge = info.getUser_birth_date();
                     if (!info.getUser_birth_date().equals("")){
-                        Date date = SystemUtil.StringToUtilDate(info.getUser_birth_date());
+                        Date date = SystemUtil.StringToUtilDate(userAge);
                         age.setText(SystemUtil.getAge(date)+"岁");
                     }else{
                         age.setText("未知");
@@ -178,12 +186,15 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                     switch (info.getSex_id()){
                         case 1://男
                             sex.setText("男");
+                            userSex = "男";
                             break;
                         case 2://女
                             sex.setText("女");
+                            userSex = "女";
                             break;
                         case 3://保密
                             sex.setText("保密");
+                            userSex = "保密";
                             break;
                     }
                     switch (info.getBind_identity_state_id()){
@@ -337,7 +348,10 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                         if (i == 200){
                             try {
                                 JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
-                                Log.i("123",jsonObject+"****");
+                                int code = jsonObject.getInt("code");
+                                if (code == 0){
+                                    ToastXutil.show("上传成功");
+                                }
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
                             } catch (JSONException e) {
@@ -370,6 +384,21 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             case Constant.PHOTO_REQUEST_CUT:
                 if (data != null) {
                     setPicToView(data);
+                }
+                break;
+            case 0:
+                try{
+                    if (data != null){
+                        userName = data.getStringExtra("userName");
+                        nickName.setText(userName);
+                        userAge = data.getStringExtra("userAge");
+                        Date date = SystemUtil.StringToUtilDate(userAge);
+                        age.setText(SystemUtil.getAge(date)+"岁");
+                        userSex = data.getStringExtra("userSex");
+                        sex.setText(userSex);
+                    }
+                }catch (Exception e){
+                    Log.i("456",e.getMessage());
                 }
                 break;
         }

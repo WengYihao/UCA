@@ -131,7 +131,6 @@ public class BaseServer {
 		StringRequest stringRequest = new StringRequest(Method.POST, url, new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				Log.i("123",response+"*****************");
 				if (response != null) {
 					try {
 						callBack.onResponse(response);

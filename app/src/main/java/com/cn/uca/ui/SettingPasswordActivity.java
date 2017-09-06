@@ -81,6 +81,9 @@ public class SettingPasswordActivity extends AppCompatActivity implements View.O
                     try {
                         JSONObject jsonObject = new JSONObject(response.toString());
                         SharePreferenceXutil.saveAccountToken(jsonObject.getString("account_token"));
+                        SharePreferenceXutil.setSuccess(true);
+                        SharePreferenceXutil.savePhoneNumber(phoneNumber);
+                        SharePreferenceXutil.setExit(false);
                         Intent intent = new Intent();
                         intent.setClass(SettingPasswordActivity.this,MainActivity.class);
                         startActivity(intent);
