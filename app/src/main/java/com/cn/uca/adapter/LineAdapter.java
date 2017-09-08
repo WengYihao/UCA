@@ -1,6 +1,7 @@
 package com.cn.uca.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,26 +9,22 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.bean.RecommendBean;
 
 import java.util.List;
 
-/**
- * 搜索推荐适配器
- */
 
-public class RecommendAdapter extends BaseAdapter{
-	private List<RecommendBean> list;
+public class LineAdapter extends BaseAdapter{
+	private List<String> list;
 	private Context context;
 
-	public RecommendAdapter(){}
-	public RecommendAdapter(List<RecommendBean> list, Context context) {
+	public LineAdapter(){}
+	public LineAdapter(List<String> list, Context context) {
 		this.list = list;
 		this.context = context;
 	}
-	public void setList(List<RecommendBean> list) {
+	public void setList(List<String> list) {
 		if (list != null) {
-			this.list = (List<RecommendBean>) list;
+			this.list = (List<String>) list;
 			this.notifyDataSetChanged();
 		}
 	}
@@ -52,20 +49,21 @@ public class RecommendAdapter extends BaseAdapter{
 		ViewHolder holder = null;
 		if (convertView == null) {
 			holder = new ViewHolder();
-			convertView = LayoutInflater.from(context).inflate(R.layout.recommend_item, parent, false);
-			holder.price = (TextView)convertView.findViewById(R.id.price);
-			holder.place = (TextView)convertView.findViewById(R.id.place);
-			holder.title = (TextView)convertView.findViewById(R.id.title);
+			convertView = LayoutInflater.from(context).inflate(R.layout.line_item, parent, false);
+			holder.logo = (TextView)convertView.findViewById(R.id.logo);
+			holder.placeName = (TextView)convertView.findViewById(R.id.placeName);
+			holder.icon = (TextView)convertView.findViewById(R.id.icon);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.price.setText(list.get(position).getPrice());
-		holder.place.setText(list.get(position).getPlace());
-		holder.title.setText(list.get(position).getTitle());
+		holder.placeName.setText(list.get(position));
+		if (position != list.size()-1){
+			holder.icon.setVisibility(View.VISIBLE);
+		}
 		return convertView;
 	}
 	class ViewHolder {
-		TextView price,place,title;
+		TextView logo,placeName,icon;
 	}
 }

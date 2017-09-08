@@ -1,10 +1,12 @@
 package com.cn.uca.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -16,7 +18,10 @@ import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.bean.YueKaBean;
 import com.cn.uca.impl.datepicker.OnDoubleSureLisener;
 import com.cn.uca.impl.datepicker.OnSureLisener;
+import com.cn.uca.ui.OrderYueActivity;
+import com.cn.uca.ui.YueChatActivity;
 import com.cn.uca.util.SystemUtil;
+import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.datepicker.DatePickDialog;
 import com.cn.uca.view.datepicker.DoubleDatePickDialog;
 
@@ -36,7 +41,7 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,OnDo
     private YueKaAdapter yueKaAdapter;
     private List<YueKaBean> list;
     private List<String> lable1,lable2,img1,img2;
-    private TextView stateTitle,startTime,endTime,freeTime;
+    private TextView orderYue,stateTitle,startTime,endTime,freeTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +52,7 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,OnDo
     }
 
     private void ininView() {
+        orderYue = (TextView)view.findViewById(R.id.orderYue);
         stateTitle = (TextView)view.findViewById(R.id.stateTitle);
         stateTitle.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SystemUtil.getStatusHeight(getActivity())));
         listView  = (ListView)view.findViewById(R.id.listView);
@@ -55,6 +61,7 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,OnDo
         endTime = (TextView)view.findViewById(R.id.endTime);
         freeTime = (TextView)view.findViewById(R.id.freeTime);
 
+        orderYue.setOnClickListener(this);
         freeTime.setOnClickListener(this);
 
         list = new ArrayList<>();
@@ -104,11 +111,20 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,OnDo
         yueKaAdapter = new YueKaAdapter(list,getActivity());
 
         listView.setAdapter(yueKaAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                startActivity(new Intent(getActivity(), YueChatActivity.class));
+            }
+        });
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.orderYue:
+                startActivity(new Intent(getActivity(), OrderYueActivity.class));
+                break;
             case R.id.freeTime:
                 showDatePickDialog(DateType.TYPE_YMD);
                 break;

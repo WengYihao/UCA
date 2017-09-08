@@ -6,7 +6,7 @@ import android.widget.GridView;
 
 import com.cn.uca.R;
 import com.cn.uca.adapter.HistoryAdapter;
-import com.cn.uca.adapter.RecommendAdapter;
+import com.cn.uca.adapter.SeachAdapter;
 import com.cn.uca.util.SetListView;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private GridView recommendView,historyView;
     private HistoryAdapter historyAdapter;
-    private RecommendAdapter recommendAdapter;
+    private SeachAdapter recommendAdapter;
     private List<String> recommendList,historyList;
 
     @Override
@@ -43,7 +43,7 @@ public class SearchActivity extends AppCompatActivity {
         historyList.add("哈哈");
         historyList.add("嗯嗯");
         historyList.add("哦哦");
-        recommendAdapter = new RecommendAdapter(recommendList,this);
+        recommendAdapter = new SeachAdapter(recommendList,this);
         historyAdapter = new HistoryAdapter(historyList,this);
 
         recommendView.setAdapter(recommendAdapter);

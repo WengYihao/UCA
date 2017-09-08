@@ -132,16 +132,16 @@ public class BaseServer {
 			@Override
 			public void onResponse(String response) {
 				if (response != null) {
+					Log.i("123",response.toString()+"*************");
 					try {
-						callBack.onResponse(response);
-//						JSONObject jsonObject = new JSONObject(response);
-//						Log.i("123",response.toString()+"9090909");
-//						int code = jsonObject.getInt("code");
-//						if (code == 0){
-//							callBack.onResponse(code);
-//						}else{
-//							callBack.onErrorMsg(jsonObject.getString("msg").toString());
-//						}
+//						callBack.onResponse(response);
+						JSONObject jsonObject = new JSONObject(response);
+						int code = jsonObject.getInt("code");
+						if (code == 0){
+							callBack.onResponse(code);
+						}else{
+							callBack.onErrorMsg(jsonObject.getString("msg").toString());
+						}
 					}catch (Exception e){
 						Log.i("456",e.getMessage()+"封装报错");
 					}

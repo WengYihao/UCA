@@ -10,6 +10,7 @@ public class ActivityCollector {
     public static List<Activity> activities = new ArrayList<Activity>();
     public static List<Activity> loginActivity = new ArrayList<>();
     public static List<Activity> registerActivity = new ArrayList<>();
+    public static List<Activity> forgetActivity = new ArrayList<>();
 
     public static void loginActivity(Activity activity) {
         loginActivity.add(activity);
@@ -33,6 +34,19 @@ public class ActivityCollector {
             }
         }
     }
+
+    public static void forgetActivity(Activity activity){
+        forgetActivity.add(activity);
+    }
+
+    public static void finishForget(){
+        for (Activity activity : forgetActivity) {
+            if (!activity.isFinishing()) {
+                activity.finish();
+            }
+        }
+    }
+
     public static void addActivity(Activity activity) {  
         activities.add(activity);  
     }  

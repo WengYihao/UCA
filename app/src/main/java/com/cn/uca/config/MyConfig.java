@@ -16,4 +16,6 @@ public class MyConfig {
 	public static final String getUserInfo = url+"user/query/getUserInfo.do";//获取用户信息
 	public static final String getUserPush = url+"user/query/getUserSetting.do";//获取用户推送设置
 	public static final String setUserPush = url+"user/update/updateUserSetting.do";//用户是否推送
+	public static final String updatePassword = url+"user/update/modifyPassword.do";//修改用户密码
+	public static final String forgetPassword = url+"user/update/forgotPassword.do";//忘记密码
 }

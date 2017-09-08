@@ -114,7 +114,9 @@ public class InformationActivity extends AppCompatActivity implements View.OnCli
 
                 break;
             case R.id.layout7:
-
+                Intent intent2 = new Intent();
+                intent2.setClass(InformationActivity.this,UpdatePasswordActivity.class);
+                startActivity(intent2);
                 break;
         }
     }

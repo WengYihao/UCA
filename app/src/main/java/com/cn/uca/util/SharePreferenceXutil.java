@@ -131,51 +131,36 @@ public class SharePreferenceXutil {
 	}
 
 	/**
-	 * 保存用户昵称
-	 * @param nickName
+	 * 保存用户名和密码
+	 * @param userName
 	 */
-	public static void saveNickName(String nickName) {
-		getSp().edit().putString("nickName", nickName).commit();
+	public static void saveUserName(String userName) {
+		getSp().edit().putString("userName", userName).commit();
+
 	}
 
 	/**
-	 * 获取用户昵称
+	 * 保存密码
+	 * @param password
+	 */
+	public static void savePassword(String password){
+		getSp().edit().putString("password", password).commit();
+	}
+
+	/**
+	 * 获取用户名
 	 * @return
 	 */
-	public static String getNickName() {
-		return getSp().getString("nickName", "");
-	}
-
-
-	/**
-	 * 保存用户年龄
-	 * @param userAge
-	 */
-	public static void saveUserAge(String userAge) {
-		getSp().edit().putString("userAge", userAge).commit();
+	public static String getUserName() {
+		return getSp().getString("userName", "");
 	}
 
 	/**
-	 * 获取用户年龄
+	 * 获取密码
 	 * @return
 	 */
-	public static String getUserAge() {
-		return getSp().getString("userAge", "");
+	public static String getPassword() {
+		return getSp().getString("password", "");
 	}
 
-	/**
-	 * 保存用户性别
-	 * @param userSex
-	 */
-	public static void saveUserSex(String userSex) {
-		getSp().edit().putString("userSex", userSex).commit();
-	}
-
-	/**
-	 * 获取用户性别
-	 * @return
-	 */
-	public static String getUserSex() {
-		return getSp().getString("userSex", "");
-	}
 }

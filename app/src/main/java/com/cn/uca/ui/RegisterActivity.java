@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.util.ActivityCollector;
+import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.MyEditText;
 
@@ -59,9 +60,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         switch (view.getId()){
             case R.id.getCode:
                 phoneNumber = phone.getText().toString().trim();
-                MyApplication.sendCode(phoneNumber);
-                time = new TimeCount(60000, 1000);// 构造CountDownTimer对象
-                time.start();
+                if (StringXutil.isPhoneNumberValid(phoneNumber)){
+                    MyApplication.sendCode(phoneNumber);
+                    time = new TimeCount(60000, 1000);// 构造CountDownTimer对象
+                    time.start();
+                }else{
+                    ToastXutil.show("请输入正确的手机号");
+                }
                 break;
             case R.id.register:
                 sendInfo();

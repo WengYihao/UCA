@@ -13,6 +13,8 @@ import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.util.ActivityCollector;
+import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.dialog.ToastDialog;
 
@@ -29,6 +31,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
+        ActivityCollector.addActivity(this);
         initView();
         isPush();
     }
@@ -92,11 +95,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         MyApplication.getServer().setUserPush(push, new CallBack() {
             @Override
             public void onResponse(Object response) {
-                Log.i("123",response.toString()+"---");
                 try{
-                    JSONObject jsonObject = new JSONObject(response.toString());
-                    int code = jsonObject.getInt("code");
-                    if (code == 0){
+                    if ((int) response == 0){
                     }
                 }catch (Exception e){
 
@@ -105,7 +105,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onErrorMsg(String errorMsg) {
-
+                if (!StringXutil.isEmpty(errorMsg)){
+                    ToastXutil.show(errorMsg);
+                }
             }
 
             @Override

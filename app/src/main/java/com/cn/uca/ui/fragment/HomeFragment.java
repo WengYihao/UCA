@@ -1,9 +1,9 @@
 package com.cn.uca.ui.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,31 +15,23 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.animate.ScaleInOutTransformer;
 import com.cn.uca.config.BannerConfig;
-import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
-import com.cn.uca.secretkey.RSAUtils;
 import com.cn.uca.ui.CityActivity;
 import com.cn.uca.ui.HotleActivity;
 import com.cn.uca.ui.PlaneTicketActivity;
 import com.cn.uca.ui.RaidersActivity;
 import com.cn.uca.ui.SearchActivity;
 import com.cn.uca.ui.TourismActivity;
+import com.cn.uca.ui.WebViewActivity;
 import com.cn.uca.util.OpenPhoto;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
-import com.cn.uca.secretkey.Base64;
-import com.cn.uca.secretkey.MD5;
 import com.cn.uca.view.Banner;
 import com.cn.uca.view.StickyScrollView;
-import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.facebook.drawee.view.SimpleDraweeView;
 
-import org.apache.http.Header;
-import org.json.JSONObject;
-
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,16 +52,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
     private TextView planeTicket,hotle,tourism,oneRaiders,oneIndiana;//机票、酒店、旅游、一元攻略、一元夺宝
     private ImageView img;
     private TextView search_et;
+    private SimpleDraweeView xcv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, null);
         initView();
         initListeners();
+
         return view;
     }
 
     private void initView(){
+        xcv = (SimpleDraweeView)view.findViewById(R.id.pic);
+        xcv.setBackgroundResource(R.mipmap.qwe);
+        Uri uri = Uri.parse("http://ww4.sinaimg.cn/large/006uZZy8jw1faic1xjab4j30ci08cjrv.jpg");
+        xcv.setImageURI(uri);
+
         stickyScrollView = (StickyScrollView) view.findViewById(R.id.scrollView);
         banner = (Banner)view.findViewById(R.id.banner);
         llTitle = (RelativeLayout) view.findViewById(R.id.ll_good_detail);
@@ -134,6 +133,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
                 startActivity(new Intent(getActivity(), RaidersActivity.class));
                 break;
             case R.id.oneIndiana:
+                startActivity(new Intent(getActivity(), WebViewActivity.class));
                 break;
             case R.id.search_et:
                 startActivity(new Intent(getActivity(),SearchActivity.class));

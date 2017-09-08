@@ -11,6 +11,7 @@ import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -82,6 +83,7 @@ public class MyApplication extends Application {
 		queue = Volley.newRequestQueue(getApplicationContext());
 
 		regToWeChat();
+		Fresco.initialize(this);
 	}
 
 

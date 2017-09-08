@@ -28,7 +28,7 @@ public class LoadActivity extends AppCompatActivity {
     }
 
     private void initTime(){
-        time = new TimeCount(5000, 1000);// 构造CountDownTimer对象
+        time = new TimeCount(3000, 1000);// 构造CountDownTimer对象
         time.start();
     }
 

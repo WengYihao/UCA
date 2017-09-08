@@ -177,4 +177,33 @@ public class QueryHttp extends BaseServer{
         map.put("open_push",open_push+"");
         post4(MyConfig.setUserPush,map,callBack);
     }
+
+    /**
+     * 修改密码
+     * @param encryption_password
+     * @param encryption_new_password
+     * @param callBack
+     */
+    public void updatePassword(String encryption_password,String encryption_new_password,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        map.put("encryption_password",encryption_password);
+        map.put("encryption_new_password",encryption_new_password);
+        post4(MyConfig.updatePassword,map,callBack);
+    }
+
+    /**
+     * 忘记密码
+     * @param phone_number
+     * @param encryption_new_password
+     * @param code
+     * @param callBack
+     */
+    public void forgetPassword(String phone_number,String encryption_new_password,String code,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("phone_number",phone_number);
+        map.put("encryption_new_password",encryption_new_password);
+        map.put("code",code);
+        post4(MyConfig.forgetPassword,map,callBack);
+    }
 }

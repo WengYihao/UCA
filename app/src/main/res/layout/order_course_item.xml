@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_20"
+        android:layout_gravity="center_vertical">
+        <RelativeLayout
+            android:id="@+id/pic"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/search_background">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:placeholderImage="@mipmap/edc"
+                app:placeholderImageScaleType="fitXY"
+                app:roundedCornerRadius="5dp" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@color/gray2"
+                android:gravity="center"
+                android:padding="@dimen/padding_5"
+                android:text="2017.4.3-2017.4.5"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_14" />
+
+            <TextView
+                android:id="@+id/num"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/padding_5"
+                android:layout_marginTop="@dimen/padding_5"
+                android:background="@color/gray2"
+                android:gravity="center"
+                android:padding="@dimen/padding_5"
+                android:text="9"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/pic">
+
+            <TextView
+                android:id="@+id/place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8"
+                android:text="广东-深圳"
+                android:textSize="@dimen/text_16" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxEms="14"
+                android:layout_marginTop="@dimen/padding_8"
+                android:textSize="@dimen/text_14"
+                android:text="不知道说什么好，总之好评好评好评好评好评"
+                android:ellipsize="end"
+                android:maxLines="2"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

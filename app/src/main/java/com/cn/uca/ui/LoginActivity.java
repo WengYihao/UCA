@@ -39,7 +39,7 @@ import java.security.PublicKey;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private MyEditText username,password;
-    private TextView look,login,register,alipayLogin,weChatLogin;
+    private TextView look,login,register,alipayLogin,weChatLogin,forgetPassword;
     private String name,code;
     public static boolean isStart = false;
     public static boolean isLook = true;
@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         ActivityCollector.loginActivity(this);
         ActivityCollector.registerActivity(this);
+        ActivityCollector.forgetActivity(this);
         initView();
 
     }
@@ -62,12 +63,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         register = (TextView)findViewById(R.id.register);
         alipayLogin = (TextView)findViewById(R.id.alipayLogin);
         weChatLogin = (TextView)findViewById(R.id.weChatLogin);
+        forgetPassword = (TextView)findViewById(R.id.forgetPassword);
 
         look.setOnClickListener(this);
         login.setOnClickListener(this);
         register.setOnClickListener(this);
         alipayLogin.setOnClickListener(this);
         weChatLogin.setOnClickListener(this);
+        forgetPassword.setOnClickListener(this);
+
+        if (!StringXutil.isEmpty(SharePreferenceXutil.getUserName()) && !StringXutil.isEmpty(SharePreferenceXutil.getPassword())){
+            username.setText(SharePreferenceXutil.getUserName());
+            password.setText(SharePreferenceXutil.getPassword());
+        }
     }
 
     @Override
@@ -99,6 +107,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 SharePreferenceXutil.saveAccessToken("");
                 sendWeChatAuthRequest();
                 break;
+            case R.id.forgetPassword:
+                Intent intent2 = new Intent();
+                intent2.setClass(LoginActivity.this,ForgetPasswordActivity.class);
+                startActivity(intent2);
+                break;
         }
     }
 
@@ -108,7 +121,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void phoneLogin(){
         try {
             final String phoneNumber = username.getText().toString().trim();
-            String passwordText = password.getText().toString().trim();
+            final String passwordText = password.getText().toString().trim();
             PublicKey publicKey = RSAUtils.loadPublicKey(Constant.PUBLIC_KEY);
             byte[] encryptByte = RSAUtils.encryptData(MD5.getMD5(passwordText).getBytes(), publicKey);
             String afterencrypt = Base64.encode(encryptByte);
@@ -119,13 +132,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (i == 200){
                             JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
                             int code  = jsonObject.getInt("code");
-                            Log.i("123",code+"1212121212");
                             switch (code){
                                 case 0:
                                     ToastXutil.show("登录成功");
                                     SharePreferenceXutil.setSuccess(true);
                                     SharePreferenceXutil.saveAccountToken(jsonObject.getJSONObject("data").getString("account_token"));
-                                    SharePreferenceXutil.savePhoneNumber(phoneNumber);
+                                    SharePreferenceXutil.savePhoneNumber(phoneNumber);//保存手机号
+                                    SharePreferenceXutil.saveUserName(phoneNumber);//保存用户名
+                                    SharePreferenceXutil.savePassword(passwordText);//保存密码
                                     SharePreferenceXutil.setExit(false);
                                     Intent intent = new Intent();
                                     intent.setClass(LoginActivity.this,MainActivity.class);
@@ -134,6 +148,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     break;
                                 case 74:
                                     ToastXutil.show("账号不正确");
+                                    break;
+                                case 75:
+                                    ToastXutil.show("密码不正确");
                                     break;
                             }
                         }
