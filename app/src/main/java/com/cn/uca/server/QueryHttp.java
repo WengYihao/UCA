@@ -16,6 +16,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -205,5 +206,28 @@ public class QueryHttp extends BaseServer{
         map.put("encryption_new_password",encryption_new_password);
         map.put("code",code);
         post4(MyConfig.forgetPassword,map,callBack);
+    }
+
+    /**
+     * 身份认证
+     * @param user_identiry_name
+     * @param user_identity_number
+     * @param user_identiry_photo
+     * @param user_identiry_photo_back
+     * @param handler
+     */
+    public void submitIdentity(String user_identiry_name,String user_identity_number,File user_identiry_photo,File user_identiry_photo_back,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("account_token",SharePreferenceXutil.getAccountToken());
+        params.put("user_identiry_name",user_identiry_name);
+        params.put("user_identity_number",user_identity_number);
+        try {
+            params.put("user_identiry_photo",user_identiry_photo);
+            params.put("user_identiry_photo_back",user_identiry_photo_back);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        client.post(MyConfig.submitIdentity,params,handler);
     }
 }

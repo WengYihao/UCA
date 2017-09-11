@@ -45,13 +45,14 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@color/aa" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/my_order" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_5"
                         android:text="我的订单" />
                 </LinearLayout>
 
@@ -70,13 +71,14 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@color/aa" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/my_collection" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_5"
                         android:text="我的收藏" />
                 </LinearLayout>
 
@@ -143,7 +145,7 @@
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/search_background"
                     android:textColor="@color/grey2"
-                    android:padding="5dp"
+                    android:padding="@dimen/padding_2"
                     android:textSize="10sp" />
 
                 <ImageView
@@ -176,7 +178,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:src="@mipmap/my_setting" />
+                    android:src="@mipmap/my_wallet" />
 
                 <TextView
                     android:id="@+id/title_text1"
@@ -211,7 +213,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:src="@mipmap/my_setting" />
+                    android:src="@mipmap/sumbit_identity" />
 
                 <TextView
                     android:id="@+id/title_text2"

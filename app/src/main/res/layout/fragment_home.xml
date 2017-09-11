@@ -24,30 +24,32 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:layout_below="@+id/banner"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="7dp"
-                android:layout_marginEnd="7dp">
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
                 <TextView
                     android:id="@+id/planeTicket"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/plant_ticketbackgrouond"
-                    android:gravity="center"/>
+                    android:layout_weight="1"
+                    android:background="@mipmap/plant_ticketbackgrouond" />
+
                 <TextView
                     android:id="@+id/hotel"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/hotel_background"
-                    android:gravity="center"
-                    android:layout_marginLeft="20px"/>
+                    android:layout_marginLeft="20px"
+                    android:layout_weight="1"
+                    android:background="@mipmap/hotel_background" />
+
                 <TextView
                     android:id="@+id/tourism"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:background="@mipmap/tourism_background"
                     android:gravity="center"
-                    android:layout_marginLeft="20dp"/>
+                    android:layout_marginLeft="20px"/>
             </LinearLayout>
 
             <LinearLayout
@@ -82,11 +84,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
-            android:layout_width="200dp"
-            android:layout_height="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/search_background"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:layout_marginTop="@dimen/padding_5"
+            android:layout_marginLeft="@dimen/padding_20"
+            android:layout_marginRight="@dimen/padding_20">
 
             <ImageView
                 android:id="@+id/search"
@@ -100,25 +105,17 @@
                 android:layout_toRightOf="@id/search"
                 android:id="@+id/search_et"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="30dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
                 android:layout_centerVertical="true"
                 android:background="@color/white"
                 android:hint="请输入搜索关键字"
-                android:textSize="10sp" />
+                android:textSize="16sp" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/locationHint"
-            android:padding="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="深圳"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"/>
+
     </RelativeLayout>
 
     <com.facebook.drawee.view.SimpleDraweeView

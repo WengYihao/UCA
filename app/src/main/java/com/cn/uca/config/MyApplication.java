@@ -20,8 +20,11 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.util.Log;
+
+import java.io.File;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -34,6 +37,8 @@ public class MyApplication extends Application {
 	public static int height;
 	public static QueryHttp server;
 	public static WeChatAccessToken accessToken;
+	// 创建一个以当前时间为名称的文件
+	public static File tempFile = new File(Environment.getExternalStorageDirectory(), SystemUtil.getPhotoFileName());
 
 	public static Context getContext() {
 		return mContext;

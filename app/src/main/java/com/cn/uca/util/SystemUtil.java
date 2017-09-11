@@ -11,16 +11,22 @@ import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -104,6 +110,28 @@ public class SystemUtil
 //		}
 //		return statusBarHeight;
 //	}
+
+	/**
+	 * 照片命名
+	 * @return
+	 */
+	public static String getPhotoFileName() {
+		Date date = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
+		return dateFormat.format(date) + ".png";
+	}
+
+    public static String getRealPathFromURI(Uri contentUri,Activity activity) {
+        String res = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = activity.getContentResolver().query(contentUri, proj, null, null, null);
+        if(cursor.moveToFirst()){;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
+    }
 
 	/**
 	 * 获取状态栏高度

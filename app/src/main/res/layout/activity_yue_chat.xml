@@ -8,29 +8,23 @@
     android:orientation="vertical"
     android:background="@color/gray">
     <RelativeLayout
-        android:id="@+id/title"
+        android:id="@+id/llTitle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_50"
         android:background="@color/ori" >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@mipmap/back"/>
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="周某某-深圳"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="周某某-深圳"/>
     </RelativeLayout>
     <ScrollView
+        android:layout_below="@id/llTitle"
         android:id="@+id/scrollView"
-        android:layout_below="@id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">

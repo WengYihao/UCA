@@ -10,23 +10,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_50"
-        android:background="@color/ori">
+        android:background="@color/ori" >
 
         <TextView
             android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@mipmap/back"/>
+            style="@style/style_back"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@string/my_collection"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_22" />
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="@string/my_collection"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +31,6 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/padding_10"/>
     </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

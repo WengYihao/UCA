@@ -196,7 +196,12 @@
         <activity android:name=".ui.ForgetPasswordActivity" />
         <activity android:name=".ui.WebViewActivity" />
         <activity android:name=".ui.YueChatActivity" />
-        <activity android:name=".ui.OrderYueActivity"></activity>
+        <activity android:name=".ui.OrderYueActivity" />
+        <activity android:name=".ui.IdentityActivity" />
+        <activity android:name=".ui.BaseHideActivity" />
+        <activity android:name=".ui.Main2Activity" />
+        <activity android:name=".swipeback.SwipeBackActivity" />
+        <activity android:name=".ui.BaseBackActivity"></activity>
     </application>
 
 </manifest>

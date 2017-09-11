@@ -9,25 +9,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/ori">
+        android:layout_height="@dimen/padding_50"
+        android:background="@color/ori" >
 
         <TextView
             android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@mipmap/back"/>
+            style="@style/style_back"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center_horizontal"
-            android:text="一元攻略"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="一元攻略"/>
         <TextView
             android:layout_width="25dp"
             android:layout_height="25dp"
@@ -36,7 +28,6 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"/>
     </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

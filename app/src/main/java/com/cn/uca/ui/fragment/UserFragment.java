@@ -1,5 +1,6 @@
 package com.cn.uca.ui.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,6 +28,7 @@ import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.ui.CollectionActivity;
+import com.cn.uca.ui.IdentityActivity;
 import com.cn.uca.ui.InformationActivity;
 import com.cn.uca.ui.OrderActivity;
 import com.cn.uca.ui.SettingActivity;
@@ -62,8 +64,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private CircleImageView pic;
     private String[] arrayString = { "拍照", "相册" };
     private String title = "上传照片";
-    // 创建一个以当前时间为名称的文件
-    File tempFile = new File(Environment.getExternalStorageDirectory(), getPhotoFileName());
+
     private byte[] photodata = null;
     private TextView setting,nickName,age,sex,state;
     private LinearLayout userInfo,myOrder,myCollection;
@@ -141,7 +142,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), WalletActivity.class));
                 break;
             case R.id.layout2:
-
+                startActivity(new Intent(getActivity(), IdentityActivity.class));
                 break;
             case R.id.layout3:
 
@@ -249,7 +250,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
      *
      * @param dialog
      */
-    private void startCamearPicCut(DialogInterface dialog) {
+    public void startCamearPicCut(DialogInterface dialog) {
         dialog.dismiss();
         // 调用系统的拍照功能
         try {
@@ -259,7 +260,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             intent.putExtra("fullScreen", false);// 全屏
             intent.putExtra("showActionIcons", false);
             // 指定调用相机拍照后照片的储存路径
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(MyApplication.tempFile));
             startActivityForResult(intent, Constant.PHOTO_REQUEST_TAKEPHOTO);
         } catch (Exception e) {
             e.printStackTrace();
@@ -270,7 +271,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
      *
      * @param dialog
      */
-    private void startImageCaptrue(DialogInterface dialog) {
+    public void startImageCaptrue(DialogInterface dialog) {
         dialog.dismiss();
         try {
             Intent intent = new Intent(Intent.ACTION_PICK, null);
@@ -281,15 +282,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    /**
-     * 照片命名
-     * @return
-     */
-    private String getPhotoFileName() {
-        Date date = new Date(System.currentTimeMillis());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
-        return dateFormat.format(date) + ".png";
-    }
+
     /**
      * 剪裁图片
      *
@@ -342,6 +335,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 pic.setImageDrawable(drawable);
                 photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
                 ByteArrayInputStream bais = new ByteArrayInputStream(photodata);
+                Log.i("123",bais.toString()+"----");
                 MyApplication.getServer().uploadPic(bais, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int i, Header[] headers, byte[] bytes) {
@@ -374,7 +368,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Constant.PHOTO_REQUEST_TAKEPHOTO:
-                startPhotoZoom(Uri.fromFile(tempFile), 400);
+                startPhotoZoom(Uri.fromFile(MyApplication.tempFile), 400);
                 break;
             case Constant.PHOTO_REQUEST_GALLERY:
                 if (data != null) {

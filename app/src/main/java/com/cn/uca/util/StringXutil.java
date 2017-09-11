@@ -31,6 +31,16 @@ public class StringXutil {
 	}
 
 	/**
+	 * 验证身份证
+	 *
+	 * @param identity_number
+	 * @return
+	 */
+	public static boolean isIDCard(String identity_number) {
+		String iDCard = "^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$|^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$";
+		return identity_number.matches(iDCard);
+	}
+	/**
 	 * 判断手机号码是否正确
 	 * 
 	 * @param phoneNumber

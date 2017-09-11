@@ -20,6 +20,7 @@ import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
 import com.cn.uca.ui.CityActivity;
 import com.cn.uca.ui.HotleActivity;
+import com.cn.uca.ui.Main2Activity;
 import com.cn.uca.ui.PlaneTicketActivity;
 import com.cn.uca.ui.RaidersActivity;
 import com.cn.uca.ui.SearchActivity;
@@ -44,7 +45,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
     private View view;
     private StickyScrollView stickyScrollView;//滑动界面
     private RelativeLayout llTitle;//搜索框布局
-    private TextView locationHint;//当前定位
     private Banner banner;//图片轮播
     private List<String> images=new ArrayList<>();//图片地址集合
     private List<String> titles = new ArrayList<>();//标题集合
@@ -72,7 +72,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
         stickyScrollView = (StickyScrollView) view.findViewById(R.id.scrollView);
         banner = (Banner)view.findViewById(R.id.banner);
         llTitle = (RelativeLayout) view.findViewById(R.id.ll_good_detail);
-        locationHint = (TextView)view.findViewById(R.id.locationHint);
         planeTicket = (TextView)view.findViewById(R.id.planeTicket);
         hotle = (TextView)view.findViewById(R.id.hotel);
         tourism = (TextView)view.findViewById(R.id.tourism);
@@ -81,7 +80,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
         img = (ImageView)view.findViewById(R.id.img);
         search_et = (TextView) view.findViewById(R.id.search_et);
 
-        locationHint.setOnClickListener(this);
         planeTicket.setOnClickListener(this);
         hotle.setOnClickListener(this);
         tourism.setOnClickListener(this);
@@ -117,9 +115,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.locationHint:
-                startActivity(new Intent(getActivity(), CityActivity.class));
-                break;
             case R.id.planeTicket:
                 startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
                 break;
@@ -133,7 +128,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
                 startActivity(new Intent(getActivity(), RaidersActivity.class));
                 break;
             case R.id.oneIndiana:
-                startActivity(new Intent(getActivity(), WebViewActivity.class));
+//                startActivity(new Intent(getActivity(), WebViewActivity.class));
+                startActivity(new Intent(getActivity(), Main2Activity.class));
                 break;
             case R.id.search_et:
                 startActivity(new Intent(getActivity(),SearchActivity.class));

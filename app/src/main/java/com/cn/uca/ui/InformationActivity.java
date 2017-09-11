@@ -37,7 +37,7 @@ public class InformationActivity extends AppCompatActivity implements View.OnCli
     private TextView nickName,sex,birthDate,phone;
     private String userName,userSex,userAge,userPhoneNumber;
     private int sexId;
-    private ImageView back;
+    private TextView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class InformationActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initView() {
-        back = (ImageView)findViewById(R.id.back);
+        back = (TextView)findViewById(R.id.back);
         layout1 = (RelativeLayout)findViewById(R.id.layout1);
         layout2 = (RelativeLayout)findViewById(R.id.layout2);
         layout3 = (RelativeLayout)findViewById(R.id.layout3);

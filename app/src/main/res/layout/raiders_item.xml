@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/color_cursor">
+            android:background="@drawable/loginactivity_cursor_color">
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"

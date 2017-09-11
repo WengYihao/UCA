@@ -2,14 +2,20 @@ package com.cn.uca.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.adapter.ContentAdapter;
@@ -17,6 +23,7 @@ import com.cn.uca.adapter.LineAdapter;
 import com.cn.uca.adapter.RecommendAdapter;
 import com.cn.uca.bean.RecommendBean;
 import com.cn.uca.util.SetListView;
+import com.cn.uca.util.SystemUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +46,9 @@ public class YueDetailsFragment extends Fragment implements View.OnClickListener
     private ImageView icon;
     private List<RecommendBean> listRecomment;
     private RecommendAdapter recommendAdapter;
-
+    private WebView webView;
+    private LinearLayout listLayout;
+    private TextView back;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_details_yue,null);
@@ -50,7 +59,7 @@ public class YueDetailsFragment extends Fragment implements View.OnClickListener
 
     private void initView() {
         line = (ListView)view.findViewById(R.id.line);
-        content = (ListView)view.findViewById(R.id.content);
+//        content = (ListView)view.findViewById(R.id.content);
 
         list = new ArrayList<>();
         list.add("深圳北站");
@@ -63,13 +72,13 @@ public class YueDetailsFragment extends Fragment implements View.OnClickListener
         line.setAdapter(lineAdapter);
         SetListView.setListViewHeightBasedOnChildren(line);
 
-        listContent = new ArrayList<>();
-        listContent.add("三月，醉一场青春的流年。慢步在三月的春光里，走走停停,看花开嫣然,看春雨绵绵，感受春风拂面，春天，就是青春的流年。青春，是人生中最美的风景。青春，是一场花开的遇见");
-        listContent.add("青春，是一场痛并快乐着的旅行；青春，是一场轰轰烈烈的比赛；青春，是一场鲜衣奴马的争荣岁月；青春，是一场风花雪月的光阴。");
-        listContent.add("三月的鲜花，一树树，一束束，一簇簇，而青春，就是像三月的鲜花一样美丽迷人，生机盎然，姹紫嫣红，生机勃勃。");
-        contentAdapter = new ContentAdapter(listContent,getActivity());
-        content.setAdapter(contentAdapter);
-        SetListView.setListViewHeightBasedOnChildren(content);
+//        listContent = new ArrayList<>();
+//        listContent.add("三月，醉一场青春的流年。慢步在三月的春光里，走走停停,看花开嫣然,看春雨绵绵，感受春风拂面，春天，就是青春的流年。青春，是人生中最美的风景。青春，是一场花开的遇见");
+//        listContent.add("青春，是一场痛并快乐着的旅行；青春，是一场轰轰烈烈的比赛；青春，是一场鲜衣奴马的争荣岁月；青春，是一场风花雪月的光阴。");
+//        listContent.add("三月的鲜花，一树树，一束束，一簇簇，而青春，就是像三月的鲜花一样美丽迷人，生机盎然，姹紫嫣红，生机勃勃。");
+//        contentAdapter = new ContentAdapter(listContent,getActivity());
+//        content.setAdapter(contentAdapter);
+//        SetListView.setListViewHeightBasedOnChildren(content);
 
         layout1 = (RelativeLayout)view.findViewById(R.id.layout1);
         layout2 = (RelativeLayout)view.findViewById(R.id.layout2);
@@ -110,6 +119,49 @@ public class YueDetailsFragment extends Fragment implements View.OnClickListener
         recommendAdapter = new RecommendAdapter(listRecomment,getActivity());
         recommend.setAdapter(recommendAdapter);
         SetListView.setGridViewHeightBasedOnChildren(recommend);
+
+        listLayout = (LinearLayout)view.findViewById(R.id.list);
+        final LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) listLayout.getLayoutParams(); //取控件textView当前的布局参数
+
+        //获取title高度
+        ViewTreeObserver viewTreeObserver1 = line.getViewTreeObserver();
+        viewTreeObserver1.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                linearParams.height = line.getHeight();// 控件的宽强制设成30
+                Log.i("123",line.getHeight()+"/*/*/*/");
+            }
+        });
+//        linearParams.height = line.getHeight();// 控件的宽强制设成30
+
+        listLayout.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
+        webView = (WebView)view.findViewById(R.id.webView);
+
+        String url = "http://119.23.210.252/youkatravel/api/escort/page/getEscortDetails.do?escort_record_id=36";
+        // 启用支持javascript
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setAllowFileAccess(true);
+        // WebView加载web资源
+        webView.loadUrl(url);
+        // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                view.loadUrl(url);
+                return true;
+            }
+        });
+        back = (TextView)view.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (webView.canGoBack()){
+                    webView.goBack();
+                }
+            }
+        });
     }
 
     @Override

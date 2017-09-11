@@ -3,7 +3,7 @@ package com.cn.uca.config;
 public class MyConfig {
 	// 总接口
 	public static final String url = "http://119.23.210.252/youkatravel/api/";
-	public static final String url2 = "http://192.168.1.105/youkatravel/api/";
+//	public static final String url = "http://192.168.1.105/youkatravel/api/";
 	public static final String text = "http://192.168.1.100/youkatravel/api/abnormal/getAbnormal.do";    //测试
 	public static final String sendCode = url+"user/query/sendSMS.do";//发送短信验证码
 	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";     //获取微信token
@@ -18,4 +18,5 @@ public class MyConfig {
 	public static final String setUserPush = url+"user/update/updateUserSetting.do";//用户是否推送
 	public static final String updatePassword = url+"user/update/modifyPassword.do";//修改用户密码
 	public static final String forgetPassword = url+"user/update/forgotPassword.do";//忘记密码
+	public static final String submitIdentity = url+"user/update/submitIdentityExamine.do";//用户身份认证
 }
