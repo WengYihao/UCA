@@ -1,49 +1,50 @@
 package com.cn.uca.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.adapter.PlaceAdapter;
-import com.cn.uca.adapter.ShowAdapter;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.popupwindows.ShowPopupWindow;
-import com.cn.uca.util.SetListView;
-import com.cn.uca.util.ToastXutil;
+import com.cn.uca.util.FitStateUI;
+import com.cn.uca.util.StatusMargin;
 import com.cn.uca.view.HorizontalListView;
 import com.cn.uca.view.MyEditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TourismActivity extends AppCompatActivity implements View.OnClickListener{
+public class TourismActivity extends BaseBackActivity implements View.OnClickListener{
 
-    private TextView view,more;
+    private TextView back,view,more;
     private MyEditText seach;
     private HorizontalListView listView;
     private PlaceAdapter placeAdapter;
+    private RelativeLayout llTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_tourism);
-//        StatusBarUtil.setTranslucentForImageView(this, 0, view);//设置状态栏透明
-
         initView();
     }
 
     private void initView() {
+        back = (TextView)findViewById(R.id.back);
         seach = (MyEditText) findViewById(R.id.seach);
-
         more = (TextView)findViewById(R.id.more);
+        llTitle = (RelativeLayout)findViewById(R.id.llTitle);
+        StatusMargin.setRelativeLayout(this,llTitle);
 
         listView = (HorizontalListView)findViewById(R.id.llName);
+        back.setOnClickListener(this);
         more.setOnClickListener(this);
         seach.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -56,7 +57,6 @@ public class TourismActivity extends AppCompatActivity implements View.OnClickLi
                                     .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                     //搜索
 //                    search();
-                    ToastXutil.show("123");
                 }
                 return false;
             }
@@ -73,8 +73,10 @@ public class TourismActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.back:
+                this.finish();
+                break;
             case R.id.more:
-                Log.i("123","456");
                 List<String> list = new ArrayList<>();
                 list.add("我的收藏");
                 list.add("我的订单");

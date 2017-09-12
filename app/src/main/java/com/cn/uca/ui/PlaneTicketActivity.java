@@ -11,11 +11,13 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.ui.fragment.OneWayFragment;
 import com.cn.uca.ui.fragment.TwoWayFragment;
+import com.cn.uca.util.FitStateUI;
+import com.cn.uca.util.StatusMargin;
 
-public class PlaneTicketActivity extends FragmentActivity implements View.OnClickListener{
+public class PlaneTicketActivity extends BaseBackActivity implements View.OnClickListener{
 
     private TextView view;
-    private ImageView img;//广告图片
+    private ImageView img,back;//广告图片
     private RadioButton oneWay,twoWay;
     private OneWayFragment oneWayFragment;
     private TwoWayFragment twoWayFragment;
@@ -24,24 +26,26 @@ public class PlaneTicketActivity extends FragmentActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_plane_ticket);
-
-//        StatusBarUtil.setTranslucentForImageView(this, 0, view);//设置状态栏透明
 
         initView();
     }
 
     private void initView() {
         img = (ImageView)findViewById(R.id.img);
+        back = (ImageView)findViewById(R.id.back);
         view = (TextView)findViewById(R.id.view);
         oneWay = (RadioButton)findViewById(R.id.oneWay);
         twoWay = (RadioButton)findViewById(R.id.twoWay);
 
+        back.setOnClickListener(this);
         oneWay.setOnClickListener(this);
         twoWay.setOnClickListener(this);
 
         oneWay.setChecked(true);
         show(0);
+        StatusMargin.setRelativeLayout(this,back);
     }
     private void show(int index) {
         if (currentIndex == index) {
@@ -85,6 +89,9 @@ public class PlaneTicketActivity extends FragmentActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.back:
+                this.finish();
+                break;
             case R.id.oneWay:
                 show(0);
                 break;

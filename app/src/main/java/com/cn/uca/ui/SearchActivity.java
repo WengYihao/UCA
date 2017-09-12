@@ -7,12 +7,13 @@ import android.widget.GridView;
 import com.cn.uca.R;
 import com.cn.uca.adapter.HistoryAdapter;
 import com.cn.uca.adapter.SeachAdapter;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SetListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends BaseBackActivity {
 
     private GridView recommendView,historyView;
     private HistoryAdapter historyAdapter;
@@ -22,6 +23,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_search);
 
         initView();

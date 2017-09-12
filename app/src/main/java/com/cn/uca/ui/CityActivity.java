@@ -12,7 +12,9 @@ import com.cn.uca.R;
 import com.cn.uca.bean.City;
 import com.cn.uca.db.DBHelper;
 import com.cn.uca.db.DatabaseHelper;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.PingYinUtil;
+import com.cn.uca.util.SystemUtil;
 import com.cn.uca.view.LetterListView;
 
 import android.content.Context;
@@ -45,12 +47,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CityActivity extends AppCompatActivity implements AbsListView.OnScrollListener, LocationListener{
+public class CityActivity extends BaseBackActivity implements AbsListView.OnScrollListener, LocationListener,OnClickListener{
 
     private BaseAdapter adapter;
     private ResultListAdapter resultListAdapter;
@@ -75,11 +79,28 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
     private int locateProcess = 1; // 记录当前定位的状态 正在定位-定位成功-定位失败
 
     private DatabaseHelper helper;
+    private TextView stateTitle,back;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_city);
+        initView();
+        initOverlay();
+        cityInit();
+        hotCityInit();
+        hisCityInit();
+        setAdapter(allCity_lists, city_hot, city_history);
+
+        InitLocation();
+
+    }
+
+    private void initView() {
+        stateTitle = (TextView)findViewById(R.id.stateTitle);
+        stateTitle.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SystemUtil.getStatusHeight(this)));
+        back = (TextView)findViewById(R.id.back);
         personList = (ListView) findViewById(R.id.list_view);
         allCity_lists = new ArrayList<City>();
         city_hot = new ArrayList<City>();
@@ -170,16 +191,16 @@ public class CityActivity extends AppCompatActivity implements AbsListView.OnScr
                 adapter.notifyDataSetChanged();
             }
         });
-        initOverlay();
-        cityInit();
-        hotCityInit();
-        hisCityInit();
-        setAdapter(allCity_lists, city_hot, city_history);
-
-        InitLocation();
-
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.back:
+                this.finish();
+                break;
+        }
+    }
     /**
      * 插入历史搜索
      * @param name

@@ -36,6 +36,7 @@ import com.cn.uca.ui.WalletActivity;
 import com.cn.uca.util.AndroidClass;
 import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
@@ -335,7 +336,6 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 pic.setImageDrawable(drawable);
                 photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
                 ByteArrayInputStream bais = new ByteArrayInputStream(photodata);
-                Log.i("123",bais.toString()+"----");
                 MyApplication.getServer().uploadPic(bais, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int i, Header[] headers, byte[] bytes) {

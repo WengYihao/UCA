@@ -53,8 +53,8 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,OnDo
 
     private void ininView() {
         orderYue = (TextView)view.findViewById(R.id.orderYue);
-        stateTitle = (TextView)view.findViewById(R.id.stateTitle);
-        stateTitle.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SystemUtil.getStatusHeight(getActivity())));
+//        stateTitle = (TextView)view.findViewById(R.id.stateTitle);
+//        stateTitle.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SystemUtil.getStatusHeight(getActivity())));
         listView  = (ListView)view.findViewById(R.id.listView);
         llTitle = (RelativeLayout) view.findViewById(R.id.llTitle);
         startTime = (TextView)view.findViewById(R.id.startTime);

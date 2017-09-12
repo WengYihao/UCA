@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-public class BaseHideActivity extends BaseBackActivity {
+public class BaseHideActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,12 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray">
-
+    <TextView
+        android:id="@+id/stateTitle"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/ori"/>
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_50"
-        android:background="@color/ori" >
+        android:background="@color/ori"
+        android:layout_below="@id/stateTitle">
 
         <TextView
             android:id="@+id/back"

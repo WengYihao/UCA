@@ -20,7 +20,7 @@ import com.cn.uca.view.MyEditText;
 
 import java.security.PublicKey;
 
-public class UpdatePasswordActivity extends AppCompatActivity implements View.OnClickListener{
+public class UpdatePasswordActivity extends BaseBackActivity implements View.OnClickListener{
 
     private MyEditText oldPassword,newPassword;
     private TextView update;

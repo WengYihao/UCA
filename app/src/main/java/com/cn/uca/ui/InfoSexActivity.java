@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -20,7 +21,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-public class InfoSexActivity extends AppCompatActivity implements View.OnClickListener{
+public class InfoSexActivity extends BaseBackActivity implements View.OnClickListener{
 
     private TextView finish;
     private RadioButton man,woman,secrecy;
@@ -29,6 +30,7 @@ public class InfoSexActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_info_sex);
 
         initView();

@@ -12,13 +12,14 @@ import com.cn.uca.adapter.OrderCourseAdapter;
 import com.cn.uca.bean.CommentBean;
 import com.cn.uca.bean.OrderCourseBean;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SetListView;
 import com.cn.uca.view.HorizontalListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderYueActivity extends AppCompatActivity {
+public class OrderYueActivity extends BaseBackActivity {
 
     private HorizontalListView orderCourse;
     private ListView comment;
@@ -30,6 +31,7 @@ public class OrderYueActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_order_yue);
 
         initView();

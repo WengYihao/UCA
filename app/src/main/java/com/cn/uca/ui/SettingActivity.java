@@ -1,6 +1,5 @@
 package com.cn.uca.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,13 +13,14 @@ import com.cn.uca.R;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.util.ActivityCollector;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.dialog.ToastDialog;
 
 import org.json.JSONObject;
 
-public class SettingActivity extends AppCompatActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
+public class SettingActivity extends BaseBackActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
 
     private RelativeLayout layout1,layout2,layout3;
     private Switch select;
@@ -29,8 +29,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_setting);
-
         ActivityCollector.addActivity(this);
         initView();
         isPush();

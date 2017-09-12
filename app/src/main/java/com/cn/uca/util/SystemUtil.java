@@ -137,7 +137,7 @@ public class SystemUtil
 	 * 获取状态栏高度
 	 * @return
 	 */
-	public static int getStatusHeight(Activity activity) {
+	public static int getStatusHeight(Context activity) {
 		int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
 		return activity.getResources().getDimensionPixelSize(resourceId);
 

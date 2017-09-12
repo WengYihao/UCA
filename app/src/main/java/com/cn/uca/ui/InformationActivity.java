@@ -16,6 +16,7 @@ import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.datepicker.OnSureLisener;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
@@ -31,7 +32,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
-public class InformationActivity extends AppCompatActivity implements View.OnClickListener,OnSureLisener {
+public class InformationActivity extends BaseBackActivity implements View.OnClickListener,OnSureLisener {
 
     private RelativeLayout layout1,layout2,layout3,layout4,layout5,layout6,layout7;
     private TextView nickName,sex,birthDate,phone;
@@ -42,6 +43,7 @@ public class InformationActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_information);
 
         initView();

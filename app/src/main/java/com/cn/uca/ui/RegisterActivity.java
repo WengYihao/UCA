@@ -18,7 +18,7 @@ import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.MyEditText;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener,TextWatcher{
+public class RegisterActivity extends BaseBackActivity implements View.OnClickListener,TextWatcher{
 
     private MyEditText phone,code;
     private TextView getCode,register,link;

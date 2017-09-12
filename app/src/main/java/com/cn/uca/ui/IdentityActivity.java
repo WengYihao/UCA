@@ -46,7 +46,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 
-public class IdentityActivity extends AppCompatActivity implements View.OnClickListener{
+public class IdentityActivity extends BaseBackActivity implements View.OnClickListener{
 
     private MyEditText name,identity;
     private TextView facePic,photoPic,submit;
@@ -95,8 +95,6 @@ public class IdentityActivity extends AppCompatActivity implements View.OnClickL
         photoPic.setOnClickListener(this);
         submit.setOnClickListener(this);
 
-
-
         SpannableString phoneHint = new SpannableString("请填写您的真实姓名");//定义hint的值
         SpannableString identityHint = new SpannableString("请输入十八位居民身份证号码");//定义hint的值
         AbsoluteSizeSpan as = new AbsoluteSizeSpan(15,true);//设置字体大小 true表示单位是sp
@@ -131,17 +129,16 @@ public class IdentityActivity extends AppCompatActivity implements View.OnClickL
         if (!StringXutil.isEmpty(userName) && StringXutil.isIDCard(identityNum)){
             if(bais1 != null){
                 if(bais2 != null){
-                    Log.i("123",bais1.toString()+"basi1"+bais2.toString()+"basi2");
                     MyApplication.getServer().submitIdentity(userName, identityNum, bais1, bais2, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int i, Header[] headers, byte[] bytes) {
                             if (i == 200){
                                 try {
                                     JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
-                                    Log.i("123",jsonObject.toString()+"----");
                                     int code = jsonObject.getInt("code");
                                     if (code == 0){
-                                        ToastXutil.show("上传成功");
+                                        ToastXutil.show("上传成功,等待审核通过。");
+                                        IdentityActivity.this.finish();
                                     }
                                 } catch (UnsupportedEncodingException e) {
                                     e.printStackTrace();
@@ -246,17 +243,10 @@ public class IdentityActivity extends AppCompatActivity implements View.OnClickL
                 if (isPic){
                     pic1.setVisibility(View.VISIBLE);
                     pic1.setImageDrawable(drawable);
-//                    byte []photodata1 = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
-//                    bais1 = new ByteArrayInputStream(photodata1);
-//                    Log.i("123",bais1.toString()+"basi1");
                 }else{
                     pic2.setVisibility(View.VISIBLE);
                     pic2.setImageDrawable(drawable);
-//                    byte []photodata2 = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
-//                    bais2 = new ByteArrayInputStream(photodata2);
-//                    Log.i("123",bais1.toString()+"basi2");
                 }
-//                MyApplication.getServer().uploadPic(bais, new AsyncHttpResponseHandler() {
             }
         };
     };

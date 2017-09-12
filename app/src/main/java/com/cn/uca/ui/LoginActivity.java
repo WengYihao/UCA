@@ -36,7 +36,7 @@ import org.json.JSONObject;
 
 import java.security.PublicKey;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends BaseHideActivity implements View.OnClickListener{
 
     private MyEditText username,password;
     private TextView look,login,register,alipayLogin,weChatLogin,forgetPassword;

@@ -16,6 +16,7 @@ import com.cn.uca.R;
 import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.MyEditText;
@@ -27,7 +28,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
-public class InfoActivity extends AppCompatActivity implements View.OnClickListener{
+public class InfoActivity extends BaseBackActivity implements View.OnClickListener{
 
     private MyEditText myEditText,codePassword;
     private TextView title,finish,next;
@@ -37,6 +38,7 @@ public class InfoActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_info);
         initView();
         getInfo();

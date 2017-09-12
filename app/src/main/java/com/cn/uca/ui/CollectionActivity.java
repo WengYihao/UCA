@@ -9,11 +9,12 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.adapter.CollectionAdapter;
 import com.cn.uca.bean.CollectionBean;
+import com.cn.uca.util.FitStateUI;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollectionActivity extends AppCompatActivity implements View.OnClickListener{
+public class CollectionActivity extends BaseBackActivity implements View.OnClickListener{
 
     private TextView title01,title02,title03;
     private ListView listView;
@@ -24,6 +25,7 @@ public class CollectionActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_collection);
 
         initView();

@@ -27,6 +27,7 @@ import com.cn.uca.ui.SearchActivity;
 import com.cn.uca.ui.TourismActivity;
 import com.cn.uca.ui.WebViewActivity;
 import com.cn.uca.util.OpenPhoto;
+import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.Banner;
@@ -107,9 +108,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
                 .start();
         banner.updateBannerStyle(BannerConfig.NUM_INDICATOR_TITLE);
 
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) llTitle.getLayoutParams();
-        params.setMargins(0, SystemUtil.getStatusHeight(getActivity()), 0, 0);
-        llTitle.setLayoutParams(params);
+        StatusMargin.setRelativeLayout(getActivity(),llTitle);
     }
 
     @Override
@@ -129,7 +128,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
                 break;
             case R.id.oneIndiana:
 //                startActivity(new Intent(getActivity(), WebViewActivity.class));
-                startActivity(new Intent(getActivity(), Main2Activity.class));
+//                startActivity(new Intent(getActivity(), Main2Activity.class));
+                startActivity(new Intent(getActivity(), CityActivity.class));
                 break;
             case R.id.search_et:
                 startActivity(new Intent(getActivity(),SearchActivity.class));

@@ -23,7 +23,7 @@ import com.cn.uca.view.MyEditText;
 
 import java.security.PublicKey;
 
-public class ForgetPasswordActivity extends AppCompatActivity implements View.OnClickListener{
+public class ForgetPasswordActivity extends BaseBackActivity implements View.OnClickListener{
 
     private MyEditText phone,password,code;
     private TextView getCode,finish;

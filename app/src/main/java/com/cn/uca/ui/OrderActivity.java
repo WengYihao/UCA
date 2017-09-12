@@ -8,8 +8,9 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.ui.fragment.OrderFragment;
+import com.cn.uca.util.FitStateUI;
 
-public class OrderActivity extends FragmentActivity implements View.OnClickListener{
+public class OrderActivity extends BaseBackActivity implements View.OnClickListener{
 
     private TextView title01,title02,title03,title04;
     private OrderFragment orderFragment01,orderFragment02,orderFragment03,orderFragment04;
@@ -18,6 +19,7 @@ public class OrderActivity extends FragmentActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_order);
 
         initView();

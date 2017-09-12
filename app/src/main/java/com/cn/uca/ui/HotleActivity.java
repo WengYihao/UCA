@@ -11,11 +11,13 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.ui.fragment.FarmFragment;
 import com.cn.uca.ui.fragment.HotleFragment;
+import com.cn.uca.util.FitStateUI;
+import com.cn.uca.util.StatusMargin;
 
-public class HotleActivity extends AppCompatActivity implements View.OnClickListener{
+public class HotleActivity extends BaseBackActivity implements View.OnClickListener{
 
     private TextView view;
-    private ImageView img;//广告图片
+    private ImageView back,img;//广告图片
     private RadioButton hotel,farm;
     private HotleFragment hotleFragment;
     private FarmFragment farmFragment;
@@ -25,23 +27,26 @@ public class HotleActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_hotel);
-//        StatusBarUtil.setTranslucentForImageView(this, 0, view);//设置状态栏透明
 
         initView();
     }
 
     private void initView() {
+        back = (ImageView)findViewById(R.id.back);
         img = (ImageView)findViewById(R.id.img);
         view = (TextView)findViewById(R.id.view);
         hotel = (RadioButton)findViewById(R.id.hotel);
         farm = (RadioButton)findViewById(R.id.farm);
 
+        back.setOnClickListener(this);
         hotel.setOnClickListener(this);
         farm.setOnClickListener(this);
 
         hotel.setChecked(true);
         show(0);
+        StatusMargin.setRelativeLayout(this,back);
     }
     private void show(int index) {
         if (currentIndex == index) {
@@ -85,6 +90,9 @@ public class HotleActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.back:
+                this.finish();
+                break;
             case R.id.hotel:
                 show(0);
                 break;

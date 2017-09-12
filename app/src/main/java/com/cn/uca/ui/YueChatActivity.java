@@ -5,16 +5,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.ui.fragment.CourseEscortFragment;
 import com.cn.uca.ui.fragment.HotleFragment;
 import com.cn.uca.ui.fragment.YueDetailsFragment;
+import com.cn.uca.util.FitStateUI;
+import com.cn.uca.util.SystemUtil;
 
-public class YueChatActivity extends FragmentActivity implements View.OnClickListener{
+public class YueChatActivity extends BaseBackActivity implements View.OnClickListener{
 
-    private TextView title01,title02;
+    private TextView stateTitle,title01,title02;
     private int currentIndex = -1;
     private YueDetailsFragment yueDetailsFragment;
     private CourseEscortFragment courseEscortFragment;
@@ -23,12 +27,15 @@ public class YueChatActivity extends FragmentActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_yue_chat);
 
         initView();
     }
 
     private void initView() {
+        stateTitle  =(TextView)findViewById(R.id.stateTitle);
+        stateTitle.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SystemUtil.getStatusHeight(this)));
         title01 = (TextView)findViewById(R.id.title01);
         title02 = (TextView)findViewById(R.id.title02);
 

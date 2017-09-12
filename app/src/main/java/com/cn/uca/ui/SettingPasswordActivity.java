@@ -25,7 +25,7 @@ import org.json.JSONObject;
 
 import java.security.PublicKey;
 
-public class SettingPasswordActivity extends AppCompatActivity implements View.OnClickListener{
+public class SettingPasswordActivity extends BaseBackActivity implements View.OnClickListener{
 
     private MyEditText password;
     private TextView finish;

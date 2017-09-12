@@ -20,7 +20,7 @@ import com.cn.uca.view.AutoVerticalScrollTextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IndianaActivity extends FragmentActivity implements View.OnClickListener{
+public class IndianaActivity extends BaseBackActivity implements View.OnClickListener{
 
     private TextView title01,title02,title03;
     private PopularityFragment popularityFragment;

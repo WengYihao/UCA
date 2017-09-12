@@ -23,7 +23,7 @@ import com.cn.uca.util.StringXutil;
 import java.io.File;
 import java.io.IOException;
 
-public class WebViewActivity extends AppCompatActivity{
+public class WebViewActivity extends BaseBackActivity{
 
     private WebView webView;
     public static final int INPUT_FILE_REQUEST_CODE = 1;
