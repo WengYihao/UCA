@@ -29,6 +29,7 @@ import com.cn.uca.R;
 import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.util.AndroidClass;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
@@ -63,6 +64,7 @@ public class IdentityActivity extends BaseBackActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_identity);
 
         initView();

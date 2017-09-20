@@ -25,6 +25,7 @@ public class LocationActivity extends AppCompatActivity implements  LocationSour
     private AMapLocationClientOption mLocationOption;// 高德相关
     private static double lat,lng;
     private boolean isFirst = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +126,9 @@ public class LocationActivity extends AppCompatActivity implements  LocationSour
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+        if (null != mlocationClient) {
+            mlocationClient.onDestroy();
+        }
         Log.i("TAG","123");
     }
 }

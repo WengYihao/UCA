@@ -110,8 +110,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
     }
 
     private void startLogin() {
+        Log.i("123",SharePreferenceXutil.getChannelId()+"---");
         WeChatLogin weChatLogin = new WeChatLogin();
-        weChatLogin.setRegistration_id("123456789");
+        weChatLogin.setRegistration_id(SharePreferenceXutil.getChannelId());
         weChatLogin.setAccess_token(MyApplication.getAccessToken().getAccess_token());
         weChatLogin.setOpenid(MyApplication.getAccessToken().getOpenId());
         MyApplication.getServer().WeChatLogin(weChatLogin, new CallBack() {
@@ -121,6 +122,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
                     Gson gson = new Gson();
                     WeChatLogin token = gson.fromJson(response.toString(),new TypeToken<WeChatLogin>(){}.getType());
                     ToastXutil.show(R.string.errcode_login_success);
+                    Log.i("123",token.getAccount_token());
                     SharePreferenceXutil.saveAccountToken(token.getAccount_token());
                     SharePreferenceXutil.setSuccess(true);
                     SharePreferenceXutil.setExit(false);

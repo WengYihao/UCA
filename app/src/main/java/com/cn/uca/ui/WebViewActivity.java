@@ -44,13 +44,12 @@ public class WebViewActivity extends BaseBackActivity{
 
     private void initView() {
         webView = (WebView)findViewById(R.id.webView);
-        webView.loadUrl("http://119.23.210.252/youkatravel/api/escort/page/routePreset.do?account_token=4694793F78EDB1E94B8C32E152ADA6C8");
+        webView.loadUrl("http://119.23.210.252/youkatravel/api/escort/page/routePreset.do?account_token=A560D8AA48CCA433232F7ADD469D1124");
         webView.setWebChromeClient(mWebChromeClient);
         webView.getSettings().setJavaScriptEnabled(true);
 
     }
     private File createImageFile() {
-        //mCameraPhotoPath="/mnt/sdcard/tmp.png";
         File file=new File(Environment.getExternalStorageDirectory()+"/","tmp.png");
         mCameraPhotoPath=file.getAbsolutePath();
         if(!file.exists())
@@ -64,7 +63,6 @@ public class WebViewActivity extends BaseBackActivity{
         return file;
     }
     private WebChromeClient mWebChromeClient = new WebChromeClient() {
-
 
         // android 5.0 这里需要使用android5.0 sdk
         public boolean onShowFileChooser(

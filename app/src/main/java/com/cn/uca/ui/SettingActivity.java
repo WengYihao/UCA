@@ -65,7 +65,6 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
             @Override
             public void onResponse(Object response) {
                 try{
-                    Log.i("123",response.toString()+"---");
                     JSONObject jsonObject = new JSONObject(response.toString());
                     int code = jsonObject.getInt("code");
                     if(code == 0){

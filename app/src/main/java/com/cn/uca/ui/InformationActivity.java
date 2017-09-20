@@ -242,4 +242,17 @@ public class InformationActivity extends BaseBackActivity implements View.OnClic
         sendInfo();
         super.onBackPressed();
     }
+
+    /**
+     * 右滑退出界面
+     */
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra("userName",userName);
+        intent.putExtra("userAge",userAge);
+        intent.putExtra("userSex",userSex);
+        setResult(0, intent);
+        super.finish();
+    }
 }

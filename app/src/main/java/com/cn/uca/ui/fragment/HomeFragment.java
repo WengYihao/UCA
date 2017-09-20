@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
 import com.cn.uca.ui.CityActivity;
 import com.cn.uca.ui.HotleActivity;
+import com.cn.uca.ui.LineChoiceActivity;
 import com.cn.uca.ui.Main2Activity;
 import com.cn.uca.ui.PlaneTicketActivity;
 import com.cn.uca.ui.RaidersActivity;
@@ -35,7 +37,9 @@ import com.cn.uca.view.StickyScrollView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asus on 2017/8/2.
@@ -127,14 +131,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener,OnBan
                 startActivity(new Intent(getActivity(), RaidersActivity.class));
                 break;
             case R.id.oneIndiana:
+                aa();
+//                startActivity(new Intent(getActivity(), LineChoiceActivity.class));
 //                startActivity(new Intent(getActivity(), WebViewActivity.class));
 //                startActivity(new Intent(getActivity(), Main2Activity.class));
-                startActivity(new Intent(getActivity(), CityActivity.class));
+//                startActivity(new Intent(getActivity(), CityActivity.class));
                 break;
             case R.id.search_et:
                 startActivity(new Intent(getActivity(),SearchActivity.class));
                 break;
         }
+    }
+
+    private void aa(){
+//        Map<Integer,Integer> map = new HashMap<>();
+//        map.put(1,1);
+//        map.put(2,2);
+//        map.put(3,3);
+//        Log.i("123",map.toString());
+//        map.put(3,4);
+//        Log.i("123",map.toString());
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        Log.i("123",list.toString());
+        list.set(2,8);
+        Log.i("123",list.toString());
     }
 
 

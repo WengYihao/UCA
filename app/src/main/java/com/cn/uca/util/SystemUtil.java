@@ -88,29 +88,6 @@ public class SystemUtil
 		}
 		return dpi;
 	}
-	/**获取状态栏的高度**/
-//	public static int getStatusBarHeight()
-//	{
-//		Class<?> c = null;
-//		Object obj = null;
-//		Field field = null;
-//		int x = 0, statusBarHeight = 0;
-//		Context context = MyApplication.getInstance();
-//		try
-//		{
-//			c = Class.forName("com.android.internal.R$dimen");
-//			obj = c.newInstance();
-//			field = c.getField("status_bar_height");
-//			x = Integer.parseInt(field.get(obj).toString());
-//			statusBarHeight = context.getResources().getDimensionPixelSize(x);
-//		}
-//		catch (Exception e1)
-//		{
-//			e1.printStackTrace();
-//		}
-//		return statusBarHeight;
-//	}
-
 	/**
 	 * 照片命名
 	 * @return
@@ -245,6 +222,19 @@ public class SystemUtil
 		Date curDate = new Date(System.currentTimeMillis());//获取当前时间       
 		String str = formatter.format(curDate); 
 		return str;
+	}
+	/**
+	 * 获取未来 第 past 天的日期
+	 * @param past
+	 * @return
+	 */
+	public static String getFetureDate(int past) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + past);
+		Date today = calendar.getTime();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+		String result = format.format(today);
+		return result;
 	}
 
 	/**

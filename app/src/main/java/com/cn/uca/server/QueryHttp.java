@@ -1,24 +1,28 @@
 package com.cn.uca.server;
 
-import android.telecom.Call;
-import android.util.Log;
-
+import com.cn.uca.bean.yueka.GetEscortBean;
 import com.cn.uca.bean.user.RegisterBean;
 import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.bean.wechat.WeChatLogin;
+import com.cn.uca.bean.yueka.PlacesBean;
 import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.StringXutil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,11 +30,11 @@ import java.util.Map;
  */
 
 public class QueryHttp extends BaseServer{
-    public void register(String leader_account_name,CallBack callback){
-        Map<String, String> map = new HashMap<>();
-        map.put("leader_account_name", leader_account_name);
-        post3(MyConfig.text, map, callback);
-    }
+//    public void register(String leader_account_name,CallBack callback){
+//        Map<String, String> map = new HashMap<>();
+//        map.put("leader_account_name", leader_account_name);
+//        post3(MyConfig.text, map, callback);
+//    }
 
     /**
      * 发送短信验证码
@@ -68,17 +72,6 @@ public class QueryHttp extends BaseServer{
         map.put("access_token",weChatLogin.getAccess_token());
         map.put("openid",weChatLogin.getOpenid());
         post3(MyConfig.weChatLogin,map,callBack);
-    }
-
-
-    /**
-     * 测试接口
-     * @param list
-     * @param map
-     * @param callBack
-     */
-    public void test(Map<String,File> list,Map<String,String> map,CallBack callBack){
-        sendFiles("http://192.168.1.103/youkatravel/api/abnormal/test.do",list,map,callBack);
     }
 
     /**
@@ -140,6 +133,7 @@ public class QueryHttp extends BaseServer{
         RequestParams params = new RequestParams();
         params.put("phone_number",phoneNumber);
         params.put("encryption_password",password);
+        params.put("registration_id",SharePreferenceXutil.getChannelId());
         client.post(MyConfig.phoneLogin,params,handler);
     }
 
@@ -153,7 +147,7 @@ public class QueryHttp extends BaseServer{
         map.put("phone_number",bean.getPhone_number());
         map.put("code",bean.getCode());
         map.put("encryption_password",bean.getEncryption_password());
-        map.put("registration_id","123456789");
+        map.put("registration_id",bean.getRegistration_id());
         post3(MyConfig.phoneRegister,map,callBack);
     }
 
@@ -229,5 +223,84 @@ public class QueryHttp extends BaseServer{
             e.printStackTrace();
         }
         client.post(MyConfig.submitIdentity,params,handler);
+    }
+
+    /**
+     * 获取伴游
+     * @param bean
+     * @param handler
+     */
+    public void getEscortRecords(GetEscortBean bean,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("account_token",bean.getAccount_token());
+        params.put("gaode_code",bean.getGaode_code());
+        params.put("page",bean.getPage());
+        params.put("pageCount",bean.getPageCount());
+        params.put("beg_time",bean.getBeg_time());
+        params.put("end_time",bean.getEnd_time());
+        client.get(MyConfig.getEscortRecords,params,handler);
+    }
+
+    /**
+     * 获取伴游详情
+     * @param escort_record_id
+     * @param callBack
+     */
+    public void getEscortRecordInfo(int escort_record_id,CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        if (!StringXutil.isEmpty(SharePreferenceXutil.getAccountToken())){
+            map.put("account_token",SharePreferenceXutil.getAccountToken());
+            map.put("escort_record_id",escort_record_id);
+        }else{
+            map.put("escort_record_id",escort_record_id);
+        }
+        get(MyConfig.getEscortRecordInfo,map,callBack);
+    }
+
+    /**
+     * 添加路线
+     * @param callBack
+     */
+    public void addLine(CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        map.put("route_name","自定义路线");
+        post3(MyConfig.addLine,map,callBack);
+    }
+
+    /**
+     * 获取所有伴游路线
+     * @param callBack
+     */
+    public void getAllLine(CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        get(MyConfig.getAllLine,map,callBack);
+    }
+
+    /**
+     * 删除路线
+     * @param route_id
+     * @param callBack
+     */
+    public void deleteLine(int route_id,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        map.put("route_id",route_id+"");
+        post4(MyConfig.deleteLine,map,callBack);
+    }
+
+    /**
+     * 添加路线点
+     * @param array
+     * @param handler
+     */
+    public void addLinePoint(String array, AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("account_token",SharePreferenceXutil.getAccountToken());
+        params.put("places",array);
+        client.post(MyConfig.addLinePoint,params,handler);
     }
 }

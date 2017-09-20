@@ -9,8 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:descendantFocusability="blocksDescendants">
+        android:background="@drawable/yueka_item_background"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -52,20 +53,19 @@
 
                 <TextView
                     android:id="@+id/sex"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@id/age"
-                    android:background="@color/aa" />
+                    android:layout_toRightOf="@id/age"/>
 
                 <TextView
                     android:id="@+id/click"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
-                    android:background="@color/aa" />
+                    android:background="@mipmap/nocollection" />
             </RelativeLayout>
 
             <LinearLayout
@@ -84,10 +84,18 @@
                     app:starNum="5" />
 
                 <TextView
+                    android:id="@+id/startNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_5"
+                    android:text="4.7"
+                    android:textColor="@color/yellow"/>
+
+                <TextView
                     android:id="@+id/price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="@dimen/padding_5"
                     android:text="0.4k-0.6k" />
 
                 <RelativeLayout
@@ -99,7 +107,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginRight="@dimen/padding_5"
                         android:text="浏览32次" />
                 </RelativeLayout>
 
@@ -121,30 +129,33 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:horizontalSpacing="5dp"
-                    android:numColumns="3"></GridView>
+                    android:numColumns="2"></GridView>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/sum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:drawableLeft="@mipmap/home_select"
-                    android:text="10"
                     android:layout_marginTop="@dimen/padding_5"
-                    android:gravity="center"/>
+                    android:drawableLeft="@mipmap/comment"
+                    android:text="10" />
+
                 <TextView
                     android:id="@+id/evaluate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="非常棒的一次旅行，伴游非常会聊天"
-                    android:background="@color/grey2"
+                    android:layout_marginBottom="@dimen/padding_8"
+                    android:layout_marginTop="@dimen/padding_8"
+                    android:background="@drawable/yueka_item_comment_background"
                     android:padding="@dimen/padding_5"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="@dimen/padding_5"/>
+                    android:text="非常棒的一次旅行，伴游非常会聊天"
+                    android:textColor="@color/black" />
 
             </LinearLayout>
         </LinearLayout>

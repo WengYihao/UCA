@@ -9,22 +9,24 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.cn.uca.R;
+import com.cn.uca.bean.yueka.PlacesBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class LineAdapter extends BaseAdapter{
-	private List<String> list;
+	private ArrayList<PlacesBean> list;
 	private Context context;
 
 	public LineAdapter(){}
-	public LineAdapter(List<String> list, Context context) {
+	public LineAdapter(ArrayList<PlacesBean> list, Context context) {
 		this.list = list;
 		this.context = context;
 	}
-	public void setList(List<String> list) {
+	public void setList(ArrayList<PlacesBean> list) {
 		if (list != null) {
-			this.list = (List<String>) list;
+			this.list = (ArrayList<PlacesBean>) list;
 			this.notifyDataSetChanged();
 		}
 	}
@@ -57,7 +59,7 @@ public class LineAdapter extends BaseAdapter{
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.placeName.setText(list.get(position));
+		holder.placeName.setText(list.get(position).getPlace_name());
 		if (position != list.size()-1){
 			holder.icon.setVisibility(View.VISIBLE);
 		}

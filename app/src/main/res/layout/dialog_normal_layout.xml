@@ -45,7 +45,7 @@
                 android:layout_height="100dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:background="@mipmap/message_back"
+                android:background="@mipmap/my_message"
                 android:gravity="center"
                 android:lineSpacingMultiplier="1.5"
                 android:minHeight="120dp" />

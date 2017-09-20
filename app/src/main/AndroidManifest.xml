@@ -201,7 +201,12 @@
         <activity android:name=".ui.BaseHideActivity" />
         <activity android:name=".ui.Main2Activity" />
         <activity android:name=".swipeback.SwipeBackActivity" />
-        <activity android:name=".ui.BaseBackActivity"></activity>
+        <activity android:name=".ui.BaseBackActivity" />
+        <activity
+            android:name=".ui.PresetManagerActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".ui.LineChoiceActivity" />
+        <activity android:name=".ui.AddTourismLineActivity"></activity>
     </application>
 
 </manifest>

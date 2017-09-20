@@ -21,9 +21,9 @@
             style="@style/style_title"
             android:text="我的约咖"/>
         <TextView
-            android:layout_width="@dimen/padding_25"
-            android:layout_height="@dimen/padding_25"
-            android:background="@color/aa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/my_message"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/padding_10"/>
@@ -41,7 +41,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                android:padding="@dimen/padding_10"
-               android:background="@color/white">
+               android:background="@color/ori">
                <com.cn.uca.view.CircleImageView
                    android:id="@+id/pic"
                    android:layout_width="60dp"
@@ -64,6 +64,7 @@
                            android:text="周某某"
                            android:layout_gravity="center"
                            android:textSize="@dimen/text_16"
+                           android:textColor="@color/white"
                            android:layout_marginLeft="@dimen/padding_10"/>
                        <TextView
                            android:layout_width="wrap_content"
@@ -71,6 +72,7 @@
                            android:text="27岁"
                            android:layout_gravity="center"
                            android:textSize="@dimen/text_16"
+                           android:textColor="@color/white"
                            android:layout_marginLeft="@dimen/padding_10"/>
                        <TextView
                            android:layout_width="20dp"
@@ -106,6 +108,7 @@
                        android:layout_height="wrap_content"
                        android:text="已认证"
                        android:textSize="@dimen/text_14"
+                       android:textColor="@color/white"
                        android:layout_toLeftOf="@id/a"
                        android:layout_marginRight="@dimen/padding_8"/>
 
@@ -135,7 +138,7 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginLeft="10dp"
-                       android:text="我的预设"
+                       android:text="预设管理"
                        android:textSize="18sp" />
 
                    <ImageView
@@ -148,11 +151,10 @@
                </RelativeLayout>
 
                <ImageView
-                   android:id="@+id/line4"
                    android:layout_width="match_parent"
                    android:layout_height="1dp"
                    android:scaleType="matrix"
-                   android:src="@color/grey2" />
+                   android:src="@color/gray" />
 
                <RelativeLayout
                    android:id="@+id/layout2"
@@ -166,7 +168,7 @@
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginLeft="10dp"
-                       android:text="发布我的约咖"
+                       android:text="发布约咖"
                        android:textSize="18sp" />
 
                    <ImageView
@@ -179,17 +181,73 @@
                        android:src="@mipmap/right" />
                </RelativeLayout>
 
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   android:layout_marginTop="@dimen/padding_20">
+
+                   <RelativeLayout
+                       android:id="@+id/layout3"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+
+                       android:background="@color/white"
+                       android:padding="10dp">
+
+                       <TextView
+                           android:id="@+id/title_text3"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginLeft="10dp"
+                           android:text="我的发布"
+                           android:textSize="18sp" />
+
+                       <ImageView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
+                           android:layout_marginRight="10dp"
+                           android:src="@mipmap/right" />
+                   </RelativeLayout>
+                   <ImageView
+                       android:layout_width="match_parent"
+                       android:layout_height="1dp"
+                       android:scaleType="matrix"
+                       android:src="@color/gray" />
+                   <RelativeLayout
+                       android:id="@+id/layout4"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:background="@color/white"
+                       android:padding="10dp">
+
+                       <TextView
+                           android:id="@+id/title_text4"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginLeft="10dp"
+                           android:text="我的收藏"
+                           android:textSize="18sp" />
+
+                       <ImageView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
+                           android:layout_marginRight="10dp"
+                           android:src="@mipmap/right" />
+                   </RelativeLayout>
+
+               </LinearLayout>
+
                <ImageView
                    android:layout_width="match_parent"
                    android:layout_height="1dp"
                    android:scaleType="matrix"
                    android:src="@color/grey2" />
 
-               <RelativeLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="@dimen/padding_50"
-                   android:background="@color/white"
-                   android:padding="10dp"></RelativeLayout>
            </LinearLayout>
 
            <LinearLayout

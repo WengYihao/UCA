@@ -8,22 +8,23 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.cn.uca.R;
+import com.cn.uca.bean.yueka.LableBean;
 
 import java.util.List;
 
 
 public class LableAdapter extends BaseAdapter{
-	private List<String> list;
+	private List<LableBean> list;
 	private Context context;
 
 	public LableAdapter(){}
-	public LableAdapter(List<String> list, Context context) {
+	public LableAdapter(List<LableBean> list, Context context) {
 		this.list = list;
 		this.context = context;
 	}
-	public void setList(List<String> list) {
+	public void setList(List<LableBean> list) {
 		if (list != null) {
-			this.list = (List<String>) list;
+			this.list = (List<LableBean>) list;
 			this.notifyDataSetChanged();
 		}
 	}
@@ -54,7 +55,7 @@ public class LableAdapter extends BaseAdapter{
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.item.setText(list.get(position));
+		holder.item.setText(list.get(position).getEscort_label_name());
 		return convertView;
 	}
 	class ViewHolder {

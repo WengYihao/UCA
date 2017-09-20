@@ -1,7 +1,9 @@
 package com.cn.uca.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -19,7 +21,7 @@ import com.cn.uca.view.HorizontalListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderYueActivity extends BaseBackActivity {
+public class OrderYueActivity extends BaseBackActivity implements View.OnClickListener{
 
     private HorizontalListView orderCourse;
     private ListView comment;
@@ -27,6 +29,7 @@ public class OrderYueActivity extends BaseBackActivity {
     private List<CommentBean> list2;
     private OrderCourseAdapter orderCourseAdapter;
     private CommentAdapter commentAdapter;
+    private RelativeLayout layout1,layout2,layout3,layout4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,16 @@ public class OrderYueActivity extends BaseBackActivity {
     }
 
     private void initView() {
+        layout1 = (RelativeLayout)findViewById(R.id.layout1);
+        layout2 = (RelativeLayout)findViewById(R.id.layout2);
+        layout3 = (RelativeLayout)findViewById(R.id.layout3);
+        layout4 = (RelativeLayout)findViewById(R.id.layout4);
+
+        layout1.setOnClickListener(this);
+        layout2.setOnClickListener(this);
+        layout3.setOnClickListener(this);
+        layout4.setOnClickListener(this);
+
         orderCourse = (HorizontalListView)findViewById(R.id.orderCourse);
         comment = (ListView)findViewById(R.id.comment);
 
@@ -94,5 +107,23 @@ public class OrderYueActivity extends BaseBackActivity {
         comment.setAdapter(commentAdapter);
         SetListView.setListViewHeightBasedOnChildren(comment);
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.layout1:
+                startActivity(new Intent(OrderYueActivity.this,PresetManagerActivity.class));
+                break;
+            case R.id.layout2:
+
+                break;
+            case R.id.layout3:
+
+                break;
+            case R.id.layout4:
+
+                break;
+        }
     }
 }

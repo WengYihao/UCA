@@ -67,7 +67,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private String title = "上传照片";
 
     private byte[] photodata = null;
-    private TextView setting,nickName,age,sex,state;
+    private TextView setting,nickName,sex,state;
     private LinearLayout userInfo,myOrder,myCollection;
     private RelativeLayout layout1,layout2,layout3,layout4,layout5;
     private String userName,userAge,userSex;
@@ -97,7 +97,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         myCollection.setOnClickListener(this);
 
         nickName = (TextView)view.findViewById(R.id.nickName);
-        age = (TextView)view.findViewById(R.id.age);
+//        age = (TextView)view.findViewById(R.id.age);
         sex = (TextView)view.findViewById(R.id.sex);
         state = (TextView)view.findViewById(R.id.state);
 
@@ -179,12 +179,12 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                     userName = info.getUser_nick_name();
                     nickName.setText(userName);
                     userAge = info.getUser_birth_date();
-                    if (!info.getUser_birth_date().equals("")){
-                        Date date = SystemUtil.StringToUtilDate(userAge);
-                        age.setText(SystemUtil.getAge(date)+"岁");
-                    }else{
-                        age.setText("未知");
-                    }
+//                    if (!info.getUser_birth_date().equals("")){
+//                        Date date = SystemUtil.StringToUtilDate(userAge);
+//                        age.setText(SystemUtil.getAge(date)+"岁");
+//                    }else{
+//                        age.setText("未知");
+//                    }
                     switch (info.getSex_id()){
                         case 1://男
                             sex.setText("男");
@@ -387,7 +387,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                         nickName.setText(userName);
                         userAge = data.getStringExtra("userAge");
                         Date date = SystemUtil.StringToUtilDate(userAge);
-                        age.setText(SystemUtil.getAge(date)+"岁");
+//                        age.setText(SystemUtil.getAge(date)+"岁");
                         userSex = data.getStringExtra("userSex");
                         sex.setText(userSex);
                     }

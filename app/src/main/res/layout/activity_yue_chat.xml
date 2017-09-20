@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_50"
         android:background="@color/ori" >
-
         <TextView
             android:id="@+id/back"
             style="@style/style_back"/>
@@ -25,14 +24,22 @@
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="周某某-深圳"/>
+            android:text="约咖详情"/>
+        <TextView
+            android:id="@+id/collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/nocollection"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_10"/>
     </RelativeLayout>
     <ScrollView
-        android:layout_below="@id/llTitle"
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:layout_below="@id/llTitle">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -44,8 +51,10 @@
                 android:gravity="center"
                 android:background="@color/white">
                 <com.cn.uca.view.CircleImageView
+                    android:id="@+id/pic"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:layout_marginTop="@dimen/padding_30"
                     android:background="@mipmap/user_pic"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -66,8 +75,9 @@
                         android:textSize="@dimen/padding_20"
                         android:layout_marginLeft="@dimen/padding_10"/>
                     <TextView
-                        android:layout_width="@dimen/padding_20"
-                        android:layout_height="@dimen/padding_20"
+                        android:id="@+id/sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:background="@color/aa"
                         android:layout_marginLeft="@dimen/padding_10"
                         android:layout_gravity="center_vertical"/>
@@ -106,6 +116,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/padding_10">
                     <TextView
+                        android:id="@+id/sum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="浏览256次"
@@ -113,13 +124,16 @@
                         android:layout_marginLeft="@dimen/padding_10"
                         android:layout_centerVertical="true"/>
                     <TextView
+                        android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="￥400-600"
                         android:textSize="@dimen/text_18"
                         android:layout_centerHorizontal="true"
-                        android:textColor="@color/black"/>
+                        android:textColor="@color/black"
+                        android:layout_alignParentTop="true" />
                     <TextView
+                        android:id="@+id/maxPeople"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="5人以下"

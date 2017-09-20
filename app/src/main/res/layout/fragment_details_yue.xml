@@ -15,7 +15,10 @@
             <com.cn.uca.view.ListViewForScrollView
                 android:id="@+id/line"
                 android:layout_width="100dp"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:divider="@null">>
             </com.cn.uca.view.ListViewForScrollView>
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -25,20 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                 </com.cn.uca.webview.TouchWebView>
-                <TextView
-                    android:id="@+id/back"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@color/aa"
-                    android:padding="@dimen/padding_10"/>
             </RelativeLayout>
-
-             <!-- <com.cn.uca.view.ListViewForScrollView
-                android:id="@+id/content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/padding_20">
-            </com.cn.uca.view.ListViewForScrollView>-->
 
         </LinearLayout>
         <LinearLayout

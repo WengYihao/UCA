@@ -3,7 +3,7 @@ package com.cn.uca.config;
 public class MyConfig {
 	// 总接口
 	public static final String url = "http://119.23.210.252/youkatravel/api/";
-//	public static final String url = "http://192.168.1.105/youkatravel/api/";
+//	public static final String url = "http://192.168.1.104/youkatravel/api/";
 	public static final String text = "http://192.168.1.100/youkatravel/api/abnormal/getAbnormal.do";    //测试
 	public static final String sendCode = url+"user/query/sendSMS.do";//发送短信验证码
 	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";     //获取微信token
@@ -19,4 +19,10 @@ public class MyConfig {
 	public static final String updatePassword = url+"user/update/modifyPassword.do";//修改用户密码
 	public static final String forgetPassword = url+"user/update/forgotPassword.do";//忘记密码
 	public static final String submitIdentity = url+"user/update/submitIdentityExamine.do";//用户身份认证
+	public static final String getEscortRecords = url+"escort/query/getEscortRecords.do";//获取伴游
+	public static final String getEscortRecordInfo = url+"escort/query/getEscortRecordInfo.do";//获取伴游详情
+	public static final String addLine = url+"escort/update/insertRoute.do";//添加伴游路线
+	public static final String getAllLine = url+"escort/query/getAllRoute.do";//获取伴游路线
+	public static final String deleteLine = url+"escort/update/deleteRoute.do";//删除路线
+	public static final String addLinePoint = url+"escort/update/addPlaces.do";//添加路线点
 }

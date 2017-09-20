@@ -19,6 +19,21 @@ public class SharePreferenceXutil {
 		return sp;
 	}
 	/**
+	 * 保存ChannelId
+	 * @param channelId
+	 */
+	public static void saveChannelId(String channelId) {
+		getSp().edit().putString("channelId", channelId).commit();
+	}
+
+	/**
+	 * 获取ChannelId
+	 * @return
+	 */
+	public static String getChannelId() {
+		return getSp().getString("channelId", "");
+	}
+	/**
 	 * 设置是否登录成功
 	 * @param isSuccess ：true:登录成功
 	 */

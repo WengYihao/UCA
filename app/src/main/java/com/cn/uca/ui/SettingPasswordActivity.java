@@ -71,6 +71,7 @@ public class SettingPasswordActivity extends BaseBackActivity implements View.On
             byte[] encryptByte = RSAUtils.encryptData(MD5.getMD5(passwordText).getBytes(), publicKey);
             passwordNumber = Base64.encode(encryptByte);
             RegisterBean bean = new RegisterBean();
+            bean.setRegistration_id(SharePreferenceXutil.getChannelId());
             bean.setCode(codeNumber);
             bean.setEncryption_password(passwordNumber);
             bean.setPhone_number(phoneNumber);

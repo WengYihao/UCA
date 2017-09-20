@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.cn.uca.badger.ShortcutBadger;
+import com.cn.uca.util.SharePreferenceXutil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +35,7 @@ public class MyReceiver extends BroadcastReceiver {
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
             Log.i(TAG, "[MyReceiver] 接收Registration Id : " + regId);
-//			SharePreferenceXutil.saveChannelId(regId);
+			SharePreferenceXutil.saveChannelId(regId);
         } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
         	Log.i(TAG, "[MyReceiver] 接收到推送下来的自定义消息: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
 //        	processCustomMessage(context, bundle);

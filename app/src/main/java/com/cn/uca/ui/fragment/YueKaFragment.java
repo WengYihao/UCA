@@ -3,27 +3,32 @@ package com.cn.uca.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.adapter.YueKaAdapter;
+import com.cn.uca.bean.yueka.GetEscortBean;
 import com.cn.uca.bean.datepicker.DateType;
-import com.cn.uca.bean.YueKaBean;
+import com.cn.uca.bean.yueka.YueKaBean;
+import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.datepicker.OnDoubleSureLisener;
-import com.cn.uca.impl.datepicker.OnSureLisener;
 import com.cn.uca.ui.OrderYueActivity;
 import com.cn.uca.ui.YueChatActivity;
+import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SystemUtil;
-import com.cn.uca.util.ToastXutil;
-import com.cn.uca.view.datepicker.DatePickDialog;
 import com.cn.uca.view.datepicker.DoubleDatePickDialog;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,27 +41,23 @@ import java.util.List;
 public class YueKaFragment extends Fragment implements View.OnClickListener,OnDoubleSureLisener{
 
     private View view;
-    private RelativeLayout llTitle;
     private ListView listView;
     private YueKaAdapter yueKaAdapter;
     private List<YueKaBean> list;
-    private List<String> lable1,lable2,img1,img2;
-    private TextView orderYue,stateTitle,startTime,endTime,freeTime;
+    private TextView orderYue,startTime,endTime,freeTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_yueka, null);
 
         ininView();
+        getEscortRecords();
         return view;
     }
 
     private void ininView() {
         orderYue = (TextView)view.findViewById(R.id.orderYue);
-//        stateTitle = (TextView)view.findViewById(R.id.stateTitle);
-//        stateTitle.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SystemUtil.getStatusHeight(getActivity())));
         listView  = (ListView)view.findViewById(R.id.listView);
-        llTitle = (RelativeLayout) view.findViewById(R.id.llTitle);
         startTime = (TextView)view.findViewById(R.id.startTime);
         endTime = (TextView)view.findViewById(R.id.endTime);
         freeTime = (TextView)view.findViewById(R.id.freeTime);
@@ -65,58 +66,22 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,OnDo
         freeTime.setOnClickListener(this);
 
         list = new ArrayList<>();
-        lable1 = new ArrayList<>();
-        img1 = new ArrayList<>();
-
-        lable1.add("已认证");
-        lable1.add("有车一族");
-        lable1.add("包买票");
-
-        img1 = new ArrayList<>();
-        img1.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic1xjab4j30ci08cjrv.jpg");
-        img1.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic21363tj30ci08ct96.jpg");
-        YueKaBean yueKaBean = new YueKaBean();
-        yueKaBean.setName("小光光");
-        yueKaBean.setAge(25);
-        yueKaBean.setStart(4);
-        yueKaBean.setPrice("￥200-340");
-        yueKaBean.setSum(10);
-        yueKaBean.setCount(32);
-        yueKaBean.setEvaluate("非常不错的一次旅行");
-        yueKaBean.setLable(lable1);
-        yueKaBean.setImgList(img1);
-        list.add(yueKaBean);
-
-        lable2 = new ArrayList<>();
-        img2 = new ArrayList<>();
-        lable2.add("已认证");
-        lable2.add("有车一族");
-        lable2.add("包吃住");
-
-        img2 = new ArrayList<>();
-        img2.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic259ohaj30ci08c74r.jpg");
-        img2.add("http://ww4.sinaimg.cn/large/006uZZy8jw1faic2b16zuj30ci08cwf4.jpg");
-
-        YueKaBean yueKaBean1 = new YueKaBean();
-        yueKaBean1.setName("小豪豪");
-        yueKaBean1.setAge(24);
-        yueKaBean1.setStart(4);
-        yueKaBean1.setPrice("￥300-460");
-        yueKaBean1.setSum(20);
-        yueKaBean1.setCount(48);
-        yueKaBean1.setEvaluate("下次还找你");
-        yueKaBean1.setLable(lable2);
-        yueKaBean1.setImgList(img2);
-        list.add(yueKaBean1);
         yueKaAdapter = new YueKaAdapter(list,getActivity());
-
         listView.setAdapter(yueKaAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                startActivity(new Intent(getActivity(), YueChatActivity.class));
+                Intent intent = new Intent();
+                intent.setClass(getActivity(),YueChatActivity.class);
+                for (int a = 0;a < list.get(i).getEscortRecords().size();a++){
+                    int id = list.get(i).getEscortRecords().get(a).getEscort_record_id();
+                    intent.putExtra("id",id);
+                    startActivity(intent);
+                }
             }
         });
+        startTime.setText(SystemUtil.getCurrentDateOnly2());
+        endTime.setText(SystemUtil.getFetureDate(10));
     }
 
     @Override
@@ -130,6 +95,49 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,OnDo
                 break;
         }
     }
+
+    private void getEscortRecords(){
+        GetEscortBean bean = new GetEscortBean();
+        bean.setPage(1);
+        bean.setPageCount(5);
+        bean.setAccount_token(SharePreferenceXutil.getAccountToken());
+        bean.setGaode_code("0755");
+        bean.setBeg_time("");
+        bean.setEnd_time("");
+        MyApplication.getServer().getEscortRecords(bean, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                if (i == 200){
+                    try {
+                        JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
+                        int code  = jsonObject.getInt("code");
+                        switch (code){
+                            case 0:
+                                JSONObject object = jsonObject.getJSONObject("data");
+                                Gson gson = new Gson();
+                                YueKaBean bean = gson.fromJson(object.toString(),new TypeToken<YueKaBean>(){}.getType());
+                                list.add(bean);
+                                yueKaAdapter.setList(list);
+                                break;
+                        }
+                    }catch (Exception e){
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                try {
+                    JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
+                    Log.i("456",jsonObject.toString()+"====");
+                }catch (Exception e){
+
+                }
+
+            }
+        });
+    }
+
     private void showDatePickDialog(DateType type) {
         DoubleDatePickDialog dialog = new DoubleDatePickDialog(getActivity());
         //设置上下年分限制

@@ -60,7 +60,9 @@
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:scaleType="matrix"
-                    android:src="@color/grey2" />
+                    android:layout_marginTop="@dimen/padding_15"
+                    android:layout_marginBottom="@dimen/padding_15"
+                    android:src="@color/gray" />
 
                 <LinearLayout
                     android:id="@+id/myCollection"
@@ -120,16 +122,6 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/age"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_20"
-                    android:layout_marginLeft="10dp"
-                    android:text="27岁"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-                <TextView
                     android:id="@+id/sex"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
@@ -152,8 +144,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/padding_20"
-                    android:layout_marginLeft="30dp"
-                    android:src="@mipmap/right" />
+                    android:layout_marginLeft="@dimen/padding_40"
+                    android:src="@mipmap/right_white" />
             </LinearLayout>
 
             <ImageView
@@ -162,7 +154,7 @@
                 android:layout_height="1dp"
                 android:layout_below="@id/llTitle"
                 android:scaleType="matrix"
-                android:src="@color/grey2" />
+                android:src="@color/gray" />
             <RelativeLayout
                 android:id="@+id/layout1"
                 android:layout_width="match_parent"
@@ -196,7 +188,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/right" />
+                    android:src="@mipmap/right_gray" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -231,7 +223,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/right" />
+                    android:src="@mipmap/right_gray" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -248,7 +240,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:src="@mipmap/my_setting" />
+                    android:src="@mipmap/my_jiedan" />
 
                 <TextView
                     android:id="@+id/title_text3"
@@ -266,7 +258,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/right" />
+                    android:src="@mipmap/right_gray" />
             </RelativeLayout>
 
             <ImageView
@@ -275,7 +267,7 @@
                 android:layout_height="1dp"
                 android:layout_below="@id/layout3"
                 android:scaleType="matrix"
-                android:src="@color/grey2" />
+                android:src="@color/gray" />
 
             <RelativeLayout
                 android:id="@+id/layout4"
@@ -290,7 +282,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:src="@mipmap/my_setting" />
+                    android:src="@mipmap/my_message" />
 
                 <TextView
                     android:id="@+id/title_text4"
@@ -308,7 +300,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/right" />
+                    android:src="@mipmap/right_gray" />
             </RelativeLayout>
 
             <ImageView
@@ -317,7 +309,7 @@
                 android:layout_height="1dp"
                 android:layout_below="@id/layout4"
                 android:scaleType="matrix"
-                android:src="@color/grey2" />
+                android:src="@color/gray" />
 
             <RelativeLayout
                 android:id="@+id/layout5"
@@ -332,7 +324,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:src="@mipmap/my_setting" />
+                    android:src="@mipmap/my_evaluate" />
 
                 <TextView
                     android:id="@+id/title_text5"
@@ -350,7 +342,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/right" />
+                    android:src="@mipmap/right_gray" />
             </RelativeLayout>
         </RelativeLayout>
 

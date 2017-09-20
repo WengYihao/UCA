@@ -1,4 +1,4 @@
-package com.cn.uca.adapter.datePicker;
+package com.cn.uca.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
