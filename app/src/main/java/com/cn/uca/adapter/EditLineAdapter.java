@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cn.uca.R;
@@ -69,8 +71,7 @@ public class EditLineAdapter extends BaseAdapter implements View.OnClickListener
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.lineName.setText(list.get(position).getRoute_name());
-//		SetListView.setListViewHeightBasedOnChildren(holder.listView);
+		holder.lineName.setHint(list.get(position).getRoute_name());
 		holder.arrowView.setOnClickListener(this);
 		holder.trueLine.setOnClickListener(this);
 		holder.editLine.setOnClickListener(this);
@@ -78,21 +79,17 @@ public class EditLineAdapter extends BaseAdapter implements View.OnClickListener
 		holder.trueLine.setTag(position);
 		holder.editLine.setTag(position);
 		if (list.get(position).getPlaces() != null){
-			Log.i("123",position+"-1");
 			if (list.get(position).getPlaces().size() != 0){
-				Log.i("123",position+"-2");
 				holder.arrowView.setBackgroundResource(R.mipmap.down);
 				AllLineAdapter lineAdapter = new AllLineAdapter(list.get(position).getPlaces(),context);
                 holder.listView.setVisibility(View.VISIBLE);
 				holder.listView.setAdapter(lineAdapter);
 				SetListView.setListViewHeightBasedOnChildren(holder.listView);
 			}else{
-				Log.i("123",position+"-3");
 				holder.arrowView.setBackgroundResource(R.mipmap.right_gray);
                 holder.listView.setVisibility(View.GONE);
 			}
 		}else{
-			Log.i("123",position+"-4");
 			holder.arrowView.setBackgroundResource(R.mipmap.right_gray);
             holder.listView.setVisibility(View.GONE);
 		}

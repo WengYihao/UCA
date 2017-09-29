@@ -2,46 +2,60 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:padding="@dimen/padding_10"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
+        android:layout_height="200dp">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/pic"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:roundedCornerRadius="5dp"
+            app:placeholderImageScaleType="fitXY"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+        </com.facebook.drawee.view.SimpleDraweeView>
         <TextView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_alignParentRight="true"
-            android:background="@color/aa"/>
+            android:id="@+id/name"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:text="北京"
+            android:gravity="center"
+            android:background="@drawable/circular_place_background"/>
         <RelativeLayout
+            android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/loginactivity_cursor_color">
+            android:background="@color/half">
             <TextView
-                android:id="@+id/name"
+                android:id="@+id/collection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="长沙"
+                android:background="@mipmap/nocollection"
                 android:layout_centerVertical="true"/>
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2.3m"
-                android:layout_toLeftOf="@id/a"
-                android:layout_centerVertical="true"/>
-            <TextView
-                android:id="@+id/a"
+                android:id="@+id/downLoad"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@color/aa"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.3m"
+                android:textColor="@color/white"
+                android:layout_marginRight="@dimen/padding_8"
+                android:layout_toLeftOf="@id/downLoad"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
 

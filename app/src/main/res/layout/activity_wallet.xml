@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.WalletActivity"
+    tools:context="com.cn.uca.ui.user.WalletActivity"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -33,7 +33,7 @@
             android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="16"
+            android:text="0.0"
             android:textColor="@color/white"
             android:textSize="60dp" />
 
@@ -140,7 +140,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
         </RelativeLayout>
 
         <ImageView
@@ -181,7 +181,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
         </RelativeLayout>
 
 
@@ -217,7 +217,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
         </RelativeLayout>
     </LinearLayout>
 </com.cn.uca.view.StatusView>

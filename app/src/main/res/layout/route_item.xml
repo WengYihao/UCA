@@ -35,11 +35,11 @@
             android:layout_marginLeft="@dimen/padding_10"/>
         <TextView
             android:id="@+id/editLine"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@color/aa" />
+            android:background="@mipmap/edit" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"

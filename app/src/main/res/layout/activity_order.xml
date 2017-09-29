@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.OrderActivity"
+    tools:context="com.cn.uca.ui.user.OrderActivity"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="我的订单"/>
+            android:text="@string/orderActivity_title_text"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_marginTop="8dp"
@@ -33,19 +33,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="20dp"
-            android:text="全部"
+            android:padding="@dimen/padding_20"
+            android:text="@string/orderActivity_title01_text"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="@dimen/text_14" />
 
         <TextView
             android:id="@+id/title02"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="有效单"
-            android:padding="20dp"
-            android:textSize="15sp"
+            android:text="@string/orderActivity_title02_text"
+            android:padding="@dimen/padding_20"
+            android:textSize="@dimen/text_14"
             android:textColor="@color/black"
             android:gravity="center"/>
         <TextView
@@ -53,9 +53,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="待支付"
-            android:padding="20dp"
-            android:textSize="15sp"
+            android:text="@string/orderActivity_title03_text"
+            android:padding="@dimen/padding_20"
+            android:textSize="@dimen/text_14"
             android:textColor="@color/black"
             android:gravity="center"/>
         <TextView
@@ -63,9 +63,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="退款单"
-            android:padding="20dp"
-            android:textSize="15sp"
+            android:text="@string/orderActivity_title04_text"
+            android:padding="@dimen/padding_20"
+            android:textSize="@dimen/text_14"
             android:textColor="@color/black"
             android:gravity="center"/>
     </LinearLayout>

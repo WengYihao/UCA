@@ -1,34 +1,30 @@
 package com.cn.uca.ui;
 
 import android.content.Intent;
-import android.content.res.ObbInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.cn.uca.R;
-import com.cn.uca.bean.wechat.WeChatLogin;
 import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.config.wechat.WeChatManager;
-import com.cn.uca.impl.CallBack;
 import com.cn.uca.secretkey.Base64;
 import com.cn.uca.secretkey.MD5;
 import com.cn.uca.secretkey.RSAUtils;
+import com.cn.uca.server.QueryHttp;
+import com.cn.uca.ui.register.ForgetPasswordActivity;
+import com.cn.uca.ui.register.RegisterActivity;
+import com.cn.uca.ui.util.BaseHideActivity;
 import com.cn.uca.util.ActivityCollector;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.MyEditText;
-import com.cn.uca.wxapi.WXEntryActivity;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import org.apache.http.Header;
@@ -41,7 +37,6 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
     private MyEditText username,password;
     private TextView look,login,register,alipayLogin,weChatLogin,forgetPassword;
     private String name,code;
-    public static boolean isStart = false;
     public static boolean isLook = true;
 
     @Override
@@ -82,14 +77,18 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.look:
-                if (isLook){
-                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    look.setBackgroundResource(R.mipmap.home_select);
-                    isLook = false;
-                }else {
-                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    look.setBackgroundResource(R.mipmap.home_normal);
-                    isLook = true;
+                if (!StringXutil.isEmpty(password.getText().toString())){
+                    if (isLook){
+                        password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        look.setBackgroundResource(R.mipmap.notsee);
+                        isLook = false;
+                    }else {
+                        password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        look.setBackgroundResource(R.mipmap.cansee);
+                        isLook = true;
+                    }
+                }else{
+                    ToastXutil.show("密码为空，不能查看");
                 }
                 break;
             case R.id.login:
@@ -101,7 +100,7 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.alipayLogin:
-
+                ToastXutil.show("该功能暂未开放");
                 break;
             case R.id.weChatLogin:
                 SharePreferenceXutil.saveAccessToken("");
@@ -125,12 +124,13 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
             PublicKey publicKey = RSAUtils.loadPublicKey(Constant.PUBLIC_KEY);
             byte[] encryptByte = RSAUtils.encryptData(MD5.getMD5(passwordText).getBytes(), publicKey);
             String afterencrypt = Base64.encode(encryptByte);
-            MyApplication.getServer().phoneLogin(phoneNumber,afterencrypt, new AsyncHttpResponseHandler() {
+            QueryHttp.phoneLogin(phoneNumber,afterencrypt, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int i, Header[] headers, byte[] bytes) {
                     try {
                         if (i == 200){
                             JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
+                            Log.i("123",jsonObject.toString()+"--");
                             int code  = jsonObject.getInt("code");
                             switch (code){
                                 case 0:

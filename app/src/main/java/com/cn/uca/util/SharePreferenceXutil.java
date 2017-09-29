@@ -71,8 +71,25 @@ public class SharePreferenceXutil {
 	 * @return
 	 */
 	public static boolean isExit() {
-		boolean isAutoLogin = getSp().getBoolean("isExit", false);
-		return isAutoLogin;
+		boolean isExit = getSp().getBoolean("isExit", false);
+		return isExit;
+	}
+//
+	/**
+	 * 保存是否认证
+	 * @param isAuthentication ：true:已认证
+	 */
+	public static void setAuthentication(boolean isAuthentication) {
+		getSp().edit().putBoolean("isAuthentication", isAuthentication).commit();
+	}
+
+	/**
+	 * 获取是否认证
+	 * @return
+	 */
+	public static boolean isAuthentication() {
+		boolean isAuthentication = getSp().getBoolean("isAuthentication", false);
+		return isAuthentication;
 	}
 	/**
 	 * 获取极光推送id

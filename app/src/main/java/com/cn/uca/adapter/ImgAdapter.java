@@ -12,9 +12,12 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.util.OpenPhoto;
+import com.cn.uca.util.SetLayoutParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -57,17 +60,14 @@ public class ImgAdapter extends BaseAdapter{
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(context).inflate(R.layout.img_item, parent, false);
 			holder.pic = (SimpleDraweeView) convertView.findViewById(R.id.pic);
 			if (height != 0 && width != 0){
-				LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) holder.pic.getLayoutParams(); //取控件textView当前的布局参数
-				linearParams.height = this.height;// 控件的高强制设成20
-				linearParams.width = this.width;
-				holder.pic.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
+				SetLayoutParams.setLinearLayout(holder.pic, this.width,this.height);
 			}
 			convertView.setTag(holder);
 		} else {
@@ -75,6 +75,7 @@ public class ImgAdapter extends BaseAdapter{
 		}
 		Uri uri = Uri.parse(list.get(position));
 		holder.pic.setImageURI(uri);
+
 		return convertView;
 	}
 	class ViewHolder {

@@ -16,6 +16,7 @@ public class YueKaDetailsBean {
     private String user_head_portrait_url;
     private boolean collection;
     private String user_nick_name;
+    private String escort_record_name;
     private int sex_id;
     private ArrayList<PlacesBean> places;
     private String escort_details_url;
@@ -87,5 +88,9 @@ public class YueKaDetailsBean {
 
     public double getMax_consumption() {
         return max_consumption;
+    }
+
+    public String getEscort_record_name() {
+        return escort_record_name;
     }
 }

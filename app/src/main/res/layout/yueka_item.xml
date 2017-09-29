@@ -20,8 +20,10 @@
 
             <com.cn.uca.view.CircleImageView
                 android:id="@+id/pic"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/padding_50"
+                android:layout_height="@dimen/padding_50"
+                app:border_color="@color/white"
+                app:border_width="1dp"
                 android:background="@mipmap/user_pic" />
         </LinearLayout>
 
@@ -53,25 +55,25 @@
 
                 <TextView
                     android:id="@+id/sex"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/padding_20"
+                    android:layout_height="@dimen/padding_20"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@id/age"/>
+                    android:layout_marginLeft="@dimen/padding_10"
+                    android:layout_toRightOf="@id/age" />
 
                 <TextView
                     android:id="@+id/click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="@dimen/padding_12"
                     android:background="@mipmap/nocollection" />
             </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/padding_5"
                 android:orientation="horizontal">
 
                 <com.cn.uca.view.RatingStarView
@@ -89,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/padding_5"
                     android:text="4.7"
-                    android:textColor="@color/yellow"/>
+                    android:textColor="@color/yellow" />
 
                 <TextView
                     android:id="@+id/price"
@@ -118,18 +120,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <GridView
-                    android:id="@+id/lable"
+                <com.cn.uca.view.FluidLayout
+                    android:id="@+id/fluidLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:numColumns="3"></GridView>
+                    android:layout_height="wrap_content"></com.cn.uca.view.FluidLayout>
 
-                <GridView
+                <com.cn.uca.view.FluidLayout
                     android:id="@+id/img"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:horizontalSpacing="5dp"
-                    android:numColumns="2"></GridView>
+                    android:layout_height="wrap_content">
+                </com.cn.uca.view.FluidLayout>
             </LinearLayout>
 
             <LinearLayout

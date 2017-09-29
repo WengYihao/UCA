@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.IdentityActivity"
+    tools:context="com.cn.uca.ui.user.IdentityActivity"
     android:orientation="vertical"
     android:background="@color/white">
     <RelativeLayout
@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="身份认证"/>
+            android:text="@string/identityActivity_title_text"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:hint="请填写您的真实姓名"
+                android:hint="@string/identityActivity_name_hint"
                 android:padding="@dimen/padding_10"
                 android:textColor="@color/gray2"
                 android:textColorHint="@color/gray2"
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="姓名"
+                android:text="@string/identityActivity_name_text"
                 android:textSize="@dimen/text_18"/>
         </RelativeLayout>
         <ImageView
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:hint="请输入十八位居民身份证号码"
+                android:hint="@string/identityActivity_identity_num_hint"
                 android:padding="@dimen/padding_10"
                 android:textColor="@color/gray2"
                 android:textColorHint="@color/gray2"
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="身份证"
+                android:text="@string/identityActivity_identity_num_text"
                 android:textSize="@dimen/text_18"/>
         </RelativeLayout>
         <ImageView
@@ -95,17 +95,17 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1.请在下框规定的位置，上传手持本人身份证照片，要求有身份证的正面和反面。"
+            android:text="@string/identityActivity_text01"
             android:layout_marginTop="@dimen/padding_5"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="2.请保持证件照片五官清晰无遮挡，身份证能看清文字与图像。"
+            android:text="@string/identityActivity_text02"
             android:layout_marginTop="@dimen/padding_5"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="3.我们将在1-2个工作日内为您审核。"
+            android:text="@string/identityActivity_text03"
             android:layout_marginTop="@dimen/padding_5"/>
     </LinearLayout>
 
@@ -130,14 +130,15 @@
 
                 <TextView
                     android:id="@+id/facePic"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@color/aa" />
+                    android:layout_width="@dimen/padding_30"
+                    android:layout_height="@dimen/padding_30"
+                    android:background="@mipmap/add" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="人像面" />
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:text="@string/identityActivity_face_text" />
             </LinearLayout>
 
             <ImageView
@@ -170,14 +171,15 @@
 
                 <TextView
                     android:id="@+id/photoPic"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@color/aa" />
+                    android:layout_width="@dimen/padding_30"
+                    android:layout_height="@dimen/padding_30"
+                    android:background="@mipmap/add" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="国徽面" />
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:text="@string/identityActivity_vici_text" />
             </LinearLayout>
 
             <ImageView
@@ -197,7 +199,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/ori"
-            android:text="立即认证"
+            android:text="@string/identityActivity_submit_text"
             android:gravity="center"
             android:textColor="@color/white"
             android:padding="@dimen/padding_10"

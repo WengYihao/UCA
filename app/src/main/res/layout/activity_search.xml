@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.SearchActivity"
+    tools:context="com.cn.uca.ui.home.SearchActivity"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -42,11 +42,11 @@
             android:text="推荐搜索"
             android:textSize="18dp" />
 
-        <GridView
+        <com.cn.uca.view.FluidLayout
             android:id="@+id/recommendView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:numColumns="3"></GridView>
+            android:layout_height="wrap_content">
+        </com.cn.uca.view.FluidLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -59,11 +59,10 @@
             android:layout_height="wrap_content"
             android:text="历史搜索"
             android:textSize="18dp"/>
-        <GridView
+        <com.cn.uca.view.FluidLayout
             android:id="@+id/historyView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:numColumns="3">
-        </GridView>
+            android:layout_height="wrap_content">
+        </com.cn.uca.view.FluidLayout>
     </LinearLayout>
 </com.cn.uca.view.StatusView>

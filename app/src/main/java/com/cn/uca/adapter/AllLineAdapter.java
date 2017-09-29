@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cn.uca.R;
@@ -52,19 +53,20 @@ public class AllLineAdapter extends BaseAdapter{
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(context).inflate(R.layout.add_line_item, parent, false);
-			holder.logo = (TextView)convertView.findViewById(R.id.logo);
+			holder.logo = (ImageView)convertView.findViewById(R.id.logo);
 			holder.placeName = (TextView)convertView.findViewById(R.id.placeName);
-			holder.editText = (MyEditText) convertView.findViewById(R.id.editText);
+			holder.editText = (TextView) convertView.findViewById(R.id.editText);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.placeName.setText(list.get(position).getPlace_name());
-		holder.editText.setHint(list.get(position).getDeparture_address());
+		holder.editText.setText(list.get(position).getDeparture_address());
 		return convertView;
 	}
 	class ViewHolder {
-		TextView logo,placeName;
-		MyEditText editText;
+		ImageView logo;
+		TextView placeName;
+		TextView editText;
 	}
 }

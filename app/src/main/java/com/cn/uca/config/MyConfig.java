@@ -2,7 +2,7 @@ package com.cn.uca.config;
 
 public class MyConfig {
 	// 总接口
-	public static final String url = "http://119.23.210.252/youkatravel/api/";
+	public static final String url = "http://www.szyouka.com/youkatravel/api/";
 //	public static final String url = "http://192.168.1.104/youkatravel/api/";
 	public static final String text = "http://192.168.1.100/youkatravel/api/abnormal/getAbnormal.do";    //测试
 	public static final String sendCode = url+"user/query/sendSMS.do";//发送短信验证码
@@ -25,4 +25,14 @@ public class MyConfig {
 	public static final String getAllLine = url+"escort/query/getAllRoute.do";//获取伴游路线
 	public static final String deleteLine = url+"escort/update/deleteRoute.do";//删除路线
 	public static final String addLinePoint = url+"escort/update/addPlaces.do";//添加路线点
+	public static final String updateLineName = url+"escort/update/updateRoute.do";//修改路线名
+    public static final String getWallet = url+"user/query/queryBalance.do";//获取用户余额
+	public static final String getReleaseInfo = url+"escort/query/getReleaseInfo.do";//获取发布页面数据
+	public static final String collectionEscortRecord = url+"escort/update/collectionEscortRecord.do";//收藏/取消伴游
+	public static final String getCarouselFigures = url+ "home/query/getCarouselFigures.do";//获取轮播图
+	public static final String releaseEscortRecord = url+"escort/update/releaseEscortRecord.do";//发布伴游
+	public static final String newAppVersionAndroid = url+"home/query/newAppVersionAndroid.do";//版本更新
+	public static final String getUserState = url+"user/query/getUserState.do";//获取用户状态
+	public static final String fastLogin = url+"user/query/fastLogin.do";//快速登录
+	public static final String getEscortInfo = url+"escort/query/getEscortInfo.do";//获取约咖用户信息
 }

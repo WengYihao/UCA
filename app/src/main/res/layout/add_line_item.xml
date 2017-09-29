@@ -10,11 +10,13 @@
         android:orientation="horizontal"
         android:padding="@dimen/padding_5">
 
-        <TextView
+        <ImageView
             android:id="@+id/logo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@color/aa" />
+            android:layout_width="@dimen/padding_40"
+            android:layout_height="@dimen/padding_40"
+            android:background="@color/ori"
+            android:padding="@dimen/padding_8"
+            android:src="@mipmap/location"/>
 
         <TextView
             android:id="@+id/placeName"
@@ -22,15 +24,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/padding_10"
-            android:text="深圳北站"
             android:textColor="@color/black" />
 
-        <com.cn.uca.view.MyEditText
+        <TextView
             android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/padding_10"
-            android:background="@color/white" />
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
 
 </LinearLayout>

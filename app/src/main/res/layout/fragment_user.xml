@@ -5,86 +5,157 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.cn.uca.view.HeadZoomScrollView
+    <com.cn.uca.view.UserDefineScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/bbb"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/head"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@color/ori"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <LinearLayout
-                android:id="@+id/llTitle"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_below="@+id/bbb"
-                android:background="@color/white">
-
+                android:layout_height="200dp">
+                <RelativeLayout
+                    android:id="@+id/noneLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/ori">
+                </RelativeLayout>
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1">
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/myOrder"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/my_order" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_5"
-                        android:text="我的订单" />
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="1dp"
+                    android:id="@+id/llTitle"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="matrix"
-                    android:layout_marginTop="@dimen/padding_15"
-                    android:layout_marginBottom="@dimen/padding_15"
-                    android:src="@color/gray" />
+                    android:layout_below="@+id/noneLayout"
+                    android:background="@color/white">
 
-                <LinearLayout
-                    android:id="@+id/myCollection"
-                    android:layout_width="0dp"
-                    android:layout_height="80dp"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/my_collection" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_5"
-                        android:text="我的收藏" />
+                    <LinearLayout
+                        android:id="@+id/myOrder"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/my_order" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_5"
+                            android:text="我的订单" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:scaleType="matrix"
+                        android:layout_marginTop="@dimen/padding_15"
+                        android:layout_marginBottom="@dimen/padding_15"
+                        android:src="@color/gray" />
+
+                    <LinearLayout
+                        android:id="@+id/myCollection"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/my_collection" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_5"
+                            android:text="我的收藏" />
+                    </LinearLayout>
+
                 </LinearLayout>
+                <com.cn.uca.view.CircleImageView
+                    android:id="@+id/pic"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginLeft="@dimen/padding_10"
+                    android:src="@mipmap/user_pic"
+                    app:border_color="@color/white"
+                    app:border_width="1dp"
+                    android:layout_centerVertical="true" />
+                <RelativeLayout
+                    android:id="@+id/userInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/llTitle"
+                    android:layout_toRightOf="@id/pic"
+                    android:layout_marginLeft="@dimen/padding_10">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/nickName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="周某某"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/sex"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_toRightOf="@id/nickName"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:background="@color/white" />
+
+                    <TextView
+                        android:id="@+id/state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/sex"
+                        android:background="@drawable/search_background"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/grey2"
+                        android:textSize="10sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_40"
+                        android:src="@mipmap/right_white"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/padding_15"/>
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/loginLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/llTitle"
+                    android:layout_toRightOf="@id/pic"
+                    android:layout_marginLeft="@dimen/padding_10"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="登录/注册"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_22"/>
+
+                </RelativeLayout>
+            </RelativeLayout>
             <TextView
                 android:id="@+id/setting"
                 android:layout_width="wrap_content"
@@ -93,66 +164,11 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="@dimen/padding_10"
                 android:background="@mipmap/my_setting" />
-
-
-            <LinearLayout
-                android:id="@+id/userInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="155dp"
-                android:orientation="horizontal">
-
-                <com.cn.uca.view.CircleImageView
-                    android:id="@+id/pic"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/user_pic"
-                    app:border_color="@color/white"
-                    app:border_width="1dp" />
-
-                <TextView
-                    android:id="@+id/nickName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_20"
-                    android:layout_marginLeft="10dp"
-                    android:text="周某某"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/sex"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="@dimen/padding_15"
-                    android:layout_marginLeft="10dp"
-                    android:background="@color/aa" />
-
-                <TextView
-                    android:id="@+id/state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_15"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/search_background"
-                    android:textColor="@color/grey2"
-                    android:padding="@dimen/padding_2"
-                    android:textSize="10sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/padding_20"
-                    android:layout_marginLeft="@dimen/padding_40"
-                    android:src="@mipmap/right_white" />
-            </LinearLayout>
-
             <ImageView
                 android:id="@+id/line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@id/llTitle"
+                android:layout_below="@id/head"
                 android:scaleType="matrix"
                 android:src="@color/gray" />
             <RelativeLayout
@@ -345,7 +361,5 @@
                     android:src="@mipmap/right_gray" />
             </RelativeLayout>
         </RelativeLayout>
-
-    </com.cn.uca.view.HeadZoomScrollView>
-
+    </com.cn.uca.view.UserDefineScrollView>
 </com.cn.uca.view.StatusView>

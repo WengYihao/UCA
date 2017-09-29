@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.InfoSexActivity"
+    tools:context="com.cn.uca.ui.user.InfoSexActivity"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="选择性别"/>
+            android:text="@string/infoSexActivity_title_text"/>
         <TextView
             android:id="@+id/finish"
             android:layout_width="wrap_content"

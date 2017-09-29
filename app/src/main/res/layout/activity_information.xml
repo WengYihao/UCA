@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.InformationActivity"
+    tools:context="com.cn.uca.ui.user.InformationActivity"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -49,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/padding_10"
-                android:text="飞翔的小猪"
                 android:textSize="@dimen/text_14" />
 
             <ImageView
@@ -87,7 +86,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/padding_10"
-                android:text="男"
                 android:textSize="@dimen/text_14" />
 
             <ImageView
@@ -126,7 +124,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/padding_10"
-                android:text="1993-06-29"
                 android:textSize="@dimen/text_14" />
 
             <ImageView
@@ -159,7 +156,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_10"
                 android:layout_centerHorizontal="true"
-                android:text="15112360329"
                 android:textSize="@dimen/text_14" />
 
             <ImageView

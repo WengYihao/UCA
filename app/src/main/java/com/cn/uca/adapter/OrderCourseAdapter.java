@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.bean.OrderCourseBean;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.util.SetLayoutParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -56,10 +57,8 @@ public class OrderCourseAdapter extends BaseAdapter{
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(context).inflate(R.layout.order_course_item, parent, false);
 			holder.pic = (RelativeLayout)convertView.findViewById(R.id.pic);
-			LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) holder.pic.getLayoutParams(); //取控件textView当前的布局参数
-			linearParams.width = MyApplication.width*2/5;// 控件的高强制设成20
-			linearParams.height = linearParams.height*3/4;// 控件的宽强制设成30
-			holder.pic.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
+			holder.half = (RelativeLayout)convertView.findViewById(R.id.half);
+			SetLayoutParams.setLinearLayout(holder.pic,MyApplication.width*2/5,MyApplication.width/4);
 			holder.imageView  =(SimpleDraweeView)convertView.findViewById(R.id.imageView);
 			holder.num = (TextView)convertView.findViewById(R.id.num);
 			holder.time = (TextView)convertView.findViewById(R.id.time);
@@ -74,10 +73,11 @@ public class OrderCourseAdapter extends BaseAdapter{
 		holder.text.setText(list.get(position).getTime());
 		holder.place.setText(list.get(position).getPlace());
 		holder.text.setText(list.get(position).getText());
+		holder.half.getBackground().setAlpha(120);
 		return convertView;
 	}
 	class ViewHolder {
-		RelativeLayout pic;
+		RelativeLayout pic,half;
 		SimpleDraweeView imageView;
 		TextView num,time,place,text;
 	}

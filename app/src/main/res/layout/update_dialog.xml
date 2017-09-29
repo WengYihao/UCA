@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_20">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/text_18_ffffff"
+            android:layout_width="fill_parent"
+            android:layout_height="35dp"
+            android:background="@mipmap/title_back"
+            android:gravity="center"
+            android:text="升级提示"
+            android:textColor="@color/black" />
+
+        <ImageView
+            android:id="@+id/iv_bottom_line"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:scaleType="matrix"
+            android:src="@color/ori" />
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></WebView>
+
+            <ImageView
+                android:id="@+id/iv_bottom_line2"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/padding_30"
+                android:layout_marginRight="@dimen/padding_30"
+                android:scaleType="matrix"
+                android:src="@color/ori" />
+
+        </LinearLayout>
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:scaleType="matrix"
+            android:src="@color/ori" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/padding_40"
+            android:layout_gravity="bottom"
+            android:background="@mipmap/btn_back"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/positiveButton"
+                style="@style/text_15_ffffff_sdw"
+                android:layout_width="80dp"
+                android:layout_height="@dimen/padding_30"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:background="@mipmap/btn_ok_selector"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/ori" />
+
+            <Button
+                android:id="@+id/negativeButton"
+                style="@style/text_15_666666_sdw"
+                android:layout_width="80dp"
+                android:layout_height="@dimen/padding_30"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:layout_marginRight="@dimen/padding_20"
+                android:background="@mipmap/btn_cancel_selector"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

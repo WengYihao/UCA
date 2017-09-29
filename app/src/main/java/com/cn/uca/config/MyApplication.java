@@ -35,17 +35,12 @@ public class MyApplication extends Application {
 	private static Context mContext;
 	public static int width;
 	public static int height;
-	public static QueryHttp server;
 	public static WeChatAccessToken accessToken;
 	// 创建一个以当前时间为名称的文件
 	public static File tempFile = new File(Environment.getExternalStorageDirectory(), SystemUtil.getPhotoFileName());
 
 	public static Context getContext() {
 		return mContext;
-	}
-
-	public static QueryHttp getServer(){
-		return server;
 	}
 
 	public void setAccessToken(WeChatAccessToken accessToken) {
@@ -79,12 +74,9 @@ public class MyApplication extends Application {
 		ImageLoader.getInstance().init(config);
 		// 上下文
 		mContext = getApplicationContext();
-		server = new QueryHttp();
 
 		JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
-//        Log.i("999", JPushInterface.getRegistrationID(getApplicationContext())+"****************");
-//        SharePreferenceXutil.saveChannelId(JPushInterface.getRegistrationID(getApplicationContext()));
 		queue = Volley.newRequestQueue(getApplicationContext());
 
 		regToWeChat();
@@ -129,7 +121,7 @@ public class MyApplication extends Application {
 			ToastXutil.show("手机号不能为空");
 		}else{
 			if (StringXutil.isPhoneNumberValid(code) && code.length() == 11){
-				getServer().sendCode(code, new CallBack() {
+				QueryHttp.sendCode(code, new CallBack() {
 					@Override
 					public void onResponse(Object response) {
 						Log.i("123",response.toString());

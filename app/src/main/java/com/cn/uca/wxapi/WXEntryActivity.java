@@ -14,6 +14,7 @@ import com.cn.uca.bean.wechat.WeChatLogin;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.server.QueryHttp;
 import com.cn.uca.ui.LoginActivity;
 import com.cn.uca.ui.MainActivity;
 import com.cn.uca.util.ActivityCollector;
@@ -61,7 +62,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
                     SendAuth.Resp newResp = (SendAuth.Resp) resp;
                     String code = newResp.code;
                     //获取微信传回的code--------
-                    MyApplication.getServer().getWeChatAccessToken(code,this) ;
+                    QueryHttp.getWeChatAccessToken(code,this) ;
                 }
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -85,6 +86,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
     public void onResponse(Object response) {
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
+            Log.i("123",jsonObject.toString()+"---");
             Gson gson = new Gson();
             WeChatAccessToken token = gson.fromJson(jsonObject.toString(),new TypeToken<WeChatAccessToken>(){}.getType());
             MyApplication.getInstance().setAccessToken(token);
@@ -110,12 +112,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
     }
 
     private void startLogin() {
-        Log.i("123",SharePreferenceXutil.getChannelId()+"---");
         WeChatLogin weChatLogin = new WeChatLogin();
         weChatLogin.setRegistration_id(SharePreferenceXutil.getChannelId());
         weChatLogin.setAccess_token(MyApplication.getAccessToken().getAccess_token());
         weChatLogin.setOpenid(MyApplication.getAccessToken().getOpenId());
-        MyApplication.getServer().WeChatLogin(weChatLogin, new CallBack() {
+        QueryHttp.WeChatLogin(weChatLogin, new CallBack() {
             @Override
             public void onResponse(Object response) {
                 if (response != null){
@@ -140,6 +141,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
 
             @Override
             public void onError(VolleyError error) {
+                Log.i("456",error.getMessage()+"---");
                 ToastXutil.show("报错了");
             }
         });

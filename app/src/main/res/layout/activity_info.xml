@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.InfoActivity"
+    tools:context="com.cn.uca.ui.user.InfoActivity"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -18,8 +18,7 @@
 
         <TextView
             android:id="@+id/title"
-            style="@style/style_title"
-            android:text="编辑昵称"/>
+            style="@style/style_title"/>
 
         <TextView
             android:id="@+id/finish"

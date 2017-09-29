@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@color/aa"
+            android:background="@mipmap/logo"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
 
@@ -62,9 +62,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@mipmap/phone_back"
                         android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/username"
-                        android:background="@mipmap/home_select" />
+                        android:layout_toLeftOf="@+id/username"
+                        android:layout_toStartOf="@+id/username" />
                 </RelativeLayout>
 
                 <ImageView
@@ -112,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@id/password"
-                        android:background="@mipmap/home_select" />
+                        android:background="@mipmap/password_back" />
 
                     <TextView
                         android:id="@+id/look"
@@ -120,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/password"
-                        android:background="@mipmap/home_normal" />
+                        android:background="@mipmap/notsee" />
                 </RelativeLayout>
 
                 <ImageView
@@ -175,10 +176,10 @@
 
                 <TextView
                     android:id="@+id/alipayLogin"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:background="@color/aa" />
+                    android:background="@mipmap/alipay_login_white" />
 
                 <TextView
                     android:id="@+id/weChatLogin"
@@ -187,7 +188,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/padding_20"
                     android:layout_toRightOf="@id/alipayLogin"
-                    android:background="@mipmap/icon64_wx_logo" />
+                    android:background="@mipmap/wechat_login_white" />
             </RelativeLayout>
 
             <TextView

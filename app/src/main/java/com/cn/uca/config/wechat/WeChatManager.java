@@ -17,6 +17,7 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.server.QueryHttp;
 import com.cn.uca.util.wechat.Util;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -271,7 +272,7 @@ public class WeChatManager {
 	}
 
 	public void getAccessToken(WeChatLogin weChatLogin, CallBack callBack) {
-		MyApplication.getServer().WeChatLogin(weChatLogin,callBack);
+		QueryHttp.WeChatLogin(weChatLogin,callBack);
 	}
 //
 //	public void refreshAccessToken(WxAccessTokenResp resp) {

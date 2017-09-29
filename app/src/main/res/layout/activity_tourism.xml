@@ -1,123 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.TourismActivity">
+    tools:context="com.cn.uca.ui.home.TourismActivity">
 
     <RelativeLayout
         android:id="@+id/llImg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <ImageView
             android:id="@+id/img"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="fitXY"
-            android:src="@mipmap/edc" />
-
-        <TextView
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:src="@mipmap/tourism_back" />
     </RelativeLayout>
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/llTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_10">
-        <TextView
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/padding_20">
+        <ImageView
             android:id="@+id/back"
-            style="@style/style_back"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:src="@mipmap/circular_back"/>
 
         <RelativeLayout
-            android:layout_width="250dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="@dimen/padding_10"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/padding_30"
             android:background="@drawable/search_background"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true">
-
-            <TextView
-                android:id="@+id/city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_centerVertical="true"
-                android:text="深圳"/>
-
-            <ImageView
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:scaleType="matrix"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/city"
-                android:src="@color/grey2" />
-
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:layout_marginRight="@dimen/padding_10">
             <com.cn.uca.view.MyEditText
-                android:layout_toRightOf="@id/city"
                 android:id="@+id/seach"
-                android:layout_width="250dp"
-                android:layout_height="24dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/padding_25"
+                android:layout_marginRight="@dimen/padding_8"
+                android:layout_marginLeft="@dimen/padding_8"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
                 android:textCursorDrawable="@drawable/loginactivity_cursor_color"
                 android:layout_centerVertical="true"
                 android:background="@color/white"
-                android:hint="搜索关键词"
-                android:textSize="10sp" />
+                android:hint="@string/tourismActivitySeach_Hint_text"
+                android:textSize="@dimen/text_12" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/more"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@drawable/circular_background"
+            android:background="@mipmap/more"
             android:layout_centerVertical="true"
-            android:text="---"
             android:layout_marginRight="10dp"
             android:textColor="@color/white"
-            android:textSize="30dp"
             android:gravity="center"/>
-    </RelativeLayout>
+    </LinearLayout>
     <RelativeLayout
         android:id="@+id/llList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/llImg">
+        android:layout_below="@id/llImg"
+        android:background="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="当季旅游风向"
-            android:padding="8dp"
-            android:textSize="18sp"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/right" />
+            android:text="@string/tourismActivity_layout_text"
+            android:padding="@dimen/padding_12"
+            android:textSize="@dimen/text_14"/>
     </RelativeLayout>
     <LinearLayout
         android:id="@+id/llPlace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/llList">
+        android:layout_below="@id/llList"
+        android:background="@color/white">
         <com.cn.uca.view.HorizontalListView
             android:id="@+id/llName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_20"
+            android:layout_marginRight="@dimen/padding_12">
         </com.cn.uca.view.HorizontalListView>
     </LinearLayout>
     <LinearLayout
@@ -127,74 +98,79 @@
         android:orientation="horizontal"
         android:layout_below="@id/llPlace"
         android:background="@color/gray"
-        android:padding="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="@dimen/padding_10">
         <LinearLayout
+            android:id="@+id/layout1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
             android:background="@color/white"
-            android:padding="12dp">
+            android:padding="@dimen/padding_12">
 
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/aa"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="周边游"
-                android:layout_marginTop="5dp"/>
+                android:background="@mipmap/around_travel_back"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tourismActivity_layout1_text"
+                android:layout_marginTop="@dimen/padding_8"/>
         </LinearLayout>
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:scaleType="matrix"
             android:src="@color/grey2" />
+
         <LinearLayout
+            android:id="@+id/layout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
             android:background="@color/white"
-            android:padding="12dp">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_12">
 
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/aa"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="国内游"
-                android:layout_marginTop="5dp"/>
+                android:background="@mipmap/domestic_tourism_back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8"
+                android:text="@string/tourismActivity_layout2_text" />
         </LinearLayout>
+
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:scaleType="matrix"
             android:src="@color/grey2" />
         <LinearLayout
+            android:id="@+id/layout3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
             android:background="@color/white"
-            android:padding="12dp">
+            android:padding="@dimen/padding_12">
 
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/aa"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="出境游"
-                android:layout_marginTop="5dp"/>
+                android:background="@mipmap/outbound_travel_back"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tourismActivity_layout3_text"
+                android:layout_marginTop="@dimen/padding_8"/>
         </LinearLayout>
     </LinearLayout>
     <RelativeLayout
@@ -202,21 +178,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/llTouris">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="特色出行"
-            android:padding="8dp"
-            android:textSize="18sp"/>
-
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/right" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:scaleType="matrix"
+            android:src="@color/grey2" />
     </RelativeLayout>
     <LinearLayout
         android:id="@+id/llTouris2"
@@ -224,26 +190,28 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/llTitle2"
-        android:background="@color/white"
-        android:padding="10dp">
+        android:background="@color/white">
         <LinearLayout
+            android:id="@+id/layout4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
             android:background="@color/white"
-            android:padding="12dp">
+            android:padding="@dimen/padding_12">
 
             <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/aa"/>
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/custom_tour_back" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="定制游"
-                android:layout_marginTop="5dp"/>
+                android:text="@string/tourismActivity_layout4_text"
+                android:layout_marginTop="@dimen/padding_8"/>
         </LinearLayout>
         <ImageView
             android:layout_width="1dp"
@@ -251,23 +219,24 @@
             android:scaleType="matrix"
             android:src="@color/grey2" />
         <LinearLayout
+            android:id="@+id/layout5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
             android:background="@color/white"
-            android:padding="12dp">
+            android:padding="@dimen/padding_12">
 
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/aa"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="亲子游"
-                android:layout_marginTop="5dp"/>
+                android:background="@mipmap/parentchild_travel_back"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tourismActivity_layout5_text"
+                android:layout_marginTop="@dimen/padding_8"/>
         </LinearLayout>
         <ImageView
             android:layout_width="1dp"
@@ -275,47 +244,24 @@
             android:scaleType="matrix"
             android:src="@color/grey2" />
         <LinearLayout
+            android:id="@+id/layout6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center"
             android:background="@color/white"
-            android:padding="12dp">
+            android:padding="@dimen/padding_12">
 
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/aa"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="蜜月游"
-                android:layout_marginTop="5dp"/>
-        </LinearLayout>
-        <ImageView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:scaleType="matrix"
-            android:src="@color/grey2" />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@color/white"
-            android:padding="12dp">
-
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/aa"/>
+                android:background="@mipmap/honeymoon_tour_back"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="景点门票"
-                android:layout_marginTop="5dp"/>
+                android:text="@string/tourismActivity_layout6_text"
+                android:layout_marginTop="@dimen/padding_8"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

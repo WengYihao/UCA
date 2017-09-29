@@ -27,6 +27,10 @@ public class ToastDialog {
                 dialog.dismiss();
                 // 设置你的操作事项
                 SharePreferenceXutil.setExit(true);
+                SharePreferenceXutil.setSuccess(false);
+                SharePreferenceXutil.saveAccountToken("");
+                SharePreferenceXutil.saveAccessToken("");
+                SharePreferenceXutil.setAuthentication(false);
                 context.startActivity(new Intent(context, LoginActivity.class));
                 ActivityCollector.finishAll();
             }

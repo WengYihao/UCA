@@ -471,7 +471,7 @@ public class SystemUtil
 	 */
 	public static int dip2px(float dpValue) 
 	{
-		Context context = MyApplication.getInstance();
+		Context context = MyApplication.getContext();
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (dpValue * scale + 0.5f);
 	}

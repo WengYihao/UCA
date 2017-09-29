@@ -1,35 +1,89 @@
 package com.cn.uca.ui;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
+import com.cn.uca.impl.CallBack;
+import com.cn.uca.popupwindows.ShowPopupWindow;
+import com.cn.uca.server.QueryHttp;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SharePreferenceXutil;
+
+import org.json.JSONObject;
 
 public class LoadActivity extends AppCompatActivity {
 
     private TimeCount time;
-    private TextView timeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_load);
-
-        initView();
         initTime();
+        judgeState();
     }
 
-    private void initView(){
-        timeTextView = (TextView)findViewById(R.id.time);
-    }
+    private void judgeState(){
+        if (SharePreferenceXutil.isSuccess()){//登录过
+            Log.i("123","......");
+            QueryHttp.fastLogin(new CallBack() {
+                @Override
+                public void onResponse(Object response) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.toString());
+                        SharePreferenceXutil.saveAccountToken(jsonObject.getString("account_token"));
+                    }catch (Exception e){
 
+                    }
+                }
+
+                @Override
+                public void onErrorMsg(String errorMsg) {
+                    Log.i("789",errorMsg+"***");
+                }
+
+                @Override
+                public void onError(VolleyError error) {
+
+                }
+            });
+        }else {//没有
+            Log.i("123","*****");
+        }
+    }
     private void initTime(){
         time = new TimeCount(3000, 1000);// 构造CountDownTimer对象
         time.start();
+    }
+
+    /**
+     * 获取当前版本号
+     * @return
+     */
+    private String getVersion()
+    {
+        try {
+            PackageManager packageManager = getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(
+                    getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "版本号未知";
+        }
     }
 
     class TimeCount extends CountDownTimer {
@@ -39,30 +93,15 @@ public class LoadActivity extends AppCompatActivity {
 
         @Override
         public void onFinish() {// 计时完毕时触发
-            if (SharePreferenceXutil.isSuccess()){
-                if (SharePreferenceXutil.isExit()) {
-                    Intent intent = new Intent();
-                    intent.setClass(LoadActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    LoadActivity.this.finish();
-                }
-                else {
-                    Intent intent = new Intent();
-                    intent.setClass(LoadActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    LoadActivity.this.finish();
-                }
-            }else{
-                Intent intent = new Intent();
-                intent.setClass(LoadActivity.this, LoginActivity.class);
-                startActivity(intent);
-                LoadActivity.this.finish();
-            }
+            Intent intent = new Intent();
+            intent.setClass(LoadActivity.this, MainActivity.class);
+            startActivity(intent);
+            LoadActivity.this.finish();
+            overridePendingTransition(R.anim.activity_right_in,R.anim.activity_right_out);
         }
 
         @Override
         public void onTick(long millisUntilFinished) {// 计时过程显示
-            timeTextView.setText(millisUntilFinished / 1000 + "s");
         }
     }
 }

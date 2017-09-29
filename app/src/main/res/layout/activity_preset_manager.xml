@@ -1,52 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.PresetManagerActivity"
+    tools:context="com.cn.uca.ui.yueka.PresetManagerActivity"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_50"
         android:background="@color/ori"
-        android:orientation="horizontal">
+        android:layout_below="@+id/stateTitle">
 
         <TextView
             android:id="@+id/back"
-            style="@style/style_back"
-            android:layout_gravity="center_vertical"/>
+            style="@style/style_back"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/padding_10"
-            android:orientation="horizontal"
-            android:gravity="center">
+        <TextView
+            style="@style/style_title"
+            android:text="路线预设"/>
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/line"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="路线预设"
-                android:textSize="@dimen/text_20" />
-
-            <TextView
-                android:id="@+id/details"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="详情预设"
-                android:textSize="@dimen/text_20"
-                android:gravity="center"/>
-        </LinearLayout>
-    </LinearLayout>
-    <FrameLayout
+    <ScrollView
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></FrameLayout>
-</LinearLayout>
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.cn.uca.view.RdListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:descendantFocusability="afterDescendants">
+            </com.cn.uca.view.RdListView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/listView"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="@dimen/padding_8">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/add"/>
+
+                <TextView
+                    android:id="@+id/add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="添加路线"
+                    android:textColor="@color/ori"
+                    android:textSize="@dimen/text_22"
+                    android:layout_marginLeft="@dimen/padding_8"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</com.cn.uca.view.StatusView>

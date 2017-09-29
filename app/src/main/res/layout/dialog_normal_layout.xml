@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:orientation="vertical"
-    android:padding="20.0dip" >
+    android:padding="@dimen/padding_20" >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -28,8 +28,8 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:scaleType="matrix"
-             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+             android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
             android:src="@color/ori" />
 
         <LinearLayout
@@ -43,9 +43,9 @@
                 style="@style/text_16_666666"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:background="@mipmap/my_message"
+                android:layout_marginLeft="@dimen/padding_30"
+                android:layout_marginRight="@dimen/padding_30"
+                android:background="@color/white"
                 android:gravity="center"
                 android:lineSpacingMultiplier="1.5"
                 android:minHeight="120dp" />
@@ -55,28 +55,28 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:scaleType="matrix"
-             android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+             android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
             android:src="@color/ori" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/padding_40"
             android:layout_gravity="bottom"
             android:background="@mipmap/btn_back"
             android:gravity="center"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
             android:orientation="horizontal" >
 
             <Button
                 android:id="@+id/positiveButton"
                 style="@style/text_15_ffffff_sdw"
                 android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="20dp"
+                android:layout_height="@dimen/padding_30"
+                android:layout_marginLeft="@dimen/padding_20"
                 android:background="@mipmap/btn_ok_selector"
                 android:textColor="@color/ori"
                 android:gravity="center"/>
@@ -85,9 +85,9 @@
                 android:id="@+id/negativeButton"
                 style="@style/text_15_666666_sdw"
                 android:layout_width="80dp"
-                android:layout_height="30dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="20dp"
+                android:layout_height="@dimen/padding_30"
+                android:layout_marginRight="@dimen/padding_20"
+                android:layout_marginLeft="@dimen/padding_20"
                 android:textColor="@color/gray"
                 android:background="@mipmap/btn_cancel_selector"
                 android:gravity="center" />

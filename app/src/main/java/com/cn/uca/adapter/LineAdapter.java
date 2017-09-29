@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cn.uca.R;
@@ -54,18 +55,19 @@ public class LineAdapter extends BaseAdapter{
 			convertView = LayoutInflater.from(context).inflate(R.layout.line_item, parent, false);
 			holder.logo = (TextView)convertView.findViewById(R.id.logo);
 			holder.placeName = (TextView)convertView.findViewById(R.id.placeName);
-			holder.icon = (TextView)convertView.findViewById(R.id.icon);
+			holder.icon = (ImageView)convertView.findViewById(R.id.icon);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.placeName.setText(list.get(position).getPlace_name());
+		holder.placeName.setText(list.get(position).getDeparture_address());
 		if (position != list.size()-1){
 			holder.icon.setVisibility(View.VISIBLE);
 		}
 		return convertView;
 	}
 	class ViewHolder {
-		TextView logo,placeName,icon;
+		TextView logo,placeName;
+		ImageView icon;
 	}
 }

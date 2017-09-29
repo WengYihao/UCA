@@ -50,4 +50,15 @@ public class WeChatLogin {
     public void setValid_time(long valid_time) {
         this.valid_time = valid_time;
     }
+
+    @Override
+    public String toString() {
+        return "WeChatLogin{" +
+                "registration_id='" + registration_id + '\'' +
+                ", access_token='" + access_token + '\'' +
+                ", openid='" + openid + '\'' +
+                ", account_token='" + account_token + '\'' +
+                ", valid_time=" + valid_time +
+                '}';
+    }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.YueChatActivity"
+    tools:context="com.cn.uca.ui.yueka.YueChatActivity"
     android:background="@color/gray">
     <TextView
         android:id="@+id/stateTitle"
@@ -24,7 +24,8 @@
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="约咖详情"/>
+            android:text="约咖详情"
+            android:maxEms="10"/>
         <TextView
             android:id="@+id/collection"
             android:layout_width="wrap_content"
@@ -55,6 +56,8 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="@dimen/padding_30"
+                    app:border_color="@color/white"
+                    app:border_width="1dp"
                     android:background="@mipmap/user_pic"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -76,9 +79,8 @@
                         android:layout_marginLeft="@dimen/padding_10"/>
                     <TextView
                         android:id="@+id/sex"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/aa"
+                        android:layout_width="@dimen/padding_20"
+                        android:layout_height="@dimen/padding_20"
                         android:layout_marginLeft="@dimen/padding_10"
                         android:layout_gravity="center_vertical"/>
                 </LinearLayout>
@@ -91,26 +93,11 @@
                     app:starForegroundColor="@color/yellow"
                     app:starNum="5"
                     android:layout_marginTop="@dimen/padding_10"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/padding_10">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="包车"
-                        android:background="@drawable/shape_gray_back"
-                        android:padding="@dimen/padding_8"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="已认证"
-                        android:background="@drawable/shape_gray_back"
-                        android:padding="@dimen/padding_8"
-                        android:layout_marginLeft="@dimen/padding_10"/>
-                </LinearLayout>
+                <com.cn.uca.view.FluidLayout
+                    android:id="@+id/lable"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                </com.cn.uca.view.FluidLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -156,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:padding="20dp"
+                    android:padding="@dimen/padding_10"
                     android:text="详情"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
@@ -167,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:padding="20dp"
+                    android:padding="@dimen/padding_10"
                     android:text="伴游历程"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_16" />

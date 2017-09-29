@@ -7,6 +7,7 @@
         android:name="com.cn.uca.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
     <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -44,7 +45,7 @@
     <application
         android:name=".config.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -52,7 +53,7 @@
         <!-- 高德 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="a53dfb61c301878909105172675a8348" />
+            android:value="89b9110c5c5aed54d4994691d3ed0d4b" />
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
 
@@ -124,7 +125,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -154,6 +154,7 @@
             </intent-filter>
         </receiver>
         <!-- Required  . Enable it you can get statistics data with channel -->
+        <service android:name=".receiver.UpdateService"></service>
         <meta-data
             android:name="JPUSH_CHANNEL"
             android:value="developer-default" />
@@ -161,52 +162,90 @@
             android:name="JPUSH_APPKEY"
             android:value="541edc96fd6fdb5066972eb3" />
 
-        <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".ui.WelcomActivity" />
-        <activity android:name=".ui.ImagePagerActivity" />
-        <activity android:name=".ui.LocationActivity" />
-        <activity android:name=".ui.CityActivity" />
-        <activity android:name=".ui.PlaneTicketActivity" />
-        <activity android:name=".ui.HotleActivity" />
-        <activity android:name=".ui.TourismActivity" />
+        <activity android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.WelcomActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.util.ImagePagerActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.LocationActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.util.CityActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.home.PlaneTicketActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.home.HotleActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.home.TourismActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:exported="true" />
-        <activity android:name=".ui.RaidersActivity" />
-        <activity android:name=".ui.SearchActivity" />
-        <activity android:name=".ui.IndianaActivity" />
-        <activity android:name=".ui.SettingActivity" />
-        <activity android:name=".ui.InformationActivity" />
-        <activity android:name=".ui.OrderActivity" />
-        <activity android:name=".ui.CollectionActivity" />
-        <activity android:name=".ui.WalletActivity" />
-        <activity android:name=".ui.LoadActivity">
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.home.RaidersActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.home.SearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.user.SettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.user.InformationActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.user.OrderActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.user.CollectionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.user.WalletActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.LoadActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.InfoActivity" />
-        <activity android:name=".ui.InfoSexActivity" />
-        <activity android:name=".ui.RegisterActivity" />
-        <activity android:name=".ui.SettingPasswordActivity" />
-        <activity android:name=".ui.UpdatePasswordActivity" />
-        <activity android:name=".ui.ForgetPasswordActivity" />
-        <activity android:name=".ui.WebViewActivity" />
-        <activity android:name=".ui.YueChatActivity" />
-        <activity android:name=".ui.OrderYueActivity" />
-        <activity android:name=".ui.IdentityActivity" />
-        <activity android:name=".ui.BaseHideActivity" />
-        <activity android:name=".ui.Main2Activity" />
-        <activity android:name=".swipeback.SwipeBackActivity" />
-        <activity android:name=".ui.BaseBackActivity" />
+        <activity android:name=".ui.user.InfoActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.user.InfoSexActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.register.RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.register.SettingPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.user.UpdatePasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.register.ForgetPasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.yueka.DetailsWebActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.yueka.YueChatActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.yueka.OrderYueActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.user.IdentityActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.util.BaseHideActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.Main2Activity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".swipeback.SwipeBackActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.util.BaseBackActivity"
+            android:screenOrientation="portrait"/>
         <activity
-            android:name=".ui.PresetManagerActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".ui.LineChoiceActivity" />
-        <activity android:name=".ui.AddTourismLineActivity"></activity>
+            android:name=".ui.yueka.PresetManagerActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.yueka.LineChoiceActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.yueka.SendYueKaActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.yueka.OtherYueActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.register.RegisterWebActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

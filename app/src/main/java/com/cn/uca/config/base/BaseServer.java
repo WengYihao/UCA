@@ -87,12 +87,13 @@ public class BaseServer {
 		quene.add(request);
 	}
 
-	public void post3(String url, final Map<String, String> map, final CallBack callBack) {
+	public static void post3(String url, final Map<String, String> map, final CallBack callBack) {
 		RequestQueue quene = MyApplication.getHttpQueue();
 		StringRequest stringRequest = new StringRequest(Method.POST, url, new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 				if (response != null) {
+					Log.i("post3",response.toString());
 					try {
 						JSONObject jsonObject = new JSONObject(response);
 						int code = jsonObject.getInt("code");
@@ -102,7 +103,7 @@ public class BaseServer {
 							callBack.onErrorMsg(jsonObject.getString("msg").toString());
 						}
 					}catch (Exception e){
-						Log.i("456",e.getMessage()+"封装报错");
+						Log.i("post3 erroe",e.getMessage()+"封装报错");
 					}
 
 				}
@@ -113,12 +114,12 @@ public class BaseServer {
 				if (error != null) {
 					callBack.onError(error);
 				}
-				Log.i("456", error.getMessage() + "-报错" + error.getMessage());
+				Log.i("post3 erroe", error.getMessage() + "-报错" );
 			}
 		}) {
 			@Override
 			protected Map<String, String> getParams() throws AuthFailureError {
-				Log.i("456", map.toString() + "传递参数");
+				Log.i("post3 map", map.toString() + "传递参数");
 				return map;
 			}
 		};
@@ -126,15 +127,14 @@ public class BaseServer {
 		quene.add(stringRequest);
 	}
 
-	public void post4(String url, final Map<String, String> map, final CallBack callBack) {
+	public static void post4(String url, final Map<String, String> map, final CallBack callBack) {
 		RequestQueue quene = MyApplication.getHttpQueue();
 		StringRequest stringRequest = new StringRequest(Method.POST, url, new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 				if (response != null) {
-					Log.i("123",response.toString()+"*************");
+					Log.i("post4",response.toString()+"*************");
 					try {
-//						callBack.onResponse(response);
 						JSONObject jsonObject = new JSONObject(response);
 						int code = jsonObject.getInt("code");
 						if (code == 0){
@@ -143,7 +143,7 @@ public class BaseServer {
 							callBack.onErrorMsg(jsonObject.getString("msg").toString());
 						}
 					}catch (Exception e){
-						Log.i("456",e.getMessage()+"封装报错");
+						Log.i("post4",e.getMessage()+"封装报错");
 					}
 
 				}
@@ -154,12 +154,12 @@ public class BaseServer {
 				if (error != null) {
 					callBack.onError(error);
 				}
-				Log.i("456", error.getMessage() + "-报错");
+				Log.i("post4", error.getMessage() + "-报错");
 			}
 		}) {
 			@Override
 			protected Map<String, String> getParams() throws AuthFailureError {
-				Log.i("456", map.toString() + "传递参数");
+				Log.i("post4", map.toString() + "传递参数");
 				return map;
 			}
 		};
@@ -174,7 +174,7 @@ public class BaseServer {
 	 * @param map
 	 * @param callback
 	 */
-	public void get(String url, Map<String, Object> map, final CallBack callback) {
+	public static void get(String url, Map<String, Object> map, final CallBack callback) {
 		String params = "";
 		if (map != null) {
 			Set<?> entries = map.entrySet();

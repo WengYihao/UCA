@@ -6,12 +6,10 @@
     android:gravity="center"
     android:padding="@dimen/padding_20">
 
-    <GridView
+    <com.cn.uca.view.FluidLayout
         android:id="@+id/pic"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="3">
-    </GridView>
+        android:layout_height="wrap_content"></com.cn.uca.view.FluidLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:drawableLeft="@mipmap/home_select"
+            android:drawableLeft="@mipmap/comment"
             android:text="10"
             android:layout_marginTop="@dimen/padding_5"
             android:gravity="center"/>

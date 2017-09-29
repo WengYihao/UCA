@@ -356,8 +356,5 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
             viewRect.set(left, top, right, bottom);  
             return viewRect.contains((int) e.getRawX(), (int) e.getRawY());  
         }  
-    };  
-  
-      
-  
+    };
 }  

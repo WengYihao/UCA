@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/place"
@@ -22,18 +23,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="2"
-                android:gravity="center"
                 android:padding="5dp"
-                android:text="北京"
-                android:textColor="@color/black"
+                android:text="深圳市罗湖区深南东路"
                 android:textSize="20dp" />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:scaleType="matrix"
-                android:src="@color/grey2" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -44,7 +37,7 @@
                 android:id="@+id/end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="上海"
+                android:text="当前位置"
                 android:padding="5dp"
                 android:gravity="center"
                 android:drawableTop="@mipmap/home_select"
@@ -52,7 +45,13 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="matrix"
+        android:src="@color/grey2" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -63,43 +62,78 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="入住" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="8月23日"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_16" />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8月23日"
-                android:padding="5dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="(周三入住)"
-                android:layout_marginLeft="5dp"/>
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:text="（周三）" />
         </LinearLayout>
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:scaleType="matrix"
-            android:src="@color/grey2" />
+            android:src="@color/grey2"/>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="离开" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="8月23日"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_16" />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8月23日"
-                android:padding="5dp"
-                android:textColor="@color/black"
-                android:textSize="20dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="(周三离开)"
-                android:layout_marginLeft="5dp"/>
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:text="（周三）" />
         </LinearLayout>
     </LinearLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -116,7 +150,9 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="关键字/地名/品牌/酒店名"/>
+            android:background="@color/white"
+            android:hint="关键字/地名/品牌/酒店名"
+            android:layout_marginLeft="@dimen/padding_15"/>
     </LinearLayout>
 
     <ImageView
@@ -134,8 +170,17 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="价格/星级"/>
+            android:background="@color/white"
+            android:hint="价格/星级"
+            android:layout_marginLeft="@dimen/padding_15"/>
     </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="matrix"
+        android:src="@color/grey2" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -151,6 +196,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
+            android:textColor="@color/white"
             android:background="@color/ori"/>
         <TextView
             android:layout_width="50dp"
@@ -167,12 +213,12 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
             android:text="搜索"
             android:gravity="center_vertical"
             android:textSize="20sp"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
             android:background="@color/white"
             android:orientation="vertical">
@@ -189,11 +235,11 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:background="@color/white"
             android:orientation="vertical">
 

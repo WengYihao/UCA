@@ -16,6 +16,7 @@ import com.cn.uca.R;
 
 /**
  * Created by asus on 2017/9/18.
+ * 嵌套scollview的listview
  */
 
 public class RdListView extends ListView {

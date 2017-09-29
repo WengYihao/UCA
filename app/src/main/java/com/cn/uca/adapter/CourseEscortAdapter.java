@@ -1,6 +1,8 @@
 package com.cn.uca.adapter;
 
 import android.content.Context;
+import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,15 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.adapter.ImgAdapter;
 import com.cn.uca.bean.CourseEscortBean;
+import com.cn.uca.config.MyApplication;
+import com.cn.uca.util.OpenPhoto;
+import com.cn.uca.view.FluidLayout;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
+import com.facebook.drawee.generic.RoundingParams;
+import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,12 +57,12 @@ public class CourseEscortAdapter extends BaseAdapter{
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
 		if (convertView == null) {
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(context).inflate(R.layout.course_item, parent, false);
-			holder.pic = (GridView)convertView.findViewById(R.id.pic);
+			holder.pic = (FluidLayout)convertView.findViewById(R.id.pic);
 			holder.type = (TextView)convertView.findViewById(R.id.type);
 			holder.time = (TextView)convertView.findViewById(R.id.time);
 			holder.evaluate = (TextView)convertView.findViewById(R.id.evaluate);
@@ -60,15 +70,41 @@ public class CourseEscortAdapter extends BaseAdapter{
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		ImgAdapter imgAdapter = new ImgAdapter(list.get(position).getPicList(),context);
-		holder.pic.setAdapter(imgAdapter);
+		holder.pic.removeAllViews();
+		holder.pic.setGravity(Gravity.TOP);
+		final ArrayList<String> imgUrls = (ArrayList<String>) list.get(position).getPicList();
+		for (int i = 0;i<list.get(position).getPicList().size();i++){
+			SimpleDraweeView draweeView = new SimpleDraweeView(context);
+			draweeView.setId(i);
+			Uri uri = Uri.parse(list.get(position).getPicList().get(i));
+			draweeView.setImageURI(uri);
+			draweeView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					OpenPhoto.imageUrl(context,view.getId(),imgUrls);
+				}
+			});
+			GenericDraweeHierarchy hierarchy = GenericDraweeHierarchyBuilder.newInstance(context.getResources()).
+					setRoundingParams(RoundingParams.fromCornersRadius(10)).build();
+			draweeView.setHierarchy(hierarchy);
+			FluidLayout.LayoutParams params = new FluidLayout.LayoutParams(
+					ViewGroup.LayoutParams.WRAP_CONTENT,
+					ViewGroup.LayoutParams.WRAP_CONTENT
+			);
+			params.setMargins(12, 12, 12, 12);
+			holder.pic.addView(draweeView, params);
+			FluidLayout.LayoutParams layoutParams =(FluidLayout.LayoutParams) draweeView.getLayoutParams(); //取控件textView当前的布局参数
+			layoutParams.height = MyApplication.width/4*3/4;// 控件的高强制设成20
+			layoutParams.width = MyApplication.width/4;
+			draweeView.setLayoutParams(layoutParams); //使设置好的布局参数应用到控件
+		}
 		holder.type.setText(list.get(position).getType());
 		holder.time.setText(list.get(position).getTime());
 		holder.evaluate.setText(list.get(position).getEvaluate());
 		return convertView;
 	}
 	class ViewHolder {
-		GridView pic;
+		FluidLayout pic;
 		TextView type,time,evaluate;
 	}
 }

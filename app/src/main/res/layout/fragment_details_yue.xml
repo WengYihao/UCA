@@ -14,7 +14,7 @@
             android:orientation="horizontal">
             <com.cn.uca.view.ListViewForScrollView
                 android:id="@+id/line"
-                android:layout_width="100dp"
+                android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
                 android:scrollbars="none"
@@ -23,11 +23,11 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <com.cn.uca.webview.TouchWebView
+                <com.cn.uca.view.TouchWebView
                     android:id="@+id/webView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                </com.cn.uca.webview.TouchWebView>
+                </com.cn.uca.view.TouchWebView>
             </RelativeLayout>
 
         </LinearLayout>

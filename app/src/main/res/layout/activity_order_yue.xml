@@ -4,31 +4,113 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.OrderYueActivity"
+    tools:context="com.cn.uca.ui.yueka.OrderYueActivity"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_50"
-        android:background="@color/ori" >
+        android:background="@color/ori">
 
         <TextView
             android:id="@+id/back"
-            style="@style/style_back"/>
+            style="@style/style_back" />
 
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="我的约咖"/>
+            android:text="@string/orderYueActuivity_title_text" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@mipmap/my_message"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding_10"/>
+            android:layout_marginRight="@dimen/padding_10"
+            android:background="@mipmap/yueka_message" />
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_10"
+        android:background="@color/ori">
+        <com.cn.uca.view.CircleImageView
+            android:id="@+id/pic"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:border_width="1dp"
+            app:border_color="@color/white"
+            android:src="@mipmap/user_pic"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/pic">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/padding_10">
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="周某某"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/text_16"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="@dimen/padding_10"/>
+                <TextView
+                    android:id="@+id/age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="27岁"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/text_16"
+                    android:textColor="@color/white"
+                    android:layout_marginLeft="@dimen/padding_10"/>
+                <TextView
+                    android:id="@+id/sex"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@color/aa"
+                    android:layout_marginLeft="@dimen/padding_10"/>
 
+            </LinearLayout>
+            <com.cn.uca.view.RatingStarView
+                android:id="@+id/start"
+                android:layout_marginTop="@dimen/padding_5"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_marginLeft="@dimen/padding_20"
+                app:rating="4"
+                app:starBackgroundColor="@color/gray"
+                app:starForegroundColor="@color/yellow"
+                app:starNum="5" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+            <TextView
+                android:id="@+id/a"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@mipmap/right"/>
+            <TextView
+                android:id="@+id/state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已认证"
+                android:textSize="@dimen/text_14"
+                android:textColor="@color/white"
+                android:layout_toLeftOf="@id/a"
+                android:layout_marginRight="@dimen/padding_8"/>
+
+        </RelativeLayout>
+    </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,83 +119,7 @@
            android:layout_width="match_parent"
            android:layout_height="match_parent"
            android:orientation="vertical">
-           <RelativeLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:padding="@dimen/padding_10"
-               android:background="@color/ori">
-               <com.cn.uca.view.CircleImageView
-                   android:id="@+id/pic"
-                   android:layout_width="60dp"
-                   android:layout_height="60dp"
-                   android:src="@mipmap/user_pic"/>
-               <LinearLayout
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:orientation="vertical"
-                   android:layout_centerVertical="true"
-                   android:layout_toRightOf="@id/pic">
-                   <LinearLayout
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:orientation="horizontal"
-                       android:layout_marginLeft="@dimen/padding_10">
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="周某某"
-                           android:layout_gravity="center"
-                           android:textSize="@dimen/text_16"
-                           android:textColor="@color/white"
-                           android:layout_marginLeft="@dimen/padding_10"/>
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="27岁"
-                           android:layout_gravity="center"
-                           android:textSize="@dimen/text_16"
-                           android:textColor="@color/white"
-                           android:layout_marginLeft="@dimen/padding_10"/>
-                       <TextView
-                           android:layout_width="20dp"
-                           android:layout_height="20dp"
-                           android:background="@color/aa"
-                           android:layout_marginLeft="@dimen/padding_10"/>
 
-                   </LinearLayout>
-                   <com.cn.uca.view.RatingStarView
-                       android:id="@+id/start"
-                       android:layout_marginTop="@dimen/padding_5"
-                       android:layout_width="wrap_content"
-                       android:layout_height="15dp"
-                       android:layout_marginLeft="@dimen/padding_20"
-                       app:rating="4"
-                       app:starBackgroundColor="@color/gray"
-                       app:starForegroundColor="@color/yellow"
-                       app:starNum="5" />
-               </LinearLayout>
-               <RelativeLayout
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_centerVertical="true">
-                   <TextView
-                       android:id="@+id/a"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_alignParentRight="true"
-                       android:background="@mipmap/right"/>
-                   <TextView
-                       android:id="@+id/state"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:text="已认证"
-                       android:textSize="@dimen/text_14"
-                       android:textColor="@color/white"
-                       android:layout_toLeftOf="@id/a"
-                       android:layout_marginRight="@dimen/padding_8"/>
-
-               </RelativeLayout>
-           </RelativeLayout>
            <ImageView
                android:id="@+id/line"
                android:layout_width="match_parent"
@@ -262,7 +268,7 @@
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:layout_marginLeft="10dp"
+                       android:layout_marginLeft="@dimen/padding_10"
                        android:text="约咖历程"
                        android:textSize="18sp"
                        android:textColor="@color/gray2"/>
@@ -287,17 +293,17 @@
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:layout_marginLeft="10dp"
+                       android:layout_marginLeft="@dimen/padding_10"
                        android:text="用户评论"
                        android:textSize="18sp"
                        android:textColor="@color/gray2"/>
                </RelativeLayout>
 
-               <ListView
+               <com.cn.uca.view.RdListView
                    android:id="@+id/comment"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content">
-               </ListView>
+               </com.cn.uca.view.RdListView>
            </LinearLayout>
        </LinearLayout>
     </ScrollView>

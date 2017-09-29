@@ -9,7 +9,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/padding_20"
+        android:layout_marginLeft="@dimen/padding_20"
+        android:layout_marginTop="@dimen/padding_20"
+        android:layout_marginBottom="@dimen/padding_20"
         android:layout_gravity="center_vertical">
         <RelativeLayout
             android:id="@+id/pic"
@@ -28,31 +30,36 @@
                 app:placeholderImageScaleType="fitXY"
                 app:roundedCornerRadius="5dp" />
 
-            <TextView
-                android:id="@+id/time"
+            <RelativeLayout
+                android:id="@+id/half"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:background="@color/gray2"
-                android:gravity="center"
-                android:padding="@dimen/padding_5"
-                android:text="2017.4.3-2017.4.5"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_14" />
+                android:background="@color/half">
+                <TextView
+                    android:id="@+id/place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_8"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/padding_5"
+                    android:text="深圳"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16" />
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/padding_5"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_5"
+                    android:text="9"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/num"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/padding_5"
-                android:layout_marginTop="@dimen/padding_5"
-                android:background="@color/gray2"
-                android:gravity="center"
-                android:padding="@dimen/padding_5"
-                android:text="9"
-                android:textColor="@color/white" />
+
+
         </RelativeLayout>
 
         <LinearLayout
@@ -61,24 +68,28 @@
             android:orientation="vertical"
             android:layout_below="@id/pic">
 
-            <TextView
-                android:id="@+id/place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_8"
-                android:text="广东-深圳"
-                android:textSize="@dimen/text_16" />
 
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:padding="@dimen/padding_5"
+                android:text="2017.4.3-2017.4.5"
+                android:textSize="@dimen/text_14" />
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxEms="14"
-                android:layout_marginTop="@dimen/padding_8"
+                android:layout_marginTop="@dimen/padding_5"
                 android:textSize="@dimen/text_14"
                 android:text="不知道说什么好，总之好评好评好评好评好评"
                 android:ellipsize="end"
-                android:maxLines="2"/>
+                android:maxLines="2"
+                android:background="@color/gray"
+                android:padding="@dimen/padding_5"/>
 
         </LinearLayout>
     </LinearLayout>

@@ -3,10 +3,8 @@ package com.cn.uca.util;
 import android.content.Context;
 import android.content.Intent;
 
-import com.cn.uca.config.MyApplication;
-import com.cn.uca.ui.ImagePagerActivity;
+import com.cn.uca.ui.util.ImagePagerActivity;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
