@@ -14,6 +14,4 @@ public class GlideImageLoader extends ImageLoader {
                 .load(path)
                 .into(imageView);
     }
-
-
 }

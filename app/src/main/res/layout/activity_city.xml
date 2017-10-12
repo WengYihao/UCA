@@ -7,12 +7,12 @@
         android:id="@+id/stateTitle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_20"
-        android:background="@color/ori"/>
+        android:background="@drawable/text"/>
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_50"
-        android:background="@color/ori"
+        android:background="@drawable/text"
         android:layout_below="@+id/stateTitle"
         android:layout_toRightOf="@+id/tv_noresult"
         android:layout_toEndOf="@+id/tv_noresult">

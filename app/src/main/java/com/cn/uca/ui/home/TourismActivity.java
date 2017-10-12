@@ -1,5 +1,6 @@
 package com.cn.uca.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -9,10 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.adapter.tourism.PlaceAdapter;
-import com.cn.uca.bean.tourism.TourismPlaceBean;
+import com.cn.uca.adapter.travel.PlaceAdapter;
+import com.cn.uca.bean.travel.TravelPlaceBean;
 import com.cn.uca.config.MyApplication;
-import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.ui.util.BaseBackActivity;
 import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SetLayoutParams;
@@ -31,7 +31,7 @@ public class TourismActivity extends BaseBackActivity implements View.OnClickLis
     private MyEditText seach;
     private HorizontalListView listView;
     private PlaceAdapter placeAdapter;
-    private List<TourismPlaceBean> list;
+    private List<TravelPlaceBean> list;
     private LinearLayout llTitle,layout1,layout2,layout3,layout4,layout5,layout6;
 
     @Override
@@ -93,16 +93,16 @@ public class TourismActivity extends BaseBackActivity implements View.OnClickLis
 
 
         list = new ArrayList<>();
-        TourismPlaceBean bean = new TourismPlaceBean();
+        TravelPlaceBean bean = new TravelPlaceBean();
         bean.setName("北京");
         bean.setUrl("http://www.szyouka.com/1.png");
-        TourismPlaceBean bean1 = new TourismPlaceBean();
+        TravelPlaceBean bean1 = new TravelPlaceBean();
         bean1.setName("上海");
         bean1.setUrl("http://www.szyouka.com/2.png");
-        TourismPlaceBean bean2 = new TourismPlaceBean();
+        TravelPlaceBean bean2 = new TravelPlaceBean();
         bean2.setName("广州");
         bean2.setUrl("http://www.szyouka.com/3.png");
-        TourismPlaceBean bean3 = new TourismPlaceBean();
+        TravelPlaceBean bean3 = new TravelPlaceBean();
         bean3.setName("深圳");
         bean3.setUrl("http://www.szyouka.com/4.png");
         list.add(bean);
@@ -131,15 +131,16 @@ public class TourismActivity extends BaseBackActivity implements View.OnClickLis
                 break;
             case  R.id.layout1:
                 //周边游
-                ToastXutil.show("敬请期待-周边游");
+                startActivity(new Intent(TourismActivity.this,PeripheryTravelActivity.class));
                 break;
             case R.id.layout2:
                 //国内游
-                ToastXutil.show("敬请期待-国内游");
+                startActivity(new Intent(TourismActivity.this,DomesticTravelActivity.class));
                 break;
             case R.id.layout3:
                 //出境游
-                ToastXutil.show("敬请期待-出境游");
+//                ToastXutil.show("敬请期待-出境游");
+                startActivity(new Intent(TourismActivity.this,ExitTravelActivity.class));
                 break;
             case R.id.layout4:
                 //定制游
@@ -151,7 +152,7 @@ public class TourismActivity extends BaseBackActivity implements View.OnClickLis
                 break;
             case R.id.layout6:
                 //蜜月游
-                ToastXutil.show("敬请期待-蜜月游");
+                startActivity(new Intent(TourismActivity.this,HoneymoonTravelActivity.class));
                 break;
         }
     }

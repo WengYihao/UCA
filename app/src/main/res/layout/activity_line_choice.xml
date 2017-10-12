@@ -1,49 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.yueka.LineChoiceActivity">
-
-    <com.amap.api.maps.MapView
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <TextView
-        android:id="@+id/finish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="完成编辑"
-        android:layout_alignParentBottom="true"
-        android:gravity="center"
-        android:padding="@dimen/padding_10"
-        android:background="@color/ori"
-        android:textSize="@dimen/text_24"
-        android:textColor="@color/white"/>
+    tools:context="com.cn.uca.ui.yueka.LineChoiceActivity"
+    android:orientation="vertical">
     <RelativeLayout
-        android:id="@+id/addView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/text">
+
         <TextView
-            android:id="@+id/add"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:text="+"
-            android:gravity="center"
-            android:textSize="@dimen/text_22"
-            android:background="@color/ori"
-            android:textColor="@color/white"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="200dp"/>
+            android:id="@+id/back"
+            style="@style/style_back" />
+
+        <TextView
+            style="@style/style_title"
+            android:text="地点选择" />
     </RelativeLayout>
-    <TextView
-        android:id="@+id/delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/delete_btn"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="100dp"
-        android:layout_marginRight="@dimen/padding_20"
-        android:visibility="gone"/>
-</RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.amap.api.maps.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/finish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="完成编辑"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:padding="@dimen/padding_10"
+            android:background="@color/ori"
+            android:textSize="@dimen/text_24"
+            android:textColor="@color/white"/>
+        <RelativeLayout
+            android:id="@+id/addView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/add"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="+"
+                android:gravity="center"
+                android:textSize="@dimen/text_22"
+                android:background="@color/ori"
+                android:textColor="@color/white"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="200dp"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/delete_btn"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="100dp"
+            android:layout_marginRight="@dimen/padding_20"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+</com.cn.uca.view.StatusView>

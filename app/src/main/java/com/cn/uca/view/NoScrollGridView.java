@@ -6,6 +6,7 @@ import android.widget.GridView;
 
 /**
  * Created by asus on 2017/9/25.
+ * 嵌套的高度Gridview
  */
 
 public class NoScrollGridView extends GridView {

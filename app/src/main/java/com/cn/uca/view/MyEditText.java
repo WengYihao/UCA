@@ -48,7 +48,7 @@ public class MyEditText extends EditText {
 		// 如果输入框里面的文本字符长度不为0，且有焦点，则给这个输入框的右边 动态的添加一个 删除的图标
 		if (!getText().toString().equals("") && hasFocus()) {
 			setCompoundDrawablesWithIntrinsicBounds(drawable[0], drawable[1],
-					getContext().getResources().getDrawable(R.mipmap.ic_clear), drawable[3]);
+					getContext().getResources().getDrawable(R.mipmap.ic_clean), drawable[3]);
 
 		} else {
 			setCompoundDrawablesWithIntrinsicBounds(drawable[0], drawable[1], null, drawable[3]);
@@ -70,7 +70,7 @@ public class MyEditText extends EditText {
 		// 如果输入框里面的文本字符长度不为0，且有焦点，则给这个输入框的右边 动态的添加一个 删除的图标
 		if (!getText().toString().equals("") && hasFocus()) {
 			setCompoundDrawablesWithIntrinsicBounds(drawable[0], drawable[1],
-					getContext().getResources().getDrawable(R.mipmap.ic_clear), drawable[3]);
+					getContext().getResources().getDrawable(R.mipmap.ic_clean), drawable[3]);
 
 		} else {
 			setCompoundDrawablesWithIntrinsicBounds(drawable[0], drawable[1], null, drawable[3]);

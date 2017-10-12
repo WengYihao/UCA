@@ -16,7 +16,7 @@ import com.cn.uca.R;
 
 /**
  * Created by asus on 2017/9/18.
- * 嵌套scollview的listview
+ * 嵌套scollview、ListView向右滑动删除的listview
  */
 
 public class RdListView extends ListView {

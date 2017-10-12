@@ -1,6 +1,7 @@
 package com.cn.uca.ui.user;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -56,6 +57,7 @@ public class IdentityActivity extends BaseBackActivity implements View.OnClickLi
     private File bais1,bais2;
     // 创建一个以当前时间为名称的文件
     File tempFile = new File(Environment.getExternalStorageDirectory(), SystemUtil.getPhotoFileName());
+    private ProgressDialog progDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,7 @@ public class IdentityActivity extends BaseBackActivity implements View.OnClickLi
         identity.setHint(new SpannedString(identityHint));
 
         dialog = AndroidClass.getListDialogBuilder(this, arrayString, title, onDialogClick);
+        progDialog = new ProgressDialog(this);
     }
 
     @Override
@@ -126,12 +129,33 @@ public class IdentityActivity extends BaseBackActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * 显示进度条对话框
+     */
+    public void showDialog() {
+        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDialog.setIndeterminate(false);
+        progDialog.setCancelable(true);
+        progDialog.setMessage("请稍后...");
+        progDialog.show();
+    }
+
+    /**
+     * 隐藏进度条对话框
+     */
+    public void dismissDialog() {
+        if (progDialog != null) {
+            progDialog.dismiss();
+        }
+    }
+
     private void sumbitIdentity(){
         String userName = name.getText().toString();
         String identityNum = identity.getText().toString();
         if (!StringXutil.isEmpty(userName) && StringXutil.isIDCard(identityNum)){
             if(bais1 != null){
                 if(bais2 != null){
+                    showDialog();
                     UserHttp.submitIdentity(userName, identityNum, bais1, bais2, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int i, Header[] headers, byte[] bytes) {
@@ -139,9 +163,27 @@ public class IdentityActivity extends BaseBackActivity implements View.OnClickLi
                                 try {
                                     JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
                                     int code = jsonObject.getInt("code");
-                                    if (code == 0){
-                                        ToastXutil.show("上传成功,等待审核通过。");
-                                        IdentityActivity.this.finish();
+                                    switch (code){
+                                        case 0:
+                                            dismissDialog();
+                                            ToastXutil.show("上传成功,等待审核通过。");
+                                            Intent intent = new Intent();
+                                            intent.putExtra("state","待审核");
+                                            setResult(5,intent);
+                                            IdentityActivity.this.finish();
+                                            break;
+                                        case 63:
+                                            dismissDialog();
+                                            ToastXutil.show("已上传用户审批");
+                                            break;
+                                        case 66:
+                                            dismissDialog();
+                                            ToastXutil.show("提交审核失败");
+                                            break;
+                                        case 67:
+                                            dismissDialog();
+                                            ToastXutil.show("身份证或姓名错误");
+                                            break;
                                     }
                                 } catch (UnsupportedEncodingException e) {
                                     e.printStackTrace();

@@ -16,6 +16,7 @@ import com.cn.uca.R;
 import com.cn.uca.bean.yueka.EscortRecordsBean;
 import com.cn.uca.bean.yueka.YueKaBean;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.config.MyConfig;
 import com.cn.uca.impl.yueka.CollectionClickListener;
 import com.cn.uca.ui.Main2Activity;
 import com.cn.uca.util.OpenPhoto;
@@ -161,7 +162,7 @@ public class YueKaAdapter extends BaseAdapter implements View.OnClickListener{
 				}else{
 					SimpleDraweeView draweeView = new SimpleDraweeView(context);
 					draweeView.setId(b);
-					Uri uri = Uri.parse(list.get(position).getEscort_record_picture_urls().get(b));
+					Uri uri = Uri.parse(MyConfig.photo+list.get(position).getEscort_record_picture_urls().get(b));
 					draweeView.setImageURI(uri);
 					draweeView.setOnClickListener(new View.OnClickListener() {
 						@Override

@@ -1,6 +1,7 @@
 package com.cn.uca.ui.fragment.user;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -36,6 +37,7 @@ import com.cn.uca.ui.user.WalletActivity;
 import com.cn.uca.util.AndroidClass;
 import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
@@ -69,7 +71,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private LinearLayout llTitle,myOrder,myCollection;
     private RelativeLayout layout1,layout2,layout3,layout4,layout5;
     private String userName,userAge,userSex;
-
+    private ProgressDialog progDialog = null;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_user, null);
@@ -84,6 +86,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
         setting = (TextView)view.findViewById(R.id.setting);
         setting.setOnClickListener(this);
+        StatusMargin.setRelativeLayout(getActivity(),setting,20);
 
         head = (RelativeLayout)view.findViewById(R.id.head);
         head.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, MyApplication.height*2/5));
@@ -133,9 +136,29 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             loginLayout.setVisibility(View.GONE);
             userInfo.setVisibility(View.VISIBLE);
         }
+
+        progDialog = new ProgressDialog(getActivity());
     }
 
+    /**
+     * 显示进度条对话框
+     */
+    public void showDialog() {
+        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progDialog.setIndeterminate(false);
+        progDialog.setCancelable(true);
+        progDialog.setMessage("请稍后...");
+        progDialog.show();
+    }
 
+    /**
+     * 隐藏进度条对话框
+     */
+    public void dismissDialog() {
+        if (progDialog != null) {
+            progDialog.dismiss();
+        }
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -185,7 +208,8 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.layout2:
                 if (SharePreferenceXutil.isSuccess()){
-                    startActivity(new Intent(getActivity(), IdentityActivity.class));
+                    startActivityForResult(new Intent(getActivity(),IdentityActivity.class),5);
+//                    startActivity(new Intent(getActivity(), IdentityActivity.class));
                 }else {
                     ToastXutil.show("请先登录");
                 }
@@ -199,17 +223,6 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             case R.id.layout5:
 
                 break;
-//            case R.id.open:
-//                startActivity(new Intent(getActivity(), LocationActivity.class));
-//                break;
-//
-//            case R.id.set:
-//                boolean success = ShortcutBadger.applyCount(getActivity(), 3);
-//                Toast.makeText(getActivity()," success=" + success, Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.clean:
-//                boolean success2 = ShortcutBadger.removeCount(getActivity());
-//                break;
         }
     }
 
@@ -375,6 +388,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 pic.setImageDrawable(drawable);
                 photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
                 ByteArrayInputStream bais = new ByteArrayInputStream(photodata);
+                showDialog();
                 UserHttp.uploadPic(bais, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int i, Header[] headers, byte[] bytes) {
@@ -383,6 +397,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                                 JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
                                 int code = jsonObject.getInt("code");
                                 if (code == 0){
+                                    dismissDialog();
                                     ToastXutil.show("上传成功");
                                 }
                             } catch (UnsupportedEncodingException e) {
@@ -392,7 +407,6 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                             }
                         }
                     }
-
                     @Override
                     public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
                         ToastXutil.show("上传失败");
@@ -442,6 +456,12 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                     }
                 }catch (Exception e){
                     Log.i("456",e.getMessage());
+                }
+                break;
+            case 5:
+                if (data != null){
+                    String state = data.getStringExtra("state");
+                    this.state.setText(state);
                 }
                 break;
         }

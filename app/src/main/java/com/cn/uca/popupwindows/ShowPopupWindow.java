@@ -12,6 +12,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ import com.cn.uca.receiver.UpdateService;
 import com.cn.uca.ui.LoadActivity;
 import com.cn.uca.ui.MainActivity;
 import com.cn.uca.util.ToastXutil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -79,7 +81,6 @@ public class ShowPopupWindow {
 		positiveButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-//				ToastXutil.show("升级");
 				Intent updateIntent = new Intent(
 						context,
 						UpdateService.class);
@@ -97,5 +98,22 @@ public class ShowPopupWindow {
 				popupWindow.dismiss();
 			}
 		});
+	}
+
+	public static void showSpot(View view,Context context,String name,String content,String url){
+		View showSpot = LayoutInflater.from(context).inflate(R.layout.spot_marker_show, null);
+		TextView spot_name = (TextView) showSpot.findViewById(R.id.spot_name);
+		ImageView spot_pic = (ImageView)showSpot.findViewById(R.id.spot_pic) ;
+		TextView spot_content = (TextView)showSpot.findViewById(R.id.spot_content);
+
+		spot_name.setText(name);
+		ImageLoader.getInstance().displayImage(url,spot_pic);
+		spot_content.setText(content);
+		final PopupWindow popupWindow = new PopupWindow(showSpot, MyApplication.width/4,
+				LinearLayoutCompat.LayoutParams.WRAP_CONTENT, true);
+		popupWindow.setTouchable(true);
+		popupWindow.setOutsideTouchable(true);
+		popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+		popupWindow.showAsDropDown(view);
 	}
 }

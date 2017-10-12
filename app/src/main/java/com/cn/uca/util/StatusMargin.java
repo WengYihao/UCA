@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 
 /**
  * Created by asus on 2017/9/12.
+ * 错开状态栏高度
  */
 
 public class StatusMargin {
@@ -21,6 +22,12 @@ public class StatusMargin {
     public static void setLinearLayout(Activity activity, View view){
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
         params.setMargins(0, SystemUtil.getStatusHeight(activity), 0, 0);
+        view.setLayoutParams(params);
+    }
+    //设置RelativeLayout的布局距离
+    public static void setRelativeLayout(Activity activity, View view,int num){
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        params.setMargins(0, SystemUtil.getStatusHeight(activity), SystemUtil.dip2px(num), 0);
         view.setLayoutParams(params);
     }
 }

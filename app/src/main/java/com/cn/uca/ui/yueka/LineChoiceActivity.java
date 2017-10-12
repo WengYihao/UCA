@@ -33,6 +33,8 @@ import com.cn.uca.R;
 import com.cn.uca.bean.yueka.PlacesBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.server.yueka.YueKaHttp;
+import com.cn.uca.ui.util.BaseBackActivity;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.google.gson.Gson;
@@ -47,7 +49,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class LineChoiceActivity extends AppCompatActivity implements  LocationSource,AMapLocationListener,View.OnClickListener,AMap.OnMarkerDragListener{
+public class LineChoiceActivity extends BaseBackActivity implements  LocationSource,AMapLocationListener,View.OnClickListener,AMap.OnMarkerDragListener{
 
     private MapView mapView;
     private AMap aMap;
@@ -69,11 +71,12 @@ public class LineChoiceActivity extends AppCompatActivity implements  LocationSo
     private UiSettings mUiSettings;
     private List<PlacesBean> listAdd,listShow,listAll;
     private int id,clickViewId;
-    private TextView finish,delete;
+    private TextView finish,delete,back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_line_choice);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -87,12 +90,9 @@ public class LineChoiceActivity extends AppCompatActivity implements  LocationSo
         Intent intent = getIntent();
         if (intent != null){
             id = intent.getIntExtra("id",0);
-//            size = intent.getIntExtra("size",0);
             listShow  = intent.getParcelableArrayListExtra("places");
             if (listShow.size() > 0){
-                Log.i("123",listShow.toString()+"传进来");
                 for (int i = 0; i < listShow.size();i++){
-//                    Log.i("123",i+"***");
                     final  TextView textView = new TextView(this);
                     setAddView(textView,1);
                 }
@@ -100,10 +100,12 @@ public class LineChoiceActivity extends AppCompatActivity implements  LocationSo
         }
     }
     private void initView() {
+        back = (TextView)findViewById(R.id.back);
         addView = (RelativeLayout)findViewById(R.id.addView);
         add = (TextView)findViewById(R.id.add);
         finish = (TextView)findViewById(R.id.finish);
         delete = (TextView)findViewById(R.id.delete);
+        back.setOnClickListener(this);
         add.setOnClickListener(this);
         finish.setOnClickListener(this);
         delete.setOnClickListener(this);
@@ -254,6 +256,9 @@ public class LineChoiceActivity extends AppCompatActivity implements  LocationSo
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.back:
+                this.finish();
+                break;
             case R.id.add:
                 TextView textView = new TextView(this);
                 setAddView(textView,2);

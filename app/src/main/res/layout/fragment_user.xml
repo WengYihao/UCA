@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.cn.uca.view.UserDefineScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
@@ -19,7 +19,7 @@
                     android:id="@+id/noneLayout"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:background="@color/ori">
+                    android:background="@mipmap/user_fragment_back">
                 </RelativeLayout>
                 <LinearLayout
                     android:id="@+id/llTitle"
@@ -106,14 +106,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="周某某"
                         android:textColor="@color/white"
                         android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/sex"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/padding_20"
+                        android:layout_height="@dimen/padding_20"
                         android:layout_toRightOf="@id/nickName"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_10"
@@ -123,12 +122,13 @@
                         android:id="@+id/state"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="@dimen/padding_10"
                         android:layout_toRightOf="@id/sex"
                         android:background="@drawable/search_background"
                         android:layout_centerVertical="true"
                         android:textColor="@color/grey2"
-                        android:textSize="10sp" />
+                        android:padding="@dimen/padding_2"
+                        android:textSize="@dimen/text_12" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -361,5 +361,5 @@
                     android:src="@mipmap/right_gray" />
             </RelativeLayout>
         </RelativeLayout>
-    </com.cn.uca.view.UserDefineScrollView>
-</com.cn.uca.view.StatusView>
+    </LinearLayout>
+</LinearLayout>

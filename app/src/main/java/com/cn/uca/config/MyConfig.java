@@ -3,7 +3,7 @@ package com.cn.uca.config;
 public class MyConfig {
 	// 总接口
 	public static final String url = "http://www.szyouka.com/youkatravel/api/";
-//	public static final String url = "http://192.168.1.104/youkatravel/api/";
+//	public static final String url = "http://192.168.1.102/youkatravel/api/";
 	public static final String text = "http://192.168.1.100/youkatravel/api/abnormal/getAbnormal.do";    //测试
 	public static final String sendCode = url+"user/query/sendSMS.do";//发送短信验证码
 	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";     //获取微信token
@@ -35,4 +35,11 @@ public class MyConfig {
 	public static final String getUserState = url+"user/query/getUserState.do";//获取用户状态
 	public static final String fastLogin = url+"user/query/fastLogin.do";//快速登录
 	public static final String getEscortInfo = url+"escort/query/getEscortInfo.do";//获取约咖用户信息
+	public static final String photo = "http://www.szyouka.com/youkatravel/api/util/pictureCompression.do?pictureUrl=";//图片压缩
+	public static final String getZhouBianTravel = url+"travel/query/getZhouBianTravel.do";//获取周边游
+	public static final String getJuiDian = url+"travel/query/getJuiDian.do";//获取周边游酒店
+	public static final String getGuoNeiYou = url+"travel/query/getGuoNeiYou.do";//获取国内游
+	public static final String getMiYeuYou = url+"travel/query/getMiYeuYou.do";//获取蜜月游
+	public static final String getChuJingYou = url+"travel/query/getChuJingYou.do";//获取出境游
+	public static final String getTicket = url+"travel/query/getTicket.do";//获取景区门票
 }

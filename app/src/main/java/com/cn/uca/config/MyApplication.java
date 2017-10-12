@@ -7,6 +7,7 @@ import com.cn.uca.bean.wechat.WeChatAccessToken;
 import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.QueryHttp;
+import com.cn.uca.util.AndroidWorkaround;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;

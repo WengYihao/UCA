@@ -208,6 +208,13 @@ public class SystemUtil
 		String str = formatter.format(curDate); 
 		return str;
 	}
+	public static String getCurrentDate2()
+	{
+		SimpleDateFormat formatter = new  SimpleDateFormat("yyyyMMddHHmmss");
+		Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+		String str = formatter.format(curDate);
+		return str;
+	}
 	public static String getCurrentDateOnly()
 	{
 		SimpleDateFormat formatter = new  SimpleDateFormat("yyyy-MM-dd");       

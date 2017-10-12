@@ -40,10 +40,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="我的附近"
-                android:padding="5dp"
+                android:padding="@dimen/padding_5"
                 android:gravity="center"
-                android:drawableTop="@mipmap/home_select"
-                android:textSize="15sp"/>
+                android:drawableTop="@mipmap/now_location"
+                android:textSize="@dimen/text_16"/>
         </LinearLayout>
 
     </LinearLayout>

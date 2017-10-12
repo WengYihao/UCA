@@ -12,7 +12,11 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptor;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
 import com.cn.uca.R;
 
 public class LocationActivity extends AppCompatActivity implements  LocationSource,AMapLocationListener{
@@ -48,6 +52,13 @@ public class LocationActivity extends AppCompatActivity implements  LocationSour
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
     }
 
+//    public void aa(){
+//        BitmapDescriptor descriptor = BitmapDescriptorFactory.fromResource(R.mipmap.yui);
+//        LatLng southwest = new LatLng(22.533978,113.980321);
+//        LatLng northeast = new LatLng(22.527041,113.995942);//锦绣中华
+//        LatLngBounds bounds = new LatLngBounds.Builder().include(southwest).include(northeast).build();
+//        aMap.addGroundOverlay(new GroundOverlayOptions().image(descriptor).positionFromBounds(bounds));
+//    }
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (mListener != null && aMapLocation != null){

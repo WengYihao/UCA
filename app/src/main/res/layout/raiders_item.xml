@@ -45,7 +45,7 @@
                 android:id="@+id/downLoad"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@color/aa"
+                android:background="@mipmap/down_load"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"/>
             <TextView

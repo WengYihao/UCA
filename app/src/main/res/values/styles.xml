@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/ori</item>
-        <item name="colorPrimaryDark">@color/ori</item><!--状态栏颜色-->
+        <item name="colorPrimaryDark">@color/transparent</item><!--状态栏颜色-->
         <item name="colorAccent">@color/ori</item>
         <item name="colorControlActivated">@color/ori</item>
     </style>
@@ -84,6 +84,7 @@
         <item name="android:layout_marginLeft">10dp</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:drawableLeft">@mipmap/back</item>
+        <item name="android:padding">@dimen/padding_8</item>
     </style>
 
 

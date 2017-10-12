@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,7 +29,6 @@ import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.home.HotleActivity;
 import com.cn.uca.ui.home.PlaneTicketActivity;
-import com.cn.uca.ui.util.CityActivity;
 import com.cn.uca.ui.home.RaidersActivity;
 import com.cn.uca.ui.home.SearchActivity;
 import com.cn.uca.ui.home.TourismActivity;
@@ -62,7 +60,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private List<String> images=new ArrayList<>();//图片地址集合
     private int height; //透明内容高度
     private TextView planeTicket,hotle,tourism,oneRaiders;//机票、酒店、旅游、一元攻略、一元夺宝
-    private ImageView img;
     private TextView search_et;
     private List<CarouselFiguresBean> listPic;
     private String version,new_version;
@@ -89,16 +86,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                     if (code ==0 ){
                         JSONObject object = jsonObject.getJSONObject("data");
                         int bind_identity_state_id = object.getInt("bind_identity_state_id");
-                        Log.i("987",bind_identity_state_id+"----------------------");
                         if (bind_identity_state_id == 1){
                             SharePreferenceXutil.setAuthentication(true);
-                            Log.i("123",SharePreferenceXutil.isAuthentication()+"***");
                         }else{
                             SharePreferenceXutil.setAuthentication(false);
                         }
                     }
                 }catch (Exception e){
-                    Log.i("456",e.getMessage()+"//");
                 }
             }
 
@@ -123,7 +117,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         hotle = (TextView)view.findViewById(R.id.hotel);
         tourism = (TextView)view.findViewById(R.id.tourism);
         oneRaiders = (TextView)view.findViewById(R.id.oneRaiders);
-        img = (ImageView)view.findViewById(R.id.img);
         search_et = (TextView) view.findViewById(R.id.search_et);
 
         planeTicket.setOnClickListener(this);
@@ -232,7 +225,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             public void onResponse(Object response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
-                    Log.i("123",jsonObject.toString());
                     int code = jsonObject.getInt("code");
                     switch (code){
                         case 0:

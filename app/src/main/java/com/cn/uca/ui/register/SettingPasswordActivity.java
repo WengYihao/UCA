@@ -19,6 +19,7 @@ import com.cn.uca.server.QueryHttp;
 import com.cn.uca.ui.util.BaseBackActivity;
 import com.cn.uca.ui.MainActivity;
 import com.cn.uca.util.ActivityCollector;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.view.MyEditText;
 
@@ -36,6 +37,7 @@ public class SettingPasswordActivity extends BaseBackActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_setting_password);
         ActivityCollector.registerActivity(this);
         initView();

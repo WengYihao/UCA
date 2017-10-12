@@ -1,7 +1,9 @@
 package com.cn.uca.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -68,6 +70,15 @@ public class RaidersActivity extends BaseBackActivity implements View.OnClickLis
 
         raidersAdapter = new RaidersAdapter(list,this);
         bbb.setAdapter(raidersAdapter);
+
+        bbb.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0){
+                    startActivity(new Intent(RaidersActivity.this,RaidersDetailActivity.class));
+                }
+            }
+        });
 
     }
 

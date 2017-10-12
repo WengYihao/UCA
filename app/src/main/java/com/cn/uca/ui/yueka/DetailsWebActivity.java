@@ -91,15 +91,18 @@ public class DetailsWebActivity extends BaseBackActivity implements View.OnClick
         }
     }
     public void onBack(){
-        webView.evaluateJavascript("javascript:returnId()", new ValueCallback<String>() {
-            @Override public void onReceiveValue(String value) {
-                //此处为 js 返回的结果
-                Log.i("123",value + "---");
-                Intent intent = new Intent();
-                intent.putExtra("id",value);
-                setResult(0,intent);
-                DetailsWebActivity.this.finish();
-            } });
+        try{
+            webView.evaluateJavascript("javascript:returnId()", new ValueCallback<String>() {
+                @Override public void onReceiveValue(String value) {
+                    //此处为 js 返回的结果
+                    Intent intent = new Intent();
+                    intent.putExtra("id",value);
+                    setResult(0,intent);
+                    DetailsWebActivity.this.finish();
+                } });
+        }catch (Exception e){
+
+        }
     }
     private File createImageFile() {
         File file=new File(Environment.getExternalStorageDirectory()+"/","tmp.png");

@@ -1,4 +1,4 @@
-package com.cn.uca.adapter.tourism;
+package com.cn.uca.adapter.travel;
 
 import android.content.Context;
 import android.net.Uri;
@@ -6,32 +6,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.bean.tourism.TourismPlaceBean;
+import com.cn.uca.bean.travel.TravelPlaceBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.util.SetLayoutParams;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
-/**
- * 城市选择字母适配器
- */
 
 public class PlaceAdapter extends BaseAdapter{
-	private List<TourismPlaceBean> list;
+	private List<TravelPlaceBean> list;
 	private Context context;
 
 	public PlaceAdapter(){}
-	public PlaceAdapter(List<TourismPlaceBean> list, Context context) {
+	public PlaceAdapter(List<TravelPlaceBean> list, Context context) {
 		this.list = list;
 		this.context = context;
 	}
-	public void setList(List<TourismPlaceBean> list) {
+	public void setList(List<TravelPlaceBean> list) {
 		if (list != null) {
 			this.list = list;
 			this.notifyDataSetChanged();

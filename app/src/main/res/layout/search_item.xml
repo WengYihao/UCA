@@ -9,8 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="8dp"
-        android:text="1234567"
+        android:padding="@dimen/padding_8"
         android:background="@drawable/text_background"
         android:textColor="@color/aa"
         android:textSize="18sp" />

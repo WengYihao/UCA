@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cn.uca.ui.home.PeripheryTravelActivity"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/text">
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back"/>
+
+        <TextView
+            style="@style/style_title"
+            android:text="@string/peripheryTravelActivity_title_text"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/hot"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/peripheryTravelActivity_radioButton1_text"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="@dimen/padding_15"
+            android:background="@color/ori"
+            android:textColor="@color/white"/>
+        <RadioButton
+            android:id="@+id/hotel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/peripheryTravelActivity_radioButton2_text"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="@dimen/padding_15"
+            android:background="@color/white"
+            android:textColor="@color/ori"/>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+</com.cn.uca.view.StatusView>

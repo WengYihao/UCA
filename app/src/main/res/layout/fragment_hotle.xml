@@ -38,10 +38,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="当前位置"
-                android:padding="5dp"
+                android:padding="@dimen/padding_5"
                 android:gravity="center"
-                android:drawableTop="@mipmap/home_select"
-                android:textSize="15sp"/>
+                android:drawableTop="@mipmap/now_location"
+                android:textSize="@dimen/text_16"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -202,7 +202,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="20dp"
-            android:background="@color/aa"/>
+            android:background="@mipmap/map"/>
     </LinearLayout>
 
     <LinearLayout

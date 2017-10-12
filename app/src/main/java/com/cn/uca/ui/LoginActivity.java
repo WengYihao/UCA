@@ -20,6 +20,7 @@ import com.cn.uca.ui.register.ForgetPasswordActivity;
 import com.cn.uca.ui.register.RegisterActivity;
 import com.cn.uca.ui.util.BaseHideActivity;
 import com.cn.uca.util.ActivityCollector;
+import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
@@ -42,6 +43,7 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_login);
         ActivityCollector.loginActivity(this);
         ActivityCollector.registerActivity(this);

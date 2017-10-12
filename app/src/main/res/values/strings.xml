@@ -77,4 +77,15 @@
     <string name="tourismActivity_layout5_text">亲子游</string>
     <string name="tourismActivity_layout6_text">蜜月游</string>
     <string name="registerWebActivity_title_text">注册协议</string>
+    <string name="domesticTravelActivity_title_text">国内游</string>
+    <string name="domesticTravelActivity_gridView_text">当季风向标</string>
+    <string name="domesticTravelActivity_more_text">更多</string>
+    <string name="domesticTravelActivity_listview_text">正在热卖</string>
+    <string name="honeymoonTravelActivity_title_text">蜜月游</string>
+    <string name="peripheryTravelActivity_title_text">周边游</string>
+    <string name="peripheryTravelActivity_radioButton1_text">当季热门</string>
+    <string name="peripheryTravelActivity_radioButton2_text">度假酒店</string>
+    <string name="dialog_show_title">升级提示</string>
+    <string name="dialog_show_commit">确定</string>
+    <string name="dialog_show_cancel">取消</string>
 </resources>

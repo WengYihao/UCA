@@ -14,6 +14,7 @@ import com.cn.uca.ui.fragment.home.HomeFragment;
 import com.cn.uca.ui.fragment.user.UserFragment;
 import com.cn.uca.ui.fragment.yueka.YueKaFragment;
 import com.cn.uca.util.ActivityCollector;
+import com.cn.uca.util.AndroidWorkaround;
 import com.cn.uca.util.FitStateUI;
 
 import java.util.ArrayList;
@@ -42,8 +43,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FitStateUI.setImmersionStateMode(this);
-        setContentView(R.layout.activity_main);
 
+        if (AndroidWorkaround.checkDeviceHasNavigationBar(this)) {
+            AndroidWorkaround.assistActivity(findViewById(android.R.id.content));
+        }
+        setContentView(R.layout.activity_main);
         ActivityCollector.addActivity(this);
         initView();
         initFragment();

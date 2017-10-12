@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.cn.uca.ui.LoginActivity"
-    android:background="@color/ori">
+    android:background="@drawable/text">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@mipmap/logo"
+            android:background="@mipmap/login_logo"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true" />
 
@@ -49,7 +49,7 @@
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:background="@color/ori"
+                        android:background="@drawable/text"
                         android:gravity="center"
                         android:hint="手机号"
                         android:inputType="number"
@@ -99,7 +99,7 @@
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:background="@color/ori"
+                        android:background="@drawable/text"
                         android:gravity="center"
                         android:hint="验证码"
                         android:inputType="textPassword"

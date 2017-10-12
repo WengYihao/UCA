@@ -2,6 +2,7 @@ package com.cn.uca.ui.fragment.yueka;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -131,12 +132,10 @@ public class YueDetailsFragment extends Fragment implements View.OnClickListener
                 linearParams.height = line.getHeight();// 控件的宽强制设成30
             }
         });
-//        linearParams.height = line.getHeight();// 控件的宽强制设成30
 
         listLayout.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
         webView = (WebView)view.findViewById(R.id.webView);
 
-//        String url = "http://119.23.210.252/youkatravel/api/escort/page/getEscortDetails.do?escort_record_id=36";
         // 启用支持javascript
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);

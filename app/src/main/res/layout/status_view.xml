@@ -6,6 +6,6 @@
     <TextView
         android:id="@+id/stateTitle"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/ori"/>
+        android:layout_height="@dimen/padding_20"
+        android:background="@drawable/text"/>
 </LinearLayout>

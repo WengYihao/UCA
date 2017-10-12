@@ -27,8 +27,5 @@ public class Constant {
 			"fFA6+2joPE//0LIwATwU3GlniJ0kJB0IoPwiB+j5VwC5uSY+/+PkzRUCQGi2j0E9\n" +
 			"2OxsqQUg9Pc35Xi1Dsdql5SrJGDqD8YM2qxEQ7XaDICmKkktzfBg4iRcFIBaB1fx\n" +
 			"XIf1CDzDM+Hrllk=";
-	final public static String PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6hV/6c+dPehRoP2xOGF2dVORB\n" +
-			"vwRLxhdSgi/JytqBFpvi6NGN8MpOokxlYiNL2nS2s9UT28bBXbUCc/vPxIejWogY\n" +
-			"PtuaYToK5Si6tcymaAmEp58pjbIwUT2AF/U53Rm9qKjB+Ag9jSYlRw5iC1gx7woS\n" +
-			"he61awt+oBIVk3Tu1QIDAQAB";
+	final public static String PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6hV/6c+dPehRoP2xOGF2dVORBvwRLxhdSgi/JytqBFpvi6NGN8MpOokxlYiNL2nS2s9UT28bBXbUCc/vPxIejWogYPtuaYToK5Si6tcymaAmEp58pjbIwUT2AF/U53Rm9qKjB+Ag9jSYlRw5iC1gx7woShe61awt+oBIVk3Tu1QIDAQAB";
 }

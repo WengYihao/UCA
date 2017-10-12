@@ -5,6 +5,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -374,9 +379,36 @@ private Bitmap gerZoomRotateBitmap(
      }  
 
      return null;  
- }  
+ }
 
+	/**
+	 * 根据一个网络连接(String)获取bitmap图像
+	 *
+	 * @param imageUri
+	 * @return
+	 * @throws MalformedURLException
+	 */
+	public static Bitmap getbitmap(String imageUri) {
+		// 显示网络上的图片
+		Bitmap bitmap = null;
+		try {
+			URL myFileUrl = new URL(imageUri);
+			HttpURLConnection conn = (HttpURLConnection) myFileUrl
+					.openConnection();
+			conn.setDoInput(true);
+			conn.connect();
+			InputStream is = conn.getInputStream();
+			bitmap = BitmapFactory.decodeStream(is);
+			is.close();
 
-
+		} catch (OutOfMemoryError e) {
+			e.printStackTrace();
+			bitmap = null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			bitmap = null;
+		}
+		return bitmap;
+	}
 
 }

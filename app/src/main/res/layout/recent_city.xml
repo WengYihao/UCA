@@ -8,21 +8,21 @@
         android:id="@+id/recentHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginTop="7dp"
+        android:layout_marginLeft="@dimen/padding_10"
+        android:layout_marginTop="@dimen/padding_8"
         android:text="历史访问城市"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_16" />
 
     <com.cn.uca.view.CityGridView
         android:id="@+id/recent_city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="15dp"
-        android:horizontalSpacing="20dp"
+        android:layout_marginLeft="@dimen/padding_20"
+        android:layout_marginRight="@dimen/padding_30"
+        android:layout_marginTop="@dimen/padding_15"
+        android:horizontalSpacing="@dimen/padding_20"
         android:listSelector="@android:color/transparent"
         android:numColumns="3"
-        android:verticalSpacing="10dp" />
+        android:verticalSpacing="@dimen/padding_10" />
 </LinearLayout>

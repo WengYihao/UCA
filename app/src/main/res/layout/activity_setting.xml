@@ -6,19 +6,22 @@
     android:layout_height="match_parent"
     tools:context="com.cn.uca.ui.user.SettingActivity"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_50"
-        android:background="@color/ori" >
+        android:background="@drawable/text">
+
         <TextView
             android:id="@+id/back"
-            style="@style/style_back"/>
+            style="@style/style_back" />
 
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="设置"/>
+            android:text="设置" />
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -154,11 +157,11 @@
             android:padding="10dp"
             android:textSize="20dp"
             android:gravity="center"
-            android:background="@color/ori"
+            android:background="@drawable/text"
             android:textColor="@color/white"
             android:layout_marginTop="80dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginLeft="@dimen/padding_20"
+            android:layout_marginRight="@dimen/padding_20"/>
     </LinearLayout>
 
 </com.cn.uca.view.StatusView>

@@ -114,7 +114,7 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         supplement.setOnClickListener(this);
         freeTime.setOnClickListener(this);
 
-        startTime.setText(SystemUtil.getCurrentDateOnly2());
+        startTime.setText(SystemUtil.getFetureDate(1));
         endTime.setText(SystemUtil.getFetureDate(10));
 
     }
@@ -160,8 +160,8 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         }else{
             ToastXutil.show("约咖名称不能为空");
         }
-        int num = Integer.parseInt(peopleNum.getText().toString().trim());
         if (!StringXutil.isEmpty(peopleNum.getText().toString().trim())){
+            int num = Integer.parseInt(peopleNum.getText().toString().trim());
             escortRecordBean.setRequirement_people_number(num);
         }else{
             ToastXutil.show("最大人数不能为空");
@@ -169,12 +169,12 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         if (!StringXutil.isEmpty(timeForStart)){
             escortRecordBean.setBeg_time(timeForStart);
         }else{
-            ToastXutil.show("空闲时间不能为空");
+            escortRecordBean.setBeg_time(startTime.getText().toString());
         }
         if (!StringXutil.isEmpty(timeForEnd)){
             escortRecordBean.setEnd_time(timeForEnd);
         }else {
-            ToastXutil.show("空闲时间不能为空");
+            escortRecordBean.setEnd_time(endTime.getText().toString());
         }
         if (id != 0){
             escortRecordBean.setEscort_details_id(id);
@@ -184,14 +184,34 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         escortRecordBean.setAccount_token(SharePreferenceXutil.getAccountToken());
         Gson gson = new Gson();
         escortRecordBean.setReleaseServices(gson.toJson(list));
-        Log.i("123",escortRecordBean.toString()+"000");
         YueKaHttp.releaseEscortRecord(escortRecordBean, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 try {
                     if (i == 200){
                         JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
-                        Log.i("123",jsonObject.toString()+"/*/*/*/");
+                        int code = jsonObject.getInt("code");
+                        switch (code){
+                            case 0:
+                                ToastXutil.show("发布成功");
+                                SendYueKaActivity.this.finish();
+                                break;
+                            case 125:
+                                ToastXutil.show("发布时间大于15天");
+                                break;
+                            case 130:
+                                ToastXutil.show("人数不能超过40");
+                                break;
+                            case 138:
+                                ToastXutil.show("次路线的路线点过少请添加后再次尝试");
+                                break;
+                            case 145:
+                                ToastXutil.show("伴游用户已发布信息");
+                                break;
+                            default:
+                                ToastXutil.show("发布失败");
+                                break;
+                        }
                     }
                 }catch (Exception e){
                 }
@@ -283,10 +303,15 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         if (dateStart.after(dateEnd)){
             ToastXutil.show("开始时间不能大于结束时间");
         }else{
-            timeForStart = SystemUtil.UtilDateToString(dateStart);
-            timeForEnd = SystemUtil.UtilDateToString(dateEnd);
-            startTime.setText(timeForStart);
-            endTime.setText(timeForEnd);
+            Date date = new Date();
+            if (dateStart.getTime() < date.getTime()){
+                ToastXutil.show("开始时间必须大于今天");
+            }else{
+                timeForStart = SystemUtil.UtilDateToString(dateStart);
+                timeForEnd = SystemUtil.UtilDateToString(dateEnd);
+                startTime.setText(timeForStart);
+                endTime.setText(timeForEnd);
+            }
         }
     }
 }
