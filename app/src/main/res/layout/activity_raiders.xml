@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.home.RaidersActivity"
+    tools:context=".ui.view.home.RaidersActivity"
     android:orientation="vertical">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_50"
@@ -35,15 +34,20 @@
 
         <ListView
             android:id="@+id/letter"
-            android:layout_width="60dp"
+            android:layout_width="30dp"
             android:layout_height="match_parent">
 
         </ListView>
-        <ListView
-            android:id="@+id/bbb"
+        <GridView
+            android:id="@+id/gridView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:numColumns="2"
+            android:padding="@dimen/padding_10"
+            android:verticalSpacing="@dimen/padding_10"
+            android:horizontalSpacing="@dimen/padding_10"
+            android:background="@color/gray">
 
-        </ListView>
+        </GridView>
     </LinearLayout>
 </com.cn.uca.view.StatusView>

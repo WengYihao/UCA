@@ -1,5 +1,8 @@
 package com.cn.uca.bean;
 
+/**
+ * 我的订单
+ */
 public class OrderBean {
     private String type;
     private String name;

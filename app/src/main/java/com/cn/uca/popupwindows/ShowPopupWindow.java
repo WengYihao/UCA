@@ -1,11 +1,9 @@
 package com.cn.uca.popupwindows;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +18,7 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.adapter.ShowAdapter;
 import com.cn.uca.config.MyApplication;
-import com.cn.uca.impl.yueka.OnSelectItemListener;
 import com.cn.uca.receiver.UpdateService;
-import com.cn.uca.ui.LoadActivity;
-import com.cn.uca.ui.MainActivity;
-import com.cn.uca.util.ToastXutil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;

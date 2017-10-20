@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/text_22"
+            android:textSize="@dimen/text_14"
             android:textColor="@color/white"
             android:background="@drawable/circular_place_background"/>
     </RelativeLayout>

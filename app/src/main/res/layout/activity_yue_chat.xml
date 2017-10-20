@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.yueka.YueChatActivity"
+    tools:context=".ui.view.yueka.YueChatActivity"
     android:background="@color/gray">
     <TextView
         android:id="@+id/stateTitle"

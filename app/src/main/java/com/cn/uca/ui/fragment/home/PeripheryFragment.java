@@ -9,8 +9,8 @@ import android.widget.ListView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
-import com.cn.uca.adapter.travel.PeripheryTravelAdapter;
-import com.cn.uca.bean.home.PeripheryTraverBean;
+import com.cn.uca.adapter.home.travel.PeripheryTravelAdapter;
+import com.cn.uca.bean.home.travel.PeripheryTraverBean;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
 import com.google.gson.Gson;

@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/transparent"
+    android:id="@+id/layout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,43 +13,68 @@
         android:background="@drawable/view_infowindow_title_back">
         <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="赏心悦目"
-            android:textColor="@color/black"
+            android:textColor="@color/ori"
             android:padding="@dimen/padding_5"
             android:layout_marginLeft="@dimen/padding_5"
-            android:textSize="@dimen/text_20"/>
-
+            android:textSize="@dimen/text_14"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/daohang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="寻路"
+                android:textColor="@color/gray2"
+                android:padding="@dimen/padding_5"
+                android:layout_marginLeft="@dimen/padding_5"
+                android:textSize="@dimen/text_14"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_5"
+                android:background="@mipmap/right_gray"
+                android:layout_gravity="center"/>
+        </LinearLayout>
     </LinearLayout>
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:scaleType="matrix"
+        android:src="@color/gray" />
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@drawable/view_infowindow_message_back"
+        android:orientation="horizontal"
         android:padding="@dimen/padding_5">
 
         <ImageView
             android:id="@+id/pic"
             android:layout_width="90dp"
             android:layout_height="90dp"
-            android:layout_marginLeft="@dimen/padding_5"
-            android:background="@mipmap/edc" />
+            android:layout_marginLeft="@dimen/padding_5"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/padding_5"
-                android:lines="2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:ellipsize="end"
-                android:text="亲爱的朋友，我们现在正在位于南沙水鸟世界生态园六个观赏岛其一的千鹤洲..." />
+                android:maxEms="15"
+                android:lines="4"
+                android:padding="@dimen/padding_5"
+                android:text="123456" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,26 +83,27 @@
                 android:padding="@dimen/padding_5">
 
                 <TextView
+                    android:id="@+id/commentary"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:background="@color/aa"
-                    android:text="解说"
                     android:gravity="center"
-                    android:textSize="@dimen/text_16"
-                    android:textColor="@color/white"/>
+                    android:text="解说"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_12" />
 
                 <TextView
                     android:id="@+id/detail"
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="@dimen/padding_5"
-                    android:text="详情"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_16"
-                    android:textColor="@color/white"
                     android:layout_weight="1"
-                    android:background="@color/aa" />
+                    android:background="@color/aa"
+                    android:gravity="center"
+                    android:text="详情"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_12" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

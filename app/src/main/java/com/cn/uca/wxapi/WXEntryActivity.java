@@ -3,8 +3,6 @@ package com.cn.uca.wxapi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import com.android.volley.VolleyError;
@@ -15,8 +13,7 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.QueryHttp;
-import com.cn.uca.ui.LoginActivity;
-import com.cn.uca.ui.MainActivity;
+import com.cn.uca.ui.view.MainActivity;
 import com.cn.uca.util.ActivityCollector;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.ToastXutil;

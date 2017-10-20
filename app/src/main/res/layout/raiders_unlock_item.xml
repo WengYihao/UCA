@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:roundedCornerRadius="5dp"
+            app:placeholderImageScaleType="fitXY">
+        </com.facebook.drawee.view.SimpleDraweeView>
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:roundedCornerRadius="5dp"
+            app:placeholderImageScaleType="fitXY">
+        </com.facebook.drawee.view.SimpleDraweeView>
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="北京"
+            android:textSize="@dimen/text_18"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_10"/>
+        <TextView
+            android:id="@+id/downLoad"
+            android:layout_width="@dimen/padding_30"
+            android:layout_height="@dimen/padding_30"
+            android:layout_centerInParent="true"
+            android:background="@mipmap/down_load"/>
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="￥1元购买"
+            android:layout_above="@id/downLoad"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/padding_20"
+            android:textSize="@dimen/text_16"/>
+    </RelativeLayout>
+</RelativeLayout>
+
+
+

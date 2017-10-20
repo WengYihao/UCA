@@ -9,7 +9,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 
 import com.cn.uca.R;
-import com.cn.uca.adapter.OrderAdapter;
+import com.cn.uca.adapter.user.OrderAdapter;
 import com.cn.uca.bean.OrderBean;
 import com.cn.uca.util.ToastXutil;
 

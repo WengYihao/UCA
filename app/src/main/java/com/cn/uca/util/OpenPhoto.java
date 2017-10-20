@@ -3,7 +3,7 @@ package com.cn.uca.util;
 import android.content.Context;
 import android.content.Intent;
 
-import com.cn.uca.ui.util.ImagePagerActivity;
+import com.cn.uca.ui.view.util.ImagePagerActivity;
 
 import java.util.ArrayList;
 

@@ -3,7 +3,7 @@ package com.cn.uca.config;
 public class MyConfig {
 	// 总接口
 	public static final String url = "http://www.szyouka.com/youkatravel/api/";
-//	public static final String url = "http://192.168.1.102/youkatravel/api/";
+//	public static final String url = "http://192.168.1.100/youkatravel/api/";
 	public static final String text = "http://192.168.1.100/youkatravel/api/abnormal/getAbnormal.do";    //测试
 	public static final String sendCode = url+"user/query/sendSMS.do";//发送短信验证码
 	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";     //获取微信token
@@ -42,4 +42,9 @@ public class MyConfig {
 	public static final String getMiYeuYou = url+"travel/query/getMiYeuYou.do";//获取蜜月游
 	public static final String getChuJingYou = url+"travel/query/getChuJingYou.do";//获取出境游
 	public static final String getTicket = url+"travel/query/getTicket.do";//获取景区门票
+	public static final String getHotTicket = url+"travel/query/getHotTicket.do";//获取热门景区门票
+	public static final String getScenicSpotCity = url+"travel/query/getScenicSpotCity.do";//获取热门城市景区门票
+	public static final String getScenicSpot = url+"travel/query/getScenicSpot.do";//获取城市景区门票
+	public static final String cpyGetCityRaiders = url+"travel/query/cpyGetCityRaiders.do";//城市攻略
+	public static final String getCityRaidersInfo = url+"travel/query/getCityRaidersInfo.do";//获取攻略详情
 }

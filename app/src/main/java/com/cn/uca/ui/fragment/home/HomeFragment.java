@@ -27,11 +27,11 @@ import com.cn.uca.loader.GlideImageLoader;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.home.HomeHttp;
-import com.cn.uca.ui.home.HotleActivity;
-import com.cn.uca.ui.home.PlaneTicketActivity;
-import com.cn.uca.ui.home.RaidersActivity;
-import com.cn.uca.ui.home.SearchActivity;
-import com.cn.uca.ui.home.TourismActivity;
+import com.cn.uca.ui.view.home.hotel.HotleActivity;
+import com.cn.uca.ui.view.home.raider.RaidersActivity;
+import com.cn.uca.ui.view.home.SearchActivity;
+import com.cn.uca.ui.view.home.travel.TourismActivity;
+import com.cn.uca.ui.view.home.yusheng.YuShengActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StatusMargin;
@@ -64,6 +64,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private List<CarouselFiguresBean> listPic;
     private String version,new_version;
     private String loadUrl,linkUrl;
+//    TextToSpeech speech;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, null);
@@ -128,6 +129,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         SetLayoutParams.setRelativeLayout(banner,MyApplication.width,MyApplication.height/3);
         //简单使用
         StatusMargin.setRelativeLayout(getActivity(),llTitle);
+//        speech = new TextToSpeech(getActivity(),new MyOnInitialListener());
     }
 
     private void getLineVersion() {
@@ -169,11 +171,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             }
         }
     };
+//    class MyOnInitialListener implements TextToSpeech.OnInitListener{
+//
+//        @Override
+//        public void onInit(int status) {
+//            speech.setLanguage(Locale.CHINESE);
+//        }
+//    }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.planeTicket:
-                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
+//                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
+                startActivity(new Intent(getActivity(), YuShengActivity.class));
+//                speech.speak("铜锣湾（因为粤音比较顺口的关系，部分香港人会把铜锣湾读成铜锣“环”，使三字都变成阳平声）位于香港岛的中心北岸之西，是香港的主要商业及娱乐场所集中地。", TextToSpeech.QUEUE_FLUSH, null);
                 break;
             case R.id.hotel:
                 startActivity(new Intent(getActivity(), HotleActivity.class));

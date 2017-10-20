@@ -2,6 +2,7 @@ package com.cn.uca.bean.user;
 
 /**
  * Created by asus on 2017/8/31.
+ * 身份认证状态
  */
 
 public class UserIdentityState {

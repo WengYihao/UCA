@@ -7,7 +7,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.cn.uca.R;
-import com.cn.uca.ui.MainActivity;
 
 import android.app.Notification;
 import android.app.NotificationManager;

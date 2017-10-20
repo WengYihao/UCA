@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:roundedCornerRadius="5dp"
+            app:placeholderImageScaleType="fitXY">
+        </com.facebook.drawee.view.SimpleDraweeView>
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:text="北京"
+            android:gravity="center"
+            android:background="@drawable/circular_place_background"/>
+    </RelativeLayout>
+</LinearLayout>

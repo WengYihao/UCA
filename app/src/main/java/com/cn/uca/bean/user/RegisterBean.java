@@ -2,6 +2,7 @@ package com.cn.uca.bean.user;
 
 /**
  * Created by asus on 2017/9/4.
+ * 注册
  */
 
 public class RegisterBean {

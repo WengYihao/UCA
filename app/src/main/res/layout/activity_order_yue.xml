@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.yueka.OrderYueActivity"
+    tools:context=".ui.view.yueka.OrderYueActivity"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_10"
-        android:background="@color/ori">
+        android:background="@drawable/text">
         <com.cn.uca.view.CircleImageView
             android:id="@+id/pic"
             android:layout_width="60dp"

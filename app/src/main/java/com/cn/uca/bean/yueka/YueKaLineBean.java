@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by asus on 2017/9/18.
+ * 约咖路线点
  */
 
 public class YueKaLineBean {

@@ -165,59 +165,59 @@
             android:value="541edc96fd6fdb5066972eb3" />
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.view.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.view.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.WelcomActivity"
+            android:name=".ui.view.WelcomActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.util.ImagePagerActivity"
+            android:name=".ui.view.util.ImagePagerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.LocationActivity"
+            android:name=".ui.view.LocationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.util.CityActivity"
+            android:name=".ui.view.util.CityActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.PlaneTicketActivity"
+            android:name=".ui.view.home.planeticket.PlaneTicketActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.HotleActivity"
+            android:name=".ui.view.home.hotel.HotleActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.TourismActivity"
+            android:name=".ui.view.home.travel.TourismActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.RaidersActivity"
+            android:name=".ui.view.home.raider.RaidersActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.SearchActivity"
+            android:name=".ui.view.home.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.user.SettingActivity"
+            android:name=".ui.view.user.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.user.InformationActivity"
+            android:name=".ui.view.user.InformationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.user.OrderActivity"
+            android:name=".ui.view.user.OrderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.user.CollectionActivity"
+            android:name=".ui.view.user.CollectionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.user.WalletActivity"
+            android:name=".ui.view.user.WalletActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.LoadActivity"
+            android:name=".ui.view.LoadActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -226,70 +226,79 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.user.InfoActivity"
+            android:name=".ui.view.user.InfoActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.user.InfoSexActivity"
+            android:name=".ui.view.user.InfoSexActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.register.RegisterActivity"
+            android:name=".ui.view.register.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.register.SettingPasswordActivity"
+            android:name=".ui.view.register.SettingPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.user.UpdatePasswordActivity"
+            android:name=".ui.view.user.UpdatePasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.register.ForgetPasswordActivity"
+            android:name=".ui.view.register.ForgetPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.yueka.DetailsWebActivity"
+            android:name=".ui.view.yueka.DetailsWebActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.yueka.YueChatActivity"
+            android:name=".ui.view.yueka.YueChatActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.yueka.OrderYueActivity"
+            android:name=".ui.view.yueka.OrderYueActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.user.IdentityActivity"
+            android:name=".ui.view.user.IdentityActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.util.BaseHideActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.Main2Activity"
+            android:name=".ui.view.util.BaseHideActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".swipeback.SwipeBackActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.util.BaseBackActivity"
+            android:name=".ui.view.util.BaseBackActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.yueka.PresetManagerActivity"
+            android:name=".ui.view.yueka.PresetManagerActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.yueka.LineChoiceActivity"
+            android:name=".ui.view.yueka.LineChoiceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.yueka.SendYueKaActivity"
+            android:name=".ui.view.yueka.SendYueKaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.yueka.OtherYueActivity"
+            android:name=".ui.view.yueka.OtherYueActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.register.RegisterWebActivity"
+            android:name=".ui.view.register.RegisterWebActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.RaidersDetailActivity"
+            android:name=".ui.view.home.raider.RaidersDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.home.PeripheryTravelActivity" />
-        <activity android:name=".ui.home.DomesticTravelActivity" />
-        <activity android:name=".ui.home.HoneymoonTravelActivity" />
-        <activity android:name=".ui.home.ExitTravelActivity"></activity>
+        <activity android:name=".ui.view.home.travel.PeripheryTravelActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.home.travel.DomesticTravelActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.home.travel.HoneymoonTravelActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.home.travel.ExitTravelActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.home.travel.SpotTicketActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.view.home.travel.SpotListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.view.home.travel.CitySpotListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.view.home.yusheng.YuShengActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

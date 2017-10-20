@@ -18,19 +18,18 @@ import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
-import com.cn.uca.adapter.YueKaAdapter;
+import com.cn.uca.adapter.yueka.YueKaAdapter;
 import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.bean.yueka.EscortRecordsBean;
 import com.cn.uca.bean.yueka.GetEscortBean;
-import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.datepicker.OnDoubleSureLisener;
 import com.cn.uca.impl.yueka.CollectionClickListener;
 import com.cn.uca.server.yueka.YueKaHttp;
-import com.cn.uca.ui.util.CityActivity;
-import com.cn.uca.ui.yueka.OrderYueActivity;
-import com.cn.uca.ui.yueka.OtherYueActivity;
-import com.cn.uca.ui.yueka.YueChatActivity;
+import com.cn.uca.ui.view.util.CityActivity;
+import com.cn.uca.ui.view.yueka.OrderYueActivity;
+import com.cn.uca.ui.view.yueka.OtherYueActivity;
+import com.cn.uca.ui.view.yueka.YueChatActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
@@ -295,10 +294,10 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                 double lo= aMapLocation.getLongitude();//获取经度
                 // 如果不设置标志位，此时再拖动地图时，它会不断将地图移动到当前的位置
                 if (isFirstLoc){
-                    Log.i("123",aMapLocation.getCity()+"--"+aMapLocation.getCityCode()+"---"+aMapLocation.getLocationType()+"--"+la+"--"+lo);
+                    Log.i("456",aMapLocation.getCity()+"--"+aMapLocation.getCityCode()+"---"+aMapLocation.getLocationType()+"--"+la+"--"+lo);
                     city = aMapLocation.getCity().substring(0,aMapLocation.getCity().indexOf("市"));
                     cityCode = aMapLocation.getCityCode();
-                    Log.i("123",SystemUtil.getCurrentDate()+"定位");
+                    Log.i("456",SystemUtil.getCurrentDate()+"定位");
                     getEscortRecords(cityCode);
                     place.setText(city);
                     isFirstLoc = false;
@@ -309,9 +308,9 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                         + aMapLocation.getErrorCode() + ", errInfo:"
                         + aMapLocation.getErrorInfo());
                 city = "无法定位";
-                cityCode = "0755";
-                getEscortRecords(cityCode);
-                place.setText(city);
+//                cityCode = "0755";
+//                getEscortRecords(cityCode);
+//                place.setText(city);
             }
         }
     }

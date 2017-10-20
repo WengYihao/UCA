@@ -1,6 +1,7 @@
 package com.cn.uca.util;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -19,8 +20,16 @@ public class SetLayoutParams {
      */
     public static void setLinearLayout (View view,int width, int height){
         LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) view.getLayoutParams();
-        linearParams.height = height;
-        linearParams.width = width;
+        if (width == 0){
+            linearParams.width = linearParams.WRAP_CONTENT;
+        }else{
+            linearParams.width = width;
+        }
+        if (height == 0){
+            linearParams.height = linearParams.WRAP_CONTENT;
+        }else {
+            linearParams.height = height;
+        }
        view.setLayoutParams(linearParams);
     }
 
@@ -32,8 +41,16 @@ public class SetLayoutParams {
      */
     public static void setRelativeLayout (View view,int width, int height){
         RelativeLayout.LayoutParams linearParams =(RelativeLayout.LayoutParams) view.getLayoutParams();
-        linearParams.height = height;
-        linearParams.width = width;
+        if (width == 0){
+            linearParams.width = linearParams.WRAP_CONTENT;
+        }else{
+            linearParams.width = width;
+        }
+        if (height == 0){
+            linearParams.height = linearParams.WRAP_CONTENT;
+        }else {
+            linearParams.height = height;
+        }
         view.setLayoutParams(linearParams);
     }
 }

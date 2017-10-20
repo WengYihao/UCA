@@ -2,6 +2,7 @@ package com.cn.uca.bean.yueka;
 
 /**
  * Created by asus on 2017/9/12.
+ * 标签
  */
 
 public class LableBean {

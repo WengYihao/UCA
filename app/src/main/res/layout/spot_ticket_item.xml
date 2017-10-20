@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_15"
+            android:layout_marginLeft="@dimen/padding_8"
+            android:layout_marginTop="@dimen/padding_15"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/spot_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="门票名称"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_14" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_15"
+                android:text="时间段"
+                android:textSize="@dimen/text_12"
+                android:textColor="@color/gray2" />
+
+            <TextView
+                android:id="@+id/link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_15"
+                android:text="预定须知"
+                android:textColor="@color/ori"
+                android:textSize="@dimen/text_12" />
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/layout"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/padding_10">
+
+            <RelativeLayout
+                android:id="@+id/price"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="#f8b465">
+                <TextView
+                    android:id="@+id/price_customer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/padding_8"
+                    android:text="￥60"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_14" />
+
+                <TextView
+                    android:id="@+id/price_original"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/price_customer"
+                    android:layout_centerHorizontal="true"
+                    android:text="￥60"
+                    android:textColor="#eee"
+                    android:textSize="@dimen/text_12" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/reserve"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/circular_line_background"
+                android:gravity="center"
+                android:text="订"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_20"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>

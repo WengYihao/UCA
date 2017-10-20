@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.home.TourismActivity">
+    tools:context=".ui.view.home.TourismActivity">
 
     <RelativeLayout
         android:id="@+id/llImg"
@@ -69,13 +69,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/llImg"
         android:background="@color/white">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/tourismActivity_layout_text"
             android:padding="@dimen/padding_12"
             android:textSize="@dimen/text_14"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/right_gray"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_10"
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
     <LinearLayout
         android:id="@+id/llPlace"

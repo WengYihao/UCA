@@ -2,6 +2,7 @@ package com.cn.uca.bean.home;
 
 /**
  * Created by asus on 2017/9/27.
+ * 轮播图
  */
 
 public class CarouselFiguresBean {

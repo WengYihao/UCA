@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.home.YuShengActivity"
+    android:orientation="vertical"
+    android:background="@mipmap/yusheng_back">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/text" >
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back"/>
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="余生"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_15"
+                android:gravity="center"
+                android:text="人的一生其实非常短暂" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8"
+                android:gravity="center"
+                android:text="大约只有三万多天" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_20"
+                android:gravity="center"
+                android:text="发呆、刷微博、打游戏。一转眼又是一天" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8"
+                android:gravity="center"
+                android:text="等待、犹豫、拖延，一晃神又是一月" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/text"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_50"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="你出生于"
+                    android:textColor="@color/black2"
+                    android:textSize="@dimen/text_18"
+                    android:layout_gravity="center_vertical"/>
+
+                <LinearLayout
+                    android:id="@+id/layout1"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_5">
+
+                    <TextView
+                        android:id="@+id/baithDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_8"
+                        android:gravity="center"
+                        android:textColor="@color/ori"
+                        android:text="2017-10-19"
+                        android:textSize="@dimen/text_20"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:scaleType="matrix"
+                        android:src="@color/ori" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_50"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="你是一名"
+                    android:textColor="@color/black2"
+                    android:textSize="@dimen/text_18"
+                    android:layout_gravity="center_vertical"/>
+
+                <LinearLayout
+                    android:id="@+id/layout2"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_5">
+
+                    <TextView
+                        android:id="@+id/sex"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_8"
+                        android:gravity="center"
+                        android:textColor="@color/ori"
+                        android:text="2017-10-19"
+                        android:textSize="@dimen/text_20" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:scaleType="matrix"
+                        android:src="@color/ori" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/bbb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/info"
+            android:layout_marginTop="@dimen/padding_30"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="想做的事情是否还记得" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="定下的目标是否有实现"
+                android:layout_marginTop="@dimen/padding_8"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/aaa"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/ori"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="开启生命的倒计时"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/aaa"
+            android:layout_below="@id/bbb">
+
+            <com.cn.uca.view.dialog.WaveView
+                android:id="@+id/wave"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:layout_alignParentBottom="true"></com.cn.uca.view.dialog.WaveView>
+
+            <TextView
+                android:id="@+id/start"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/circular_background"
+                android:gravity="center"
+                android:text="开启余生"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</com.cn.uca.view.StatusView>

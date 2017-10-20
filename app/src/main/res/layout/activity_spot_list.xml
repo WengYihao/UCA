@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.home.SpotListActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/text">
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back"/>
+
+        <TextView
+            style="@style/style_title"
+            android:text="景点列表"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <ListView
+            android:id="@+id/letter"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+        </ListView>
+        <GridView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray"
+            android:padding="@dimen/padding_10"
+            android:verticalSpacing="@dimen/padding_10"
+            android:horizontalSpacing="@dimen/padding_10"
+            android:numColumns="2">
+        </GridView>
+    </LinearLayout>
+</com.cn.uca.view.StatusView>

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.cn.uca.ui.user.WalletActivity"
+    tools:context=".ui.view.user.WalletActivity"
     android:orientation="vertical">
 
     <RelativeLayout

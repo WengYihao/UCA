@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by asus on 2017/9/13.
+ * 约咖信息详情
  */
 
 public class YueKaDetailsBean {

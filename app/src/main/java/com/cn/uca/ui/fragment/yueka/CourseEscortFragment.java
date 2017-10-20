@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.cn.uca.R;
-import com.cn.uca.adapter.CourseEscortAdapter;
+import com.cn.uca.adapter.yueka.CourseEscortAdapter;
 import com.cn.uca.bean.CourseEscortBean;
-import com.cn.uca.util.SetListView;
 
 import java.util.ArrayList;
 import java.util.List;

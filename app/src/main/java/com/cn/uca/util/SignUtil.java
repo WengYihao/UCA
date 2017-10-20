@@ -22,13 +22,19 @@ public class SignUtil {
         try {
             List<String> delKeys = new ArrayList<String>();
             for (String key : map.keySet()) {
-                if (StringXutil.isEmpty(key)) {
+                Log.i("789","---|"+ key + "|---");
+                Log.i("789",key.equals("")+"hhh"+(key == null));
+                if (StringXutil.isEmpty(map.get(key).toString())) {
+                    Log.i("789",key+"++++");
                     delKeys.add(key);
                 }
             }
+            Log.i("123",delKeys.size()+"个数");
             for (String delKey : delKeys) {
                 map.remove(delKey);
+                Log.i("789",map.toString()+"---");
             }
+            Log.i("789",map.toString());
             String[] mapKeyArrays = new String[map.size()];
             map.keySet().toArray(mapKeyArrays);// 赋值
 
@@ -46,6 +52,7 @@ public class SignUtil {
             return sign;
         } catch (Exception e) {
             e.printStackTrace();
+            Log.i("456",e.getMessage());
             return null;
         }
     }

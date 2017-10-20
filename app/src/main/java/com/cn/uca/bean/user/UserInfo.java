@@ -2,6 +2,7 @@ package com.cn.uca.bean.user;
 
 /**
  * Created by asus on 2017/8/31.
+ * 用户信息
  */
 
 public class UserInfo {

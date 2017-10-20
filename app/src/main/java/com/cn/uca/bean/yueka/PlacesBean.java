@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 /**
  * Created by asus on 2017/9/13.
+ * 路线点
  */
 
 public class PlacesBean implements Parcelable{

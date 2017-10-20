@@ -2,7 +2,6 @@ package com.cn.uca.ui.fragment.yueka;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +16,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.cn.uca.R;
-import com.cn.uca.adapter.ContentAdapter;
-import com.cn.uca.adapter.LineAdapter;
-import com.cn.uca.adapter.RecommendAdapter;
+import com.cn.uca.adapter.yueka.ContentAdapter;
+import com.cn.uca.adapter.yueka.LineAdapter;
+import com.cn.uca.adapter.yueka.RecommendAdapter;
 import com.cn.uca.bean.RecommendBean;
 import com.cn.uca.bean.yueka.PlacesBean;
 import com.cn.uca.util.SetListView;

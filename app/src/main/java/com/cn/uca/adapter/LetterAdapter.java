@@ -11,7 +11,7 @@ import com.cn.uca.R;
 
 /**
  * Created by asus on 2017/8/23.
- * 一元夺宝字母适配器
+ * 字母适配器
  */
 
 public class LetterAdapter extends BaseAdapter{

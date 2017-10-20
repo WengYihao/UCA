@@ -4,6 +4,7 @@ import java.util.List;
 
 /**
  * Created by asus on 2017/9/12.
+ * 伴游记录
  */
 
 public class EscortRecordsBean {
