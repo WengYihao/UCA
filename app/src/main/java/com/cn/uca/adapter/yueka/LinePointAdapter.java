@@ -1,4 +1,4 @@
-package com.cn.uca.adapter;
+package com.cn.uca.adapter.yueka;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,18 +10,20 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.bean.yueka.PlacesBean;
-import com.cn.uca.view.MyEditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 路线点
+ */
 
-public class AllLineAdapter extends BaseAdapter{
+public class LinePointAdapter extends BaseAdapter{
 	private List<PlacesBean> list;
 	private Context context;
 
-	public AllLineAdapter(){}
-	public AllLineAdapter(List<PlacesBean> list, Context context) {
+	public LinePointAdapter(){}
+	public LinePointAdapter(List<PlacesBean> list, Context context) {
 		this.list = list;
 		this.context = context;
 	}

@@ -15,6 +15,9 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.cn.uca.R;
 
+/**
+ *
+ */
 public class LocationActivity extends AppCompatActivity implements  LocationSource,AMapLocationListener{
 
     private final static String TAG = "LocationActivity";
