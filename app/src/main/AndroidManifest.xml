@@ -283,22 +283,31 @@
         <activity
             android:name=".ui.view.home.raider.RaidersDetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.view.home.travel.PeripheryTravelActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.view.home.travel.DomesticTravelActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.view.home.travel.HoneymoonTravelActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.view.home.travel.ExitTravelActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.view.home.travel.SpotTicketActivity"
+        <activity
+            android:name=".ui.view.home.travel.PeripheryTravelActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.view.home.travel.SpotListActivity"
+        <activity
+            android:name=".ui.view.home.travel.DomesticTravelActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.view.home.travel.CitySpotListActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.view.home.yusheng.YuShengActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.view.home.travel.HoneymoonTravelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.travel.ExitTravelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.travel.SpotTicketActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.travel.SpotListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.travel.CitySpotListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.yusheng.YuShengActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.view.home.yusheng.YuShengDetailsActivity"></activity>
     </application>
 
 </manifest>

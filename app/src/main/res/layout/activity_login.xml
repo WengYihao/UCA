@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.cn.uca.ui.view.LoginActivity"
-    android:background="@drawable/text">
+    android:background="@drawable/gradient">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -49,7 +49,7 @@
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:background="@drawable/text"
+                        android:background="@drawable/gradient"
                         android:gravity="center"
                         android:hint="手机号"
                         android:inputType="number"
@@ -57,7 +57,7 @@
                         android:padding="@dimen/padding_10"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
-                        android:textCursorDrawable="@drawable/loginactivity_cursor_color" />
+                        android:textCursorDrawable="@drawable/white_cursor_color" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -99,14 +99,14 @@
                         android:layout_width="280dp"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:background="@drawable/text"
+                        android:background="@drawable/gradient"
                         android:gravity="center"
                         android:hint="验证码"
                         android:inputType="textPassword"
                         android:padding="@dimen/padding_10"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
-                        android:textCursorDrawable="@drawable/loginactivity_cursor_color" />
+                        android:textCursorDrawable="@drawable/white_cursor_color" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_10"
                 android:layout_marginRight="@dimen/padding_10"
-                android:background="@drawable/search_background"
+                android:background="@drawable/twenty_circular_white_background"
                 android:gravity="center"
                 android:padding="@dimen/padding_10"
                 android:text="@string/loginActivity_login_text"

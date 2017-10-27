@@ -1,7 +1,9 @@
 package com.cn.uca.ui.view.home.yusheng;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,21 +11,32 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.datepicker.OnSureLisener;
+import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.FitStateUI;
+import com.cn.uca.util.L;
 import com.cn.uca.util.SetLayoutParams;
+import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusMargin;
+import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.datepicker.DatePickDialog;
 import com.cn.uca.view.dialog.WaveView;
 
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class YuShengActivity extends BaseBackActivity implements View.OnClickListener,OnSureLisener{
 
@@ -35,6 +48,7 @@ public class YuShengActivity extends BaseBackActivity implements View.OnClickLis
     private TextView woman;
     private TextView btn_cancel;
     private Dialog dialog;
+    private String sexId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +85,7 @@ public class YuShengActivity extends BaseBackActivity implements View.OnClickLis
     private void showDatePickDialog(DateType type) {
         DatePickDialog dialog = new DatePickDialog(this);
         //设置上下年分限制
-        dialog.setYearLimt(60);
+        dialog.setYearLimt(100);
         //设置标题
         dialog.setTitle(R.string.infoActivity_date_title_text);
         //设置类型
@@ -108,7 +122,7 @@ public class YuShengActivity extends BaseBackActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.start:
-                ToastXutil.show("点我干嘛");
+                openLife();
                 break;
             case R.id.baithDate:
                 showDatePickDialog(DateType.TYPE_YMD);
@@ -128,6 +142,70 @@ public class YuShengActivity extends BaseBackActivity implements View.OnClickLis
                 dialog.dismiss();
                 break;
         }
+    }
+
+    private void openLife(){
+        if (StringXutil.isEmpty(baithDate.getText().toString())){
+            ToastXutil.show("出生日期不能为空！");
+        }else{
+            if (StringXutil.isEmpty(sex.getText().toString())){
+                ToastXutil.show("性别不能为空！");
+            }else{
+                switch (sex.getText().toString()){
+                    case "男":
+                        sexId = "1";
+                        break;
+                    case "女":
+                        sexId = "2";
+                        break;
+                }
+                Map<String,Object> map = new HashMap<>();
+                map.put("account_token", SharePreferenceXutil.getAccountToken());
+                map.put("date_birth",baithDate.getText().toString());
+                String time_stamp = SystemUtil.getCurrentDate2();
+                map.put("time_stamp",time_stamp);
+                map.put("sex_id",sexId);
+                String sign = SignUtil.sign(map);
+                HomeHttp.openLife(sign, time_stamp, baithDate.getText().toString(), sexId, new CallBack() {
+                    @Override
+                    public void onResponse(Object response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            Log.i("123",jsonObject.toString()+"---");
+                            int code = jsonObject.getInt("code");
+                            switch (code){
+                                case 0:
+                                    Intent intent = new Intent();
+                                    intent.setClass(YuShengActivity.this,YuShengDetailsActivity.class);
+                                    startActivity(intent);
+                                    SharePreferenceXutil.setOpenYS(true);
+                                    YuShengActivity.this.finish();
+                                    break;
+                                case 17:
+                                    ToastXutil.show("登录已过期");
+                                    break;
+                                case 20:
+                                    ToastXutil.show("请先登录");
+                                    break;
+                            }
+                        }catch (Exception e){
+                            Log.i("456",e.getMessage()+"/*");
+                        }
+                    }
+
+                    @Override
+                    public void onErrorMsg(String errorMsg) {
+                        Log.i("456",errorMsg+"");
+                    }
+
+                    @Override
+                    public void onError(VolleyError error) {
+                        Log.i("456",error.getMessage()+"***");
+                    }
+                });
+            }
+        }
+
     }
 
     @Override

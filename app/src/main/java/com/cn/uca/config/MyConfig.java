@@ -47,4 +47,7 @@ public class MyConfig {
 	public static final String getScenicSpot = url+"travel/query/getScenicSpot.do";//获取城市景区门票
 	public static final String cpyGetCityRaiders = url+"travel/query/cpyGetCityRaiders.do";//城市攻略
 	public static final String getCityRaidersInfo = url+"travel/query/getCityRaidersInfo.do";//获取攻略详情
+	public static final String openLife = url + "life/update/openLife.do";//开启余生
+	public static final String getLifeDays = url +"life/query/getLifeDays.do";//获取余生天数的记录
+	public static final String getLifeMonths = url +"life/query/getLifeMonths.do";//获取余生月数的记录
 }

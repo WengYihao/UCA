@@ -130,7 +130,6 @@ public class PlacesBean implements Parcelable{
 
         @Override
         public PlacesBean[] newArray(int size) {
-            // TODO Auto-generated method stub
             return new PlacesBean[size];
         }
     };

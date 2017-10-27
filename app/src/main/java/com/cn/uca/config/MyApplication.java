@@ -3,6 +3,7 @@ package com.cn.uca.config;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.cn.uca.R;
 import com.cn.uca.bean.wechat.WeChatAccessToken;
 import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.impl.CallBack;
@@ -16,12 +17,22 @@ import com.facebook.drawee.backends.pipeline.Fresco;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreater;
+import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreater;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -65,6 +76,20 @@ public class MyApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		getScreen(this);
+		SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
+			@Override
+			public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
+				layout.setPrimaryColorsId(R.color.white, R.color.black3);//全局设置主题颜色
+				return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);
+			}
+		});
+		SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
+			@Override
+			public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
+				layout.setPrimaryColorsId(R.color.white, R.color.gray2);//全局设置主题颜色
+				return new ClassicsFooter(context).setSpinnerStyle(SpinnerStyle.Translate);
+			}
+		});
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
 				.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())

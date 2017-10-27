@@ -2,6 +2,7 @@ package com.cn.uca.ui.view.yueka;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -188,11 +189,15 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
                 try {
                     if (i == 200){
                         JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
+                        Log.i("123",jsonObject.toString());
                         int code = jsonObject.getInt("code");
                         switch (code){
                             case 0:
                                 ToastXutil.show("发布成功");
                                 SendYueKaActivity.this.finish();
+                                break;
+                            case 121:
+                                ToastXutil.show("日期格式不合法");
                                 break;
                             case 125:
                                 ToastXutil.show("发布时间大于15天");

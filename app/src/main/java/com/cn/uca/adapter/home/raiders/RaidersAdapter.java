@@ -122,7 +122,6 @@ public class RaidersAdapter extends BaseAdapter{
 				holder2.pic.setImageURI(uri2);
 				Uri uri3 = Uri.parse("http://www.szyouka.com/youkatravel/fileRresources/default/appImg/lock.png");
 				holder2.layout.setImageURI(uri3);
-//				holder2.layout.getBackground().setAlpha(120);
 				break;
 		}
 		return convertView;

@@ -25,6 +25,11 @@ public class StatusMargin {
         params.setMargins(0, SystemUtil.getStatusHeight(activity), 0, 0);
         view.setLayoutParams(params);
     }
+    public static void setRelativeLayoutTop(Activity activity, View view,int num){
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        params.setMargins(0, num, 0, 0);
+        view.setLayoutParams(params);
+    }
     //设置RelativeLayout的布局距离
     public static void setRelativeLayout(Activity activity, View view,int num){
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) view.getLayoutParams();

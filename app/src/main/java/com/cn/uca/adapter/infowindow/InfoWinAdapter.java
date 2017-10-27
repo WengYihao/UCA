@@ -57,7 +57,6 @@ public class InfoWinAdapter implements AMap.InfoWindowAdapter{
     }
     @Override
     public View getInfoContents(Marker marker) {
-        Log.i("123","123456");
         marker.hideInfoWindow();
         return null;
     }
@@ -88,6 +87,7 @@ public class InfoWinAdapter implements AMap.InfoWindowAdapter{
                 daohang.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        ToastXutil.show("待开发");
                     }
                 });
                 commentary.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +116,6 @@ public class InfoWinAdapter implements AMap.InfoWindowAdapter{
 
         @Override
         public void onInit(int status) {
-            Log.i("123",status+"---");
             speech.setLanguage(Locale.CHINESE);
         }
     }

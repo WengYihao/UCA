@@ -10,7 +10,7 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_50"
-        android:background="@drawable/text">
+        android:background="@drawable/gradient">
 
         <TextView
             android:id="@+id/back"

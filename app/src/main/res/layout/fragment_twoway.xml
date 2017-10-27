@@ -197,5 +197,5 @@
         android:gravity="center"
         android:textSize="@dimen/text_20"
         android:layout_marginTop="20dp"
-        android:background="@drawable/text"/>
+        android:background="@drawable/gradient"/>
 </LinearLayout>

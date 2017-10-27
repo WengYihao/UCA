@@ -193,4 +193,60 @@ public class HomeHttp extends BaseServer {
         params.put("city_raiders_id",city_raiders_id);
         client.get(MyConfig.getCityRaidersInfo,params,handler);
     }
+
+    /**
+     * 开启余生
+     * @param sign
+     * @param time_stamp
+     * @param date_birth
+     * @param sex_id
+     * @param callBack
+     */
+    public static void openLife(String sign,String time_stamp,String date_birth,String sex_id,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        map.put("date_birth",date_birth);
+        map.put("sex_id",sex_id);
+        post5(MyConfig.openLife,map,callBack);
+    }
+
+    /**
+     * 获取余生天数的记录
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param page
+     * @param direction
+     * @param callBack
+     */
+    public static void getLifeDays(String sign,String time_stamp,String account_token,int page,String direction,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("page",page);
+        map.put("direction",direction);
+        get(MyConfig.getLifeDays,map,callBack);
+    }
+
+    /**
+     * 获取余生月数的记录
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param page
+     * @param direction
+     * @param callBack
+     */
+    public static void getLifeMonths(String sign,String time_stamp,String account_token,int page,String direction,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("page",page);
+        map.put("direction",direction);
+        get(MyConfig.getLifeMonths,map,callBack);
+    }
 }

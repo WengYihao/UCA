@@ -17,6 +17,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -162,6 +163,7 @@ public class IdentityActivity extends BaseBackActivity implements View.OnClickLi
                             if (i == 200){
                                 try {
                                     JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
+                                    Log.i("123",jsonObject.toString()+"---");
                                     int code = jsonObject.getInt("code");
                                     switch (code){
                                         case 0:
@@ -185,17 +187,16 @@ public class IdentityActivity extends BaseBackActivity implements View.OnClickLi
                                             ToastXutil.show("身份证或姓名错误");
                                             break;
                                     }
-                                } catch (UnsupportedEncodingException e) {
+                                }catch (Exception e) {
                                     e.printStackTrace();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
+                                    Log.i("456",e.getMessage()+"---");
                                 }
                             }
                         }
 
                         @Override
                         public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-
+                            Log.i("456",i+"--");
                         }
                     });
                 }else{

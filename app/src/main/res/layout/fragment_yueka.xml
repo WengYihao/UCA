@@ -2,12 +2,13 @@
 <com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/llTitle"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@drawable/text">
+        android:background="@drawable/gradient">
         <TextView
             android:id="@+id/orderYue"
             android:layout_width="wrap_content"
@@ -39,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_8"
-        android:background="@drawable/text"
+        android:background="@drawable/gradient"
         android:orientation="horizontal">
 
         <TextView
@@ -103,11 +104,10 @@
             android:textSize="@dimen/text_16" />
     </LinearLayout>
 
-    <LinearLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray">
-
+        android:layout_height="match_parent">
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
@@ -115,5 +115,9 @@
             android:overScrollMode="never"
             android:scrollbars="none"
             android:divider="@null"></ListView>
-    </LinearLayout>
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srlClassicsSpinnerStyle="Translate"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </com.cn.uca.view.StatusView>

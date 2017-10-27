@@ -55,7 +55,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     private AMap aMap;
     private MapView mapView;
     private UiSettings uiSetting;
-    private TextView back,food,line;
+    private TextView back,food,line,spot,raider,lixian,fankui;
     private int id;
     private String name;
     private List<RaidersAirportBean> airportList;
@@ -162,11 +162,19 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     private void initView() {
         back = (TextView)findViewById(R.id.back);
         food = (TextView)findViewById(R.id.food);
+        spot = (TextView)findViewById(R.id.spot);
         line = (TextView)findViewById(R.id.line);
+        raider = (TextView)findViewById(R.id.raiders);
+        lixian = (TextView)findViewById(R.id.lixian);
+        fankui = (TextView)findViewById(R.id.fankui);
 
         back.setOnClickListener(this);
         food.setOnClickListener(this);
+        spot.setOnClickListener(this);
         line.setOnClickListener(this);
+        raider.setOnClickListener(this);
+        lixian.setOnClickListener(this);
+        fankui.setOnClickListener(this);
         airportList = new ArrayList<>();
         senicSpotList = new ArrayList<>();
         foodList = new ArrayList<>();
@@ -261,11 +269,18 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                     isShowFood = true;
                 }
                 break;
+            case R.id.spot:
+                //景点列表
+                ToastXutil.show("等等我，马上到");
+                break;
+            case R.id.raiders:
+                //攻略
+                ToastXutil.show("等等我，马上到");
+                break;
             case R.id.line:
                 if (isShowLine){
                     if (lineList.size() > 0){
                         polyline.setVisible(true);
-                        Log.i("123","1111111111111111");
                     }else{
                         for (RaidersSenicSpotBean in:senicSpotList) {
                             lineList.add(new LatLng(in.getLat(),in.getLng()));
@@ -275,16 +290,18 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                         }
                         polt.width(10).geodesic(true).color(Color.RED);
                         polyline =  aMap.addPolyline(polt);
-//                        polyline.setVisible(false);
-                        Log.i("123","22222222222222222");
                     }
                     isShowLine = false;
                 }else{
                     polyline.setVisible(false);
-                    Log.i("123",polt.isVisible()+"/*/*");
                     isShowLine = true;
-                    Log.i("123","333333333333333333");
                 }
+                break;
+            case R.id.lixian:
+                ToastXutil.show("离线");
+                break;
+            case R.id.fankui:
+                ToastXutil.show("反馈");
                 break;
         }
     }
@@ -312,11 +329,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     public void onPause() {
         super.onPause();
         mapView.onPause();
-//        aMap.get
-//        uiSetting.getZoomPosition();
-//        aMap.setMaxZoomLevel(uiSetting.getZoomPosition());
         aMap.setMapStatusLimits(latLngBounds);
-        Log.i("123",uiSetting.getZoomPosition()+"**");
     }
 
 

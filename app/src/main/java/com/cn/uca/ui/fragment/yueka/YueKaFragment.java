@@ -7,10 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -37,6 +39,9 @@ import com.cn.uca.view.datepicker.DoubleDatePickDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -59,6 +64,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
     private TextView place,messageYue,orderYue,startTime,endTime,freeTime;
     private int page = 1;
     private int pageCount = 5;
+    private RefreshLayout refreshLayout;
 
     //声明AMapLocationClient类对象，定位发起端
     private AMapLocationClient mLocationClient = null;
@@ -79,13 +85,14 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
     }
 
     private void ininView() {
-        place = (TextView)view.findViewById(R.id.place);
-        messageYue = (TextView)view.findViewById(R.id.messageYue);
-        orderYue = (TextView)view.findViewById(R.id.orderYue);
-        listView  = (ListView)view.findViewById(R.id.listView);
-        startTime = (TextView)view.findViewById(R.id.startTime);
-        endTime = (TextView)view.findViewById(R.id.endTime);
-        freeTime = (TextView)view.findViewById(R.id.freeTime);
+        refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
+        place = (TextView) view.findViewById(R.id.place);
+        messageYue = (TextView) view.findViewById(R.id.messageYue);
+        orderYue = (TextView) view.findViewById(R.id.orderYue);
+        listView = (ListView) view.findViewById(R.id.listView);
+        startTime = (TextView) view.findViewById(R.id.startTime);
+        endTime = (TextView) view.findViewById(R.id.endTime);
+        freeTime = (TextView) view.findViewById(R.id.freeTime);
 
         place.setOnClickListener(this);
         messageYue.setOnClickListener(this);
@@ -93,22 +100,52 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
         freeTime.setOnClickListener(this);
 
         list = new ArrayList<>();
-        yueKaAdapter = new YueKaAdapter(list,getActivity(),this);
+        yueKaAdapter = new YueKaAdapter(list, getActivity(), this);
         listView.setAdapter(yueKaAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(),YueChatActivity.class);
+                intent.setClass(getActivity(), YueChatActivity.class);
                 int id = list.get(i).getEscort_record_id();
-                intent.putExtra("id",id);
+                intent.putExtra("id", id);
                 startActivity(intent);
             }
         });
         startTime.setText(SystemUtil.getCurrentDateOnly2());
         endTime.setText(SystemUtil.getFetureDate(10));
-    }
 
+        refreshLayout.setEnableAutoLoadmore(true);//开启自动加载功能（非必须）
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(final RefreshLayout refreshlayout) {
+                refreshlayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                       getEscortRecords(page,pageCount,"0755");
+                        refreshlayout.finishRefresh();
+                        refreshlayout.setLoadmoreFinished(false);
+                    }
+                }, 2000);
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(final RefreshLayout refreshlayout) {
+                refreshlayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        page++;
+                       getEscortRecords(page,pageCount,"0755");
+                        refreshlayout.finishLoadmore();
+                    }
+                }, 2000);
+            }
+        });
+        //触发自动刷新
+        refreshLayout.autoRefresh();
+
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -134,7 +171,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
         }
     }
 
-    private void getEscortRecords(String code){
+    private void getEscortRecords(int page,int pageCount,String code){
         GetEscortBean bean = new GetEscortBean();
         bean.setPage(page);
         bean.setPageCount(pageCount);
@@ -156,8 +193,17 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                                 JSONArray array = object.getJSONArray("escortRecords");
                                 Gson gson = new Gson();
                                 List<EscortRecordsBean> bean = gson.fromJson(array.toString(),new TypeToken<List<EscortRecordsBean>>(){}.getType());
-                                list.addAll(bean);
-                                yueKaAdapter.setList(list);
+                                if (bean.size() > 0) {
+                                    list.clear();
+                                    list.addAll(bean);
+                                    yueKaAdapter.setList(list);
+                                } else {
+                                    if (list.size() != 0) {
+                                        ToastXutil.show("没有更多数据了");
+                                    } else {
+                                        yueKaAdapter.setList(list);
+                                    }
+                                }
                                 break;
                         }
                     }catch (Exception e){
@@ -298,7 +344,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                     city = aMapLocation.getCity().substring(0,aMapLocation.getCity().indexOf("市"));
                     cityCode = aMapLocation.getCityCode();
                     Log.i("456",SystemUtil.getCurrentDate()+"定位");
-                    getEscortRecords(cityCode);
+                    getEscortRecords(1,5,cityCode);
                     place.setText(city);
                     isFirstLoc = false;
                 }

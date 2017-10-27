@@ -25,6 +25,6 @@
             android:textColor="@color/white"
             android:text="北京"
             android:gravity="center"
-            android:background="@drawable/circular_place_background"/>
+            android:background="@drawable/circular_black_background"/>
     </RelativeLayout>
 </LinearLayout>

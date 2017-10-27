@@ -36,7 +36,7 @@ public class YueKaHttp extends BaseServer{
      * @param bean
      * @param handler
      */
-    public static void getEscortRecords(GetEscortBean bean, AsyncHttpResponseHandler handler){
+    public static void  getEscortRecords(GetEscortBean bean, AsyncHttpResponseHandler handler){
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("account_token",bean.getAccount_token());

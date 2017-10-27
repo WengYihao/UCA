@@ -34,4 +34,9 @@
     <color name="possible_result_points">#c0ffff00</color>
     <color name="yellow">#FFD700</color>
     <color name="black2">#222222</color>
+    <color name="black3">#DC433F3F</color>
+    <color name="yusheng1">#d8dee2</color>
+    <color name="yusheng2">#aaa</color>
+    <color name="yusheng3">#f8e58c</color>
+    <color name="yusheng4">#f57c27</color>
 </resources>

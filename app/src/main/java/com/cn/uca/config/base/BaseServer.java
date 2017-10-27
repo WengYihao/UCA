@@ -37,7 +37,6 @@ public class BaseServer {
 	 *            ：回调接口
 	 */
 	public void post(String url, Map<String, Object> map, final CallBack callback) {
-//		String url = MyConfig.url + port;
 		RequestQueue quene = MyApplication.getHttpQueue();
 		JSONObject params = new JSONObject(map);
 		L.i("post url", url + "--" + params);
@@ -62,7 +61,6 @@ public class BaseServer {
 	}
 
 	public void post2(String url, Map<String, Object> map, final CallBack callback) {
-//		String url = MyConfig.url + port;
 		RequestQueue quene = MyApplication.getHttpQueue();
 		JSONObject params = new JSONObject(map);
 		String paramsStr = params.toString();
@@ -166,7 +164,35 @@ public class BaseServer {
 		stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 		quene.add(stringRequest);
 	}
-
+	public static void post5(String url, final Map<String, String> map, final CallBack callBack) {
+		RequestQueue quene = MyApplication.getHttpQueue();
+		StringRequest stringRequest = new StringRequest(Method.POST, url, new Listener<String>() {
+			@Override
+			public void onResponse(String response) {
+				if (response != null) {
+					callBack.onResponse(response);
+				}else{
+					callBack.onErrorMsg("访问出错");
+				}
+			}
+		}, new ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				if (error != null) {
+					callBack.onError(error);
+				}
+				Log.i("post5", error.getMessage() + "-报错");
+			}
+		}) {
+			@Override
+			protected Map<String, String> getParams() throws AuthFailureError {
+				Log.i("post5", map.toString() + "传递参数");
+				return map;
+			}
+		};
+		stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+		quene.add(stringRequest);
+	}
 	/**
 	 * get请求
 	 * 

@@ -28,14 +28,17 @@ import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.home.hotel.HotleActivity;
+import com.cn.uca.ui.view.home.planeticket.PlaneTicketActivity;
 import com.cn.uca.ui.view.home.raider.RaidersActivity;
 import com.cn.uca.ui.view.home.SearchActivity;
 import com.cn.uca.ui.view.home.travel.TourismActivity;
 import com.cn.uca.ui.view.home.yusheng.YuShengActivity;
+import com.cn.uca.ui.view.home.yusheng.YuShengDetailsActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.SystemUtil;
+import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.Banner;
 import com.cn.uca.view.StickyScrollView;
 import com.google.gson.Gson;
@@ -59,12 +62,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private Banner banner;//图片轮播
     private List<String> images=new ArrayList<>();//图片地址集合
     private int height; //透明内容高度
-    private TextView planeTicket,hotle,tourism,oneRaiders;//机票、酒店、旅游、一元攻略、一元夺宝
+    private TextView backlayout,planeTicket,hotel,tourism,oneRaiders,yusheng,footprint;//机票、酒店、旅游、一元攻略、余生、足迹
     private TextView search_et;
     private List<CarouselFiguresBean> listPic;
     private String version,new_version;
     private String loadUrl,linkUrl;
-//    TextToSpeech speech;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, null);
@@ -83,6 +85,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             public void onResponse(Object response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
+//                    Log.i("123",jsonObject.toString()+"/**/");
                     int code = jsonObject.getInt("code");
                     if (code ==0 ){
                         JSONObject object = jsonObject.getJSONObject("data");
@@ -92,8 +95,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                         }else{
                             SharePreferenceXutil.setAuthentication(false);
                         }
+                        int open_life_id = object.getInt("open_life_id");
+                        if (open_life_id == 1){
+                            SharePreferenceXutil.setOpenYS(true);
+                        }else{
+                            SharePreferenceXutil.setOpenYS(false);
+                        }
                     }
                 }catch (Exception e){
+                    Log.i("123",e.getMessage());
                 }
             }
 
@@ -115,21 +125,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         banner = (Banner)view.findViewById(R.id.banner);
         llTitle = (RelativeLayout) view.findViewById(R.id.ll_good_detail);
         planeTicket = (TextView)view.findViewById(R.id.planeTicket);
-        hotle = (TextView)view.findViewById(R.id.hotel);
+        hotel = (TextView)view.findViewById(R.id.hotel);
         tourism = (TextView)view.findViewById(R.id.tourism);
         oneRaiders = (TextView)view.findViewById(R.id.oneRaiders);
+        yusheng = (TextView)view.findViewById(R.id.yusheng);
+        footprint = (TextView)view.findViewById(R.id.footprint);
         search_et = (TextView) view.findViewById(R.id.search_et);
+        backlayout = (TextView)view.findViewById(R.id.backlayout);
 
         planeTicket.setOnClickListener(this);
-        hotle.setOnClickListener(this);
+        hotel.setOnClickListener(this);
         tourism.setOnClickListener(this);
         oneRaiders.setOnClickListener(this);
+        yusheng.setOnClickListener(this);
+        footprint.setOnClickListener(this);
         search_et.setOnClickListener(this);
 
-        SetLayoutParams.setRelativeLayout(banner,MyApplication.width,MyApplication.height/3);
+        SetLayoutParams.setRelativeLayout(banner,MyApplication.width,MyApplication.height*2/7);
         //简单使用
         StatusMargin.setRelativeLayout(getActivity(),llTitle);
-//        speech = new TextToSpeech(getActivity(),new MyOnInitialListener());
+        StatusMargin.setRelativeLayoutTop(getActivity(),backlayout,MyApplication.height*2/7-SystemUtil.dip2px(20));
     }
 
     private void getLineVersion() {
@@ -171,20 +186,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             }
         }
     };
-//    class MyOnInitialListener implements TextToSpeech.OnInitListener{
-//
-//        @Override
-//        public void onInit(int status) {
-//            speech.setLanguage(Locale.CHINESE);
-//        }
-//    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.planeTicket:
-//                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
-                startActivity(new Intent(getActivity(), YuShengActivity.class));
-//                speech.speak("铜锣湾（因为粤音比较顺口的关系，部分香港人会把铜锣湾读成铜锣“环”，使三字都变成阳平声）位于香港岛的中心北岸之西，是香港的主要商业及娱乐场所集中地。", TextToSpeech.QUEUE_FLUSH, null);
+                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
                 break;
             case R.id.hotel:
                 startActivity(new Intent(getActivity(), HotleActivity.class));
@@ -194,6 +201,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.oneRaiders:
                 startActivity(new Intent(getActivity(), RaidersActivity.class));
+                break;
+            case R.id.yusheng:
+                if (SharePreferenceXutil.isOpenYS()){
+                    startActivity(new Intent(getActivity(), YuShengDetailsActivity.class));
+                }else{
+                    startActivity(new Intent(getActivity(),YuShengActivity.class));
+                }
+                break;
+            case R.id.footprint:
+                ToastXutil.show("你都没走怎么又足迹？");
+//                startActivity(new Intent(getActivity(),));
                 break;
             case R.id.search_et:
                 startActivity(new Intent(getActivity(),SearchActivity.class));

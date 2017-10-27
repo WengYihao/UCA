@@ -25,6 +25,6 @@
             android:layout_centerInParent="true"
             android:textSize="@dimen/text_14"
             android:textColor="@color/white"
-            android:background="@drawable/circular_place_background"/>
+            android:background="@drawable/circular_black_background"/>
     </RelativeLayout>
 </RelativeLayout>

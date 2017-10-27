@@ -21,7 +21,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/search_background">
+            android:background="@drawable/five_circular_gray_background">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/imageView"

@@ -147,7 +147,6 @@ public class SystemUtil
 		}
 
 		}catch (Exception e) {
-		// TODO: handle exception
 		return false;
 		}
 		return true;

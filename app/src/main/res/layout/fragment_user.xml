@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/padding_10"
                         android:layout_toRightOf="@id/sex"
-                        android:background="@drawable/search_background"
+                        android:background="@drawable/five_circular_gray_background"
                         android:layout_centerVertical="true"
                         android:textColor="@color/grey2"
                         android:padding="@dimen/padding_2"

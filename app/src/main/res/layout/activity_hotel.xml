@@ -10,7 +10,7 @@
             android:id="@+id/img"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@mipmap/hotel_back"
+            android:src="@mipmap/tourism_back"
             android:scaleType="fitXY" />
         <ImageView
             android:id="@+id/back"

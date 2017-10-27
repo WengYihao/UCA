@@ -92,6 +92,22 @@ public class SharePreferenceXutil {
 		return isAuthentication;
 	}
 	/**
+	 * 保存是否开启余生
+	 * @param isOpenYS ：true:已开启
+	 */
+	public static void setOpenYS(boolean isOpenYS) {
+		getSp().edit().putBoolean("isOpenYS", isOpenYS).commit();
+	}
+
+	/**
+	 * 获取是否是否开启余生
+	 * @return
+	 */
+	public static boolean isOpenYS() {
+		boolean isOpenYS = getSp().getBoolean("isOpenYS", false);
+		return isOpenYS;
+	}
+	/**
 	 * 获取极光推送id
 	 * @return
 	 */
