@@ -35,83 +35,83 @@
             android:layout_marginLeft="@dimen/padding_15"
             android:text="还剩"/>
     </RelativeLayout>
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:background="@drawable/twenty_circular_ori_background"
-        android:padding="@dimen/padding_5"
-        android:layout_marginTop="@dimen/padding_10"
-        android:layout_marginLeft="@dimen/padding_20"
-        android:layout_marginRight="@dimen/padding_20">
+        android:padding="@dimen/padding_5">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/lable"
-                android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/twenty_circular_white_background"
-                android:visibility="gone"/>
-            <TextView
-                android:id="@+id/day"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="天"
-                android:textSize="@dimen/text_18"
-                android:textColor="@color/ori"
-                android:gravity="center"
-                android:padding="@dimen/padding_10"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/lable2"
-                android:layout_width="match_parent"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_10"
+                    android:text="天"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_14" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/twenty_circular_white_background"
-                android:visibility="gone"/>
-            <TextView
-                android:id="@+id/month"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="月"
-                android:textSize="@dimen/text_18"
-                android:textColor="@color/ori"
-                android:gravity="center"
-                android:padding="@dimen/padding_10"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/lable3"
-                android:layout_width="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_10"
+                    android:text="月"
+                    android:textColor="@color/ori"
+                    android:textSize="@dimen/text_14" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/twenty_circular_white_background"
-                android:visibility="gone"/>
-            <TextView
-                android:id="@+id/mark"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="痕迹"
-                android:textSize="@dimen/text_18"
-                android:textColor="@color/ori"
-                android:gravity="center"
-                android:padding="@dimen/padding_10"/>
-        </RelativeLayout>
-    </LinearLayout>
-    <FrameLayout
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/mark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_10"
+                    android:text="痕迹"
+                    android:textColor="@color/ori"
+                    android:textSize="@dimen/text_14" />
+            </RelativeLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/lable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="天"
+            android:gravity="center"
+            android:background="@drawable/twenty_circular_ori_background"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_18"/>
+
+    </RelativeLayout>
+
+
+    <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:overScrollMode="never" >
+    </android.support.v4.view.ViewPager>
 </com.cn.uca.view.StatusView>

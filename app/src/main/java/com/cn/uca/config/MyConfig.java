@@ -3,8 +3,7 @@ package com.cn.uca.config;
 public class MyConfig {
 	// 总接口
 	public static final String url = "http://www.szyouka.com/youkatravel/api/";
-//	public static final String url = "http://192.168.1.100/youkatravel/api/";
-	public static final String text = "http://192.168.1.100/youkatravel/api/abnormal/getAbnormal.do";    //测试
+//	public static final String url = "http://192.168.1.102/youkatravel/api/";
 	public static final String sendCode = url+"user/query/sendSMS.do";//发送短信验证码
 	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";     //获取微信token
 	public static final String weChatLogin = url+"/user/query/userLogin_weixin.do";//微信登录
@@ -50,4 +49,11 @@ public class MyConfig {
 	public static final String openLife = url + "life/update/openLife.do";//开启余生
 	public static final String getLifeDays = url +"life/query/getLifeDays.do";//获取余生天数的记录
 	public static final String getLifeMonths = url +"life/query/getLifeMonths.do";//获取余生月数的记录
+	public static final String getLifeHistorical = url +"life/query/getLifeHistorical.do";//获取余生痕迹
+	public static final String addLifeDayEvent = url+"life/update/addLifeDayEvent.do";//添加余生天记录
+    public static final String addLifeMonthEvent = url+"life/update/addLifeMonthEvent.do";//添加余生月记录
+	public static final String getFootprintChina = url+"footprint/query/getFootprintChina.do";//获取用户足迹以及用户城市记录
+    public static final String loadMoreFootprintChina = url+"footprint/query/getFootprintChinaCity.do";;//刷新用户足迹
+	public static final String getCityName = url+"footprint/query/getCity.do";//获取足迹省份下的城市
+	public static final String addFootprintChina = url+"footprint/update/addFootprintChina.do";//添加用户足迹
 }

@@ -54,8 +54,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
         int result = 0;
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
+                result = R.string.errcode_success;
                 if(resp instanceof SendAuth.Resp){
-                    result = R.string.errcode_success;
                     SendAuth.Resp newResp = (SendAuth.Resp) resp;
                     String code = newResp.code;
                     //获取微信传回的code--------

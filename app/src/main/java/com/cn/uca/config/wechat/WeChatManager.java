@@ -18,6 +18,7 @@ import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.QueryHttp;
+import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.wechat.Util;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -209,17 +210,23 @@ public class WeChatManager {
 	 * @return true 成功，false失败
 	 */
 	public boolean sendWebPageToWX(boolean isTimelineCb, String webpageUrl,
-                                   String imagePath, String title, String description) {
+                                  final String imagePath, String title, String description) {
 		if (api == null)
 			return false;
 		WXWebpageObject webpage = new WXWebpageObject();
 		webpage.webpageUrl = webpageUrl;
-		WXMediaMessage msg = new WXMediaMessage(webpage);
+		final WXMediaMessage msg = new WXMediaMessage(webpage);
 		msg.title = title;
 		msg.description = description;
-		Bitmap thumb = BitmapFactory.decodeFile(imagePath);
-		msg.thumbData = Util.bmpToByteArray(thumb, true);
-
+//		Bitmap thumb = BitmapFactory.decodeFile(imagePath);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+//				Bitmap thumb = GraphicsBitmapUtils.getbitmap(imagePath);
+//				msg.thumbData = Util.bmpToByteArray(thumb, true);
+				msg.thumbData = GraphicsBitmapUtils.getImageFromNetByUrl(imagePath);
+			}
+		}).start();
 		SendMessageToWX.Req req = new SendMessageToWX.Req();
 		req.transaction = buildTransaction("webpage");
 		req.message = msg;

@@ -21,12 +21,16 @@ import com.cn.uca.animate.ScaleInOutTransformer;
 import com.cn.uca.bean.home.CarouselFiguresBean;
 import com.cn.uca.config.BannerConfig;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.ui.view.Main3Activity;
+import com.cn.uca.ui.view.MainActivity;
+import com.cn.uca.ui.view.home.footprint.FootPrintActivity;
 import com.cn.uca.ui.view.home.hotel.HotleActivity;
 import com.cn.uca.ui.view.home.planeticket.PlaneTicketActivity;
 import com.cn.uca.ui.view.home.raider.RaidersActivity;
@@ -43,6 +47,7 @@ import com.cn.uca.view.Banner;
 import com.cn.uca.view.StickyScrollView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -191,7 +196,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.planeTicket:
-                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
+//                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
+//                startActivity(new Intent(getActivity(), Main3Activity.class));
+                if (WeChatManager.instance().isWXAppInstalled()) {
+//                    final SendAuth.Req req = new SendAuth.Req();
+//                    req.scope = "snsapi_userinfo";
+//                    req.state = "wechat_sdk_demo";
+//                    //拉起微信授权，授权结果在WXEntryActivity中接收处理
+//                    WeChatManager.instance().sendReq(req);
+//                    WeChatManager.instance().sendTextToWX(true,"哇，长得这么漂亮，淫家好喜欢啊");
+                    WeChatManager.instance().sendWebPageToWX(true,
+                            "http://www.baidu.com","http://www.szyouka.com/youkatravel/fileRresources/upload/uploadFootprintChinaPicture/22220171101152520QSH.jpg","哈哈","我们长得帅！");
+                } else {
+                    ToastXutil.show(R.string.wechat_not_installed);
+                }
                 break;
             case R.id.hotel:
                 startActivity(new Intent(getActivity(), HotleActivity.class));
@@ -210,8 +228,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 }
                 break;
             case R.id.footprint:
-                ToastXutil.show("你都没走怎么又足迹？");
-//                startActivity(new Intent(getActivity(),));
+                startActivity(new Intent(getActivity(), FootPrintActivity.class));
                 break;
             case R.id.search_et:
                 startActivity(new Intent(getActivity(),SearchActivity.class));

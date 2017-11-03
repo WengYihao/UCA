@@ -24,7 +24,8 @@
             <TextView
                 android:id="@+id/backlayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="@mipmap/home_back1"/>
             <LinearLayout
                 android:id="@+id/ll_content"
                 android:layout_width="match_parent"
@@ -34,7 +35,8 @@
                 android:padding="10dp"
                 android:layout_marginLeft="@dimen/padding_15"
                 android:layout_marginRight="@dimen/padding_15"
-                android:layout_below="@+id/backlayout">
+                android:layout_below="@+id/backlayout"
+                android:background="@mipmap/home_back2">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -112,8 +114,10 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:layout_below="@+id/ll_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:layout_marginLeft="@dimen/padding_15"
+                android:layout_marginRight="@dimen/padding_15"
+                android:background="@mipmap/home_back3"
+                android:layout_marginTop="@dimen/padding_5">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -126,14 +130,16 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@mipmap/yusheng_back" />
+
                     <TextView
+                        android:id="@+id/textView4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="机票"
+                        android:layout_marginTop="@dimen/padding_10"
                         android:gravity="center"
+                        android:text="机票"
                         android:textColor="@color/grey"
-                        android:textSize="@dimen/text_18"
-                        android:layout_marginTop="@dimen/padding_10"/>
+                        android:textSize="@dimen/text_18" />
                 </LinearLayout>
 
 
@@ -146,7 +152,8 @@
                         android:id="@+id/tourism"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/hotel_background" />
+                        android:layout_gravity="center"
+                        android:background="@mipmap/yusheng_back"  />
 
                     <TextView
                         android:id="@+id/textView6"
@@ -169,7 +176,8 @@
                         android:id="@+id/hotel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/hotel_background" />
+                        android:layout_gravity="center"
+                        android:background="@mipmap/yusheng_back"  />
 
                     <TextView
                         android:layout_width="match_parent"

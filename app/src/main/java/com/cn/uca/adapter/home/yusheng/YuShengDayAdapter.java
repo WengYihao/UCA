@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.bean.home.yusheng.YuShengDayBean;
+import com.cn.uca.impl.yueka.ItemClickListener;
+import com.cn.uca.impl.yusheng.EditItemClick;
 import com.cn.uca.impl.yusheng.YuShengDayImpl;
+import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.util.ToastXutil;
 
 import java.util.List;
@@ -20,17 +23,19 @@ import java.util.List;
 /**
  * 余生天数
  */
-public class YuShengDayAdapter extends ArrayAdapter<YuShengDayBean> implements YuShengDayImpl,View.OnClickListener{
+public class YuShengDayAdapter extends ArrayAdapter<YuShengDayBean> implements YuShengDayImpl,View.OnClickListener,EditItemClick{
 	private LayoutInflater layoutInflater;
 	private int TypeOne = 0;// 注意这个不同布局的类型起始值必须从0开始
 	private int TypeTwo = 1;
 	private List<YuShengDayBean> items;
 	private Context context;
+	private EditItemClick editItemClick;
 
-	public YuShengDayAdapter(Context context, List<YuShengDayBean> items) {
+	public YuShengDayAdapter(Context context, List<YuShengDayBean> items,EditItemClick editItemClick) {
 		super(context, 0, items);
 		this.context = context;
 		this.items = items;
+		this.editItemClick = editItemClick;
 		layoutInflater = LayoutInflater.from(context);
 	}
 	@Override
@@ -67,6 +72,7 @@ public class YuShengDayAdapter extends ArrayAdapter<YuShengDayBean> implements Y
 			holder.day.setText("余"+item.getDayBean().getLifeDays().get(position).getDay()+"天");
 			holder.day.setTypeface(tf);//设置字体
 			holder.add.setOnClickListener(this);
+			holder.add.setTag(position);
 		} else {
 			if (item.getDayBean().getLifeDays().get(position).getDay() == 0){
 				holder2.day.setText("");
@@ -92,9 +98,14 @@ public class YuShengDayAdapter extends ArrayAdapter<YuShengDayBean> implements Y
 	public void onClick(View view) {
 		switch (view.getId()){
 			case R.id.add:
-				ToastXutil.show("点我干嘛？");
+				editItemClick.click(view);
 				break;
 		}
+	}
+
+	@Override
+	public void click(View view) {
+
 	}
 
 	class ViewHolder {

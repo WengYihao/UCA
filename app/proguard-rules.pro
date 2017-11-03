@@ -93,5 +93,17 @@
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
+}
+#微信混淆
+-keep class com.tencent.mm.opensdk.** {
+   *;
+}
 
+-keep class com.tencent.wxop.** {
+   *;
+}
+
+-keep class com.tencent.mm.sdk.** {
+   *;
+}
 

@@ -24,14 +24,13 @@ public class RaidersAdapter extends BaseAdapter{
 	private int TypeOne = 0;// 注意这个不同布局的类型起始值必须从0开始
 	private int TypeTwo = 1;
 
-	public RaidersAdapter(){}
 	public RaidersAdapter(List<RaidersBean> list, Context context) {
 		this.list = list;
 		this.context = context;
 	}
 	public void setList(List<RaidersBean> list) {
 		if (list != null) {
-			this.list = (List<RaidersBean>) list;
+			this.list = list;
 			this.notifyDataSetChanged();
 		}
 	}

@@ -11,6 +11,7 @@
     <color name="gray2">#8da1a1</color>
     <color name="blue">#7370ff</color>
     <color name="blue2">#7ecef4</color>
+    <color name="bule3">#87abc9</color>
     <color name="dark_blue">#0909f2</color>
     <color name="transparent">#00000000</color>
     <color name="grey">#333333</color>
@@ -33,6 +34,7 @@
     <color name="viewfinder_mask">#60000000</color>
     <color name="possible_result_points">#c0ffff00</color>
     <color name="yellow">#FFD700</color>
+    <color name="yellow2">#be8e42</color>
     <color name="black2">#222222</color>
     <color name="black3">#DC433F3F</color>
     <color name="yusheng1">#d8dee2</color>

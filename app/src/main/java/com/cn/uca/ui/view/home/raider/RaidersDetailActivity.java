@@ -208,7 +208,6 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                     aMap.showMapText(false);
                     latLngBounds = new LatLngBounds(southwest,northeast);//限制地图显示左下、右上点坐标，顺序不能换
                     aMap.setMapStatusLimits(latLngBounds);
-                    Log.i("123",uiSetting.getZoomPosition()+"--");
                     break;
                 case 1:
                     ToastXutil.show("加载失败");

@@ -299,11 +299,11 @@
                        android:textColor="@color/gray2"/>
                </RelativeLayout>
 
-               <com.cn.uca.view.RdListView
+               <com.cn.uca.view.NoScrollListView
                    android:id="@+id/comment"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content">
-               </com.cn.uca.view.RdListView>
+               </com.cn.uca.view.NoScrollListView>
            </LinearLayout>
        </LinearLayout>
     </ScrollView>

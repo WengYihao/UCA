@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
@@ -16,7 +19,9 @@ import com.cn.uca.bean.home.yusheng.LifeDaysBean;
 import com.cn.uca.bean.home.yusheng.SystemEventsBean;
 import com.cn.uca.bean.home.yusheng.YuShengDayDetailsBean;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.impl.yusheng.EditItemClick;
 import com.cn.uca.impl.yusheng.YuShengDayImpl;
+import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -35,6 +40,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +50,7 @@ import java.util.Map;
  * Created by asus on 2017/10/25.
  */
 
-public class YuShengDayFragment extends Fragment implements AsymmetricGridView.OnItemClickListener,View.OnClickListener{
+public class YuShengDayFragment extends Fragment implements AsymmetricGridView.OnItemClickListener,View.OnClickListener,EditItemClick{
     private View view;
     private SmartRefreshLayout refreshLayout;
     private AsymmetricGridView listView;
@@ -69,7 +75,7 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
         dayBean = new ArrayList<>();
         setBean = new ArrayList<>();
         itemBeen = new YuShengUtil();
-        adapter = new YuShengDayAdapter(getActivity(),itemBeen.dayItems(dayBean.size(),yuShengDayBean));
+        adapter = new YuShengDayAdapter(getActivity(),itemBeen.dayItems(dayBean.size(),yuShengDayBean),this);
         listView.setRequestedColumnCount(7);
         listView.setRequestedHorizontalSpacing(SystemUtil.dip2px(3));
         listView.setAdapter(getNewAdapter());
@@ -248,7 +254,20 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         if (setBean.get(i).getDate() != ""){
-            ToastXutil.show(setBean.get(i).getDate());
+            try {
+                Date today = SystemUtil.StringToUtilDate(SystemUtil.getCurrentDateOnly());
+                Date getDate =  SystemUtil.StringToUtilDate(setBean.get(i).getDate());
+                Log.i("123",getDate+"-"+today+"");
+                if (!getDate.equals(today)){
+                    if (getDate.before(today)){
+                        ToastXutil.show("已过的天数不能编辑");
+                    }else{
+                        ShowPopupWindow.dayPopupwindow(view,getActivity(),setBean.get(i).getDay(),"day");
+                    }
+                }
+            }catch (Exception e){
+
+            }
         }
     }
 
@@ -256,5 +275,14 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
     public void onClick(View view) {
         switch (view.getId()) {
         }
+    }
+
+    /**
+     * 今天的编辑事件
+     * @param view
+     */
+    @Override
+    public void click(View view) {
+        ShowPopupWindow.dayPopupwindow(this.view,getActivity(),setBean.get((int)view.getTag()).getDay(),"day");
     }
 }

@@ -307,7 +307,13 @@
         <activity
             android:name=".ui.view.home.yusheng.YuShengActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.view.home.yusheng.YuShengDetailsActivity"></activity>
+        <activity
+            android:name=".ui.view.home.yusheng.YuShengDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.view.home.footprint.FootPrintActivity" />
+        <activity android:name=".ui.view.home.footprint.AddFootActivity" />
+        <activity android:name=".ui.view.Main3Activity"></activity>
     </application>
 
 </manifest>

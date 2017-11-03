@@ -22,6 +22,7 @@ import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.view.CircleImageView;
 import com.cn.uca.view.HorizontalListView;
+import com.cn.uca.view.NoScrollListView;
 import com.cn.uca.view.RdListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -36,7 +37,7 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
     private TextView back,name,age,sex;
     private CircleImageView pic;
     private HorizontalListView orderCourse;
-    private RdListView comment;
+    private NoScrollListView comment;
     private List<OrderCourseBean> list1;
     private List<CommentBean> list2;
     private OrderCourseAdapter orderCourseAdapter;
@@ -71,7 +72,7 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
         layout4.setOnClickListener(this);
 
         orderCourse = (HorizontalListView)findViewById(R.id.orderCourse);
-        comment = (RdListView)findViewById(R.id.comment);
+        comment = (NoScrollListView) findViewById(R.id.comment);
 
 
 

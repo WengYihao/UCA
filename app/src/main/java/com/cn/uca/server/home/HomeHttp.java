@@ -1,5 +1,7 @@
 package com.cn.uca.server.home;
 
+import android.telecom.Call;
+
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
 import com.cn.uca.impl.CallBack;
@@ -8,6 +10,13 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -249,4 +258,143 @@ public class HomeHttp extends BaseServer {
         map.put("direction",direction);
         get(MyConfig.getLifeMonths,map,callBack);
     }
+
+    /**
+     * 获取余生痕迹
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param page
+     * @param callBack
+     */
+    public static void getLifeHistorical(String sign,String time_stamp,String account_token,int page,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("page",page);
+        get(MyConfig.getLifeHistorical,map,callBack);
+    }
+
+    /**
+     * 添加余生天记录
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param content
+     * @param day
+     * @param callBack
+     */
+    public static void addLifeDayEvent(String sign,String time_stamp,String account_token,String content,int day,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("content",content);
+        map.put("day",day+"");
+        post4(MyConfig.addLifeDayEvent,map,callBack);
+    }
+
+    /**
+     * 添加余生月记录
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param content
+     * @param month
+     * @param callBack
+     */
+    public static void addLifeMonthEvent(String sign,String time_stamp,String account_token,String content,int month,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("content",content);
+        map.put("month",month+"");
+        post4(MyConfig.addLifeMonthEvent,map,callBack);
+    }
+
+    /**
+     * 获取用户足迹以及用户城市记录
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param pageCount
+     * @param callBack
+     */
+    public static void getFootprintChina(String sign,String time_stamp,String account_token,int pageCount,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("pageCount",pageCount);
+        map.put("account_token",account_token);
+        get(MyConfig.getFootprintChina,map,callBack);
+    }
+
+    /**
+     * 获取足迹省份下的城市
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param code
+     * @param callBack
+     */
+    public static void getCityName(String sign,String time_stamp,String account_token,String code,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("code",code);
+        map.put("account_token",account_token);
+        get(MyConfig.getCityName,map,callBack);
+    }
+
+    /**
+     * 添加用户足迹
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param city_id
+     * @param travel_time
+     * @param content
+     * @param file
+     * @param handler
+     */
+    public static void addFootprintChina(String sign, String time_stamp, String account_token, int city_id, String travel_time, String content, File file, AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sign",sign);
+        params.put("time_stamp", time_stamp);
+        params.put("account_token",account_token);
+        params.put("city_id", city_id);
+        params.put("travel_time",travel_time);
+        params.put("content", content);
+        try {
+            if (file != null){
+                params.put("file", file);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        client.post(MyConfig.addFootprintChina,params,handler);
+    }
+
+    /**
+     * 加载用户足迹
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param page
+     * @param pageCount
+     * @param callBack
+     */
+    public static void loadMoreFootprintChina(String sign, String time_stamp, String account_token, int page, int pageCount, CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.loadMoreFootprintChina,map,callBack);
+    }
 }
+

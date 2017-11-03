@@ -19,7 +19,9 @@ import com.cn.uca.bean.home.yusheng.SystemEventsBean;
 import com.cn.uca.bean.home.yusheng.YuShengDayDetailsBean;
 import com.cn.uca.bean.home.yusheng.YuShengMonthDetailsBean;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.impl.yusheng.EditItemClick;
 import com.cn.uca.impl.yusheng.YuShengMonthImpl;
+import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -46,7 +48,7 @@ import java.util.Map;
  * Created by asus on 2017/10/25.
  */
 
-public class YuShengMonthFragment extends Fragment implements AsymmetricGridView.OnItemClickListener,View.OnClickListener{
+public class YuShengMonthFragment extends Fragment implements AsymmetricGridView.OnItemClickListener,View.OnClickListener,EditItemClick{
     private View view;
     private SmartRefreshLayout refreshLayout;
     private AsymmetricGridView listView;
@@ -56,6 +58,7 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
     private YuShengMonthImpl adapter;
     private YuShengUtil itemBeen;
     private YuShengMonthDetailsBean monthDetailsBean;
+    private int nowMonth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -71,7 +74,7 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
         monthBean = new ArrayList<>();
         setBean = new ArrayList<>();
         itemBeen = new YuShengUtil();
-        adapter = new YuShengMonthAdapter(getActivity(),itemBeen.monthItems(monthBean.size(),monthDetailsBean));
+        adapter = new YuShengMonthAdapter(getActivity(),itemBeen.monthItems(monthBean.size(),monthDetailsBean),this);
         listView.setRequestedColumnCount(4);
         listView.setRequestedHorizontalSpacing(SystemUtil.dip2px(3));
         listView.setAdapter(getNewAdapter());
@@ -131,6 +134,7 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
                             Gson gson = new Gson();
                             YuShengMonthDetailsBean bean = gson.fromJson(jsonObject.getJSONObject("data").toString(),new TypeToken<YuShengMonthDetailsBean>() {
                             }.getType());
+                            nowMonth = bean.getNow_month();
                             monthBean.clear();
                             monthBean = bean.getLifeMonthsRet();
                             if (monthBean.size() > 0) {
@@ -245,6 +249,23 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        if (setBean.get(i).getDate() != ""){
+            if (setBean.get(i).getMonth() > nowMonth){
+                ToastXutil.show("过去的月不能再编辑");
+            }else if (setBean.get(i).getMonth() == nowMonth){
 
+            }else {
+                ShowPopupWindow.dayPopupwindow(this.view,getActivity(),setBean.get(i).getMonth(),"month");
+            }
+        }
+    }
+
+    /**
+     * 编辑月的事件
+     * @param view
+     */
+    @Override
+    public void click(View view) {
+        ShowPopupWindow.dayPopupwindow(this.view,getActivity(),setBean.get((int)view.getTag()).getMonth(),"month");
     }
 }

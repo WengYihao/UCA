@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.bean.home.yusheng.YuShengDayBean;
 import com.cn.uca.bean.home.yusheng.YuShengMonthBean;
+import com.cn.uca.impl.yusheng.EditItemClick;
 import com.cn.uca.impl.yusheng.YuShengDayImpl;
 import com.cn.uca.impl.yusheng.YuShengMonthImpl;
 import com.cn.uca.util.ToastXutil;
@@ -22,17 +23,19 @@ import java.util.List;
 /**
  * 余生天数
  */
-public class YuShengMonthAdapter extends ArrayAdapter<YuShengMonthBean> implements YuShengMonthImpl,View.OnClickListener{
+public class YuShengMonthAdapter extends ArrayAdapter<YuShengMonthBean> implements YuShengMonthImpl,View.OnClickListener,EditItemClick{
 	private LayoutInflater layoutInflater;
 	private int TypeOne = 0;// 注意这个不同布局的类型起始值必须从0开始
 	private int TypeTwo = 1;
 	private List<YuShengMonthBean> items;
 	private Context context;
+	private EditItemClick editItemClick;
 
-	public YuShengMonthAdapter(Context context, List<YuShengMonthBean> items) {
+	public YuShengMonthAdapter(Context context, List<YuShengMonthBean> items,EditItemClick editItemClick) {
 		super(context, 0, items);
 		this.context = context;
 		this.items = items;
+		this.editItemClick = editItemClick;
 		layoutInflater = LayoutInflater.from(context);
 	}
 	@Override
@@ -69,6 +72,7 @@ public class YuShengMonthAdapter extends ArrayAdapter<YuShengMonthBean> implemen
 			holder.month.setText("余"+item.getMonthBean().getLifeMonthsRet().get(position).getMonth()+"月");
 			holder.month.setTypeface(tf);//设置字体
 			holder.add.setOnClickListener(this);
+			holder.add.setTag(position);
 		} else {
 			if (item.getMonthBean().getLifeMonthsRet().get(position).getMonth() == 0){
 				holder2.month.setText("");
@@ -94,7 +98,7 @@ public class YuShengMonthAdapter extends ArrayAdapter<YuShengMonthBean> implemen
 	public void onClick(View view) {
 		switch (view.getId()){
 			case R.id.add:
-				ToastXutil.show("点我干嘛？");
+				editItemClick.click(view);
 				break;
 		}
 	}
@@ -110,6 +114,11 @@ public class YuShengMonthAdapter extends ArrayAdapter<YuShengMonthBean> implemen
 		clear();
 		appendItems(moreItems);
 		notifyDataSetChanged();
+	}
+
+	@Override
+	public void click(View view) {
+
 	}
 
 	class ViewHolder {

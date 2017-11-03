@@ -21,6 +21,8 @@ public class FragmentAdapter extends FragmentPagerAdapter{
     public FragmentAdapter(FragmentManager fm, List<Fragment> list) {
         super(fm);
         this.list = list;
+        fm.beginTransaction().commitAllowingStateLoss();
+
     }
 
     @Override
