@@ -25,6 +25,8 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
+import com.amap.api.maps.model.Circle;
+import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
@@ -32,7 +34,7 @@ import com.cn.uca.R;
 import com.cn.uca.bean.yueka.PlacesBean;
 import com.cn.uca.server.yueka.YueKaHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
+import com.cn.uca.util.MapUtil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.google.gson.Gson;
@@ -70,11 +72,12 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
     private List<PlacesBean> listAdd,listShow,listAll;
     private int id,clickViewId;
     private TextView finish,delete,back;
+    private Circle mCircle;
+    private Marker mLocMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_line_choice);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -164,7 +167,7 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
 
     private void setUpMap() {
         aMap.setLocationSource(this);
-        aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);// 跟随模式
+//        aMap.setMyLocationType(AMap.LOCATION_TYPE_MAP_ROTATE);// 跟随模式
         mUiSettings.setZoomPosition(AMapOptions.ZOOM_POSITION_RIGHT_CENTER);// 缩放按钮右中显示
         aMap.setOnMarkerDragListener(this);
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
@@ -174,14 +177,25 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (mListener != null && aMapLocation != null){
             if (aMapLocation != null && aMapLocation.getErrorCode() == 0){
-                mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
+//                mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
                 if (isFirst){
+                    Log.i("123","123");
                     aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 15));//定位成功移到当前定位点
+                    CircleOptions circleOptions = MapUtil.addCircle(
+                            new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()),
+                            aMapLocation.getAccuracy());
+                    MarkerOptions options = MapUtil.addMarker(
+                            new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), this);
+                    mCircle = aMap.addCircle(circleOptions);// 添加定位精度圆
+                    mLocMarker = aMap.addMarker(options);// 添加定位图标
+//                    mSensorHelper.setCurrentMarker(mLocMarker);// 定位图标旋转
                     isFirst = false;
                 }
                 lat = aMapLocation.getLatitude();
                 lng = aMapLocation.getLongitude();
             }else{
+                mCircle.setCenter(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()));
+                mCircle.setRadius(aMapLocation.getAccuracy());
                 Log.i("457",aMapLocation.getErrorCode()+"错误码"+aMapLocation.getErrorInfo()+"错误信息");
             }
         }
@@ -405,70 +419,63 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
      * 添加路线点
      */
     private void addLinePoint(){
-        Set<Integer> set = mapTextView.keySet();
-        Object [] objects = set.toArray();
-        for (int i = listShow.size(); i < objects.length ; i++){
-            PlacesBean bean = new PlacesBean();
-            bean.setCity_id(2);
-            bean.setDeparture_address(mapTextView.get(i+1).get(i).getText().toString());
-            bean.setLat(mapMarker.get(i+1).get(i).getPosition().latitude);
-            bean.setLng(mapMarker.get(i+1).get(i).getPosition().longitude);
-            bean.setOrder(i+1);
-            bean.setPlace_name("深圳");
-            bean.setRoute_id(id);
-            listAdd.add(bean);
-        }
-        try {
-            Gson gson = new Gson();
-            YueKaHttp.addLinePoint(gson.toJson(listAdd), new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                    try {
-                        if (i == 200){
-                            JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
-//                            Log.i("123",jsonObject.toString()+"----");
-                            int code  = jsonObject.getInt("code");
-                            switch (code){
-                                case 0:
-                                    ToastXutil.show("添加成功");
-                                    Log.i("123",listShow.toString()+"修改之后");
-                                    for (Integer in :mapTextView.keySet()){
-                                        Log.i("123",in + "--"+mapTextView.get(in).get(in-1).getText()+"文本框");
-                                    }
-                                    for (Integer in :mapEditText.keySet()){
-                                        Log.i("123",in + "--"+mapEditText.get(in).get(in-11).getText()+"输入框");
-                                    }
-                                    for (Integer in :mapMarker.keySet()){
-                                        Log.i("123 ",in + "--"+mapMarker.get(in).get(in-1).getPosition().latitude+"--"+mapMarker.get(in).get(in-1).getPosition().longitude+"坐标");
-                                    }
-                                    for (int a = 0;a < listAdd.size();a++){
-                                        listAll.add(listAdd.get(a));
-                                    }
-                                    for (int b = 0;b < listShow.size();b++){
-                                        listAll.add(listShow.get(b));
-                                    }
-//                                    Log.i("123",listAll.size()+listAll.toString());
-                                    Intent intent = new Intent();
-                                    intent.putParcelableArrayListExtra("list",(ArrayList<? extends Parcelable>) listAll);
-                                    intent.putExtra("id",id);
-                                    setResult(0,intent);
-                                    LineChoiceActivity.this.finish();
-                                    break;
+        if (mapTextView.size() >0){
+            Set<Integer> set = mapTextView.keySet();
+            Object [] objects = set.toArray();
+            for (int i = listShow.size(); i < objects.length ; i++){
+                PlacesBean bean = new PlacesBean();
+                bean.setCity_id(2);
+                bean.setDeparture_address(mapTextView.get(i+1).get(i).getText().toString());
+                bean.setLat(mapMarker.get(i+1).get(i).getPosition().latitude);
+                bean.setLng(mapMarker.get(i+1).get(i).getPosition().longitude);
+                bean.setOrder(i+1);
+                bean.setPlace_name("深圳");
+                bean.setRoute_id(id);
+                listAdd.add(bean);
+            }
+            try {
+                Gson gson = new Gson();
+                YueKaHttp.addLinePoint(gson.toJson(listAdd), new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                        try {
+                            if (i == 200){
+                                JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
+                                int code  = jsonObject.getInt("code");
+                                switch (code){
+                                    case 0:
+                                        ToastXutil.show("添加成功");
+                                        for (int a = 0;a < listAdd.size();a++){
+                                            listAll.add(listAdd.get(a));
+                                        }
+                                        for (int b = 0;b < listShow.size();b++){
+                                            listAll.add(listShow.get(b));
+                                        }
+                                        Intent intent = new Intent();
+                                        intent.putParcelableArrayListExtra("list",(ArrayList<? extends Parcelable>) listAll);
+                                        intent.putExtra("id",id);
+                                        setResult(0,intent);
+                                        LineChoiceActivity.this.finish();
+                                        break;
+                                }
                             }
+                        }catch (Exception e){
+                            Log.i("123",e.getMessage()+"/*/*");
                         }
-                    }catch (Exception e){
-                        Log.i("123",e.getMessage()+"/*/*");
                     }
-                }
 
-                @Override
-                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                    Log.i("123",i+"----");
-                }
-            });
-        }catch (Exception e){
-            Log.i("456",e.getMessage()+"/*/*");
+                    @Override
+                    public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                        Log.i("123",i+"----");
+                    }
+                });
+            }catch (Exception e){
+                Log.i("456",e.getMessage()+"/*/*");
+            }
+        }else{
+            ToastXutil.show("请添加路线点");
         }
+
     }
 
     /**

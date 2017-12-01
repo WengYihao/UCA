@@ -19,7 +19,6 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusMargin;
@@ -52,7 +51,6 @@ public class TourismActivity extends BaseBackActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_tourism);
         initView();
         getHotTicket();
@@ -171,11 +169,7 @@ public class TourismActivity extends BaseBackActivity implements View.OnClickLis
                 this.finish();
                 break;
             case R.id.more:
-//                List<String> list = new ArrayList<>();
-//                list.add("我的收藏");
-//                list.add("我的订单");
-//                list.add("消息中心");
-//                ShowPopupWindow.show(MyApplication.getContext(),list,more);
+
                 break;
             case R.id.llList:
                 startActivity(new Intent(TourismActivity .this,SpotListActivity.class));
@@ -190,12 +184,11 @@ public class TourismActivity extends BaseBackActivity implements View.OnClickLis
                 break;
             case R.id.layout3:
                 //出境游
-//                ToastXutil.show("敬请期待-出境游");
                 startActivity(new Intent(TourismActivity.this,ExitTravelActivity.class));
                 break;
             case R.id.layout4:
                 //定制游
-                ToastXutil.show("敬请期待-定制游");
+                startActivity(new Intent(TourismActivity.this,CustomizTravelActivity.class));
                 break;
             case R.id.layout5:
                 //亲子游

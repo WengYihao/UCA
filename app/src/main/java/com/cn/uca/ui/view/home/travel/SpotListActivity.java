@@ -17,7 +17,6 @@ import com.cn.uca.bean.home.CityBean;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
 import com.google.gson.Gson;
@@ -44,7 +43,6 @@ public class SpotListActivity extends BaseBackActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_spot_list);
 
         initView();

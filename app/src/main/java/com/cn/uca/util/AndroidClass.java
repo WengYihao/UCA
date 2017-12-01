@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface.OnClickListener;
 
 public class AndroidClass {
-	 @SuppressWarnings("static-access")
 	public static AlarmManager getAlarmManager(Context context)
 	 {
 	      return (AlarmManager)context.getSystemService(context.ALARM_SERVICE);

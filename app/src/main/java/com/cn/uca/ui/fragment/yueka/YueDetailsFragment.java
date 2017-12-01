@@ -9,22 +9,21 @@ import android.view.ViewTreeObserver;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.adapter.yueka.ContentAdapter;
 import com.cn.uca.adapter.yueka.LineAdapter;
-import com.cn.uca.adapter.yueka.RecommendAdapter;
-import com.cn.uca.bean.RecommendBean;
 import com.cn.uca.bean.yueka.PlacesBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.util.SetListView;
+import com.cn.uca.util.StatusMargin;
+import com.cn.uca.util.SystemUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by asus on 2017/9/6.
@@ -33,21 +32,18 @@ import java.util.List;
 public class YueDetailsFragment extends Fragment implements View.OnClickListener{
 
     private View view;
-    private ListView line,content;
+    private ListView line;
     private RelativeLayout layout1,layout2;
-    private LinearLayout notes;//退款须知
-    private GridView recommend;
-    private List<String> listContent;
+    private LinearLayout notice,notes;//预定须知/退款须知
     private LineAdapter lineAdapter;
-    private ContentAdapter contentAdapter;
-    private boolean isShow = true;
-    private ImageView icon;
-    private List<RecommendBean> listRecomment;
-    private RecommendAdapter recommendAdapter;
+    private boolean isShow = false;
+    private boolean isShow2 = false;
+    private ImageView icon,icon1;
     private WebView webView;
     private LinearLayout listLayout;
     private ArrayList<PlacesBean> list;
     private String url;
+    private TextView Refund_Note,Reservation_Notice;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_details_yue,null);
@@ -82,43 +78,19 @@ public class YueDetailsFragment extends Fragment implements View.OnClickListener
 
         layout1 = (RelativeLayout)view.findViewById(R.id.layout1);
         layout2 = (RelativeLayout)view.findViewById(R.id.layout2);
+        notice = (LinearLayout)view.findViewById(R.id.notice);
         notes = (LinearLayout)view.findViewById(R.id.notes);
-
+        Refund_Note = (TextView)view.findViewById(R.id.Refund_Note);
+        Refund_Note.setText(Constant.Refund_Note);
+        Reservation_Notice = (TextView)view.findViewById(R.id.Reservation_Notice);
+        Reservation_Notice.setText(Constant.Reservation_Notice);
         icon = (ImageView)view.findViewById(R.id.icon);
+        icon1 = (ImageView)view.findViewById(R.id.icon1);
 
-        recommend = (GridView)view.findViewById(R.id.recommend);
 
         layout1.setOnClickListener(this);
         layout2.setOnClickListener(this);
 
-        listRecomment = new ArrayList<>();
-        RecommendBean bean = new RecommendBean();
-        bean.setPrice("￥230-330");
-        bean.setPlace("【北京】");
-        bean.setTitle("包你爽翻天");
-        listRecomment.add(bean);
-
-        RecommendBean bean2 = new RecommendBean();
-        bean2.setPrice("￥350-450");
-        bean2.setPlace("【上海】");
-        bean2.setTitle("不爽不嗨我倒贴");
-        listRecomment.add(bean2);
-
-        RecommendBean bean3 = new RecommendBean();
-        bean3.setPrice("￥380-500");
-        bean3.setPlace("【广州】");
-        bean3.setTitle("老司机带路");
-        listRecomment.add(bean3);
-
-        RecommendBean bean4 = new RecommendBean();
-        bean4.setPrice("￥400-530");
-        bean4.setPlace("【深圳】");
-        bean4.setTitle("快上我的车");
-        listRecomment.add(bean4);
-
-        recommendAdapter = new RecommendAdapter(listRecomment,getActivity());
-        recommend.setAdapter(recommendAdapter);
-        SetListView.setGridViewHeightBasedOnChildren(recommend);
 
         listLayout = (LinearLayout)view.findViewById(R.id.list);
         final LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) listLayout.getLayoutParams(); //取控件textView当前的布局参数
@@ -156,16 +128,26 @@ public class YueDetailsFragment extends Fragment implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.layout1:
-
+                if (isShow2){
+                    notice.setVisibility(View.VISIBLE);
+                    isShow2 = false;
+                    icon1.setImageResource(R.mipmap.down);
+                }else {
+                    notice.setVisibility(View.GONE);
+                    icon1.setImageResource(R.mipmap.right_gray);
+                    isShow2 = true;
+                }
                 break;
             case R.id.layout2:
                 if (isShow){
                     notes.setVisibility(View.VISIBLE);
                     isShow = false;
                     icon.setImageResource(R.mipmap.down);
+                    StatusMargin.setLinearLayoutBottom(getActivity(),layout2, 0);
                 }else {
                     notes.setVisibility(View.GONE);
                     icon.setImageResource(R.mipmap.right_gray);
+                    StatusMargin.setLinearLayoutBottom(getActivity(),layout2, SystemUtil.dip2px(60));
                     isShow = true;
                 }
                 break;

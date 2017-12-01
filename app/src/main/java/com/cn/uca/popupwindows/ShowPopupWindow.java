@@ -6,7 +6,6 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -22,11 +20,8 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.ShowAdapter;
-import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
-import com.cn.uca.impl.datepicker.OnDoubleSureLisener;
-import com.cn.uca.impl.datepicker.OnSureLisener;
 import com.cn.uca.receiver.UpdateService;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.util.SharePreferenceXutil;
@@ -34,11 +29,6 @@ import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
-import com.cn.uca.view.datepicker.DatePickDialog;
-import com.cn.uca.view.datepicker.DoubleDatePickDialog;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,23 +102,6 @@ public class ShowPopupWindow {
 				popupWindow.dismiss();
 			}
 		});
-	}
-
-	public static void showSpot(View view,Context context,String name,String content,String url){
-		View showSpot = LayoutInflater.from(context).inflate(R.layout.spot_marker_show, null);
-		TextView spot_name = (TextView) showSpot.findViewById(R.id.spot_name);
-		ImageView spot_pic = (ImageView)showSpot.findViewById(R.id.spot_pic) ;
-		TextView spot_content = (TextView)showSpot.findViewById(R.id.spot_content);
-
-		spot_name.setText(name);
-		ImageLoader.getInstance().displayImage(url,spot_pic);
-		spot_content.setText(content);
-		final PopupWindow popupWindow = new PopupWindow(showSpot, MyApplication.width/4,
-				LinearLayoutCompat.LayoutParams.WRAP_CONTENT, true);
-		popupWindow.setTouchable(true);
-		popupWindow.setOutsideTouchable(true);
-		popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
-		popupWindow.showAsDropDown(view);
 	}
 
 	public static void dayPopupwindow(View view, Context context, final int day, final String type){
@@ -238,84 +211,4 @@ public class ShowPopupWindow {
 		});
 	}
 
-	public static void footPrint(View view,final Context context,String province,String code){
-		View footPrint = LayoutInflater.from(context).inflate(R.layout.foot_print_popupwindow,null);
-		TextView name = (TextView)footPrint.findViewById(R.id.name);
-		TextView close = (TextView)footPrint.findViewById(R.id.close);
-		final TextView time = (TextView)footPrint.findViewById(R.id.time);
-		TextView place = (TextView)footPrint.findViewById(R.id.place);
-		EditText content = (EditText)footPrint.findViewById(R.id.content);
-		TextView choose = (TextView)footPrint.findViewById(R.id.choose);
-
-		final PopupWindow popupWindow = new PopupWindow(footPrint,MyApplication.width*6/7,MyApplication.height/2);
-		popupWindow.setTouchable(true);
-		popupWindow.setOutsideTouchable(true);
-		popupWindow.setFocusable(true);
-		popupWindow.setBackgroundDrawable(new BitmapDrawable(null,""));
-		popupWindow.showAtLocation(view, Gravity.CENTER,0,0);
-		name.setText(province);
-		close.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				popupWindow.dismiss();
-			}
-		});
-		place.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				ToastXutil.show("暂时么有");
-			}
-		});
-		time.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				DatePickDialog dialog = new DatePickDialog(context);
-				//设置上下年分限制
-				dialog.setYearLimt(0);
-				//设置标题
-				dialog.setTitle("选择时间");
-				//设置类型
-				dialog.setType(DateType.TYPE_YMD);
-				//设置消息体的显示格式，日期格式
-				dialog.setMessageFormat("yyyy-MM-dd");
-				//设置选择回调
-				dialog.setOnChangeLisener(null);
-				//设置点击确定按钮回调
-				dialog.setOnSureLisener(new OnSureLisener() {
-					@Override
-					public void onSure(Date date) {
-						time.setText(SystemUtil.UtilDateToString(date));
-					}
-				});
-				dialog.show();
-			}
-		});
-		choose.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-
-			}
-		});
-	}
-	private void showDatePickDialog(Context context,DateType type) {
-		DoubleDatePickDialog dialog = new DoubleDatePickDialog(context);
-		//设置上下年分限制
-		dialog.setYearLimt(0);
-		//设置标题
-		dialog.setTitle("选择时间");
-		//设置类型
-		dialog.setType(type);
-		//设置消息体的显示格式，日期格式
-		dialog.setMessageFormat("yyyy-MM-dd");
-		//设置选择回调
-		dialog.setOnChangeLisener(null);
-		//设置点击确定按钮回调
-		dialog.setOnDoubleSureLisener(new OnDoubleSureLisener() {
-			@Override
-			public void onSure(Date dateStart, Date dateEnd) {
-
-			}
-		});
-		dialog.show();
-	}
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,7 +19,7 @@
 
         <TextView
             style="@style/style_title"
-            android:text="路线预设"/>
+            android:text="@string/presetManagerActivity_title_text"/>
     </RelativeLayout>
 
     <ScrollView
@@ -54,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="添加路线"
+                    android:text="@string/presetManagerActivity_add_line"
                     android:textColor="@color/ori"
                     android:textSize="@dimen/text_22"
                     android:layout_marginLeft="@dimen/padding_8"/>

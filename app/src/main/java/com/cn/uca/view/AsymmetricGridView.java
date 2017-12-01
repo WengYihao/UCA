@@ -8,9 +8,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ListAdapter;
-import android.widget.ListView;
-
-import com.cn.uca.util.wechat.Util;
 import com.felipecsl.asymmetricgridview.library.Utils;
 import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
 

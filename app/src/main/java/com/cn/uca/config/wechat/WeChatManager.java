@@ -7,11 +7,13 @@
  */
 package com.cn.uca.config.wechat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
+import com.amap.api.maps.model.BitmapDescriptor;
 import com.cn.uca.bean.wechat.WeChatLogin;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.config.MyConfig;
@@ -28,6 +30,7 @@ import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.modelmsg.WXVideoObject;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
@@ -201,7 +204,7 @@ public class WeChatManager {
 	 *            是否分享到朋友圈
 	 * @param webpageUrl
 	 * 网页url
-	 * @param imagePath
+	 * @param id
 	 *            网页封面图片路径
 	 * @param title
 	 *            分享网页的标题
@@ -209,8 +212,8 @@ public class WeChatManager {
 	 *            分享描述文字
 	 * @return true 成功，false失败
 	 */
-	public boolean sendWebPageToWX(boolean isTimelineCb, String webpageUrl,
-                                  final String imagePath, String title, String description) {
+	public boolean sendWebPageToWX(Context context,boolean isTimelineCb, String webpageUrl,
+								   int id, String title, String description) {
 		if (api == null)
 			return false;
 		WXWebpageObject webpage = new WXWebpageObject();
@@ -218,15 +221,8 @@ public class WeChatManager {
 		final WXMediaMessage msg = new WXMediaMessage(webpage);
 		msg.title = title;
 		msg.description = description;
-//		Bitmap thumb = BitmapFactory.decodeFile(imagePath);
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-//				Bitmap thumb = GraphicsBitmapUtils.getbitmap(imagePath);
-//				msg.thumbData = Util.bmpToByteArray(thumb, true);
-				msg.thumbData = GraphicsBitmapUtils.getImageFromNetByUrl(imagePath);
-			}
-		}).start();
+		Bitmap thumb = BitmapFactory.decodeResource(context.getResources(),id);
+		msg.thumbData = Util.bmpToByteArray(thumb, true);
 		SendMessageToWX.Req req = new SendMessageToWX.Req();
 		req.transaction = buildTransaction("webpage");
 		req.message = msg;
@@ -276,6 +272,14 @@ public class WeChatManager {
 		req.scene = isTimelineCb ? SendMessageToWX.Req.WXSceneTimeline
 				: SendMessageToWX.Req.WXSceneSession;
 		return api.sendReq(req);
+	}
+
+	/**
+	 * 微信支付
+	 */
+	public void aaa(){
+		PayReq payReq = new PayReq();
+		api.sendReq(payReq);
 	}
 
 	public void getAccessToken(WeChatLogin weChatLogin, CallBack callBack) {

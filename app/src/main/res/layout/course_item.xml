@@ -21,13 +21,11 @@
             <TextView
                 android:id="@+id/type"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="深圳-三天（包住）"/>
+                android:layout_height="wrap_content"/>
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2017-09-07"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <TextView
@@ -36,14 +34,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:drawableLeft="@mipmap/comment"
-            android:text="10"
             android:layout_marginTop="@dimen/padding_5"
             android:gravity="center"/>
         <TextView
             android:id="@+id/evaluate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="非常棒的一次旅行，伴游非常会聊天"
             android:background="@color/grey2"
             android:padding="@dimen/padding_5"
             android:textColor="@color/black"

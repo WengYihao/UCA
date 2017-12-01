@@ -1,7 +1,5 @@
 package com.cn.uca.server.home;
 
-import android.telecom.Call;
-
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
 import com.cn.uca.impl.CallBack;
@@ -10,13 +8,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -395,6 +388,151 @@ public class HomeHttp extends BaseServer {
         map.put("page",page);
         map.put("pageCount",pageCount);
         get(MyConfig.loadMoreFootprintChina,map,callBack);
+    }
+
+    public static void getFootprintWorld(String sign,String time_stamp,String account_token,int pageCount,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("pageCount",pageCount);
+        map.put("account_token",account_token);
+        get(MyConfig.getFootprintWorld,map,callBack);
+    }
+
+    public static void addFootprintWorld(String sign, String time_stamp, String account_token, String country_id, String travel_time, String content, File file, AsyncHttpResponseHandler handle){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sign",sign);
+        params.put("time_stamp", time_stamp);
+        params.put("account_token",account_token);
+        params.put("country_id", country_id);
+        params.put("travel_time",travel_time);
+        params.put("content", content);
+        try {
+            if (file != null){
+                params.put("file", file);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        client.post(MyConfig.addFootprintWorld,params,handle);
+    }
+
+    public static void loadMoreFoodPrintWorld(String sign, String time_stamp, String account_token, int page, int pageCount, CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.loadMoreFoodPrintWorld,map,callBack);
+    }
+
+    /**
+     * 购买一元攻略
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param city_raiders_id
+     * @param callBack
+     */
+    public static void purchaseCityRaiders(String sign,String time_stamp,String account_token,int city_raiders_id,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("city_raiders_id",city_raiders_id+"");
+        post5(MyConfig.purchaseCityRaiders,map,callBack);
+    }
+
+    /**
+     * 支付订单
+     * @param account_token
+     * @param actual_payment
+     * @param user_coupon_id
+     * @param order_number
+     * @param sign
+     * @param time_stamp
+     * @param callBack
+     */
+    public static void orderPayment(String account_token,double actual_payment,int user_coupon_id,String order_number,String sign,String time_stamp,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("actual_payment",actual_payment+"");
+       if (user_coupon_id != 0){
+           map.put("user_coupon_id",user_coupon_id+"");
+       }
+        map.put("order_number",order_number+"");
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        post4(MyConfig.orderPayment,map,callBack);
+    }
+
+    /**
+     * 用户签到
+     * @param sign
+     * @param time_stamp
+     * @param callBack
+     */
+    public static void userClock(String account_token,String sign, String time_stamp,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("sign",sign);
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        post5(MyConfig.userClock,map,callBack);
+    }
+
+    /**
+     * 获取用户签到信息
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param callBack
+     */
+    public static void getUserClock(String account_token,String time_stamp,String sign,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        get(MyConfig.getUserClock,map,callBack);
+    }
+
+    /**
+     * 收藏/取消攻略
+     * @param account_token
+     * @param city_raiders_id
+     * @param sign
+     * @param time_stamp
+     * @param callBack
+     */
+    public static void collectionRaiders(String account_token,int city_raiders_id ,String sign,String time_stamp, CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("account_token", account_token);
+        map.put("city_raiders_id",city_raiders_id +"");
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        post4(MyConfig.collectionRaiders,map,callBack);
+    }
+
+    /**
+     * 获取攻略
+     * @param page
+     * @param pageCount
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param type
+     * @param callBack
+     */
+    public static void getMyRaiders(int page,int pageCount,String sign,String time_stamp,String account_token,int type,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("page", page);
+        map.put("pageCount",pageCount);
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("type",type);
+        get(MyConfig.getMyRaiders,map,callBack);
     }
 }
 

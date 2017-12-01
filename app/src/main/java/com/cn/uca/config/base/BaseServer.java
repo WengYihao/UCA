@@ -124,7 +124,6 @@ public class BaseServer {
 		stringRequest.setRetryPolicy(new DefaultRetryPolicy(60000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 		quene.add(stringRequest);
 	}
-
 	public static void post4(String url, final Map<String, String> map, final CallBack callBack) {
 		RequestQueue quene = MyApplication.getHttpQueue();
 		StringRequest stringRequest = new StringRequest(Method.POST, url, new Listener<String>() {
@@ -138,6 +137,7 @@ public class BaseServer {
 						if (code == 0){
 							callBack.onResponse(code);
 						}else{
+							callBack.onResponse(code);
 							callBack.onErrorMsg(jsonObject.getString("msg").toString());
 						}
 					}catch (Exception e){
@@ -170,6 +170,7 @@ public class BaseServer {
 			@Override
 			public void onResponse(String response) {
 				if (response != null) {
+					Log.i("post5", response.toString());
 					callBack.onResponse(response);
 				}else{
 					callBack.onErrorMsg("访问出错");
@@ -239,33 +240,6 @@ public class BaseServer {
 			}
 		});
 		request.setRetryPolicy(new DefaultRetryPolicy(60000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-		quene.add(request);
-	}
-
-	/**
-	 * 上传文件
-	 * @param url
-	 * @param callBack
-	 */
-	public void sendFiles(String url,Map<String,File> files, final Map<String, String> params, final CallBack callBack) {
-		RequestQueue quene = MyApplication.getHttpQueue();
-		MultipartRequest request = new MultipartRequest(url, new Listener<String>() {
-			@Override
-			public void onResponse(String response) {
-				try {
-					if (response != null) {
-						callBack.onResponse(response);
-					}
-				} catch (Exception e) {
-				}
-
-			}
-		}, new ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError volleyError) {
-				Log.i("456", volleyError.getMessage() + "-报错");
-			}
-		}, files, params);
 		quene.add(request);
 	}
 }

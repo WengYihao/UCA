@@ -11,8 +11,8 @@
         android:orientation="horizontal">
         <com.cn.uca.view.CircleImageView
             android:id="@+id/pic"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="@dimen/padding_50"
+            android:layout_height="@dimen/padding_50"
             app:border_color="@color/white"
             app:border_width="1dp"
             android:src="@mipmap/user_pic"/>
@@ -25,7 +25,6 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="谭雅"
                 android:layout_marginLeft="@dimen/padding_8"
                 android:textColor="@color/ori"/>
             <TextView
@@ -33,14 +32,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="非常好的一次体验"
                 android:layout_marginLeft="@dimen/padding_8"
                 android:layout_marginTop="@dimen/padding_5"/>
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2017-28-29"
                 android:layout_marginLeft="@dimen/padding_8"
                 android:padding="@dimen/padding_2"/>
         </LinearLayout>

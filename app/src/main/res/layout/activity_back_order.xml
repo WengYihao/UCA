@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.cn.uca.ui.view.user.BackOrderActivity"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/gradient">
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="@string/orderBackActivity_title_text" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_12"
+        android:background="@color/gray">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="@string/orderBackActivity_text1"
+            android:padding="@dimen/padding_15"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/orderBackActivity_text2"
+            android:padding="@dimen/padding_10"
+            android:layout_marginLeft="@dimen/padding_8"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_20">
+
+            <RadioButton
+                android:id="@+id/oneself"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/twenty_circular_ori_background"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="@dimen/padding_10"
+                android:text="@string/orderBackActivity_text3"
+                android:textColor="@color/white" />
+
+            <RadioButton
+                android:id="@+id/other"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:background="@drawable/twenty_circular_gray_background"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="@dimen/padding_10"
+                android:text="@string/orderBackActivity_text4"
+                android:textColor="@color/grey3" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/reason"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:layout_marginRight="@dimen/padding_15"
+        android:background="@color/gray"
+        android:hint="@string/orderBackActivity_text5"
+        android:gravity="top"
+        android:padding="@dimen/padding_8"/>
+    <TextView
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_40"
+        android:background="@drawable/twenty_circular_ori_background"
+        android:text="@string/orderBackActivity_text6"
+        android:gravity="center"
+        android:textSize="@dimen/text_18"
+        android:textColor="@color/white"
+        android:layout_marginLeft="@dimen/padding_50"
+        android:layout_marginRight="@dimen/padding_50"
+        android:layout_marginTop="@dimen/padding_50"/>
+</com.cn.uca.view.StatusView>

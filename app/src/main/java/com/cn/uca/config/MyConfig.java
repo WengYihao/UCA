@@ -2,7 +2,7 @@ package com.cn.uca.config;
 
 public class MyConfig {
 	// 总接口
-	public static final String url = "http://www.szyouka.com/youkatravel/api/";
+	public static final String url = "http://www.szyouka.com:8080/youkatravel/api/";
 //	public static final String url = "http://192.168.1.102/youkatravel/api/";
 	public static final String sendCode = url+"user/query/sendSMS.do";//发送短信验证码
 	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";     //获取微信token
@@ -34,7 +34,7 @@ public class MyConfig {
 	public static final String getUserState = url+"user/query/getUserState.do";//获取用户状态
 	public static final String fastLogin = url+"user/query/fastLogin.do";//快速登录
 	public static final String getEscortInfo = url+"escort/query/getEscortInfo.do";//获取约咖用户信息
-	public static final String photo = "http://www.szyouka.com/youkatravel/api/util/pictureCompression.do?pictureUrl=";//图片压缩
+	public static final String photo = "http://www.szyouka.com:8080/youkatravel/api/util/pictureCompression.do?pictureUrl=";//图片压缩
 	public static final String getZhouBianTravel = url+"travel/query/getZhouBianTravel.do";//获取周边游
 	public static final String getJuiDian = url+"travel/query/getJuiDian.do";//获取周边游酒店
 	public static final String getGuoNeiYou = url+"travel/query/getGuoNeiYou.do";//获取国内游
@@ -56,4 +56,34 @@ public class MyConfig {
     public static final String loadMoreFootprintChina = url+"footprint/query/getFootprintChinaCity.do";;//刷新用户足迹
 	public static final String getCityName = url+"footprint/query/getCity.do";//获取足迹省份下的城市
 	public static final String addFootprintChina = url+"footprint/update/addFootprintChina.do";//添加用户足迹
+	public static final String getFootprintWorld = url+"footprint/query/getFootprintWorld.do";//.获取世界足迹
+	public static final String addFootprintWorld = url+"footprint/update/addFootprintWorld.do";//添加世界足迹
+	public static final String loadMoreFoodPrintWorld = url+"footprint/query/getFootprintWorldCountry.do";//刷新世界足迹
+	public static final String uploadCoverPicture = url+"escort/update/uploadCoverPicture.do";//.上传/修改游约咖面图片(约咖)
+	public static final String getCoverPicture = url+"escort/query/getCoverPicture.do";//获取用户游咖所有背景图片
+	public static final String deleteCoverPicture = url+"escort/update/deleteCoverPicture.do";//删除用户图片
+	public static final String getIdCardUrl = url+"user/query/getIdCardUrl.do";//获取芝麻信用url
+	public static final String feedback = url+"home/query/feedback.do";//app反馈
+	public static final String purchaseCityRaiders = url+"travel/update/purchaseCityRaiders.do";//购买一元攻略
+    public static final String orderPayment = url+"/user/update/orderPayment.do";//支付订单
+	public static final String getUserOrder = url +"user/query/getUserOrder.do";//获取用户订单
+    public static final String createWeiXinOrder = url+"user/update/createWeiXinOrder.do";//创建微信订单
+	public static final String queryWeiXinOrderState = url+"query/queryWeiXinOrderState.do";//验证微信支付是否成功
+	public static final String userClock = url+"user/update/userClock.do";//用户签到
+	public static final String getPurseRecords = url + "user/query/getPurseRecords.do";//获取账号明细
+	public static final String getUserClock = url+"user/query/getUserClock.do";//加载用户签到信息
+	public static final String getConfirmCoffee = url+"escort/query/getConfirmCoffee.do";//伴游确认订单数据
+	public static final String purchaseEscor = url +"escort/update/purchaseEscor.do";//订购伴游
+	public static final String calculationPrice = url+"escort/query/calculationPrice.do";//计算约咖价格
+	public static final String getMyEscortOrder = url+"escort/query/getMyEscortOrder.do";//获取我的接单
+	public static final String getReleaseEscortRecords = url + "escort/query/getReleaseEscortRecords.do";//领咖我的发布
+	public static final String getEscprtRecordUsers = url +"escort/query/getEscprtRecordUsers.do";//获取陪游的所有用户订单
+	public static final String collectionRaiders = url + "travel/update/collectionRaiders.do";//取消收藏攻略
+	public static final String getMyRaiders = url +"travel/query/getMyRaiders.do";//获取攻略收藏或购买
+	public static final String acceptanceEscortUser = url+"escort/update/acceptanceEscortUser.do";//伴游接单/拒接
+	public static final String travleEscortBack = url +"escort/update/travleEscortBack.do";//游咖用户申请退单
+	public static final String getTravelEscortBack = url +"escort/query/getTravelEscortBack.do";//领咖获取游咖申请退单信息
+	public static final String approvalTravelEscortBack = url +"escort/update/approvalTravelEscortBack.do";//领咖端审批游咖退单
+	public static final String getShare = url + "user/query/getShare.do";//分享
+	public static final String getRongInfo = url + "user/query/getUserInfos.do";//获取融云用户信息
 }

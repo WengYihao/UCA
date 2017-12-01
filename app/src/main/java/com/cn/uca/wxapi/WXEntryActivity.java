@@ -52,6 +52,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
     @Override
     public void onResp(BaseResp resp) {
         int result = 0;
+        Log.i("123",resp.errCode+"-"+resp.errStr);
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 result = R.string.errcode_success;
@@ -99,6 +100,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
 
     @Override
     public void onErrorMsg(String errorMsg) {
+        Log.i("456",errorMsg);
         ToastXutil.show(errorMsg);
 
     }

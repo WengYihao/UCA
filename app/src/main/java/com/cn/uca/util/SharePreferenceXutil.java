@@ -131,6 +131,68 @@ public class SharePreferenceXutil {
 	}
 
 	/**
+	 * 保存融云用户RongToken
+	 * @param rongToken
+	 */
+	public static void saveRongToken(String rongToken) {
+		getSp().edit().putString("rongToken", rongToken).commit();
+	}
+
+	/**
+	 * 获取融云用户RongToken
+	 * @return
+	 */
+	public static String getRongToken() {
+		return getSp().getString("rongToken", "");
+	}
+
+	/**
+	 * 保存融云用户rongUserId
+	 * @param rongUserId
+	 */
+	public static void saveRongUserId(String rongUserId) {
+		getSp().edit().putString("rongUserId", rongUserId).commit();
+	}
+
+	/**
+	 * 获取融云用户rongUserId
+	 * @return
+	 */
+	public static String getRongUserId() {
+		return getSp().getString("rongUserId", "");
+	}
+	/**
+	 * 保存融云用户rongUserName
+	 * @param rongUserName
+	 */
+	public static void saveRongUserName(String rongUserName) {
+		getSp().edit().putString("rongUserName", rongUserName).commit();
+	}
+
+	/**
+	 * 获取融云用户rongUserName
+	 * @return
+	 */
+	public static String getRongUserName() {
+		return getSp().getString("rongUserName", "");
+	}
+	/**
+	 * 保存融云用户rongUserPortrait
+	 * @param rongUserPortrait
+	 */
+	public static void saveRongUserPortrait(String rongUserPortrait) {
+		getSp().edit().putString("rongUserPortrait", rongUserPortrait).commit();
+	}
+
+	/**
+	 * 获取融云用户rongUserPortrait
+	 * @return
+	 */
+	public static String getRongUserPortrait() {
+		return getSp().getString("rongUserPortrait", "");
+	}
+
+	/**
 	 * 保存微信OpenId
 	 * @param openId
 	 */
@@ -209,6 +271,23 @@ public class SharePreferenceXutil {
 	 */
 	public static String getPassword() {
 		return getSp().getString("password", "");
+	}
+
+	/**
+	 * 设置是否退出
+	 * @param isSign ：true:已签到
+	 */
+	public static void setSign(boolean isSign) {
+		getSp().edit().putBoolean("isSign", isSign).commit();
+	}
+
+	/**
+	 * 获取是否退出
+	 * @return
+	 */
+	public static boolean isSign() {
+		boolean isSign = getSp().getBoolean("isSign", false);
+		return isSign;
 	}
 
 }

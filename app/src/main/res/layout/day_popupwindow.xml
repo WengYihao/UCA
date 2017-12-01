@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="保存"
+                    android:text="@string/day_popupwindow_save"
                     android:textSize="@dimen/text_18" />
             </RelativeLayout>
 

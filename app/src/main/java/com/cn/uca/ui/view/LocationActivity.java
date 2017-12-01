@@ -9,10 +9,10 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.LatLng;
-import com.amap.api.maps.model.LatLngBounds;
 import com.cn.uca.R;
 
 public class LocationActivity extends AppCompatActivity implements  LocationSource,AMapLocationListener{
@@ -25,11 +25,6 @@ public class LocationActivity extends AppCompatActivity implements  LocationSour
     private AMapLocationClientOption mLocationOption;// 高德相关
     private static double lat,lng;
     private boolean isFirst = true;
-
-    // 西南坐标
-    private LatLng southwestLatLng = new LatLng(39.674949, 115.932873);
-    // 东北坐标
-    private LatLng northeastLatLng = new LatLng(40.159453, 116.767834);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +43,8 @@ public class LocationActivity extends AppCompatActivity implements  LocationSour
 
     private void setUpMap() {
         aMap.setLocationSource(this);
-        aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);// 跟随模式
+//        aMap.setMyLocationType(AMap.LOCATION_TYPE_LOCATE);// 跟随模式
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
-        LatLngBounds latLngBounds = new LatLngBounds(southwestLatLng,northeastLatLng);//限制地图显示左下、右上点坐标，顺序不能换
-        aMap.setMapStatusLimits(latLngBounds);
     }
 
     @Override
@@ -60,7 +53,7 @@ public class LocationActivity extends AppCompatActivity implements  LocationSour
             if (aMapLocation != null && aMapLocation.getErrorCode() == 0){
                 mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
                 if (isFirst){
-//                    aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 15));//定位成功移到当前定位点
+                    aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 15));//定位成功移到当前定位点
                     isFirst = false;
                     Log.i("TAG","123456789");
                 }

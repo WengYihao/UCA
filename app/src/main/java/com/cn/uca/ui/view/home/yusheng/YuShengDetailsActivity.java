@@ -1,16 +1,12 @@
 package com.cn.uca.ui.view.home.yusheng;
 
-import android.graphics.drawable.AnimationDrawable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
@@ -19,9 +15,7 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.ui.fragment.home.yusheng.YuShengDayFragment;
 import com.cn.uca.ui.fragment.home.yusheng.YuShengMarkFragment;
 import com.cn.uca.ui.fragment.home.yusheng.YuShengMonthFragment;
-import com.cn.uca.ui.view.MainActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SystemUtil;
 
 import java.util.ArrayList;
@@ -43,7 +37,6 @@ public class YuShengDetailsActivity extends BaseBackActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_yu_sheng_details);
 
         initView();

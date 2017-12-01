@@ -3,11 +3,8 @@ package com.cn.uca.util;
 import android.util.Log;
 
 import com.cn.uca.config.Constant;
-import com.cn.uca.config.MyConfig;
 import com.cn.uca.secretkey.MD5;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

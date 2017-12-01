@@ -8,6 +8,8 @@ import com.cn.uca.ui.view.LoginActivity;
 import com.cn.uca.util.ActivityCollector;
 import com.cn.uca.util.SharePreferenceXutil;
 
+import io.rong.imkit.RongIM;
+
 /**
  * Created by asus on 2017/9/5.
  */
@@ -30,7 +32,11 @@ public class ToastDialog {
                 SharePreferenceXutil.setSuccess(false);
                 SharePreferenceXutil.saveAccountToken("");
                 SharePreferenceXutil.saveAccessToken("");
+                SharePreferenceXutil.setOpenYS(false);
                 SharePreferenceXutil.setAuthentication(false);
+                SharePreferenceXutil.saveRongToken("");
+//                RongIM.getInstance().logout();
+//                RongIM.getInstance().disconnect();
                 context.startActivity(new Intent(context, LoginActivity.class));
                 ActivityCollector.finishAll();
             }

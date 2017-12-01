@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,7 +16,7 @@
         <TextView
             android:id="@+id/yusheng"
             style="@style/style_title"
-            android:text="余生"/>
+            android:text="@string/yushengActivity_title_text"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +24,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/yusheng"
             android:layout_marginRight="@dimen/padding_15"
-            android:text="你的"/>
+            android:text="@string/yushengDetailActivity_title1"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,7 +32,7 @@
             android:layout_toRightOf="@id/yusheng"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/padding_15"
-            android:text="还剩"/>
+            android:text="@string/yushengDetailActivity_title3"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -56,7 +55,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/padding_10"
-                    android:text="天"
+                    android:text="@string/yushengDetailActivity_text1"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_14" />
             </RelativeLayout>
@@ -73,7 +72,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/padding_10"
-                    android:text="月"
+                    android:text="@string/yushengDetailActivity_text2"
                     android:textColor="@color/ori"
                     android:textSize="@dimen/text_14" />
             </RelativeLayout>
@@ -90,7 +89,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="@dimen/padding_10"
-                    android:text="痕迹"
+                    android:text="@string/yushengDetailActivity_text3"
                     android:textColor="@color/ori"
                     android:textSize="@dimen/text_14" />
             </RelativeLayout>
@@ -99,15 +98,18 @@
             android:id="@+id/lable"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="天"
+            android:text="@string/yushengDetailActivity_text1"
             android:gravity="center"
             android:background="@drawable/twenty_circular_ori_background"
             android:textColor="@color/white"
             android:textSize="@dimen/text_18"/>
 
     </RelativeLayout>
-
-
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:scaleType="matrix"
+        android:src="@color/ori" />
     <android.support.v4.view.ViewPager
         android:id="@+id/container"
         android:layout_width="match_parent"

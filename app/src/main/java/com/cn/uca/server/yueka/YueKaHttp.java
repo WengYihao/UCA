@@ -1,5 +1,7 @@
 package com.cn.uca.server.yueka;
 
+import android.telecom.Call;
+
 import com.cn.uca.bean.yueka.GetEscortBean;
 import com.cn.uca.bean.yueka.ReleaseEscortRecordBean;
 import com.cn.uca.config.MyConfig;
@@ -11,6 +13,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -162,5 +166,182 @@ public class YueKaHttp extends BaseServer{
         map.put("account_token",SharePreferenceXutil.getAccountToken());
         map.put("pageCount",pageCount);
         get(MyConfig.getEscortInfo,map,callBack);
+    }
+
+    /**
+     * 上传/修改游约咖面图片(约咖)
+     * @param file
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param cover_photo_id
+     * @param handler
+     */
+    public static void uploadCoverPicture(File file,String account_token,String time_stamp,String sign,int cover_photo_id,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        try {
+            params.put("file",file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        params.put("sign",sign);
+        params.put("time_stamp", time_stamp);
+        params.put("account_token",account_token);
+        if (cover_photo_id != 0){
+            params.put("cover_photo_id",cover_photo_id);
+        }
+        client.post(MyConfig.uploadCoverPicture,params,handler);
+    }
+
+    /**
+     * 获取用户游咖所有背景图片
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param callBack
+     */
+    public static void getCoverPicture(String account_token,String time_stamp,String sign,CallBack callBack){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        get(MyConfig.getCoverPicture,map,callBack);
+    }
+
+    /**
+     * 删除用户图片
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param cover_photo_id
+     * @param callBack
+     */
+    public static void deleteCoverPicture(String account_token,String time_stamp,String sign,int cover_photo_id,CallBack callBack){
+        Map<String ,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("cover_photo_id",cover_photo_id+"");
+        post4(MyConfig.deleteCoverPicture,map,callBack);
+    }
+
+    /**
+     * 伴游确认订单页面数据
+     * @param escort_record_id
+     * @param callBack
+     */
+    public static void getConfirmCoffee(int escort_record_id,CallBack callBack){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        map.put("escort_record_id",escort_record_id);
+        get(MyConfig.getConfirmCoffee,map,callBack);
+    }
+
+    /**
+     * 订购伴游
+     * @param account_token
+     * @param actual_number
+     * @param beg_time
+     * @param end_time
+     * @param escort_record_id
+     * @param sign
+     * @param time_stamp
+     * @param escort_service_ids
+     * @param callBack
+     */
+    public static void purchaseEscor(String account_token,int actual_number,String beg_time,String end_time,int escort_record_id,String sign,String time_stamp,String escort_service_ids,CallBack callBack){
+        Map<String ,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("actual_number",actual_number+"");
+        map.put("beg_time",beg_time);
+        map.put("end_time",end_time);
+        map.put("escort_record_id",escort_record_id+"");
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("escort_service_ids",escort_service_ids);
+        post5(MyConfig.purchaseEscor,map,callBack);
+    }
+
+    /**
+     * 计算游咖价格
+     * @param account_token
+     * @param actual_number
+     * @param beg_time
+     * @param end_time
+     * @param escort_record_id
+     * @param sign
+     * @param time_stamp
+     * @param escort_service_ids
+     * @param callBack
+     */
+    public static void calculationPrice(String account_token,int actual_number,String beg_time,String end_time,int escort_record_id,String sign,String time_stamp,String escort_service_ids,CallBack callBack){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("actual_number",actual_number+"");
+        map.put("beg_time",beg_time);
+        map.put("end_time",end_time);
+        map.put("escort_record_id",escort_record_id+"");
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("escort_service_ids",escort_service_ids);
+        get(MyConfig.calculationPrice,map,callBack);
+    }
+
+    /**
+     * 获取领咖我的发布
+     * @param page
+     * @param pageCount
+     * @param callBack
+     */
+    public static void getReleaseEscortRecords(int page, int pageCount,CallBack callBack){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        map.put("page",page);
+        map.put("pageCount",pageCount   );
+        get(MyConfig.getReleaseEscortRecords,map,callBack);
+    }
+
+    /**
+     * 获取陪游的所有用户订单
+     * @param escort_record_id
+     * @param callBack
+     */
+    public static void getEscprtRecordUsers(int escort_record_id,CallBack callBack){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        map.put("escort_record_id",escort_record_id);
+        get(MyConfig.getEscprtRecordUsers,map,callBack);
+    }
+
+    /**
+     * 伴游接单/拒接
+     * @param escort_user_id
+     * @param orders
+     * @param callBack
+     */
+    public static void acceptanceEscortUser(int escort_user_id,int orders,CallBack callBack){
+        Map<String ,String> map = new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        map.put("escort_user_id",escort_user_id+"");
+        map.put("orders",orders+"");
+        post5(MyConfig.acceptanceEscortUser,map,callBack);
+    }
+
+    /**
+     * 领咖获取游咖退单信息
+     * @param escort_user_id
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param callBack
+     */
+    public static void getTravelEscortBack(int escort_user_id ,String account_token,String time_stamp,String sign,CallBack callBack){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("escort_user_id",escort_user_id);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        get(MyConfig.getTravelEscortBack,map,callBack);
     }
 }

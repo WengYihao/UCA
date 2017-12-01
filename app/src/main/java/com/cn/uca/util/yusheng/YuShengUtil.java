@@ -34,10 +34,10 @@ public class YuShengUtil {
         List<YuShengMonthBean> items = new ArrayList<>();
         for (int i = 0; i < qty; i++) {
             int colSpan = 1;
-            int rowSpan = colSpan ;
+            int rowSpan = colSpan*5/3 ;
             if (monthBean.getNow_month() == monthBean.getLifeMonthsRet().get(i).getMonth()){
-                colSpan = 4;
-                rowSpan = 4;
+                colSpan = 6;
+                rowSpan = 5;
             }
             YuShengMonthBean item = new YuShengMonthBean(colSpan, rowSpan, currentOffset + i,monthBean);
             items.add(item);

@@ -18,10 +18,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:padding="10dp"
-            android:text="设置时间"
+            android:padding="@dimen/padding_10"
+            android:text="@string/pick_time_text"
             android:textColor="#444444"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_14"
             />
 
         <TextView
@@ -44,7 +44,7 @@
             android:id="@+id/wheelLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="@dimen/padding_10">
         </FrameLayout>
 
 
@@ -66,16 +66,16 @@
             android:layout_weight="1"
             android:background="@drawable/abc_list_selector_holo_light"
             android:gravity="center"
-            android:text="取消"
+            android:text="@string/dialog_show_cancel"
             android:textColor="#444444"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_14"
             />
 
         <ImageView
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
+            android:paddingBottom="@dimen/padding_10"
+            android:paddingTop="@dimen/padding_10"
             android:src="#dddddd"
             />
 
@@ -86,9 +86,9 @@
             android:layout_weight="1"
             android:background="@drawable/abc_list_selector_holo_light"
             android:gravity="center"
-            android:text="确定"
+            android:text="@string/dialog_show_commit"
             android:textColor="#444444"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_14"
             />
 
     </LinearLayout>

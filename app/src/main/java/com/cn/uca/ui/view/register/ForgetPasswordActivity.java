@@ -18,7 +18,6 @@ import com.cn.uca.server.QueryHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.ui.view.MainActivity;
 import com.cn.uca.util.ActivityCollector;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
@@ -36,7 +35,6 @@ public class ForgetPasswordActivity extends BaseBackActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_forget_password);
 
         ActivityCollector.forgetActivity.add(this);

@@ -14,7 +14,6 @@ import com.cn.uca.R;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.ActivityCollector;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.MyEditText;
@@ -33,7 +32,6 @@ public class RegisterActivity extends BaseBackActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_register);
         ActivityCollector.registerActivity(this);
 

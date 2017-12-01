@@ -7,10 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
@@ -21,6 +18,7 @@ import com.cn.uca.bean.home.yusheng.YuShengDayDetailsBean;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.yusheng.EditItemClick;
 import com.cn.uca.impl.yusheng.YuShengDayImpl;
+import com.cn.uca.popupwindows.LoadingPopupWindow;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.util.SharePreferenceXutil;
@@ -60,6 +58,7 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
     private YuShengDayImpl adapter;
     private YuShengUtil itemBeen;
     private YuShengDayDetailsBean yuShengDayBean;
+    private LoadingPopupWindow popupWindow;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_day_yusheng,null);
@@ -69,6 +68,8 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
     }
 
     private void initView() {
+        popupWindow = new LoadingPopupWindow(getActivity());
+        popupWindow.show();
         refreshLayout = (SmartRefreshLayout)view.findViewById(R.id.refreshLayout);
         listView = (AsymmetricGridView)view.findViewById(R.id.listView);
         yuShengDayBean = new YuShengDayDetailsBean();
@@ -159,19 +160,40 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
                                         }
                                         bean.setLifeDays(setBean);
                                         adapter.setItems(itemBeen.dayItems(setBean.size(),bean));
+                                        popupWindow.dismiss();
                                     }else{
                                         for (int i = 0;i <dayBean.size();i++){
                                             setBean.add(i,dayBean.get(i));
                                         }
                                         bean.setLifeDays(setBean);
                                         adapter.setItems(itemBeen.dayItems(setBean.size(),bean));
+                                        popupWindow.dismiss();
                                     }
-                                    Log.i("123",dayBean.size()+"--"+setBean.size()+"--1");
                                 }else{
-                                    setBean.addAll(dayBean);
-                                    bean.setLifeDays(setBean);
-                                    adapter.setItems(itemBeen.dayItems(setBean.size(),bean));
-                                    Log.i("123",dayBean.size()+"--"+setBean.size()+"--2");
+                                    if (fill > 0){
+                                        for (int a = 0;a<fill;a++){
+                                            LifeDaysBean daysBean = new LifeDaysBean();
+                                            daysBean.setDate("");
+                                            daysBean.setDay(0);
+                                            daysBean.setSystem_event_count(0);
+                                            daysBean.setLife_month_id(0);
+                                            daysBean.setSystemEvents(new ArrayList<SystemEventsBean>());
+                                            daysBean.setUser_content("");
+                                            daysBean.setUser_event_count(0);
+                                            setBean.add(a,daysBean);
+                                        }
+                                        for (int i = 0;i <dayBean.size();i++){
+                                            setBean.add(i+fill,dayBean.get(i));
+                                        }
+                                        bean.setLifeDays(setBean);
+                                        adapter.setItems(itemBeen.dayItems(setBean.size(),bean));
+                                        popupWindow.dismiss();
+                                    }else{
+                                        setBean.addAll(dayBean);
+                                        bean.setLifeDays(setBean);
+                                        adapter.setItems(itemBeen.dayItems(setBean.size(),bean));
+                                        popupWindow.dismiss();
+                                    }
                                 }
                             } else {
                                 if (dayBean.size() != 0) {
@@ -203,6 +225,7 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
         });
     }
     private void loadLifeDays(int page){
+        popupWindow.show();
         Map<String,Object> map = new HashMap<>();
         map.put("page",page);
         String time_stamp = SystemUtil.getCurrentDate2();
@@ -229,7 +252,7 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
                                 setBean.addAll(dayBean);
                                 bean.setLifeDays(setBean);
                                 adapter.setItems(itemBeen.dayItems(setBean.size(),bean));
-                                Log.i("123",dayBean.size()+"--"+setBean.size()+"--3");
+                                popupWindow.dismiss();
                             } else {
                                 ToastXutil.show("没有更多数据了");
                             }
@@ -257,7 +280,6 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
             try {
                 Date today = SystemUtil.StringToUtilDate(SystemUtil.getCurrentDateOnly());
                 Date getDate =  SystemUtil.StringToUtilDate(setBean.get(i).getDate());
-                Log.i("123",getDate+"-"+today+"");
                 if (!getDate.equals(today)){
                     if (getDate.before(today)){
                         ToastXutil.show("已过的天数不能编辑");

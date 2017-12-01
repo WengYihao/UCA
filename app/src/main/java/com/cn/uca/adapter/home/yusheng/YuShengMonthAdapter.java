@@ -11,12 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.bean.home.yusheng.YuShengDayBean;
 import com.cn.uca.bean.home.yusheng.YuShengMonthBean;
 import com.cn.uca.impl.yusheng.EditItemClick;
-import com.cn.uca.impl.yusheng.YuShengDayImpl;
 import com.cn.uca.impl.yusheng.YuShengMonthImpl;
-import com.cn.uca.util.ToastXutil;
 
 import java.util.List;
 
@@ -76,6 +73,8 @@ public class YuShengMonthAdapter extends ArrayAdapter<YuShengMonthBean> implemen
 		} else {
 			if (item.getMonthBean().getLifeMonthsRet().get(position).getMonth() == 0){
 				holder2.month.setText("");
+				holder2.layout.setBackgroundColor(context.getResources().getColor(R.color.white));
+
 			}else{
 				if (item.getMonthBean().getLifeMonthsRet().get(position).getMonth() > item.getMonthBean().getNow_month()){
 					holder2.month.setText(item.getMonthBean().getLifeMonthsRet().get(position).getMonth()+"");

@@ -20,7 +20,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 app:placeholderImageScaleType="fitXY"
-                app:roundedCornerRadius="5dp"></com.facebook.drawee.view.SimpleDraweeView>
+                app:roundedCornerRadius="@dimen/padding_5"></com.facebook.drawee.view.SimpleDraweeView>
         </LinearLayout>
 
         <LinearLayout
@@ -39,7 +39,6 @@
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="观澜山庄田园水上乐园"
                     android:textColor="@color/grey"
                     android:textSize="@dimen/text_16" />
 
@@ -53,7 +52,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="必游产品"
                         android:textColor="@color/ori" />
 
                     <TextView
@@ -72,7 +70,6 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/padding_2"
                         android:layout_toLeftOf="@id/right_icon"
-                        android:text="共5个产品"
                         android:textColor="@color/ori" />
                 </RelativeLayout>
 
@@ -104,7 +101,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/padding_15"
                         android:layout_marginTop="@dimen/padding_5"
-                        android:text="20条评价"
                         android:textColor="@color/gray2" />
                 </LinearLayout>
 
@@ -118,7 +114,6 @@
                         android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="123456789"
                         android:textSize="@dimen/text_12"
                         android:maxEms="12"
                         android:ellipsize="end"
@@ -144,7 +139,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/padding_2"
                         android:layout_toLeftOf="@id/add"
-                        android:text="￥55"
                         android:textColor="@color/ori"
                         android:textSize="@dimen/text_16" />
                 </RelativeLayout>

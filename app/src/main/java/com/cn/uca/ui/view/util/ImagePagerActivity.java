@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.ui.fragment.ImageDetailFragment;
-import com.cn.uca.util.FitStateUI;
+import com.cn.uca.util.StatusBarUtil;
 import com.cn.uca.view.HackyViewPager;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class ImagePagerActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
+        StatusBarUtil.immersive(this);
         setContentView(R.layout.activity_image_pager);
 
         pagerPosition = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);

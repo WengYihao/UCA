@@ -2,34 +2,33 @@ package com.cn.uca.ui.view.home;
 
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.view.FluidLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends BaseBackActivity {
+public class SearchActivity extends BaseBackActivity implements View.OnClickListener{
 
+    private TextView back;
     private FluidLayout recommendView,historyView;
-//    private HistoryAdapter historyAdapter;
-//    private SeachAdapter recommendAdapter;
     private List<String> recommendList,historyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_search);
 
         initView();
     }
 
     private void initView() {
+        back = (TextView)findViewById(R.id.back);
         recommendView = (FluidLayout)findViewById(R.id.recommendView);
         historyView = (FluidLayout)findViewById(R.id.historyView);
 
@@ -48,6 +47,7 @@ public class SearchActivity extends BaseBackActivity {
 
         genTag(recommendList,recommendView);
         genTag(historyList,historyView);
+        back.setOnClickListener(this);
 
     }
 
@@ -67,6 +67,15 @@ public class SearchActivity extends BaseBackActivity {
             );
             params.setMargins(12, 12, 12, 12);
             fluidLayout.addView(tv, params);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.back:
+                this.finish();
+                break;
         }
     }
 }

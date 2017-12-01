@@ -11,6 +11,4 @@
         android:bottom="1dp" />
     <solid
         android:color="@color/ori2" />
-    <size android:width="100dp"
-        android:height="100dp" />
 </shape>

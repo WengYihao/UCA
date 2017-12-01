@@ -26,6 +26,7 @@ public class YueKaDetailsBean {
     private int browse_times;
     private String user_birth_date;
     private double max_consumption;
+    private List<String> cover_photo_urls;
 
     public double getMin_consumption() {
         return min_consumption;
@@ -93,5 +94,9 @@ public class YueKaDetailsBean {
 
     public String getEscort_record_name() {
         return escort_record_name;
+    }
+
+    public List<String> getCover_photo_urls() {
+        return cover_photo_urls;
     }
 }

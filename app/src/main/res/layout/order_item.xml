@@ -9,36 +9,43 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/ten_circular_white_background"
         android:orientation="vertical"
-        android:background="@color/white"
         android:padding="10dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/pic"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@color/aa"
-                android:layout_centerVertical="true"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/plant_state_back" />
+
             <TextView
                 android:id="@+id/type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="酒店"
-                android:layout_toRightOf="@id/pic"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:layout_centerVertical="true"/>
+                android:layout_toRightOf="@id/pic"
+                android:textColor="@color/ori"
+                android:text="酒店" />
+
             <TextView
                 android:id="@+id/state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="订单取消"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"/>
+                android:textColor="@color/ori"
+                android:text="订单取消" />
 
         </RelativeLayout>
+
         <ImageView
             android:id="@+id/line2"
             android:layout_width="match_parent"
@@ -46,44 +53,71 @@
             android:layout_marginTop="10dp"
             android:scaleType="matrix"
             android:src="@color/grey2" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
+
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="北京"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:textSize="18sp"
-                android:layout_centerVertical="true"/>
+                android:text="北京"
+                android:textSize="18sp" />
+
             <TextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="￥730"
-                android:textSize="18sp"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:layout_centerVertical="true"/>
+                android:text="￥730"
+                android:textSize="18sp" />
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="2017-08-04 17:59:59"/>
-            <TextView
-                android:id="@+id/place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="南方航空"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2017-08-04 17:59:59"
+                    android:textColor="#dddddd"/>
+
+                <TextView
+                    android:id="@+id/place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="南方航空"
+                    android:textColor="#dddddd"/>
+            </LinearLayout>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_10"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:textColor="@color/ori"/>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -1,16 +1,23 @@
 package com.cn.uca.ui.view.home.footprint;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,18 +43,16 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.datepicker.OnSureLisener;
 import com.cn.uca.server.home.HomeHttp;
-import com.cn.uca.ui.view.home.yusheng.YuShengActivity;
+import com.cn.uca.ui.view.util.BaseHideActivity;
 import com.cn.uca.util.AndroidClass;
-import com.cn.uca.util.FitStateUI;
-import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
+import com.cn.uca.util.StatusBarUtil;
 import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
-import com.cn.uca.view.StatusView;
 import com.cn.uca.view.datepicker.DatePickDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -57,7 +62,6 @@ import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -65,7 +69,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddFootActivity extends AppCompatActivity implements View.OnClickListener,OnSureLisener{
+public class AddFootActivity extends BaseHideActivity implements View.OnClickListener,OnSureLisener{
 
     private TextView close,cityName,time,place,choose,finish,yearNum,cityNum;
     private ImageView pic;
@@ -74,17 +78,18 @@ public class AddFootActivity extends AppCompatActivity implements View.OnClickLi
     private String[] arrayString = { "拍照", "相册" };
     private String title = "上传照片";
     private File bais;
-    private String code,name;
+    private String codeCity,name;
     private int year_num,city_num;
     private List<CityNameBean> listCity;
     private int cityId = 0;
-    private String travelTime,travelPlace,travelContent;
+    private String travelTime,travelPlace,travelContent,type;
+    private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
+    private Uri imageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_add_foot);
-
+        StatusBarUtil.immersive(this);
         getInfo();
         initView();
     }
@@ -92,10 +97,24 @@ public class AddFootActivity extends AppCompatActivity implements View.OnClickLi
     private void getInfo(){
         Intent intent = getIntent();
         if (intent != null){
-            code = intent.getStringExtra("code");
-            name = intent.getStringExtra("name");
-            year_num = intent.getIntExtra("yearNum",0);
-            city_num = intent.getIntExtra("cityNum",0);
+            type = intent.getStringExtra("type");
+            switch (type){
+                case "china":
+                    codeCity = intent.getStringExtra("code");
+                    name = intent.getStringExtra("name");
+                    year_num = intent.getIntExtra("yearNum",0);
+                    city_num = intent.getIntExtra("cityNum",0);
+                    Log.i("123",codeCity+"--"+name);
+                    break;
+                case "world":
+                    codeCity = intent.getStringExtra("code");
+                    name = intent.getStringExtra("name");
+                    year_num = intent.getIntExtra("yearNum",0);
+                    city_num = intent.getIntExtra("cityNum",0);
+                    Log.i("123",codeCity+"--"+name);
+                    break;
+            }
+
         }
     }
 
@@ -124,19 +143,27 @@ public class AddFootActivity extends AppCompatActivity implements View.OnClickLi
         finish.setOnClickListener(this);
 
         listCity = new ArrayList<>();
-        getCityName();
+
+        switch (type){
+            case "china":
+                getCityName();
+                break;
+            case "world":
+                place.setVisibility(View.GONE);
+                break;
+        }
     }
 
     private void getCityName(){
         Map<String,Object> map = new HashMap<>();
         String account_token = SharePreferenceXutil.getAccountToken();
         map.put("account_token",account_token);
-        map.put("code",code);
+        map.put("code",codeCity);
         String time_stamp = SystemUtil.getCurrentDate2();
         map.put("time_stamp",time_stamp);
         final String sign = SignUtil.sign(map);
 
-        HomeHttp.getCityName(sign, time_stamp, account_token, code, new CallBack() {
+        HomeHttp.getCityName(sign, time_stamp, account_token, codeCity, new CallBack() {
             @Override
             public void onResponse(Object response) {
                 try {
@@ -188,7 +215,14 @@ public class AddFootActivity extends AppCompatActivity implements View.OnClickLi
                 dialog.show();
                 break;
             case R.id.finish:
-                addFootprintChina();
+                switch (type){
+                    case "china":
+                        addFootprintChina();
+                        break;
+                    case "world":
+                        addFootprintWorld();
+                        break;
+                }
                 break;
         }
     }
@@ -198,7 +232,6 @@ public class AddFootActivity extends AppCompatActivity implements View.OnClickLi
         View inflate = LayoutInflater.from(this).inflate(R.layout.choose_city_dialog, null);
         ListView listView = (ListView)inflate.findViewById(R.id.listView);
         Button btn_cancel = (Button)inflate.findViewById(R.id.btn_cancel);
-
 
         CityNameAdapter adapter = new CityNameAdapter(listCity,this);
         listView.setAdapter(adapter);
@@ -244,6 +277,7 @@ public class AddFootActivity extends AppCompatActivity implements View.OnClickLi
         dialog.show();
     }
 
+    //添加中国足迹
     private void addFootprintChina(){
         if (StringXutil.isEmpty(travelTime)){
             ToastXutil.show("时间线不能为空");
@@ -296,16 +330,66 @@ public class AddFootActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
     }
+
+    //添加世界足迹
+    private void addFootprintWorld(){
+        if (StringXutil.isEmpty(travelTime)){
+            ToastXutil.show("时间线不能为空");
+        }else {
+            travelContent = content.getText().toString().trim();
+            if (StringXutil.isEmpty(travelContent)){
+                ToastXutil.show("请编辑您的旅行回忆");
+            }else{
+                Map<String,Object> map = new HashMap<>();
+                String account_token = SharePreferenceXutil.getAccountToken();
+                map.put("account_token", account_token);
+                String time_stamp = SystemUtil.getCurrentDate2();
+                map.put("time_stamp",time_stamp);
+                map.put("country_id",codeCity);
+                map.put("travel_time",travelTime);
+                map.put("content",travelContent);
+                String sign = SignUtil.sign(map);
+                HomeHttp.addFootprintWorld(sign, time_stamp, account_token, codeCity, travelTime, travelContent, bais, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                        if (i == 200){
+                            try {
+                                JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
+                                Log.i("123",jsonObject.toString());
+                                int code = jsonObject.getInt("code");
+                                switch (code){
+                                    case 0:
+                                        ToastXutil.show("添加成功");
+                                        Intent intent = new Intent();
+                                        intent.putExtra("code",codeCity);
+                                        setResult(0,intent);
+                                        AddFootActivity.this.finish();
+                                        break;
+                                }
+                            }catch (Exception e){
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                    }
+                });
+            }
+        }
+    }
     // 对话框
     DialogInterface.OnClickListener onDialogClick = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case 0:
-                    startCamearPicCut(dialog);// 开启照相
+                    autoObtainCameraPermission();// 开启照相
                     break;
                 case 1:
-                    startImageCaptrue(dialog);// 开启图库
+                    autoObtainStoragePermission();// 开启图库
                     break;
                 default:
                     break;
@@ -314,56 +398,116 @@ public class AddFootActivity extends AppCompatActivity implements View.OnClickLi
     };
 
     /**
-     * 打开相机
-     *
-     * @param dialog
+     * 自动获取相机权限
      */
-    public void startCamearPicCut(DialogInterface dialog) {
-        dialog.dismiss();
-        // 调用系统的拍照功能
-        try {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra("camerasensortype", 2);// 调用前置摄像头
-            intent.putExtra("autofocus", true);// 自动对焦
-            intent.putExtra("fullScreen", false);// 全屏
-            intent.putExtra("showActionIcons", false);
-            // 指定调用相机拍照后照片的储存路径
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(MyApplication.tempFile));
-            startActivityForResult(intent, Constant.PHOTO_REQUEST_TAKEPHOTO);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void autoObtainCameraPermission() {
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                ToastXutil.show("您已经拒绝过一次");
+            }
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.CAMERA_PERMISSIONS_REQUEST_CODE);
+        } else {//有权限直接调用系统相机拍照
+            if (SystemUtil.hasSDCard()) {
+                imageUri = Uri.fromFile(fileUri);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    imageUri = FileProvider.getUriForFile(this, "com.cn.uca.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
+                takePicture();
+            } else {
+                ToastXutil.show("设备没有SD卡！");
+            }
         }
     }
     /**
-     * 开启图库
-     *
-     * @param dialog
+     * 自动获取sdk权限
      */
-    public void startImageCaptrue(DialogInterface dialog) {
-        dialog.dismiss();
-        try {
-            Intent intent = new Intent(Intent.ACTION_PICK, null);
-            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-            startActivityForResult(intent, Constant.PHOTO_REQUEST_GALLERY);
-        } catch (Exception e) {
-            e.printStackTrace();
+
+    private void autoObtainStoragePermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.STORAGE_PERMISSIONS_REQUEST_CODE);
+        } else {
+            openPic();
+        }
+    }
+    /**
+     * 调用系统相机
+     */
+    public  void takePicture() {
+        Intent intentCamera = new Intent();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intentCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+        }
+        intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+        //将拍照结果保存至photo_file的Uri中，不保留在相册中
+        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intentCamera, Constant.PHOTO_REQUEST_TAKEPHOTO);
+    }
+    /**
+     * 打开相册的请求码
+     */
+    public void openPic() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, Constant.PHOTO_REQUEST_GALLERY);
+    }
+    /**
+     * 权限回调
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,  int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Constant.CAMERA_PERMISSIONS_REQUEST_CODE: {//调用系统相机申请拍照权限回调
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (SystemUtil.hasSDCard()) {
+                        imageUri = Uri.fromFile(fileUri);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            imageUri = FileProvider.getUriForFile(this, "com.cn.uca.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
+                            takePicture();
+                    } else {
+                        ToastXutil.show("设备没有SD卡！");
+                    }
+                } else {
+                    ToastXutil.show("请允许打开相机！！");
+                }
+                break;
+
+            }
+            case Constant.STORAGE_PERMISSIONS_REQUEST_CODE://调用系统相册申请Sdcard权限回调
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openPic();
+                } else {
+                    ToastXutil.show("请允许打操作SDCard！！");
+                }
+                break;
         }
     }
     // 将图片显示到UI界面上
     private void setPicToView(File picdata) {
-        bais = picdata;
-        final Bitmap bitmap= BitmapFactory.decodeFile(picdata.toString());
-        new Thread() {
-            @Override
-            public void run() {
-                if (bitmap != null) {
-                    handler.obtainMessage(0, bitmap).sendToTarget();
-                    //将bitmap转换成File类型
-                } else {
-                    handler.obtainMessage(-1, null).sendToTarget();
-                }
+        if (picdata != null){
+            try{
+                bais = picdata;
+                final Bitmap bitmap= BitmapFactory.decodeFile(picdata.toString());
+                new Thread() {
+                    @Override
+                    public void run() {
+                        if (bitmap != null) {
+                            handler.obtainMessage(0, bitmap).sendToTarget();
+                            //将bitmap转换成File类型
+                        } else {
+                            handler.obtainMessage(-1, null).sendToTarget();
+                        }
+                    }
+                }.start();
+            }catch (Exception e){
+
             }
-        }.start();
+        }
     }
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -378,16 +522,19 @@ public class AddFootActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case Constant.PHOTO_REQUEST_TAKEPHOTO:
-                setPicToView(MyApplication.tempFile);
-                break;
-            case Constant.PHOTO_REQUEST_GALLERY:
-                if (data != null) {
-                    setPicToView(new File(SystemUtil.getRealPathFromURI(data.getData(),this)));
-                }
-                break;
+        if (resultCode == RESULT_OK){
+            switch (requestCode) {
+                case Constant.PHOTO_REQUEST_TAKEPHOTO:
+                    setPicToView(fileUri);
+                    break;
+                case Constant.PHOTO_REQUEST_GALLERY:
+                    if (data.getData() != null) {
+                        setPicToView(new File(SystemUtil.getRealPathFromURI(data.getData(),this)));
+                    }
+                    break;
+            }
         }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 

@@ -120,7 +120,7 @@ public class YueKaAdapter extends BaseAdapter implements View.OnClickListener{
 			}
 			holder.start.setRating((float)list.get(position).getAverage_score());
 			holder.startNum.setText(list.get(position).getAverage_score()+"");
-			holder.price.setText("￥"+(int)list.get(position).getMin_consumption()+"--"+(int)list.get(position).getMax_consumption());
+			holder.price.setText("￥"+(int)list.get(position).getMin_consumption()+"~"+(int)list.get(position).getMax_consumption());
 			holder.count.setText("浏览"+list.get(position).getBrowse_times()+"次");
 			holder.fluidLayout.removeAllViews();
 			holder.fluidLayout.setGravity(Gravity.TOP);

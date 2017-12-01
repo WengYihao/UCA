@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
 
@@ -43,7 +42,6 @@ public class DetailsWebActivity extends BaseBackActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_web_view);
 
         initView();
@@ -53,8 +51,21 @@ public class DetailsWebActivity extends BaseBackActivity implements View.OnClick
         back = (TextView)findViewById(R.id.back);
         finish = (TextView)findViewById(R.id.finish);
         webView = (WebView)findViewById(R.id.webView);
-        String url = "http://www.szyouka.com/youkatravel/api/escort/page/routePreset.do?account_token="+ SharePreferenceXutil.getAccountToken();
+        String url = "http://www.szyouka.com:8080/youkatravel/api/escort/page/routePreset.do?account_token="+ SharePreferenceXutil.getAccountToken();
         webView.loadUrl(url);
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public void onReceivedError(WebView var1, int var2, String var3, String var4) {
+                Log.i("打印日志","网页加载失败");
+            }
+        });
+        //进度条
         webView.setWebChromeClient(mWebChromeClient);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
@@ -134,11 +145,11 @@ public class DetailsWebActivity extends BaseBackActivity implements View.OnClick
             result.confirm();
             return super.onJsConfirm(view, url, message, result);
         }
-
-        /**
-         * 处理prompt弹出框
-         */
-        @Override
+//
+//        /**
+//         * 处理prompt弹出框
+//         */
+//        @Override
         public boolean onJsPrompt(WebView view, String url, String message,
                                   String defaultValue, JsPromptResult result) {
             Log.i("123","onJsPrompt:"+message);
@@ -158,6 +169,9 @@ public class DetailsWebActivity extends BaseBackActivity implements View.OnClick
             mFilePathCallback = filePathCallback;
 
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+            }
             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                 File photoFile = null;
                 try {
@@ -210,7 +224,6 @@ public class DetailsWebActivity extends BaseBackActivity implements View.OnClick
                     Intent.createChooser(i, "Image Chooser"),
                     FILECHOOSER_RESULTCODE);
         }
-
         public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
             mUploadMessage = uploadMsg;
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);

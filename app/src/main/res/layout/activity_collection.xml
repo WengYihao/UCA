@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:text="@string/my_collection_btn_text"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_18"
+            android:textSize="@dimen/text_16"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/padding_10"/>
@@ -47,10 +47,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="20dp"
+                android:padding="@dimen/padding_20"
                 android:text="@string/my_collection_title01_text"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="@dimen/text_16" />
 
             <TextView
                 android:id="@+id/title02"
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="20dp"
+                android:padding="@dimen/padding_20"
                 android:text="@string/my_collection_title02_text"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16" />
@@ -69,10 +69,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="20dp"
+                android:padding="@dimen/padding_20"
                 android:text="@string/my_collection_title03_text"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_14" />
+                android:textSize="@dimen/text_16" />
         </LinearLayout>
     </LinearLayout>
     <ListView

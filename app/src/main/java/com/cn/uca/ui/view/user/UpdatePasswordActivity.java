@@ -13,7 +13,6 @@ import com.cn.uca.secretkey.MD5;
 import com.cn.uca.secretkey.RSAUtils;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.MyEditText;
@@ -29,7 +28,6 @@ public class UpdatePasswordActivity extends BaseBackActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_update_password);
 
         initView();
@@ -47,7 +45,7 @@ public class UpdatePasswordActivity extends BaseBackActivity implements View.OnC
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.back:
-
+                this.finish();
                 break;
             case R.id.update:
                 update();

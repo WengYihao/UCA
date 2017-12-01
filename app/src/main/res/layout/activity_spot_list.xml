@@ -18,7 +18,7 @@
 
         <TextView
             style="@style/style_title"
-            android:text="景点列表"/>
+            android:text="@string/spotListActivity_title_back"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,9 +26,10 @@
         android:orientation="horizontal">
         <ListView
             android:id="@+id/letter"
-            android:layout_width="30dp"
+            android:layout_width="@dimen/padding_30"
             android:layout_height="match_parent"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:divider="@color/white">
 
         </ListView>
         <GridView

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,7 +15,6 @@ import com.cn.uca.bean.home.travel.CitySpotTicketBean;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
 import com.google.gson.Gson;
@@ -43,7 +43,6 @@ public class CitySpotListActivity extends BaseBackActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_city_spot_list);
 
         initView();
@@ -61,6 +60,16 @@ public class CitySpotListActivity extends BaseBackActivity implements View.OnCli
         list = new ArrayList<>();
         adapter = new CitySpotTicketAdapter(list,this);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent();
+                intent.setClass(CitySpotListActivity.this,SpotTicketActivity.class);
+                intent.putExtra("id",list.get(i).getScenic_spot_id());
+                startActivity(intent);
+            }
+        });
     }
 
     private void getInfo(){

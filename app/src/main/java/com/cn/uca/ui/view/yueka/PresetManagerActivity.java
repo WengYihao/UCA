@@ -13,15 +13,17 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.yueka.EditLineAdapter;
+import com.cn.uca.adapter.yueka.LinePointAdapter;
 import com.cn.uca.bean.yueka.PlacesBean;
 import com.cn.uca.bean.yueka.YueKaLineBean;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.yueka.ItemClickListener;
+import com.cn.uca.impl.yueka.LinePointCallBack;
 import com.cn.uca.server.yueka.YueKaHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SetListView;
 import com.cn.uca.util.ToastXutil;
+import com.cn.uca.util.lmxListviewHelper;
 import com.cn.uca.view.MyEditText;
 import com.cn.uca.view.RdListView;
 import com.google.gson.Gson;
@@ -32,7 +34,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PresetManagerActivity extends BaseBackActivity implements View.OnClickListener,ItemClickListener {
+public class PresetManagerActivity extends BaseBackActivity implements View.OnClickListener,ItemClickListener,LinePointCallBack {
 
     private TextView back,add;
     private RdListView listView;
@@ -44,7 +46,6 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_preset_manager);
 
         initView();
@@ -59,7 +60,7 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
         add.setOnClickListener(this);
         listData = new ArrayList<>();
         listPlaces = new ArrayList<>();
-        editLineAdapter = new EditLineAdapter(listData,PresetManagerActivity.this,this);
+        editLineAdapter = new EditLineAdapter(listData,PresetManagerActivity.this,this,this);
         listView.setAdapter(editLineAdapter);
         SetListView.setListViewHeightBasedOnChildren(listView);
         listView.setDelButtonClickListener(new RdListView.DelButtonClickListener() {
@@ -278,19 +279,36 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
             if (data != null){
                 List<PlacesBean> list;
                 listPlaces = data.getParcelableArrayListExtra("list");
+                Log.i("123",listPlaces.size()+"--");
                 int route_id = data.getIntExtra("id",0);
                 for (YueKaLineBean yueKaLineBean : listData) {
                     if(yueKaLineBean.getRoute_id() == route_id){
-                        // 原数据
-                        list = yueKaLineBean.getPlaces();
-                        for (PlacesBean placesBean : listPlaces) {
-                            list.add(placesBean);
-                        }
-                        editLineAdapter.setList(listData);
+                        yueKaLineBean.setPlaces(listPlaces);
                         break;
                     }
                 }
+                editLineAdapter.setList(listData);
             }
         }
+    }
+
+    @Override
+    public void changPoint(ListView listView, final LinePointAdapter adapter, final List<PlacesBean> list) {
+        lmxListviewHelper helper = new lmxListviewHelper(listView) {
+            @Override
+            public void changeItemPosition(int p1, int p2) {
+//                adapter = new LinePointAdapter()
+                PlacesBean bean = list.get(p2);
+                list.set(p2,list.get(p1));
+                list.set(p1,bean);
+                adapter.setList(list);
+            }
+
+            @Override
+            public void resetListview() {
+                adapter.setList(list);
+            }
+        };
+        helper.enableChangeItems(true);
     }
 }

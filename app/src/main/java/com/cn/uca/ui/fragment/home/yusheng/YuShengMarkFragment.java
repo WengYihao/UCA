@@ -69,7 +69,8 @@ public class YuShengMarkFragment extends Fragment {
                 refreshlayout.getLayout().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getLifeHistorical(1);
+                        page ++;
+                        getLifeHistorical(page);
                         refreshlayout.finishRefresh();
                         refreshlayout.setLoadmoreFinished(false);
                     }
@@ -89,7 +90,6 @@ public class YuShengMarkFragment extends Fragment {
                 }, 1000);
             }
         });
-//        refreshLayout.autoRefresh();
     }
 
     private void getLifeHistorical(int page){
@@ -104,7 +104,6 @@ public class YuShengMarkFragment extends Fragment {
             @Override
             public void onResponse(Object response) {
                 try {
-//                    Log.i("123",response)
                     JSONObject jsonObject = new JSONObject(response.toString());
                     int code = jsonObject.getInt("code");
                     switch (code){
@@ -122,10 +121,6 @@ public class YuShengMarkFragment extends Fragment {
                                 }else{
                                     markAdapter.setList(list);
                                 }
-
-//                                if (bean.getLifeHistoricals().size() != 0){
-//
-//                                }
                             }
                             break;
                     }

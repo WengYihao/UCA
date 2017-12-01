@@ -13,7 +13,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.cn.uca.config.MyApplication;
 import com.cn.uca.util.SvgPathToAndroidPath;
 
 /**

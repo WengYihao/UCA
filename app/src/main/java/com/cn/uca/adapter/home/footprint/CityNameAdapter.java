@@ -1,7 +1,6 @@
 package com.cn.uca.adapter.home.footprint;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,6 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.bean.home.footprint.CityNameBean;
-import com.cn.uca.bean.home.travel.CitySpotTicketBean;
-import com.cn.uca.view.RatingStarView;
-import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 

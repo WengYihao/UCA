@@ -6,7 +6,7 @@ import android.widget.ListView;
 
 /**
  * Created by asus on 2017/9/7.
- * 适配ScrollView嵌套fragment里面的两个listView的高度
+ * 适配ScrollView嵌套fragment里面的listView的高度
  */
 
 public class ListViewForScrollView extends ListView {

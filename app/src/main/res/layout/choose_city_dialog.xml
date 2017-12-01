@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:overScrollMode="never"
         android:background="@drawable/sex_dialog_cancel_background">
     </ListView>
     <Button
@@ -17,7 +18,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/sex_dialog_cancel_background"
         android:gravity="center"
-        android:text="取消"
+        android:text="@string/dialog_show_cancel"
         android:textColor="@color/ori"
-        android:textSize="18sp" />
+        android:textSize="@dimen/text_18" />
 </LinearLayout>

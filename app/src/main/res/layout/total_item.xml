@@ -11,8 +11,7 @@
         android:layout_height="@dimen/padding_40"
         android:layout_marginLeft="@dimen/padding_10"
         android:gravity="center_vertical"
-        android:text="全部城市"
         android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:textSize="@dimen/text_16" />
 
 </RelativeLayout>

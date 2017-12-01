@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -21,15 +22,14 @@ import com.cn.uca.animate.ScaleInOutTransformer;
 import com.cn.uca.bean.home.CarouselFiguresBean;
 import com.cn.uca.config.BannerConfig;
 import com.cn.uca.config.MyApplication;
-import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
+import com.cn.uca.popupwindows.LoadingPopupWindow;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.home.HomeHttp;
-import com.cn.uca.ui.view.Main3Activity;
-import com.cn.uca.ui.view.MainActivity;
+import com.cn.uca.ui.view.home.sign.SignActivity;
 import com.cn.uca.ui.view.home.footprint.FootPrintActivity;
 import com.cn.uca.ui.view.home.hotel.HotleActivity;
 import com.cn.uca.ui.view.home.planeticket.PlaneTicketActivity;
@@ -47,7 +47,6 @@ import com.cn.uca.view.Banner;
 import com.cn.uca.view.StickyScrollView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -63,11 +62,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
 
     private View view;
     private StickyScrollView stickyScrollView;//滑动界面
-    private RelativeLayout llTitle;//搜索框布局
+    private RelativeLayout llTitle,seachLayout;//搜索框布局
     private Banner banner;//图片轮播
     private List<String> images=new ArrayList<>();//图片地址集合
     private int height; //透明内容高度
-    private TextView backlayout,planeTicket,hotel,tourism,oneRaiders,yusheng,footprint;//机票、酒店、旅游、一元攻略、余生、足迹
+    private TextView backlayout,sign;
+    private LinearLayout planeTicket,hotel,tourism,oneRaiders,yusheng,footprint;//机票、酒店、旅游、一元攻略、余生、足迹
     private TextView search_et;
     private List<CarouselFiguresBean> listPic;
     private String version,new_version;
@@ -90,22 +90,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             public void onResponse(Object response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
-//                    Log.i("123",jsonObject.toString()+"/**/");
                     int code = jsonObject.getInt("code");
-                    if (code ==0 ){
-                        JSONObject object = jsonObject.getJSONObject("data");
-                        int bind_identity_state_id = object.getInt("bind_identity_state_id");
-                        if (bind_identity_state_id == 1){
-                            SharePreferenceXutil.setAuthentication(true);
-                        }else{
-                            SharePreferenceXutil.setAuthentication(false);
-                        }
-                        int open_life_id = object.getInt("open_life_id");
-                        if (open_life_id == 1){
-                            SharePreferenceXutil.setOpenYS(true);
-                        }else{
+                    switch (code){
+                        case 0:
+                            JSONObject object = jsonObject.getJSONObject("data");
+                            int bind_identity_state_id = object.getInt("bind_identity_state_id");
+                            if (bind_identity_state_id == 1){
+                                SharePreferenceXutil.setAuthentication(true);
+                            }else{
+                                SharePreferenceXutil.setAuthentication(false);
+                            }
+                            int open_life_id = object.getInt("open_life_id");
+                            if (open_life_id == 1){
+                                SharePreferenceXutil.setOpenYS(true);
+                            }else{
+                                SharePreferenceXutil.setOpenYS(false);
+                            }
+                            break;
+                        case 17:
+                            Log.i("123","-------------------------");
+                            ToastXutil.show("登录已过期，请重新登录！");
+                            SharePreferenceXutil.setExit(true);
+                            SharePreferenceXutil.setSuccess(false);
+                            SharePreferenceXutil.saveAccountToken("");
+                            SharePreferenceXutil.saveAccessToken("");
                             SharePreferenceXutil.setOpenYS(false);
-                        }
+                            SharePreferenceXutil.setAuthentication(false);
+                            break;
                     }
                 }catch (Exception e){
                     Log.i("123",e.getMessage());
@@ -129,14 +140,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         stickyScrollView = (StickyScrollView) view.findViewById(R.id.scrollView);
         banner = (Banner)view.findViewById(R.id.banner);
         llTitle = (RelativeLayout) view.findViewById(R.id.ll_good_detail);
-        planeTicket = (TextView)view.findViewById(R.id.planeTicket);
-        hotel = (TextView)view.findViewById(R.id.hotel);
-        tourism = (TextView)view.findViewById(R.id.tourism);
-        oneRaiders = (TextView)view.findViewById(R.id.oneRaiders);
-        yusheng = (TextView)view.findViewById(R.id.yusheng);
-        footprint = (TextView)view.findViewById(R.id.footprint);
+        seachLayout = (RelativeLayout)view.findViewById(R.id.seachLayout);
+        planeTicket = (LinearLayout) view.findViewById(R.id.planeTicket);
+        hotel = (LinearLayout)view.findViewById(R.id.hotel);
+        tourism = (LinearLayout)view.findViewById(R.id.tourism);
+        oneRaiders = (LinearLayout)view.findViewById(R.id.oneRaiders);
+        yusheng = (LinearLayout)view.findViewById(R.id.yusheng);
+        footprint = (LinearLayout)view.findViewById(R.id.footprint);
         search_et = (TextView) view.findViewById(R.id.search_et);
         backlayout = (TextView)view.findViewById(R.id.backlayout);
+        sign = (TextView)view.findViewById(R.id.sign);
 
         planeTicket.setOnClickListener(this);
         hotel.setOnClickListener(this);
@@ -145,11 +158,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         yusheng.setOnClickListener(this);
         footprint.setOnClickListener(this);
         search_et.setOnClickListener(this);
+        sign.setOnClickListener(this);
 
-        SetLayoutParams.setRelativeLayout(banner,MyApplication.width,MyApplication.height*2/7);
+        SetLayoutParams.setRelativeLayout(banner,MyApplication.width,MyApplication.height/3);
         //简单使用
         StatusMargin.setRelativeLayout(getActivity(),llTitle);
-        StatusMargin.setRelativeLayoutTop(getActivity(),backlayout,MyApplication.height*2/7-SystemUtil.dip2px(20));
+        StatusMargin.setRelativeLayoutTop(getActivity(),backlayout,MyApplication.height/3);
+        SetLayoutParams.setRelativeLayout(seachLayout,MyApplication.width/2,SystemUtil.dip2px(35));
     }
 
     private void getLineVersion() {
@@ -195,21 +210,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.sign:
+                startActivity(new Intent(getActivity(), SignActivity.class));
+                break;
             case R.id.planeTicket:
-//                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
-//                startActivity(new Intent(getActivity(), Main3Activity.class));
-                if (WeChatManager.instance().isWXAppInstalled()) {
-//                    final SendAuth.Req req = new SendAuth.Req();
-//                    req.scope = "snsapi_userinfo";
-//                    req.state = "wechat_sdk_demo";
-//                    //拉起微信授权，授权结果在WXEntryActivity中接收处理
-//                    WeChatManager.instance().sendReq(req);
-//                    WeChatManager.instance().sendTextToWX(true,"哇，长得这么漂亮，淫家好喜欢啊");
-                    WeChatManager.instance().sendWebPageToWX(true,
-                            "http://www.baidu.com","http://www.szyouka.com/youkatravel/fileRresources/upload/uploadFootprintChinaPicture/22220171101152520QSH.jpg","哈哈","我们长得帅！");
-                } else {
-                    ToastXutil.show(R.string.wechat_not_installed);
-                }
+                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
+//                LoadingPopupWindow popupWindow = new LoadingPopupWindow(getActivity());
+//                popupWindow.show();
                 break;
             case R.id.hotel:
                 startActivity(new Intent(getActivity(), HotleActivity.class));
@@ -228,7 +235,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 }
                 break;
             case R.id.footprint:
-                startActivity(new Intent(getActivity(), FootPrintActivity.class));
+                if(SharePreferenceXutil.isSuccess()){
+                    startActivity(new Intent(getActivity(), FootPrintActivity.class));
+                }else{
+                    ToastXutil.show("请先登录");
+                }
                 break;
             case R.id.search_et:
                 startActivity(new Intent(getActivity(),SearchActivity.class));
@@ -291,7 +302,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                                     })
                                     .setBannerAnimation(ScaleInOutTransformer.class)//翻转动画
                                     .start();
-                            banner.updateBannerStyle(BannerConfig.NUM_INDICATOR);
+                            banner.updateBannerStyle(BannerConfig.NOT_INDICATOR);
                             break;
                     }
                 }catch (Exception e){

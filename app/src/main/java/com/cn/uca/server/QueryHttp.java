@@ -1,28 +1,16 @@
 package com.cn.uca.server;
 
-import com.cn.uca.bean.yueka.GetEscortBean;
 import com.cn.uca.bean.user.RegisterBean;
-import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.bean.wechat.WeChatLogin;
-import com.cn.uca.bean.yueka.PlacesBean;
 import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.util.SharePreferenceXutil;
-import com.cn.uca.util.StringXutil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,10 +23,12 @@ public class QueryHttp extends BaseServer{
      * @param phone_number
      * @param callBack
      */
-    public static void sendCode(String phone_number,CallBack callBack){
+    public static void sendCode(String phone_number,String sign,String time_stamp,CallBack callBack){
         Map<String,String> map = new HashMap<>();
         map.put("phone_number",phone_number);
-        post3(MyConfig.sendCode,map,callBack);
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        post4(MyConfig.sendCode,map,callBack);
     }
     /**
      * 获取微信token
@@ -132,5 +122,17 @@ public class QueryHttp extends BaseServer{
         Map<String,Object> map = new HashMap<>();
         map.put("account_token", SharePreferenceXutil.getAccountToken());
         get(MyConfig.getUserState,map,callBack);
+    }
+//    http://www.szyouka.com:8080/youkatravel/api/user/query/getUserInfos.do?account_token=B4FB121E851E083E75D91485C1044DA6&accountIds=system_0&sign=F7BA148DC266D19A53F7DA71B647AF33&time_stamp=20171130094200
+    /**
+     * 获取融云用户信息
+     */
+    public static void getUserInfos(String account_token,String accountIds,String sign,String time_stamp,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token", account_token);
+        map.put("accountIds", accountIds);
+        map.put("sign", sign);
+        map.put("time_stamp", time_stamp);
+        get(MyConfig.getRongInfo,map,callBack);
     }
 }

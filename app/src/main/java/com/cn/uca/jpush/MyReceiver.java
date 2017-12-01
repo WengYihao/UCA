@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.cn.uca.badger.ShortcutBadger;
 import com.cn.uca.util.SharePreferenceXutil;
 
 import org.json.JSONException;
@@ -42,11 +41,11 @@ public class MyReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.i(TAG, "[MyReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-			ShortcutBadger.applyCount(context,1);//添加角标
+//			ShortcutBadger.applyCount(context,1);//添加角标
             Log.i(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.i(TAG, "[MyReceiver] 用户点击打开了通知");
-            ShortcutBadger.removeCount(context);//清除角标
+//            ShortcutBadger.removeCount(context);//清除角标
         	//打开自定义的Activity
 //        	Intent i = new Intent(context, TestActivity.class);
 //        	i.putExtras(bundle);

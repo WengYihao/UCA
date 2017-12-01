@@ -19,8 +19,6 @@ import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.datepicker.OnSureLisener;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
-import com.cn.uca.util.L;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -53,7 +51,6 @@ public class YuShengActivity extends BaseBackActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_yu_sheng);
 
         initView();
@@ -77,7 +74,7 @@ public class YuShengActivity extends BaseBackActivity implements View.OnClickLis
         waveView.setOnWaveAnimationListener(new WaveView.OnWaveAnimationListener() {
             @Override
             public void OnWaveAnimation(float y) {
-                StatusMargin.setRelativeLayoutBottom(YuShengActivity.this,start,SystemUtil.dip2px(y+17));
+                StatusMargin.setRelativeLayout(YuShengActivity.this,start,SystemUtil.dip2px(y+15));
             }
         });
     }

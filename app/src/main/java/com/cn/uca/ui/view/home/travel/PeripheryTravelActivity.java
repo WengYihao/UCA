@@ -10,7 +10,6 @@ import com.cn.uca.R;
 import com.cn.uca.ui.fragment.home.PeripheryFragment;
 import com.cn.uca.ui.fragment.home.PeripheryHotelFragment;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 
 
 /**
@@ -28,7 +27,6 @@ public class PeripheryTravelActivity extends BaseBackActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_periphery_travel);
 
         initView();

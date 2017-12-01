@@ -16,7 +16,7 @@
 
             <TextView
                 android:layout_width="@dimen/padding_15"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/padding_30"
                 android:background="@drawable/five_circular_blue_background"/>
 
             <TextView
@@ -24,7 +24,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_8"
-                android:text="2017年6月15日"
                 android:textColor="@color/bule3"
                 android:textSize="@dimen/text_18"
                 android:layout_gravity="center"/>
@@ -63,7 +62,7 @@
                     fresco:roundBottomRight="true"
                     fresco:roundTopLeft="false"
                     fresco:roundTopRight="false"
-                    fresco:roundedCornerRadius="40dp" />
+                    fresco:roundedCornerRadius="@dimen/padding_40" />
 
                 <TextView
                     android:id="@+id/place"
@@ -72,7 +71,6 @@
                     android:layout_toRightOf="@id/pic"
                     android:gravity="center"
                     android:padding="@dimen/padding_5"
-                    android:text="天涯海角"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_16"/>
             </LinearLayout>
@@ -83,8 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout"
                 android:layout_marginLeft="@dimen/padding_5"
-                android:layout_marginTop="@dimen/padding_5"
-                android:text="小白兔白又白，两只耳朵竖起来。。。。。。。哈哈" />
+                android:layout_marginTop="@dimen/padding_5"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

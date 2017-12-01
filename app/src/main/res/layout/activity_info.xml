@@ -52,7 +52,7 @@
             android:layout_height="@dimen/padding_40"
             android:layout_marginTop="@dimen/padding_10"
             android:background="@color/white"
-            android:hint="请输入验证码"
+            android:hint="@string/infoActivity_edittext_hint"
             android:padding="@dimen/padding_5"
             android:visibility="gone"/>
 
@@ -63,7 +63,7 @@
             android:layout_marginTop="@dimen/padding_10"
             android:background="@color/ori"
             android:gravity="center"
-            android:text="下一步"
+            android:text="@string/infoActivity_next_text"
             android:textColor="@color/white"
             android:visibility="gone"/>
     </LinearLayout>

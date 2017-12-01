@@ -1,13 +1,17 @@
 package com.cn.uca.ui.fragment.yueka;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,10 +28,15 @@ import com.cn.uca.adapter.yueka.YueKaAdapter;
 import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.bean.yueka.EscortRecordsBean;
 import com.cn.uca.bean.yueka.GetEscortBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.datepicker.OnDoubleSureLisener;
 import com.cn.uca.impl.yueka.CollectionClickListener;
+import com.cn.uca.impl.yueka.SearchCallBack;
+import com.cn.uca.popupwindows.YuekaSearchPopupWindow;
 import com.cn.uca.server.yueka.YueKaHttp;
+import com.cn.uca.ui.view.rongim.ChatListActivity;
+import com.cn.uca.ui.view.rongim.ConversationActivity;
 import com.cn.uca.ui.view.util.CityActivity;
 import com.cn.uca.ui.view.yueka.OrderYueActivity;
 import com.cn.uca.ui.view.yueka.OtherYueActivity;
@@ -51,17 +60,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.UserInfo;
+
 /**
  * Created by asus on 2017/8/11.
  */
 
-public class YueKaFragment extends Fragment implements AMapLocationListener,View.OnClickListener,OnDoubleSureLisener,CollectionClickListener{
+public class YueKaFragment extends Fragment implements AMapLocationListener,View.OnClickListener,OnDoubleSureLisener,CollectionClickListener,SearchCallBack{
 
     private View view;
     private ListView listView;
     private YueKaAdapter yueKaAdapter;
     private List<EscortRecordsBean> list;
-    private TextView place,messageYue,orderYue,startTime,endTime,freeTime;
+    private TextView place,messageYue,orderYue,freeTime,all;
     private int page = 1;
     private int pageCount = 5;
     private RefreshLayout refreshLayout;
@@ -74,27 +87,29 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
     //标识，用于判断是否只显示一次定位信息和用户重新定位
     private boolean isFirstLoc = true;
     public static String city,cityCode;
+    private int sexId;
+    private String begTime,endTime,beg_age,end_age,lable;
+    private GetEscortBean bean = new GetEscortBean();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_yueka, null);
-
+        autoObtainLocationPermission();
         location();
         ininView();
         return view;
     }
-
     private void ininView() {
         refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
         place = (TextView) view.findViewById(R.id.place);
+        all = (TextView)view.findViewById(R.id.all);
         messageYue = (TextView) view.findViewById(R.id.messageYue);
         orderYue = (TextView) view.findViewById(R.id.orderYue);
         listView = (ListView) view.findViewById(R.id.listView);
-        startTime = (TextView) view.findViewById(R.id.startTime);
-        endTime = (TextView) view.findViewById(R.id.endTime);
         freeTime = (TextView) view.findViewById(R.id.freeTime);
 
         place.setOnClickListener(this);
+        all.setOnClickListener(this);
         messageYue.setOnClickListener(this);
         orderYue.setOnClickListener(this);
         freeTime.setOnClickListener(this);
@@ -112,8 +127,6 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                 startActivity(intent);
             }
         });
-        startTime.setText(SystemUtil.getCurrentDateOnly2());
-        endTime.setText(SystemUtil.getFetureDate(10));
 
         refreshLayout.setEnableAutoLoadmore(true);//开启自动加载功能（非必须）
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
@@ -122,7 +135,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                 refreshlayout.getLayout().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                       getEscortRecords(page,pageCount,"0755");
+                        getEscortRecords(getBean());
                         refreshlayout.finishRefresh();
                         refreshlayout.setLoadmoreFinished(false);
                     }
@@ -136,7 +149,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                     @Override
                     public void run() {
                         page++;
-                       getEscortRecords(page,pageCount,"0755");
+                       getEscortRecords(getBean());
                         refreshlayout.finishLoadmore();
                     }
                 }, 2000);
@@ -145,6 +158,31 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
         //触发自动刷新
         refreshLayout.autoRefresh();
 
+    }
+
+    private GetEscortBean getBean(){
+        GetEscortBean bean = new GetEscortBean();
+        bean.setBeg_age(beg_age);
+        bean.setEnd_age(end_age);
+        bean.setBeg_time(begTime);
+        bean.setEnd_time(endTime);
+        bean.setGaode_code(cityCode);
+        bean.setAccount_token(SharePreferenceXutil.getAccountToken());
+        bean.setPage(page);
+        bean.setPageCount(pageCount);
+        bean.setLabel(lable);
+        bean.setSex_id(sexId);
+
+        return bean;
+    }
+    /**
+     * 自动获取定位权限
+     */
+
+    private void autoObtainLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constant.STORAGE_PERMISSIONS_REQUEST_CODE);
+        }
     }
     @Override
     public void onClick(View v) {
@@ -156,7 +194,10 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                 startActivityForResult(intent,0);
                 break;
             case R.id.messageYue:
-                ToastXutil.show("查看消息吗？");
+                connectRongServer(SharePreferenceXutil.getRongToken());
+                break;
+            case R.id.all:
+                YuekaSearchPopupWindow yuekaSearchPopupWindow = new YuekaSearchPopupWindow(getActivity(),all,this);
                 break;
             case R.id.orderYue:
                 if (SharePreferenceXutil.isAuthentication()){
@@ -171,14 +212,28 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
         }
     }
 
-    private void getEscortRecords(int page,int pageCount,String code){
-        GetEscortBean bean = new GetEscortBean();
-        bean.setPage(page);
-        bean.setPageCount(pageCount);
-        bean.setAccount_token(SharePreferenceXutil.getAccountToken());
-        bean.setGaode_code(cityCode);
-        bean.setBeg_time("");
-        bean.setEnd_time("");
+    /**
+     * 验证融云token
+     * @param token
+     */
+    private void connectRongServer(String token) {
+        RongIM.connect(token, new RongIMClient.ConnectCallback() {
+            @Override
+            public void onSuccess(String userId) {
+                startActivity(new Intent(getActivity(), ChatListActivity.class));
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+            }
+
+            @Override
+            public void onTokenIncorrect() {
+            }
+        });
+    }
+    private void getEscortRecords(GetEscortBean bean){
+
         YueKaHttp.getEscortRecords(bean, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
@@ -301,8 +356,10 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
         if (dateStart.after(dateEnd)){
             ToastXutil.show("开始时间不能大于结束时间");
         }else{
-            startTime.setText(SystemUtil.UtilDateToString(dateStart));
-            endTime.setText(SystemUtil.UtilDateToString(dateEnd));
+            begTime = SystemUtil.UtilDateToString(dateStart);
+            endTime = SystemUtil.UtilDateToString(dateEnd);
+            freeTime.setText(begTime+"-"+endTime);
+            getEscortRecords(getBean());
         }
     }
 
@@ -340,11 +397,10 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                 double lo= aMapLocation.getLongitude();//获取经度
                 // 如果不设置标志位，此时再拖动地图时，它会不断将地图移动到当前的位置
                 if (isFirstLoc){
-                    Log.i("456",aMapLocation.getCity()+"--"+aMapLocation.getCityCode()+"---"+aMapLocation.getLocationType()+"--"+la+"--"+lo);
                     city = aMapLocation.getCity().substring(0,aMapLocation.getCity().indexOf("市"));
                     cityCode = aMapLocation.getCityCode();
                     Log.i("456",SystemUtil.getCurrentDate()+"定位");
-                    getEscortRecords(1,5,cityCode);
+                    getEscortRecords(getBean());
                     place.setText(city);
                     isFirstLoc = false;
                 }
@@ -353,10 +409,6 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                 Log.i("AmapError", "location Error, ErrCode:"
                         + aMapLocation.getErrorCode() + ", errInfo:"
                         + aMapLocation.getErrorInfo());
-                city = "无法定位";
-//                cityCode = "0755";
-//                getEscortRecords(cityCode);
-//                place.setText(city);
             }
         }
     }
@@ -387,11 +439,18 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0){
             if (data != null){
-                city = data.getStringExtra("city");
                 cityCode = data.getStringExtra("code");
-                place.setText(city);
-                ToastXutil.show(city+"--"+cityCode);
+                getEscortRecords(getBean());
+                place.setText(data.getStringExtra("city"));
             }
         }
+    }
+
+    @Override
+    public void onCallBack(int sexId, String begAge, String endAge, String lable) {
+        beg_age = begAge.substring(0,begAge.indexOf("岁"));
+        end_age = endAge.substring(0,endAge.indexOf("岁"));
+        this.lable = lable;
+        getEscortRecords(getBean());
     }
 }

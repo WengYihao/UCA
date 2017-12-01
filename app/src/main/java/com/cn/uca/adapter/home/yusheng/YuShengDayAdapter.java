@@ -12,12 +12,8 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.bean.home.yusheng.YuShengDayBean;
-import com.cn.uca.impl.yueka.ItemClickListener;
 import com.cn.uca.impl.yusheng.EditItemClick;
 import com.cn.uca.impl.yusheng.YuShengDayImpl;
-import com.cn.uca.popupwindows.ShowPopupWindow;
-import com.cn.uca.util.ToastXutil;
-
 import java.util.List;
 
 /**
@@ -76,6 +72,7 @@ public class YuShengDayAdapter extends ArrayAdapter<YuShengDayBean> implements Y
 		} else {
 			if (item.getDayBean().getLifeDays().get(position).getDay() == 0){
 				holder2.day.setText("");
+				holder2.layout.setBackgroundColor(context.getResources().getColor(R.color.white));
 			}else{
 				if (item.getDayBean().getLifeDays().get(position).getDay() > item.getDayBean().getNow_days()){
 					holder2.day.setText(item.getDayBean().getLifeDays().get(position).getDay()+"");

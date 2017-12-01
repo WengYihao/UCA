@@ -37,9 +37,6 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener,
         ViewTreeObserver.OnGlobalLayoutListener {
 
     private static final String LOG_TAG = "PhotoViewAttacher";
-
-    // let debug flag be dynamic, but still Proguard can be used to remove from
-    // release builds
     private static final boolean DEBUG = Log.isLoggable(LOG_TAG, Log.DEBUG);
 
     static final Interpolator sInterpolator = new AccelerateDecelerateInterpolator();
@@ -67,16 +64,10 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener,
         }
     }
 
-    /**
-     * @return true if the ImageView exists, and it's Drawable existss
-     */
     private static boolean hasDrawable(ImageView imageView) {
         return null != imageView && null != imageView.getDrawable();
     }
 
-    /**
-     * @return true if the ScaleType is supported.
-     */
     private static boolean isSupportedScaleType(final ScaleType scaleType) {
         if (null == scaleType) {
             return false;
@@ -92,14 +83,7 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener,
         }
     }
 
-    /**
-     * Set's the ImageView's ScaleType to Matrix.
-     */
     private static void setImageViewScaleTypeMatrix(ImageView imageView) {
-        /**
-         * PhotoView sets it's own ScaleType to Matrix, then diverts all calls
-         * setScaleType to this.setScaleType automatically.
-         */
         if (null != imageView && !(imageView instanceof IPhotoView)) {
             if (!ScaleType.MATRIX.equals(imageView.getScaleType())) {
                 imageView.setScaleType(ScaleType.MATRIX);
@@ -109,11 +93,9 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener,
 
     private WeakReference<ImageView> mImageView;
 
-    // Gesture Detectors
     private GestureDetector mGestureDetector;
     private com.cn.uca.photoview.gestures.GestureDetector mScaleDragDetector;
 
-    // These are set so we don't keep allocating them on the heap
     private final Matrix mBaseMatrix = new Matrix();
     private final Matrix mDrawMatrix = new Matrix();
     private final Matrix mSuppMatrix = new Matrix();
@@ -184,13 +166,6 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener,
         return mZoomEnabled;
     }
 
-    /**
-     * Clean-up the resources attached to this object. This needs to be called when the ImageView is
-     * no longer used. A good example is from {@link View#onDetachedFromWindow()} or
-     * from {@link android.app.Activity#onDestroy()}. This is automatically called if you are using
-     * {@link com.cn.uca.photoview.PhotoView}.
-     */
-    @SuppressWarnings("deprecation")
     public void cleanup() {
         if (null == mImageView) {
             return; // cleanup already done
@@ -250,9 +225,6 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener,
         return true;
     }
 
-    /**
-     * @deprecated use {@link #setRotationTo(float)}
-     */
     @Override
     public void setPhotoViewRotation(float degrees) {
         mSuppMatrix.setRotate(degrees % 360);
@@ -346,15 +318,6 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener,
         mSuppMatrix.postTranslate(dx, dy);
         checkAndDisplayMatrix();
 
-        /**
-         * Here we decide whether to let the ImageView's parent to start taking
-         * over the touch event.
-         *
-         * First we check whether this function is enabled. We never want the
-         * parent to take over if we're scaling. We then check the edge we're
-         * on, and the direction of the scroll (i.e. if we're pulling against
-         * the edge, aka 'overscrolling', let the parent take over).
-         */
         ViewParent parent = imageView.getParent();
         if (mAllowParentInterceptOnEdge && !mScaleDragDetector.isScaling()) {
             if (mScrollEdge == EDGE_BOTH
@@ -397,13 +360,6 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener,
                 final int bottom = imageView.getBottom();
                 final int left = imageView.getLeft();
 
-                /**
-                 * We need to check whether the ImageView's bounds have changed.
-                 * This would be easier if we targeted API 11+ as we could just use
-                 * View.OnLayoutChangeListener. Instead we have to replicate the
-                 * work, keeping track of the ImageView's bounds and then checking
-                 * if the values change.
-                 */
                 if (top != mIvTop || bottom != mIvBottom || left != mIvLeft
                         || right != mIvRight) {
                     // Update our base matrix, as the bounds have changed
@@ -736,12 +692,6 @@ public class PhotoViewAttacher implements IPhotoView, View.OnTouchListener,
         return true;
     }
 
-    /**
-     * Helper method that maps the supplied Matrix to the current Drawable
-     *
-     * @param matrix - Matrix to map Drawable against
-     * @return RectF - Displayed Rectangle
-     */
     private RectF getDisplayRect(Matrix matrix) {
         ImageView imageView = getImageView();
 

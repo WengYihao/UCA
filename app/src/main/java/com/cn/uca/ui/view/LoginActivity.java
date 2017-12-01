@@ -1,15 +1,18 @@
 package com.cn.uca.ui.view;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.MediaController;
 import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.config.Constant;
+import com.cn.uca.config.MyApplication;
 import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.secretkey.Base64;
 import com.cn.uca.secretkey.MD5;
@@ -19,18 +22,27 @@ import com.cn.uca.ui.view.register.ForgetPasswordActivity;
 import com.cn.uca.ui.view.register.RegisterActivity;
 import com.cn.uca.ui.view.util.BaseHideActivity;
 import com.cn.uca.util.ActivityCollector;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.StatusBarUtil;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.MyEditText;
+import com.cn.uca.view.dialog.LoadDialog;
+import com.facebook.common.util.UriUtil;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.interfaces.DraweeController;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.security.PublicKey;
+
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
 
 public class LoginActivity extends BaseHideActivity implements View.OnClickListener{
 
@@ -42,13 +54,12 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
+        StatusBarUtil.immersive(this);
         setContentView(R.layout.activity_login);
         ActivityCollector.loginActivity(this);
         ActivityCollector.registerActivity(this);
         ActivityCollector.forgetActivity(this);
         initView();
-
     }
 
     private void initView() {
@@ -119,6 +130,7 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
      * 手机号登录
      */
     private void phoneLogin(){
+        LoadDialog.show(this);
         try {
             final String phoneNumber = username.getText().toString().trim();
             final String passwordText = password.getText().toString().trim();
@@ -138,6 +150,8 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
                                     ToastXutil.show("登录成功");
                                     SharePreferenceXutil.setSuccess(true);
                                     SharePreferenceXutil.saveAccountToken(jsonObject.getJSONObject("data").getString("account_token"));
+                                    SharePreferenceXutil.saveRongToken(jsonObject.getJSONObject("data").getString("rongyun_token"));
+                                    MyApplication.connectRongServer(SharePreferenceXutil.getRongToken());//验证融云
                                     SharePreferenceXutil.savePhoneNumber(phoneNumber);//保存手机号
                                     SharePreferenceXutil.saveUserName(phoneNumber);//保存用户名
                                     SharePreferenceXutil.savePassword(passwordText);//保存密码
@@ -145,12 +159,15 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
                                     Intent intent = new Intent();
                                     intent.setClass(LoginActivity.this,MainActivity.class);
                                     startActivity(intent);
+                                    LoadDialog.dismiss(getApplicationContext());
                                     LoginActivity.this.finish();
                                     break;
                                 case 74:
+                                    LoadDialog.dismiss(getApplicationContext());
                                     ToastXutil.show("账号不正确");
                                     break;
                                 case 75:
+                                    LoadDialog.dismiss(getApplicationContext());
                                     ToastXutil.show("密码不正确");
                                     break;
                             }

@@ -11,7 +11,6 @@ import com.cn.uca.R;
 import com.cn.uca.ui.fragment.home.FarmFragment;
 import com.cn.uca.ui.fragment.home.HotleFragment;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.StatusMargin;
 
 /**
@@ -30,7 +29,6 @@ public class HotleActivity extends BaseBackActivity implements View.OnClickListe
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            FitStateUI.setImmersionStateMode(this);
             setContentView(R.layout.activity_hotel);
 
             initView();

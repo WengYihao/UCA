@@ -1,13 +1,11 @@
 package com.cn.uca.util;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.cn.uca.config.MyApplication;
 
 /**
  * Created by asus on 2017/9/27.

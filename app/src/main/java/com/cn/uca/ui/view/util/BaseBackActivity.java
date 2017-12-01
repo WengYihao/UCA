@@ -11,11 +11,13 @@ import android.widget.EditText;
 import com.cn.uca.R;
 import com.cn.uca.swipeback.SwipeBackActivity;
 import com.cn.uca.util.AndroidWorkaround;
+import com.cn.uca.util.StatusBarUtil;
 
 public class BaseBackActivity extends SwipeBackActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StatusBarUtil.immersive(this);
         overridePendingTransition(R.anim.activity_right_in, R.anim.activity_right_out);
         if (AndroidWorkaround.checkDeviceHasNavigationBar(this)) {
             AndroidWorkaround.assistActivity(findViewById(android.R.id.content));

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,7 +16,7 @@
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="发布约咖"/>
+            android:text="@string/sendYueKaActivity_title_text"/>
     </RelativeLayout>
 
     <ScrollView
@@ -43,7 +42,7 @@
                     android:layout_marginRight="@dimen/padding_15"
                     android:layout_weight="1"
                     android:background="@color/white"
-                    android:hint="请输入约咖名称"
+                    android:hint="@string/sendYueKaActivity_edittext_hint"
                     android:padding="@dimen/padding_15" />
             </LinearLayout>
 
@@ -62,7 +61,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="路线设定"
+                    android:text="@string/sendYueKaActivity_text1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_16" />
 
@@ -79,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/padding_8"
                     android:layout_toLeftOf="@id/moreLine"
-                    android:text="请选择路线"
+                    android:text="@string/sendYueKaActivity_text2"
                     android:textColor="@color/ori"
                     android:textSize="@dimen/text_16" />
             </RelativeLayout>
@@ -111,13 +110,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="15dp">
+                android:padding="@dimen/padding_15">
 
                 <TextView
                     android:id="@+id/a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="基础价格"
+                    android:text="@string/sendYueKaActivity_text3"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -126,7 +125,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/padding_5"
                     android:layout_toRightOf="@id/a"
-                    android:text="￥100/天"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -141,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/padding_8"
                     android:layout_toLeftOf="@id/explainMore"
-                    android:text="价格说明"
+                    android:text="@string/sendYueKaActivity_text4"
                     android:textSize="@dimen/text_16" />
             </RelativeLayout>
 
@@ -155,18 +153,6 @@
 
                 <TextView
                     android:id="@+id/average_score_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"/>
-
-                <TextView
-                    android:id="@+id/dayDiscountContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"/>
-
-                <TextView
-                    android:id="@+id/numberDiscountContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"/>
@@ -192,7 +178,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="包车价格"
+                    android:text="@string/sendYueKaActivity_text5"
                     android:textColor="@color/black" />
 
                 <LinearLayout
@@ -208,7 +194,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:hint="请输入包车单价" />
+                        android:hint="@string/sendYueKaActivity_text6" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -218,7 +204,6 @@
                         android:textColor="@color/black" />
                 </LinearLayout>
             </LinearLayout>
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -228,18 +213,56 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="人数上限"
+                    android:text="@string/sendYueKaActivity_text7"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_16" />
+
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:background="@color/gray">
+                        <RadioButton
+                            android:id="@+id/one"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:text="@string/sendYueKaActivity_text8"
+                            android:layout_weight="1"
+                            android:button="@null"
+                            android:gravity="center"/>
+                        <RadioButton
+                            android:id="@+id/three"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:text="@string/sendYueKaActivity_text9"
+                            android:layout_weight="1"
+                            android:button="@null"
+                            android:gravity="center"/>
+                    </RadioGroup>
+                </LinearLayout>
                 <EditText
                     android:id="@+id/peopleNum"
-                    android:layout_width="200dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:background="@color/gray"
                     android:gravity="center"
-                    android:layout_alignParentRight="true"
-                    android:hint="请输入人数" />
-            </RelativeLayout>
+                    android:hint="@string/sendYueKaActivity_text10"
+                    android:padding="@dimen/padding_15" />
+            </LinearLayout>
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -256,7 +279,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="空闲时间"
+                    android:text="@string/sendYueKaActivity_text11"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_16" />
 
@@ -266,13 +289,12 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/padding_10"
-                    android:text="2017-09-22"
                     android:textColor="@color/ori" />
 
                 <ImageView
                     android:id="@+id/line"
                     android:layout_width="1dp"
-                    android:layout_height="20dp"
+                    android:layout_height="@dimen/padding_20"
                     android:layout_marginRight="@dimen/padding_10"
                     android:layout_toLeftOf="@id/endTime"
                     android:scaleType="matrix"
@@ -284,7 +306,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/padding_10"
                     android:layout_toLeftOf="@id/line"
-                    android:text="2017-08-22"
                     android:textColor="@color/ori" />
             </RelativeLayout>
 
@@ -297,7 +318,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="(发布内容将在空闲时间之后自动撤回)" />
+                    android:text="@string/sendYueKaActivity_text12" />
             </LinearLayout>
 
             <RelativeLayout
@@ -305,12 +326,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:padding="15dp">
+                android:padding="@dimen/padding_15">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="补充描述"
+                    android:text="@string/sendYueKaActivity_text13"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_16" />
 

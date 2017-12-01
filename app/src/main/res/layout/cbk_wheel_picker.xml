@@ -28,9 +28,7 @@
         android:id="@+id/week"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
-        android:gravity="center"
-        android:text="星期二"
-        />
+        android:gravity="center"/>
 
     <com.cn.uca.view.datepicker.WheelView
         android:id="@+id/hour"

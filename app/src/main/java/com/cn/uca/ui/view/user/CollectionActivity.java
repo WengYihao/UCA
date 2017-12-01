@@ -9,7 +9,6 @@ import com.cn.uca.R;
 import com.cn.uca.adapter.user.CollectionAdapter;
 import com.cn.uca.bean.user.CollectionBean;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,6 @@ public class CollectionActivity extends BaseBackActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_collection);
 
         initView();
@@ -71,33 +69,33 @@ public class CollectionActivity extends BaseBackActivity implements View.OnClick
         }
         switch (index) {
             case 0:
-                title01.setTextColor(getResources().getColor(R.color.black));
+                title01.setTextColor(getResources().getColor(R.color.ori));
                 title01.setBackgroundResource(R.color.white);
 
                 title02.setTextColor(getResources().getColor(R.color.white));
-                title02.setBackgroundResource(R.color.grey2);
+                title02.setBackgroundResource(R.color.ori);
 
                 title03.setTextColor(getResources().getColor(R.color.white));
-                title03.setBackgroundResource(R.color.grey2);
+                title03.setBackgroundResource(R.color.ori);
                 break;
             case 1:
                 title01.setTextColor(getResources().getColor(R.color.white));
-                title01.setBackgroundResource(R.color.grey2);
+                title01.setBackgroundResource(R.color.ori);
 
-                title02.setTextColor(getResources().getColor(R.color.black));
+                title02.setTextColor(getResources().getColor(R.color.ori));
                 title02.setBackgroundResource(R.color.white);
 
                 title03.setTextColor(getResources().getColor(R.color.white));
-                title03.setBackgroundResource(R.color.grey2);
+                title03.setBackgroundResource(R.color.ori);
                 break;
             case 2:
                 title01.setTextColor(getResources().getColor(R.color.white));
-                title01.setBackgroundResource(R.color.grey2);
+                title01.setBackgroundResource(R.color.ori);
 
                 title02.setTextColor(getResources().getColor(R.color.white));
-                title02.setBackgroundResource(R.color.grey2);
+                title02.setBackgroundResource(R.color.ori);
 
-                title03.setTextColor(getResources().getColor(R.color.black));
+                title03.setTextColor(getResources().getColor(R.color.ori));
                 title03.setBackgroundResource(R.color.white);
                 break;
         }

@@ -8,13 +8,13 @@
         android:layout_width="60dp"
         android:singleLine="true"
         android:layout_height="wrap_content"
-        android:text="删除"
+        android:text="@string/delete"
         android:background="@color/red"
         android:textColor="#ffffff"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingLeft="@dimen/padding_15"
+        android:paddingRight="@dimen/padding_15"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
+        android:layout_marginRight="@dimen/padding_15"
         />
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.cn.uca.adapter.home.yusheng;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.bean.home.travel.CitySpotTicketBean;
 import com.cn.uca.bean.home.yusheng.LifeHistoricalsBean;
-import com.cn.uca.bean.home.yusheng.YushengMarkBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.util.SetLayoutParams;
-import com.cn.uca.view.RatingStarView;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.cn.uca.util.SystemUtil;
 
 import java.util.List;
 
@@ -67,7 +63,7 @@ public class YuShengMarkAdapter extends BaseAdapter{
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		SetLayoutParams.setAbsListView(holder.layout, MyApplication.width,MyApplication.height/4);
+		SetLayoutParams.setLinearLayout(holder.layout, MyApplication.width - SystemUtil.dip2px(20),MyApplication.height/4);
 		switch (list.get(position).getType()){
 			case "day":
 				holder.layout.setBackgroundResource(R.drawable.twenty_circular_gray_background);

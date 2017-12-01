@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    android:orientation="vertical"
+    tools:context="com.cn.uca.ui.view.home.travel.CustomizTravelActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/gradient">
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="定制游" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="300dp"
+            android:layout_height="500dp"
+            android:background="@drawable/ten_circular_white_background"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/editText3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="请输入您的姓名"
+                android:padding="@dimen/padding_15"
+                android:textColorHint="@color/gray2" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:scaleType="matrix"
+                android:src="@color/grey2" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:hint="请输入定制人数"
+                android:gravity="center"
+                android:padding="@dimen/padding_15"
+                android:textColorHint="@color/gray2"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:scaleType="matrix"
+                android:src="@color/grey2" />
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:hint="请输入联系方式"
+                android:padding="@dimen/padding_15"
+                android:textColorHint="@color/gray2" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:scaleType="matrix"
+                android:src="@color/grey2" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/padding_40"
+                android:text="立即定制"
+                android:gravity="center"
+                android:background="@drawable/twenty_circular_ori_background"
+                android:textColor="@color/white"
+                android:layout_marginTop="80dp"
+                android:layout_marginLeft="@dimen/padding_30"
+                android:layout_marginRight="@dimen/padding_30"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</com.cn.uca.view.StatusView>

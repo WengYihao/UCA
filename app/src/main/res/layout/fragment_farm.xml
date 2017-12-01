@@ -5,11 +5,12 @@
     android:orientation="vertical"
     android:background="@color/white">
 
+
     <LinearLayout
         android:id="@+id/place"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="@dimen/padding_8"
         android:orientation="horizontal"
         android:gravity="center">
         <LinearLayout
@@ -17,17 +18,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"
             android:orientation="vertical">
-
             <TextView
                 android:id="@+id/space_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="2"
-                android:padding="5dp"
+                android:textColor="@color/black"
                 android:text="深圳市罗湖区深南东路"
-                android:textSize="20dp" />
-
+                android:textSize="@dimen/text_16" />
 
         </LinearLayout>
 
@@ -40,100 +39,113 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="我的附近"
-                android:padding="@dimen/padding_5"
                 android:gravity="center"
+                android:textColor="#dddddd"
                 android:drawableTop="@mipmap/now_location"
-                android:textSize="@dimen/text_16"/>
+                android:textSize="@dimen/text_12"/>
         </LinearLayout>
 
     </LinearLayout>
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="@dimen/padding_10"
+        android:layout_marginRight="@dimen/padding_10"
         android:scaleType="matrix"
         android:src="@color/grey2" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="@dimen/padding_8">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_5"
                     android:text="入住"
-                    android:layout_marginLeft="5dp"/>
+                    android:textColor="#dddddd" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:text="8月23日"
-                    android:padding="5dp"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_16"/>
+                    android:textSize="@dimen/text_14" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:text="（周三）"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"/>
+                android:textColor="#dddddd" />
         </LinearLayout>
+
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:layout_marginRight="@dimen/padding_10"
             android:scaleType="matrix"
             android:src="@color/grey2" />
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_5"
                     android:text="离开"
-                    android:layout_marginLeft="5dp"/>
+                    android:textColor="#dddddd" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:text="8月23日"
-                    android:padding="5dp"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_16"/>
+                    android:textSize="@dimen/text_14" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:text="（周三）"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"/>
+                android:textColor="#dddddd" />
         </LinearLayout>
     </LinearLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="@dimen/padding_10"
+        android:layout_marginRight="@dimen/padding_10"
         android:scaleType="matrix"
         android:src="@color/grey2" />
 
@@ -143,18 +155,19 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="关键字/地点"
-            android:layout_marginLeft="@dimen/padding_15"
-            android:background="@color/white"/>
+            android:background="@color/white"
+            android:textColorHint="#dddddd"
+            android:layout_marginLeft="@dimen/padding_15"/>
     </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="@dimen/padding_10"
+        android:layout_marginRight="@dimen/padding_10"
         android:scaleType="matrix"
         android:src="@color/grey2" />
     <LinearLayout
@@ -163,51 +176,68 @@
         android:orientation="horizontal">
 
         <EditText
+            android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="价格"
             android:layout_marginLeft="@dimen/padding_15"
-            android:background="@color/white"/>
+            android:background="@color/white"
+            android:textColorHint="#dddddd" />
     </LinearLayout>
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="@dimen/padding_10"
+        android:layout_marginRight="@dimen/padding_10"
         android:scaleType="matrix"
         android:src="@color/grey2" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="搜索"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/padding_40"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_15"
+            android:layout_weight="3"
+            android:background="@drawable/twenty_circular_ori_background"
             android:gravity="center"
-            android:textSize="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/ori"/>
+            android:text="搜索"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_18" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:layout_marginRight="@dimen/padding_20"
+            android:layout_marginTop="@dimen/padding_5"
+            android:background="@mipmap/map" />
     </LinearLayout>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/padding_10"
+        android:layout_marginRight="@dimen/padding_10"
+        android:scaleType="matrix"
+        android:src="@color/grey2" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:text="搜索"
             android:gravity="center_vertical"
-            android:textSize="20sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_5"
             android:background="@color/white"
             android:orientation="vertical">
 
@@ -219,15 +249,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="#dddddd"
                 android:text="修改取消 加急 返现 退款"/>
         </LinearLayout>
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:scaleType="matrix"
+            android:src="@color/grey2" />
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="@dimen/padding_5"
+            android:layout_marginRight="@dimen/padding_15"
             android:background="@color/white"
             android:orientation="vertical">
 
@@ -239,6 +276,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="#dddddd"
                 android:text="收藏 历史 点评 优惠券"/>
             </LinearLayout>
     </LinearLayout>

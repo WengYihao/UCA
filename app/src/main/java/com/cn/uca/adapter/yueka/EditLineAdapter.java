@@ -5,32 +5,39 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.adapter.yueka.LinePointAdapter;
+import com.cn.uca.bean.yueka.PlacesBean;
 import com.cn.uca.bean.yueka.YueKaLineBean;
 import com.cn.uca.impl.yueka.ItemClickListener;
+import com.cn.uca.impl.yueka.LinePointCallBack;
 import com.cn.uca.util.SetListView;
+import com.cn.uca.util.lmxListviewHelper;
 import com.cn.uca.view.MyEditText;
 import com.cn.uca.view.MyListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 路线预设、路线预设
  */
 
-public class EditLineAdapter extends BaseAdapter implements View.OnClickListener{
+public class EditLineAdapter extends BaseAdapter implements View.OnClickListener,LinePointCallBack{
 	private List<YueKaLineBean> list;
 	private Context context;
 	private ItemClickListener itemClickListener;
+	private LinePointCallBack callBack;
 
 	public EditLineAdapter(){}
-	public EditLineAdapter(List<YueKaLineBean> list, Context context,ItemClickListener itemClickListener) {
+	public EditLineAdapter(List<YueKaLineBean> list, Context context,ItemClickListener itemClickListener,LinePointCallBack callBack) {
 		this.list = list;
 		this.context = context;
 		this.itemClickListener = itemClickListener;
+		this.callBack = callBack;
 	}
 	public void setList(List<YueKaLineBean> list) {
 		if (list != null) {
@@ -69,6 +76,7 @@ public class EditLineAdapter extends BaseAdapter implements View.OnClickListener
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
+		final LinePointAdapter lineAdapter;
 		holder.lineName.setHint(list.get(position).getRoute_name());
 		holder.arrowView.setOnClickListener(this);
 		holder.trueLine.setOnClickListener(this);
@@ -79,9 +87,10 @@ public class EditLineAdapter extends BaseAdapter implements View.OnClickListener
 		if (list.get(position).getPlaces() != null){
 			if (list.get(position).getPlaces().size() != 0){
 				holder.arrowView.setBackgroundResource(R.mipmap.down);
-				LinePointAdapter lineAdapter = new LinePointAdapter(list.get(position).getPlaces(),context);
+				lineAdapter = new LinePointAdapter(list.get(position).getPlaces(),context);
                 holder.listView.setVisibility(View.VISIBLE);
 				holder.listView.setAdapter(lineAdapter);
+				callBack.changPoint(holder.listView,lineAdapter,list.get(position).getPlaces());
 				SetListView.setListViewHeightBasedOnChildren(holder.listView);
 			}else{
 				holder.arrowView.setBackgroundResource(R.mipmap.right_gray);
@@ -107,6 +116,11 @@ public class EditLineAdapter extends BaseAdapter implements View.OnClickListener
 				itemClickListener.clickEdit(view);
 				break;
 		}
+	}
+
+	@Override
+	public void changPoint(ListView listView, LinePointAdapter adapter,List<PlacesBean> list) {
+
 	}
 
 	class ViewHolder {

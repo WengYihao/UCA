@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.app.Activity;
 
+import com.cn.uca.ui.view.rongim.ChatListActivity;
+
 public class ActivityCollector {  
     
     public static List<Activity> activities = new ArrayList<Activity>();
@@ -59,6 +61,30 @@ public class ActivityCollector {
                 activity.finish();  
             }  
         }  
-    }  
-  
+    }
+    private static ArrayList<Activity> mActivities = new ArrayList<Activity>();
+    public static void popActivity(Activity activity) {
+        if (mActivities.contains(activity)) {
+            activity.finish();
+            mActivities.remove(activity);
+        }
+    }
+    public static void popAllActivity() {
+        try {
+            if (ChatListActivity.mViewPager != null) {
+                ChatListActivity.mViewPager.setCurrentItem(0);
+            }
+            for (Activity activity : mActivities) {
+                if (activity != null) {
+                    activity.finish();
+                }
+            }
+            mActivities.clear();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void pushActivity(Activity activity) {
+        mActivities.add(activity);
+    }
 }  

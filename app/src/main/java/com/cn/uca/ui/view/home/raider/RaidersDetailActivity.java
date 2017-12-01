@@ -1,5 +1,6 @@
 package com.cn.uca.ui.view.home.raider;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -7,7 +8,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
@@ -22,6 +29,7 @@ import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 import com.cn.uca.R;
+import com.cn.uca.adapter.home.raiders.SpotNameAdapter;
 import com.cn.uca.adapter.infowindow.InfoWinAdapter;
 import com.cn.uca.bean.home.raider.RaidersUtilBean;
 import com.cn.uca.bean.home.raider.RaidersAirportBean;
@@ -29,9 +37,9 @@ import com.cn.uca.bean.home.raider.RaidersDetailsBean;
 import com.cn.uca.bean.home.raider.RaidersFoodBean;
 import com.cn.uca.bean.home.raider.RaidersTrainStationBean;
 import com.cn.uca.bean.home.raider.RaidersSenicSpotBean;
+import com.cn.uca.config.MyApplication;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.MapUtil;
 import com.cn.uca.util.SharePreferenceXutil;
@@ -71,11 +79,11 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     private List<LatLng> lineList;
     private PolylineOptions polt = new PolylineOptions();
     private Polyline polyline;
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_raiders_detail);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
@@ -105,6 +113,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                 try {
                     if (i == 200) {
                         JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
+                        Log.i("123",jsonObject.toString());
                         int code = jsonObject.getInt("code");
                         switch (code){
                             case 0:
@@ -118,6 +127,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                                 senicSpotList = bean.getScenicSpotRets();
                                 foodList = bean.getFoodRets();
                                 trainStationList = bean.getTrainStationRets();
+                                url = bean.getIntroduce_url();
                                 for (int a = 0;a < airportList.size();a++){
                                     Marker marker = aMap.addMarker(MapUtil.addMarker(airportList.get(a).getLat(),airportList.get(a).getLng(),R.mipmap.airport_back));
                                     RaidersUtilBean utilBean = new RaidersUtilBean();
@@ -270,11 +280,14 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                 break;
             case R.id.spot:
                 //景点列表
-                ToastXutil.show("等等我，马上到");
+                showCityDialog();
                 break;
             case R.id.raiders:
                 //攻略
-                ToastXutil.show("等等我，马上到");
+                Intent intent = new Intent();
+                intent.setClass(RaidersDetailActivity.this,CityRaiderDetailActivity.class);
+                intent.putExtra("url",url);
+                startActivity(intent);
                 break;
             case R.id.line:
                 if (isShowLine){
@@ -287,7 +300,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                         for(int i=0;i<lineList.size();i++){
                             polt.add(lineList.get(i));
                         }
-                        polt.width(10).geodesic(true).color(Color.RED);
+                        polt.width(20).geodesic(true).color(Color.RED);
                         polyline =  aMap.addPolyline(polt);
                     }
                     isShowLine = false;
@@ -303,6 +316,37 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                 ToastXutil.show("反馈");
                 break;
         }
+    }
+    private void showCityDialog(){
+        final Dialog dialog = new Dialog(this,R.style.dialog_style);
+        final View inflate = LayoutInflater.from(this).inflate(R.layout.choose_spot_dialog, null);
+        ListView listView = (ListView)inflate.findViewById(R.id.listView);
+        SpotNameAdapter adapter = new SpotNameAdapter(senicSpotList,this);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent();
+                intent.setClass(RaidersDetailActivity.this,SpotDetailActivity.class);
+                intent.putExtra("content",senicSpotList.get(i).getIntroduce());
+                intent.putExtra("name",senicSpotList.get(i).getScenic_spot_name());
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        //将布局设置给Dialog
+        dialog.setContentView(inflate);
+        //获取当前Activity所在的窗体
+        Window dialogWindow = dialog.getWindow();
+        //设置Dialog从窗体底部弹出
+        dialogWindow.setGravity( Gravity.BOTTOM);
+        WindowManager.LayoutParams params = dialogWindow.getAttributes();
+        params.dimAmount = 0f;
+        params.width = MyApplication.width;
+        params.height = MyApplication.height*5/9;
+        params.x = 0;
+        params.y = SystemUtil.dip2px(45);
+        dialog.show();//显示对话框
     }
     @Override
     public void onMapClick(LatLng latLng) {

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -31,12 +29,14 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/padding_20"
                 android:layout_marginLeft="@dimen/padding_10">
+
                 <ImageView
                     android:id="@+id/spot_pic"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_alignParentBottom="true"
-                    android:scaleType="fitXY"/>
+                    android:scaleType="fitXY" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="80dp">
@@ -44,7 +44,6 @@
                         android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="观澜山水田园水上乐园"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_20"
                         android:layout_marginLeft="@dimen/padding_5"/>
@@ -52,7 +51,6 @@
                         android:id="@+id/address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="广东省深圳市怀观南路"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_5"
                         android:maxEms="13"
@@ -76,7 +74,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
-                            android:text="景点简介"
+                            android:text="@string/spotTickerActivity_text1"
                             android:layout_marginLeft="@dimen/padding_5"
                             android:textSize="@dimen/text_16"/>
                         <TextView

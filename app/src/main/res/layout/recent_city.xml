@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_10"
         android:layout_marginTop="@dimen/padding_8"
-        android:text="历史访问城市"
         android:textColor="@color/black"
         android:textSize="@dimen/text_16" />
 

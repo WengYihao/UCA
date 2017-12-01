@@ -19,7 +19,7 @@
             android:text="北京"
             android:padding="@dimen/padding_5"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_20"/>
+            android:textSize="@dimen/text_18"/>
 
         <TextView
             android:id="@+id/textView"
@@ -37,7 +37,7 @@
             android:padding="5dp"
             android:gravity="right"
             android:textColor="@color/black"
-            android:textSize="@dimen/padding_20"/>
+            android:textSize="@dimen/text_18"/>
     </LinearLayout>
     <ImageView
         android:layout_width="match_parent"
@@ -46,43 +46,52 @@
         android:layout_marginRight="@dimen/padding_10"
         android:scaleType="matrix"
         android:src="@color/grey2" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/padding_10">
+        android:padding="@dimen/padding_8">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_5"
                     android:text="去程"
-                    android:layout_marginLeft="@dimen/padding_5"/>
+                    android:textColor="#dddddd" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:text="8月23日"
-                    android:padding="@dimen/padding_5"
+                    android:layout_marginLeft="@dimen/padding_5"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_16"/>
+                    android:textSize="@dimen/text_14" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:text="（周三）"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/padding_5"/>
+                android:textColor="#dddddd"
+                android:textSize="@dimen/text_14" />
         </LinearLayout>
     </LinearLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -107,7 +116,7 @@
                 android:padding="@dimen/padding_5"
                 android:text="经济舱"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_20" />
+                android:textSize="@dimen/text_16" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -151,11 +160,11 @@
         android:src="@color/grey2" />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_50"
+        android:layout_height="@dimen/padding_40"
         android:text="搜索"
         android:textColor="@color/white"
         android:gravity="center"
-        android:textSize="@dimen/text_20"
+        android:textSize="@dimen/text_18"
         android:layout_marginTop="@dimen/padding_20"
-        android:background="@drawable/gradient"/>
+        android:background="@drawable/twenty_circular_ori_background"/>
 </LinearLayout>

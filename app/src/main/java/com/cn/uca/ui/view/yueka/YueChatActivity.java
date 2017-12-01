@@ -12,16 +12,24 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
+import com.cn.uca.animate.ScaleInOutTransformer;
 import com.cn.uca.bean.yueka.PlacesBean;
+import com.cn.uca.bean.yueka.SubmitYuekaBean;
 import com.cn.uca.bean.yueka.YueKaDetailsBean;
+import com.cn.uca.config.BannerConfig;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.impl.banner.OnBannerListener;
+import com.cn.uca.loader.GlideImageLoader;
+import com.cn.uca.popupwindows.BuyYuaKaPopupWindow;
 import com.cn.uca.server.yueka.YueKaHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.ui.fragment.yueka.CourseEscortFragment;
 import com.cn.uca.ui.fragment.yueka.YueDetailsFragment;
-import com.cn.uca.util.FitStateUI;
+import com.cn.uca.util.OpenPhoto;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
+import com.cn.uca.util.ToastXutil;
+import com.cn.uca.view.Banner;
 import com.cn.uca.view.CircleImageView;
 import com.cn.uca.view.FluidLayout;
 import com.cn.uca.view.RatingStarView;
@@ -33,6 +41,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import io.rong.imkit.RongIM;
 
 public class YueChatActivity extends BaseBackActivity implements View.OnClickListener{
 
@@ -41,18 +52,25 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
     private YueDetailsFragment yueDetailsFragment;
     private CourseEscortFragment courseEscortFragment;
     private FragmentTransaction fragmentTransaction;
-    private int recordId;
-    private TextView back,title,collection,name,age,sex,sum,price,maxPeople;
+    private int recordId,chatId;
+    private TextView back,title,collection,name,age,sex,sum,price,maxPeople,title03,title04;
     private CircleImageView pic;
     private RatingStarView start;
     private ArrayList<PlacesBean> list;
     private String url;
     private FluidLayout lable;
+    private Banner banner;
+    private List<String> images=new ArrayList<>();//图片地址集合
+    private RelativeLayout layout;
+    private int isCollection = 0;
+    private ArrayList<String> listPhoto;
+    private List<String> StringData = new ArrayList<>();
+    private SubmitYuekaBean bean;
+    private String titleName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_yue_chat);
 
         initView();
@@ -61,13 +79,16 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
     }
 
     private void initView() {
+        listPhoto = new ArrayList<>();
         stateTitle  =(TextView)findViewById(R.id.stateTitle);
         stateTitle.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SystemUtil.getStatusHeight(this)));
+        layout = (RelativeLayout)findViewById(R.id.layout);
         title01 = (TextView)findViewById(R.id.title01);
         title02 = (TextView)findViewById(R.id.title02);
         back = (TextView)findViewById(R.id.back);
         title = (TextView) findViewById(R.id.title);
         collection = (TextView)findViewById(R.id.collection);
+        banner = (Banner)findViewById(R.id.banner);
         name = (TextView) findViewById(R.id.name);
         age = (TextView)findViewById(R.id.age);
         sex = (TextView) findViewById(R.id.sex);
@@ -77,18 +98,57 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
         maxPeople = (TextView)findViewById(R.id.maxPeople);
         pic = (CircleImageView)findViewById(R.id.pic);
         start = (RatingStarView)findViewById(R.id.start);
+        title03 = (TextView)findViewById(R.id.title03);
+        title04 = (TextView)findViewById(R.id.title04);
 
         back.setOnClickListener(this);
         collection.setOnClickListener(this);
 
         title01.setOnClickListener(this);
         title02.setOnClickListener(this);
+        title03.setOnClickListener(this);
+        title04.setOnClickListener(this);
+        layout.getBackground().setAlpha(225);
     }
 
     private void getInfo(){
         Intent intent = getIntent();
         if (intent != null){
             recordId = intent.getIntExtra("id",0);
+            YueKaHttp.getConfirmCoffee(recordId, new CallBack() {
+                @Override
+                public void onResponse(Object response) {
+                    try{
+                        JSONObject jsonObject = new JSONObject(response.toString());
+                        int code = jsonObject.getInt("code");
+                        switch (code){
+                            case 0:
+                                Gson gson = new Gson();
+                                bean = gson.fromJson(jsonObject.getJSONObject("data").toString(),new TypeToken<SubmitYuekaBean>() {
+                                }.getType());
+                                Date start = SystemUtil.StringToUtilDate(bean.getBeg_time());
+                                Date end  = SystemUtil.StringToUtilDate(bean.getEnd_time());
+                                List<Date> listDate = SystemUtil.getBetweenDates(start,end);
+                                for (int i = 0;i<listDate.size();i++){
+                                    StringData.add(SystemUtil.UtilDateToString(listDate.get(i)));
+                                }
+                                break;
+                        }
+                    }catch (Exception e){
+                        Log.i("456",e.getMessage()+"---");
+                    }
+                }
+
+                @Override
+                public void onErrorMsg(String errorMsg) {
+
+                }
+
+                @Override
+                public void onError(VolleyError error) {
+
+                }
+            });
         }
     }
     private void getEscortRecordInfo(){
@@ -106,9 +166,13 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                             ImageLoader.getInstance().displayImage(bean.getUser_head_portrait_url(), pic);
                             name.setText(bean.getUser_nick_name());
                             title.setText(bean.getEscort_record_name());
+                            chatId = bean.getAccount_number_id();
+                            titleName = bean.getUser_nick_name();
                             if (bean.isCollection()){
+                                isCollection = 1;
                                 collection.setBackgroundResource(R.mipmap.collection_white);
                             }else{
+                                isCollection = 2;
                                 collection.setBackgroundResource(R.mipmap.nocollection);
                             }
                             start.setRating((float)bean.getAverage_score());
@@ -129,6 +193,21 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                                     sex.setVisibility(View.GONE);
                                     break;
                             }
+                            images.addAll(bean.getCover_photo_urls());
+                            for (int i = 0;i<images.size();i++){
+                                listPhoto.add(images.get(i));
+                            }
+                            banner.setImages(images)
+                                    .setImageLoader(new GlideImageLoader())
+                                    .setOnBannerListener(new OnBannerListener() {
+                                        @Override
+                                        public void OnBannerClick(int position) {
+                                            OpenPhoto.imageUrl(YueChatActivity.this,position,listPhoto);
+                                        }
+                                    })
+                                    .setBannerAnimation(ScaleInOutTransformer.class)//翻转动画
+                                    .start();
+                            banner.updateBannerStyle(BannerConfig.NUM_INDICATOR);
                             lable.removeAllViews();
                             lable.setGravity(Gravity.TOP);
                             for (int i = 0;i< bean.getEscortLabels().size();i++){
@@ -157,8 +236,8 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                             }else{
                                 sum.setText("浏览"+bean.getBrowse_times()+"次");
                             }
-                            price.setText("￥"+(int)bean.getMin_consumption()+"--"+(int)bean.getMax_consumption());
-                            maxPeople.setText(bean.getRequirement_people_number()+"人以下");
+                            price.setText("￥"+(int)bean.getMin_consumption()+"~￥"+(int)bean.getMax_consumption());
+                            maxPeople.setText("限"+bean.getRequirement_people_number()+"人以下");
                             list = bean.getPlaces();
                             url = bean.getEscort_details_url();
                             show(0);
@@ -182,23 +261,92 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
 
     }
     @Override
+    public void onStart() {
+        super.onStart();
+        //开始轮播
+        banner.startAutoPlay();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //结束轮播
+        banner.stopAutoPlay();
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.back:
                 this.finish();
                 break;
             case R.id.collection:
-//                if (true){
-//                    collection.setBackgroundResource(R.mipmap.collection_white);//收藏
-//                }else{
-//                    collection.setBackgroundResource(R.mipmap.nocollection);//取消收藏
-//                }
+                if (recordId != 0){
+                    switch (isCollection){
+                        case 0:
+                            ToastXutil.show("收藏失败，请稍后再试");
+                            break;
+                        case 1:
+                            YueKaHttp.collectionEscortRecord(recordId, new CallBack() {
+                                @Override
+                                public void onResponse(Object response) {
+                                    if ((int) response == 0){
+                                        ToastXutil.show("取消收藏");
+                                        collection.setBackgroundResource(R.mipmap.nocollection);
+                                    }
+                                }
+
+                                @Override
+                                public void onErrorMsg(String errorMsg) {
+
+                                }
+
+                                @Override
+                                public void onError(VolleyError error) {
+
+                                }
+                            });
+                            break;
+                        case 2:
+                            YueKaHttp.collectionEscortRecord(recordId, new CallBack() {
+                                @Override
+                                public void onResponse(Object response) {
+                                    if ((int) response == 0){
+                                        ToastXutil.show("收藏成功");
+                                        collection.setBackgroundResource(R.mipmap.collection);
+                                    }
+                                }
+
+                                @Override
+                                public void onErrorMsg(String errorMsg) {
+
+                                }
+
+                                @Override
+                                public void onError(VolleyError error) {
+
+                                }
+                            });
+                            break;
+                    }
+                }else{
+                    ToastXutil.show("获取数据失败");
+                }
                 break;
             case R.id.title01:
                 show(0);
                 break;
             case R.id.title02:
                 show(1);
+                break;
+            case R.id.title03:
+                if (RongIM.getInstance() != null) {
+                    RongIM.getInstance().setMessageAttachedUserInfo(true);
+                    RongIM.getInstance().startPrivateChat(this, chatId+"",titleName);
+                }
+                break;
+            case R.id.title04:
+                BuyYuaKaPopupWindow window = new BuyYuaKaPopupWindow(this,getWindow().getDecorView(),StringData,bean);
                 break;
         }
     }
@@ -246,4 +394,5 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
         fragmentTransaction.commit();
         currentIndex = index;
     }
+
 }

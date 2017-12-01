@@ -11,12 +11,8 @@ import android.widget.ListAdapter;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
-import com.cn.uca.adapter.home.yusheng.YuShengDayAdapter;
 import com.cn.uca.adapter.home.yusheng.YuShengMonthAdapter;
-import com.cn.uca.bean.home.yusheng.LifeDaysBean;
 import com.cn.uca.bean.home.yusheng.LifeMonthsBean;
-import com.cn.uca.bean.home.yusheng.SystemEventsBean;
-import com.cn.uca.bean.home.yusheng.YuShengDayDetailsBean;
 import com.cn.uca.bean.home.yusheng.YuShengMonthDetailsBean;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.yusheng.EditItemClick;
@@ -75,7 +71,7 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
         setBean = new ArrayList<>();
         itemBeen = new YuShengUtil();
         adapter = new YuShengMonthAdapter(getActivity(),itemBeen.monthItems(monthBean.size(),monthDetailsBean),this);
-        listView.setRequestedColumnCount(4);
+        listView.setRequestedColumnCount(6);
         listView.setRequestedHorizontalSpacing(SystemUtil.dip2px(3));
         listView.setAdapter(getNewAdapter());
         listView.setDebugging(true);
@@ -152,6 +148,7 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
                                             setBean.add(i+fill,monthBean.get(i));
                                         }
                                         bean.setLifeMonthsRet(setBean);
+                                        Log.i("123",setBean.toString()+"---");
                                         adapter.setItems(itemBeen.monthItems(setBean.size(),bean));
                                     }else{
                                         for (int i = 0;i <monthBean.size();i++){
@@ -161,9 +158,26 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
                                         adapter.setItems(itemBeen.monthItems(setBean.size(),bean));
                                     }
                                 }else{
-                                    setBean.addAll(monthBean);
-                                    bean.setLifeMonthsRet(setBean);
-                                    adapter.setItems(itemBeen.monthItems(setBean.size(),bean));
+                                    if (fill > 0){
+                                        for (int a = 0;a<fill;a++){
+                                            LifeMonthsBean monthsBean = new LifeMonthsBean();
+                                            monthsBean.setContent("");
+                                            monthsBean.setDate("");
+                                            monthsBean.setMonth(0);
+                                            monthsBean.setMonth_event_count(0);
+                                            setBean.add(a,monthsBean);
+                                        }
+                                        for (int i = 0;i <monthBean.size();i++){
+                                            setBean.add(i+fill,monthBean.get(i));
+                                        }
+                                        bean.setLifeMonthsRet(setBean);
+                                        adapter.setItems(itemBeen.monthItems(setBean.size(),bean));
+                                    }else{
+                                        setBean.addAll(monthBean);
+                                        bean.setLifeMonthsRet(setBean);
+                                        adapter.setItems(itemBeen.monthItems(setBean.size(),bean));
+                                    }
+
                                 }
                             } else {
                                 if (monthBean.size() != 0) {
@@ -179,7 +193,7 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
                             break;
                     }
                 }catch (Exception e){
-
+                    Log.i("456",e.getMessage());
                 }
             }
 

@@ -23,7 +23,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_8"
-                android:text="2017年6月15日"
                 android:textColor="@color/bule3"
                 android:textSize="@dimen/text_18"
                 android:layout_gravity="center"/>
@@ -61,7 +60,6 @@
                     android:layout_toRightOf="@id/pic"
                     android:gravity="center"
                     android:padding="@dimen/padding_5"
-                    android:text="天涯海角"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_16"/>
             </LinearLayout>
@@ -72,8 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout"
                 android:layout_marginLeft="@dimen/padding_5"
-                android:layout_marginTop="@dimen/padding_5"
-                android:text="小白兔白又白，两只耳朵竖起来。。。。。。。哈哈" />
+                android:layout_marginTop="@dimen/padding_5" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

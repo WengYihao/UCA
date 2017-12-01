@@ -35,6 +35,8 @@
 
                     </LinearLayout>
 
+
+
                     <LinearLayout
                         android:id="@+id/myOrder"
                         android:layout_width="0dp"
@@ -52,9 +54,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/padding_5"
-                            android:text="我的订单" />
+                            android:text="@string/userFragment_text1" />
                     </LinearLayout>
-
                     <ImageView
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
@@ -62,7 +63,6 @@
                         android:layout_marginTop="@dimen/padding_15"
                         android:layout_marginBottom="@dimen/padding_15"
                         android:src="@color/gray" />
-
                     <LinearLayout
                         android:id="@+id/myCollection"
                         android:layout_width="0dp"
@@ -80,7 +80,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/padding_5"
-                            android:text="我的收藏" />
+                            android:text="@string/userFragment_text2" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -124,11 +124,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/padding_10"
                         android:layout_toRightOf="@id/sex"
-                        android:background="@drawable/five_circular_gray_background"
+                        android:background="@drawable/twenty_circular_half_background"
                         android:layout_centerVertical="true"
-                        android:textColor="@color/grey2"
+                        android:textColor="@color/white"
                         android:padding="@dimen/padding_2"
-                        android:textSize="@dimen/text_12" />
+                        android:textSize="10sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -167,7 +167,7 @@
             <ImageView
                 android:id="@+id/line"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="10dp"
                 android:layout_below="@id/head"
                 android:scaleType="matrix"
                 android:src="@color/gray" />
@@ -175,11 +175,10 @@
                 android:id="@+id/layout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/line"
                 android:background="@color/white"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:layout_marginTop="1dp"
+                android:layout_below="@+id/head">
 
                 <ImageView
                     android:id="@+id/title_logo1"
@@ -195,7 +194,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@id/title_logo1"
-                    android:text="我的钱包"
+                    android:text="@string/userFragment_text3"
                     android:textSize="15sp" />
 
                 <ImageView
@@ -230,7 +229,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@id/title_logo2"
-                    android:text="身份验证"
+                    android:text="@string/userFragment_text4"
                     android:textSize="15sp" />
 
                 <ImageView
@@ -247,15 +246,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout2"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/padding_10"
                 android:background="@color/white"
-                android:padding="10dp">
+                android:padding="@dimen/padding_10">
 
                 <ImageView
                     android:id="@+id/title_logo3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="@dimen/padding_5"
                     android:src="@mipmap/my_jiedan" />
 
                 <TextView
@@ -263,10 +262,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="@dimen/padding_20"
                     android:layout_toRightOf="@id/title_logo3"
-                    android:text="我的接单"
-                    android:textSize="15sp" />
+                    android:text="@string/userFragment_text5"
+                    android:textSize="@dimen/text_14" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -291,13 +290,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/line2"
                 android:background="@color/white"
-                android:padding="10dp">
+                android:padding="@dimen/padding_10">
 
                 <ImageView
                     android:id="@+id/title_logo4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="@dimen/padding_5"
                     android:src="@mipmap/my_message" />
 
                 <TextView
@@ -305,17 +304,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="@dimen/padding_20"
                     android:layout_toRightOf="@id/title_logo4"
-                    android:text="我的消息"
-                    android:textSize="15sp" />
+                    android:text="@string/userFragment_text6"
+                    android:textSize="@dimen/text_14" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="@dimen/padding_10"
                     android:src="@mipmap/right_gray" />
             </RelativeLayout>
 
@@ -333,13 +332,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/line3"
                 android:background="@color/white"
-                android:padding="10dp">
+                android:padding="@dimen/padding_10">
 
                 <ImageView
                     android:id="@+id/title_logo5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="@dimen/padding_5"
                     android:src="@mipmap/my_evaluate" />
 
                 <TextView
@@ -347,17 +346,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="@dimen/padding_20"
                     android:layout_toRightOf="@id/title_logo5"
-                    android:text="我的评价"
-                    android:textSize="15sp" />
+                    android:text="@string/userFragment_text7"
+                    android:textSize="@dimen/text_14" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="@dimen/padding_10"
                     android:src="@mipmap/right_gray" />
             </RelativeLayout>
         </RelativeLayout>

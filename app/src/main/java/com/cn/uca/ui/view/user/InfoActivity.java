@@ -13,7 +13,6 @@ import com.cn.uca.R;
 import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.MyEditText;
@@ -35,7 +34,6 @@ public class InfoActivity extends BaseBackActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_info);
         initView();
         getInfo();

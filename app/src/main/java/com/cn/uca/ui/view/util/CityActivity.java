@@ -12,7 +12,6 @@ import com.cn.uca.R;
 import com.cn.uca.bean.City;
 import com.cn.uca.db.DBHelper;
 import com.cn.uca.db.DatabaseHelper;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.PingYinUtil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.view.LetterListView;
@@ -69,7 +68,6 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_city);
         initView();
         initOverlay();
@@ -519,6 +517,7 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
+
                 if (position >= 1) {
                     holder.name.setText(list.get(position).getName());
                     String currentStr = getAlpha(list.get(position).getPinyi());

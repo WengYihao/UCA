@@ -12,7 +12,6 @@ import com.cn.uca.adapter.home.travel.HoneymoonTravelAdapter;
 import com.cn.uca.bean.home.travel.HoneymoonTravelBean;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
-import com.cn.uca.util.FitStateUI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,7 +34,6 @@ public class HoneymoonTravelActivity extends BaseBackActivity implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_honeymoon_travel);
 
         initView();

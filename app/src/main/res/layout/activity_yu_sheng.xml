@@ -18,7 +18,9 @@
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="余生"/>
+            android:text="@string/yushengActivity_title_text"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -36,28 +38,28 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_15"
                 android:gravity="center"
-                android:text="人的一生其实非常短暂" />
+                android:text="@string/yushengActivity_text1" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_8"
                 android:gravity="center"
-                android:text="大约只有三万多天" />
+                android:text="@string/yushengActivity_text2" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_20"
                 android:gravity="center"
-                android:text="发呆、刷微博、打游戏。一转眼又是一天" />
+                android:text="@string/yushengActivity_text3" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_8"
                 android:gravity="center"
-                android:text="等待、犹豫、拖延，一晃神又是一月" />
+                android:text="@string/yushengActivity_text4" />
         </LinearLayout>
 
         <LinearLayout
@@ -67,7 +69,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/text"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="@dimen/padding_30"
             android:orientation="vertical">
 
             <LinearLayout
@@ -79,7 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="你出生于"
+                    android:text="@string/yushengActivity_text5"
                     android:textColor="@color/black2"
                     android:textSize="@dimen/text_18"
                     android:layout_gravity="center_vertical"/>
@@ -121,7 +123,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="你是一名"
+                    android:text="@string/yushengActivity_text6"
                     android:textColor="@color/black2"
                     android:textSize="@dimen/text_18"
                     android:layout_gravity="center_vertical"/>
@@ -160,28 +162,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/info"
-            android:layout_marginTop="@dimen/padding_30"
+            android:layout_marginTop="@dimen/padding_25"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="想做的事情是否还记得" />
+                android:text="@string/yushengActivity_text7" />
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="定下的目标是否有实现"
+                android:text="@string/yushengActivity_text8"
                 android:layout_marginTop="@dimen/padding_8"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/aaa"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="100dp"
             android:layout_alignParentBottom="true"
             android:background="@color/ori"
             android:orientation="horizontal">
@@ -191,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="开启生命的倒计时"
+                android:text="@string/yushengActivity_text10"
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -209,13 +211,13 @@
 
             <TextView
                 android:id="@+id/start"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/circular_background"
                 android:gravity="center"
-                android:text="开启余生"
+                android:text="@string/yushengActivity_text9"
                 android:textColor="@color/white" />
         </RelativeLayout>
 

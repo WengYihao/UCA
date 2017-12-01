@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/img"
@@ -24,20 +22,20 @@
         <TextView
             android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="150dp" />
+            android:layout_height="160dp" />
         <RadioGroup
             android:id="@+id/radioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/view"
             android:orientation="horizontal"
-            android:layout_marginLeft="@dimen/padding_20"
-            android:layout_marginRight="@dimen/padding_20">
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_15">
 
             <RadioButton
                 android:id="@+id/oneWay"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/padding_50"
+                android:layout_height="@dimen/padding_40"
                 android:layout_weight="1"
                 android:button="@null"
                 android:gravity="center"
@@ -47,7 +45,7 @@
             <RadioButton
                 android:id="@+id/twoWay"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/padding_50"
+                android:layout_height="@dimen/padding_40"
                 android:layout_weight="1"
                 android:button="@null"
                 android:gravity="center"
@@ -60,8 +58,8 @@
             android:layout_height="match_parent"
             android:layout_below="@id/radioGroup"
             android:background="@color/white"
-            android:layout_marginLeft="@dimen/padding_20"
-            android:layout_marginRight="@dimen/padding_20">
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_15">
         </FrameLayout>
     </RelativeLayout>
 </RelativeLayout>

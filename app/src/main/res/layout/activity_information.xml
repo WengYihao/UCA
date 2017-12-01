@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,6 +20,7 @@
             style="@style/style_title"
             android:text="@string/informationActivity_title"/>
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,31 +33,30 @@
             android:layout_marginTop="@dimen/padding_10"
             android:background="@color/white"
             android:padding="@dimen/padding_10">
-
-
             <TextView
                 android:id="@+id/title_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:text="@string/informationActivity_nickName_text"
-                android:textSize="@dimen/text_18" />
-
-            <TextView
-                android:id="@+id/nickName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="@dimen/padding_10"
-                android:textSize="@dimen/text_14" />
+                android:textSize="@dimen/text_16" />
 
             <ImageView
+                android:id="@+id/a"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="@dimen/padding_10"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
+
+            <TextView
+                android:id="@+id/nickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/a"
+                android:layout_marginRight="@dimen/padding_10"
+                android:textSize="@dimen/text_14"/>
         </RelativeLayout>
 
         <ImageView
@@ -77,24 +76,26 @@
                 android:id="@+id/title_text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:text="@string/informationActivity_sex_text"
-                android:textSize="@dimen/text_18" />
-            <TextView
-                android:id="@+id/sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="@dimen/padding_10"
-                android:textSize="@dimen/text_14" />
+                android:textSize="@dimen/text_16" />
 
             <ImageView
+                android:id="@+id/b"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="@dimen/padding_10"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
+
+            <TextView
+                android:id="@+id/sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/b"
+                android:layout_marginRight="@dimen/padding_10"
+                android:textSize="@dimen/text_14" />
         </RelativeLayout>
 
         <ImageView
@@ -109,31 +110,32 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:padding="@dimen/padding_10">
-
-
             <TextView
                 android:id="@+id/title_text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:text="@string/informationActivity_dateTime_text"
-                android:textSize="@dimen/text_18" />
-            <TextView
-                android:id="@+id/date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="@dimen/padding_10"
-                android:textSize="@dimen/text_14" />
+                android:textSize="@dimen/text_16" />
 
             <ImageView
+                android:id="@+id/c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="@dimen/padding_10"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/c"
+                android:layout_marginRight="@dimen/padding_10"
+                android:textSize="@dimen/text_14" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/layout4"
             android:layout_width="match_parent"
@@ -142,29 +144,30 @@
             android:background="@color/white"
             android:padding="@dimen/padding_10">
 
-
             <TextView
                 android:id="@+id/title_text4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:text="@string/informationActivity_bindPhoto_text"
-                android:textSize="@dimen/text_18" />
-            <TextView
-                android:id="@+id/phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_10"
-                android:layout_centerHorizontal="true"
-                android:textSize="@dimen/text_14" />
+                android:textSize="@dimen/text_16" />
 
             <ImageView
+                android:id="@+id/d"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="@dimen/padding_10"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
+
+            <TextView
+                android:id="@+id/phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/d"
+                android:layout_marginRight="@dimen/padding_5"
+                android:textSize="@dimen/text_14" />
         </RelativeLayout>
 
         <ImageView
@@ -184,15 +187,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:text="@string/informationActivity_bindEmail_text"
-                android:textSize="@dimen/text_18" />
+                android:textSize="@dimen/text_16" />
+
             <TextView
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_marginLeft="@dimen/padding_15"
                 android:textSize="@dimen/text_14" />
 
             <ImageView
@@ -201,7 +205,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="@dimen/padding_10"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
         </RelativeLayout>
 
         <ImageView
@@ -221,9 +225,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:text="@string/informationActivity_accountAssociation_text"
-                android:textSize="@dimen/text_18" />
+                android:textSize="@dimen/text_16" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -231,7 +235,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="@dimen/padding_10"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -245,17 +249,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_10"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:text="@string/informationActivity_updatePassword_text"
-                android:textSize="@dimen/text_18" />
+                android:textSize="@dimen/text_16" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:layout_marginRight="@dimen/padding_10"
-                android:src="@mipmap/right" />
+                android:layout_marginRight="@dimen/padding_5"
+                android:src="@mipmap/right_gray" />
         </RelativeLayout>
     </LinearLayout>
 </com.cn.uca.view.StatusView>

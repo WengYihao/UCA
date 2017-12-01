@@ -16,7 +16,6 @@ import com.cn.uca.bean.home.travel.TicketBean;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
@@ -47,7 +46,6 @@ public class SpotTicketActivity extends BaseBackActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_spot_ticket);
         initView();
         getInfo();

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.bean.home.raider.RaidersBean;
+import com.cn.uca.impl.yueka.CollectionClickListener;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -18,15 +19,17 @@ import java.util.List;
 /**
  * 夺宝城市适配器
  */
-public class RaidersAdapter extends BaseAdapter{
+public class RaidersAdapter extends BaseAdapter implements CollectionClickListener{
 	private List<RaidersBean> list;
 	private Context context;
 	private int TypeOne = 0;// 注意这个不同布局的类型起始值必须从0开始
 	private int TypeTwo = 1;
+	private CollectionClickListener listener;
 
-	public RaidersAdapter(List<RaidersBean> list, Context context) {
+	public RaidersAdapter(List<RaidersBean> list, Context context,CollectionClickListener listener) {
 		this.list = list;
 		this.context = context;
+		this.listener = listener;
 	}
 	public void setList(List<RaidersBean> list) {
 		if (list != null) {
@@ -108,6 +111,13 @@ public class RaidersAdapter extends BaseAdapter{
 				Uri uri = Uri.parse(list.get(position).getPacture_url());
 				holder.pic.setImageURI(uri);
 				holder.layout.getBackground().setAlpha(120);
+				holder.collection.setTag(position);
+				holder.collection.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						listener.onCollectionClick(v);
+					}
+				});
 				if (list.get(position).isCollection()){
 					holder.collection.setBackgroundResource(R.mipmap.collection_white);
 				}else{
@@ -116,15 +126,21 @@ public class RaidersAdapter extends BaseAdapter{
 				break;
 			case 1:
 				holder2.name.setText(list.get(position).getCity_name());
-				holder2.price.setText("￥"+(int)list.get(position).getPrice()+"元购买");
+				holder2.price.setText("￥"+(int)list.get(position).getPrice()+"元");
 				Uri uri2 = Uri.parse(list.get(position).getPacture_url());
 				holder2.pic.setImageURI(uri2);
-				Uri uri3 = Uri.parse("http://www.szyouka.com/youkatravel/fileRresources/default/appImg/lock.png");
+				Uri uri3 = Uri.parse("http://www.szyouka.com:8080/youkatravel/fileRresources/default/appImg/lock.png");
 				holder2.layout.setImageURI(uri3);
 				break;
 		}
 		return convertView;
 	}
+
+	@Override
+	public void onCollectionClick(View v) {
+
+	}
+
 	class ViewHolder {
 		RelativeLayout layout;
 		SimpleDraweeView pic;

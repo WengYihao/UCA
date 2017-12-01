@@ -12,7 +12,6 @@ import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.impl.datepicker.OnSureLisener;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
@@ -38,7 +37,6 @@ public class InformationActivity extends BaseBackActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_information);
 
         initView();

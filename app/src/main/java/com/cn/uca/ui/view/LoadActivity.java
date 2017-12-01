@@ -1,8 +1,6 @@
 package com.cn.uca.ui.view;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,16 +10,10 @@ import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.QueryHttp;
-import com.cn.uca.server.home.HomeHttp;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SharePreferenceXutil;
-import com.cn.uca.util.SignUtil;
-import com.cn.uca.util.SystemUtil;
+import com.cn.uca.util.StatusBarUtil;
 
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 加载过度
@@ -33,11 +25,10 @@ public class LoadActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
+        StatusBarUtil.immersive(this);
         setContentView(R.layout.activity_load);
         initTime();
         judgeState();
-        aa();
     }
 
     private void judgeState(){
@@ -72,23 +63,6 @@ public class LoadActivity extends AppCompatActivity {
         time.start();
     }
 
-    /**
-     * 获取当前版本号
-     * @return
-     */
-    private String getVersion()
-    {
-        try {
-            PackageManager packageManager = getPackageManager();
-            PackageInfo packageInfo = packageManager.getPackageInfo(
-                    getPackageName(), 0);
-            return packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return "版本号未知";
-        }
-    }
-
     class TimeCount extends CountDownTimer {
         public TimeCount(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);// 参数依次为总时长,和计时的时间间隔
@@ -108,28 +82,4 @@ public class LoadActivity extends AppCompatActivity {
         }
     }
 
-    public void aa(){
-        Map<String,Object> map = new HashMap<>();
-        map.put("scenic_spot_id",1);
-        String time_stamp = SystemUtil.getCurrentDate2();
-        map.put("time_stamp",time_stamp);
-        String sign = SignUtil.sign(map);
-        HomeHttp.getTicket(1, sign, time_stamp, new CallBack() {
-            @Override
-            public void onResponse(Object response) {
-                Log.i("123",response.toString()+"---");
-            }
-
-            @Override
-            public void onErrorMsg(String errorMsg) {
-
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-        });
-        SystemUtil.getCurrentDate2();
-    }
 }

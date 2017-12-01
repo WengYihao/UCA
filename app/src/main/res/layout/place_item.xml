@@ -9,13 +9,12 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginLeft="@dimen/padding_12">
-        <com.facebook.drawee.view.SimpleDraweeView
+        <com.cn.uca.view.CircleImageView
             android:id="@+id/pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:roundedCornerRadius="@dimen/padding_5"
-            app:placeholderImageScaleType="fitXY">
-        </com.facebook.drawee.view.SimpleDraweeView>
+            app:border_color="@color/white">
+        </com.cn.uca.view.CircleImageView>
 
         <TextView
             android:id="@+id/place"
@@ -24,7 +23,6 @@
             android:gravity="center"
             android:layout_centerInParent="true"
             android:textSize="@dimen/text_14"
-            android:textColor="@color/white"
-            android:background="@drawable/circular_black_background"/>
+            android:textColor="@color/white"/>
     </RelativeLayout>
 </RelativeLayout>

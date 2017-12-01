@@ -1,7 +1,6 @@
 package com.cn.uca.adapter.home.travel;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,8 @@ import com.cn.uca.R;
 import com.cn.uca.bean.home.travel.TravelPlaceBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.util.SetLayoutParams;
-import com.facebook.drawee.view.SimpleDraweeView;
+import com.cn.uca.view.CircleImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public class PlaceAdapter extends BaseAdapter{
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(context).inflate(R.layout.place_item, parent, false);
 			holder.backlayout = (RelativeLayout)convertView.findViewById(R.id.backlayout);
-			holder.pic = (SimpleDraweeView)convertView.findViewById(R.id.pic);
+			holder.pic = (CircleImageView)convertView.findViewById(R.id.pic);
 			holder.item = (TextView)convertView.findViewById(R.id.place);
 			SetLayoutParams.setRelativeLayout(holder.backlayout,MyApplication.width *2/7,MyApplication.width *2/7);
 			convertView.setTag(holder);
@@ -64,14 +64,12 @@ public class PlaceAdapter extends BaseAdapter{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.item.setText(list.get(position).getScenic_spot_name());
-		holder.item.getBackground().setAlpha(120);
-		Uri uri = Uri.parse(list.get(position).getPicture_url());
-		holder.pic.setImageURI(uri);
+		ImageLoader.getInstance().displayImage(list.get(position).getPicture_url(),holder.pic);
 		return convertView;
 	}
 	class ViewHolder {
 		RelativeLayout backlayout;
 		TextView item;
-		SimpleDraweeView pic;
+		CircleImageView pic;
 	}
 }

@@ -57,7 +57,6 @@ public class CollectionAdapter extends BaseAdapter{
 			holder.pic = (ImageView) convertView.findViewById(R.id.pic);
 			holder.name = (TextView)convertView.findViewById(R.id.name);
 			holder.type = (TextView)convertView.findViewById(R.id.type);
-			holder.sum = (TextView)convertView.findViewById(R.id.sum);
 			holder.price = (TextView)convertView.findViewById(R.id.price);
 			holder.start = (RatingStarView)convertView.findViewById(R.id.start);
 			convertView.setTag(holder);
@@ -67,13 +66,12 @@ public class CollectionAdapter extends BaseAdapter{
 		holder.name.setText(list.get(position).getName());
 		holder.type.setText(list.get(position).getType());
 		holder.start.setRating(list.get(position).getStart());
-		holder.sum.setText(list.get(position).getSum()+"");
 		holder.price.setText("￥"+list.get(position).getPrice());
 		return convertView;
 	}
 	class ViewHolder {
 		ImageView pic;
-		TextView name,type,sum,price;
+		TextView name,type,price;
 		RatingStarView start;
 	}
 }

@@ -18,12 +18,10 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.yueka.YueKaHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.view.CircleImageView;
 import com.cn.uca.view.HorizontalListView;
 import com.cn.uca.view.NoScrollListView;
-import com.cn.uca.view.RdListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
@@ -42,12 +40,11 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
     private List<CommentBean> list2;
     private OrderCourseAdapter orderCourseAdapter;
     private CommentAdapter commentAdapter;
-    private RelativeLayout layout1,layout2,layout3,layout4;
+    private RelativeLayout layout,layout1,layout2,layout3,layout4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_order_yue);
 
         initView();
@@ -60,12 +57,15 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
         sex = (TextView)findViewById(R.id.sex);
         age = (TextView)findViewById(R.id.age);
         pic = (CircleImageView)findViewById(R.id.pic);
+
+        layout = (RelativeLayout)findViewById(R.id.layout);
         layout1 = (RelativeLayout)findViewById(R.id.layout1);
         layout2 = (RelativeLayout)findViewById(R.id.layout2);
         layout3 = (RelativeLayout)findViewById(R.id.layout3);
         layout4 = (RelativeLayout)findViewById(R.id.layout4);
 
         back.setOnClickListener(this);
+        layout.setOnClickListener(this);
         layout1.setOnClickListener(this);
         layout2.setOnClickListener(this);
         layout3.setOnClickListener(this);
@@ -188,6 +188,9 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
             case R.id.back:
                 this.finish();
                 break;
+            case R.id.layout:
+                startActivity(new Intent(OrderYueActivity.this,YuekaInfoActivity.class));
+                break;
             case R.id.layout1:
                 startActivity(new Intent(OrderYueActivity.this,PresetManagerActivity.class));
                 break;
@@ -195,7 +198,7 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
                 startActivity(new Intent(OrderYueActivity.this,SendYueKaActivity.class));
                 break;
             case R.id.layout3:
-
+                startActivity(new Intent(OrderYueActivity.this,SendListActivity.class));
                 break;
             case R.id.layout4:
 

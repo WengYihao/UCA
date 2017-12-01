@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="我的钱包"/>
+            android:text="@string/walletActivity_title_text"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -33,7 +33,7 @@
             android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0.0"
+            android:text="@string/walletActivity_text1"
             android:textColor="@color/white"
             android:textSize="60dp" />
 
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/count"
             android:layout_marginTop="@dimen/padding_5"
-            android:text="余额(元)"
+            android:text="@string/walletActivity_text2"
             android:textColor="@color/white" />
     </LinearLayout>
 
@@ -75,8 +75,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/padding_8"
-                    android:text="明细"
-                    android:textSize="15sp" />
+                    android:text="@string/walletActivity_text3"
+                    android:textSize="@dimen/text_14" />
             </LinearLayout>
 
             <ImageView
@@ -103,8 +103,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/padding_8"
-                    android:text="优惠券"
-                    android:textSize="15sp" />
+                    android:text="@string/walletActivity_text4"
+                    android:textSize="@dimen/text_14" />
             </LinearLayout>
         </LinearLayout>
 
@@ -112,16 +112,16 @@
             android:id="@+id/layout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/padding_10"
             android:background="@color/white"
-            android:padding="10dp">
+            android:padding="@dimen/padding_10">
 
 
             <ImageView
                 android:id="@+id/title_logo1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:src="@mipmap/recharge_back" />
 
             <TextView
@@ -129,17 +129,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="@dimen/padding_20"
                 android:layout_toRightOf="@id/title_logo1"
-                android:text="充值"
-                android:textSize="15sp" />
+                android:text="@string/walletActivity_text5"
+                android:textSize="@dimen/text_14" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="@dimen/padding_10"
                 android:src="@mipmap/right_gray" />
         </RelativeLayout>
 
@@ -155,14 +155,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:padding="10dp">
+            android:padding="@dimen/padding_10">
 
 
             <ImageView
                 android:id="@+id/title_logo2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:src="@mipmap/reflect_back" />
 
             <TextView
@@ -170,17 +170,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="@dimen/padding_20"
                 android:layout_toRightOf="@id/title_logo2"
-                android:text="提现"
-                android:textSize="15sp" />
+                android:text="@string/walletActivity_text6"
+                android:textSize="@dimen/text_14" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="@dimen/padding_10"
                 android:src="@mipmap/right_gray" />
         </RelativeLayout>
 
@@ -189,16 +189,16 @@
             android:id="@+id/layout5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/padding_10"
             android:background="@color/white"
-            android:padding="10dp">
+            android:padding="@dimen/padding_10">
 
 
             <ImageView
                 android:id="@+id/title_logo4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="@dimen/padding_5"
                 android:src="@mipmap/bankcard_back" />
 
             <TextView
@@ -206,17 +206,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="@dimen/padding_20"
                 android:layout_toRightOf="@id/title_logo4"
-                android:text="银行卡"
-                android:textSize="15sp" />
+                android:text="@string/walletActivity_text7"
+                android:textSize="@dimen/text_14" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="@dimen/padding_10"
                 android:src="@mipmap/right_gray" />
         </RelativeLayout>
     </LinearLayout>

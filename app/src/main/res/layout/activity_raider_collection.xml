@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/gradient" >
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back"/>
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="@string/raiderActivity_title_text"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/title01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/padding_12"
+                android:text="@string/raiderCollectionActivity_text1"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12" />
+
+            <TextView
+                android:id="@+id/title02"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/padding_12"
+                android:text="@string/raiderCollectionActivity_text2"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12" />
+
+            <TextView
+                android:id="@+id/title03"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/padding_12"
+                android:text="@string/raiderCollectionActivity_text3"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12" />
+
+            <TextView
+                android:id="@+id/title04"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="@dimen/padding_12"
+                android:text="@string/raiderCollectionActivity_text4"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12" />
+        </LinearLayout>
+        <GridView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/padding_10"
+            android:verticalSpacing="@dimen/padding_10"
+            android:horizontalSpacing="@dimen/padding_10"
+            android:numColumns="2"></GridView>
+    </LinearLayout>
+</com.cn.uca.view.StatusView>

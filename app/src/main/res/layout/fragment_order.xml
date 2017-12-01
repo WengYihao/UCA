@@ -7,7 +7,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <RadioGroup
@@ -19,32 +18,41 @@
 
             <RadioButton
                 android:id="@+id/title01"
-                style="@style/style_menu"
+                style="@style/style_button"
                 android:text="全部" />
 
             <RadioButton
                 android:id="@+id/title02"
-                style="@style/style_menu"
-                android:text="机票" />
+                style="@style/style_button"
+                android:text="已支付" />
             <RadioButton
                 android:id="@+id/title03"
-                style="@style/style_menu"
-                android:text="酒店" />
+                style="@style/style_button"
+                android:text="待支付" />
 
             <RadioButton
                 android:id="@+id/title04"
-                style="@style/style_menu"
-                android:text="旅游" />
+                style="@style/style_button"
+                android:text="已失效" />
             <RadioButton
                 android:id="@+id/title05"
-                style="@style/style_menu"
-                android:text="约咖" />
+                style="@style/style_button"
+                android:text="待确认" />
+            <RadioButton
+                android:id="@+id/title06"
+                style="@style/style_button"
+                android:text="已取消" />
+            <RadioButton
+                android:id="@+id/title07"
+                style="@style/style_button"
+                android:text="退单" />
         </RadioGroup>
     </LinearLayout>
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:divider="@color/white">
 
     </ListView>
 </LinearLayout>

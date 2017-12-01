@@ -9,9 +9,9 @@
         android:layout_height="45dp"
         android:background="@drawable/sex_dialog_man_background"
         android:gravity="center"
-        android:text="男"
+        android:text="@string/dialog_man"
         android:textColor="@color/ori"
-        android:textSize="18sp"/>
+        android:textSize="@dimen/text_18"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
@@ -22,18 +22,18 @@
         android:layout_height="45dp"
         android:background="@drawable/sex_dialog_woman_background"
         android:gravity="center"
-        android:text="女"
+        android:text="@string/dialog_woman"
         android:textColor="@color/ori"
-        android:textSize="18sp" />
+        android:textSize="@dimen/text_18" />
 
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/padding_8"
         android:background="@drawable/sex_dialog_cancel_background"
         android:gravity="center"
-        android:text="取消"
+        android:text="@string/dialog_show_cancel"
         android:textColor="@color/ori"
-        android:textSize="18sp" />
+        android:textSize="@dimen/text_18" />
 </LinearLayout>

@@ -11,7 +11,6 @@ import com.cn.uca.R;
 import com.cn.uca.ui.fragment.home.OneWayFragment;
 import com.cn.uca.ui.fragment.home.TwoWayFragment;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.StatusMargin;
 
 /**
@@ -29,7 +28,6 @@ public  class PlaneTicketActivity extends BaseBackActivity implements View.OnCli
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            FitStateUI.setImmersionStateMode(this);
             setContentView(R.layout.activity_plane_ticket);
 
             initView();
@@ -67,7 +65,7 @@ public  class PlaneTicketActivity extends BaseBackActivity implements View.OnCli
                     oneWay.setTextColor(getResources().getColor(R.color.ori));
                     twoWay.setBackgroundResource(R.drawable.shape_ori_right_bg);
                     twoWay.setTextColor(getResources().getColor(R.color.white));
-                    twoWay.getBackground().setAlpha(120);
+                    twoWay.getBackground().setAlpha(100);
                     break;
                 case 1:
                     if (twoWayFragment == null) {

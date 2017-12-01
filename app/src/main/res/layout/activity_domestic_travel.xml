@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -57,8 +56,8 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/padding_20"
-                    android:layout_marginTop="@dimen/padding_20"
+                    android:layout_marginBottom="@dimen/padding_10"
+                    android:layout_marginTop="@dimen/padding_10"
                     android:background="@drawable/getcode_background"
                     android:gravity="center"
                     android:padding="@dimen/padding_5"
@@ -78,10 +77,16 @@
                     android:padding="@dimen/padding_10"
                     android:text="@string/domesticTravelActivity_listview_text"
                     android:textSize="@dimen/text_18" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:scaleType="matrix"
+                    android:src="@color/gray" />
                 <com.cn.uca.view.NoScrollListView
                     android:id="@+id/listView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></com.cn.uca.view.NoScrollListView>
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/padding_10"></com.cn.uca.view.NoScrollListView>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

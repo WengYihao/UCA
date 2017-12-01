@@ -16,7 +16,6 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SetListView;
 import com.cn.uca.util.SystemUtil;
@@ -46,7 +45,6 @@ public class DomesticTravelActivity extends BaseBackActivity  implements View.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_domestic_travel);
 
         initView();

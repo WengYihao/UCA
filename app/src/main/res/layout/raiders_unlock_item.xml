@@ -26,9 +26,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:text="北京"
-            android:textSize="@dimen/text_18"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/padding_8"
             android:layout_marginBottom="@dimen/padding_10"/>
         <TextView
             android:id="@+id/downLoad"
@@ -42,10 +41,10 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:text="￥1元购买"
-            android:layout_above="@id/downLoad"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/padding_20"
-            android:textSize="@dimen/text_16"/>
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/padding_8"
+            android:layout_marginBottom="@dimen/padding_10"/>
     </RelativeLayout>
 </RelativeLayout>
 

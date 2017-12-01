@@ -24,7 +24,7 @@
     <color name="green2">#4DB34D</color>
     <color name="green3">#94E61A</color>
     <color name="gray">#f0f0f0</color>
-    <color name="milky">#F8F8FF</color>
+    <color name="milky">#bfbfbf</color>
     <color name="aa">#4b8040</color>
     <color name="ori2">#f39132</color>
     <color name="ori">#ee953e</color>
@@ -33,12 +33,14 @@
     <color name="result_view">#b0000000</color>
     <color name="viewfinder_mask">#60000000</color>
     <color name="possible_result_points">#c0ffff00</color>
-    <color name="yellow">#FFD700</color>
-    <color name="yellow2">#be8e42</color>
+    <color name="yellow">#f8e58c</color>
+    <color name="yellow2">#c39853</color>
     <color name="black2">#222222</color>
     <color name="black3">#DC433F3F</color>
     <color name="yusheng1">#d8dee2</color>
     <color name="yusheng2">#aaa</color>
     <color name="yusheng3">#f8e58c</color>
     <color name="yusheng4">#f57c27</color>
+    <color name="brown">#7e5a30</color>
+    <color name="main_theme_color">#0195ff</color>
 </resources>

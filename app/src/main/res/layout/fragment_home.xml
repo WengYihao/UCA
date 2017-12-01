@@ -39,12 +39,12 @@
                 android:background="@mipmap/home_back2">
 
                 <LinearLayout
+                    android:id="@+id/yusheng"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1">
                     <TextView
-                        android:id="@+id/yusheng"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@mipmap/yusheng_back"
@@ -52,22 +52,22 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="余生"
+                        android:text="@string/yushengActivity_title_text"
                         android:gravity="center"
                         android:textColor="@color/grey"
-                        android:textSize="@dimen/text_18"
+                        android:textSize="@dimen/text_16"
                         android:layout_marginTop="@dimen/padding_10"/>
                 </LinearLayout>
 
 
             <LinearLayout
+                android:id="@+id/oneRaiders"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/oneRaiders"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@mipmap/raiders_back"
@@ -76,21 +76,21 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="一元攻略"
+                    android:text="@string/raiderActivity_title_text"
                     android:gravity="center"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/text_18"
+                    android:textSize="@dimen/text_16"
                     android:layout_marginTop="@dimen/padding_10"/>
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/footprint"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/footprint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -99,10 +99,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="足迹"
+                        android:text="@string/addFootPrintActivity_title_text"
                         android:gravity="center"
                         android:textColor="@color/grey"
-                        android:textSize="@dimen/text_18"
+                        android:textSize="@dimen/text_16"
                         android:layout_marginTop="@dimen/padding_10"/>
                 </LinearLayout>
             </LinearLayout>
@@ -112,7 +112,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:padding="10dp"
+                android:padding="@dimen/padding_10"
                 android:layout_below="@+id/ll_content"
                 android:layout_marginLeft="@dimen/padding_15"
                 android:layout_marginRight="@dimen/padding_15"
@@ -120,73 +120,61 @@
                 android:layout_marginTop="@dimen/padding_5">
 
                 <LinearLayout
+                    android:id="@+id/planeTicket"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_weight="1">
                     <TextView
-                        android:id="@+id/planeTicket"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:layout_gravity="center"
-                        android:background="@mipmap/yusheng_back" />
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:gravity="center"
-                        android:text="机票"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/text_18" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                    <TextView
-                        android:id="@+id/tourism"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@mipmap/yusheng_back"  />
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:gravity="center"
-                        android:text="旅游"
-                        android:textColor="@color/grey"
-                        android:textSize="@dimen/text_18" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/hotel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@mipmap/yusheng_back"  />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="酒店"
-                        android:gravity="center"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/text_18"
-                        android:layout_marginTop="@dimen/padding_10"/>
+                        android:text="@string/homeFragment_text1"
+                        android:gravity="center"
+                        android:background="@mipmap/same_back" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/tourism"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_18"
+                        android:text="@string/homeFragment_text2"
+                        android:background="@mipmap/same_back" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/hotel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_18"
+                        android:text="@string/homeFragment_text3"
+                        android:background="@mipmap/same_back"  />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -200,20 +188,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/padding_30"
+            android:id="@+id/seachLayout"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/twenty_circular_white_background"
             android:layout_centerVertical="true"
-            android:layout_marginTop="@dimen/padding_5"
-            android:layout_marginLeft="@dimen/padding_20"
-            android:layout_marginRight="@dimen/padding_20">
+            android:layout_marginTop="@dimen/padding_10">
 
             <ImageView
                 android:id="@+id/search"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_marginLeft="8dp"
+                android:layout_width="@dimen/padding_15"
+                android:layout_height="@dimen/padding_15"
+                android:layout_marginLeft="@dimen/padding_8"
                 android:layout_centerVertical="true"
                 android:background="@mipmap/search_nav" />
 
@@ -222,13 +209,21 @@
                 android:id="@+id/search_et"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/padding_20"
-                android:layout_marginRight="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginRight="@dimen/padding_8"
+                android:layout_marginLeft="@dimen/padding_8"
                 android:gravity="center_vertical"
                 android:layout_centerVertical="true"
                 android:background="@color/white"
-                android:hint="请输入搜索关键字"
+                android:hint="@string/tourismActivitySeach_Hint_text"
                 android:textSize="@dimen/text_12" />
         </RelativeLayout>
+        <TextView
+            android:id="@+id/sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/not_sign"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_15"/>
     </RelativeLayout>
 </RelativeLayout>

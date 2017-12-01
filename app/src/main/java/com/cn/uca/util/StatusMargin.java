@@ -1,7 +1,6 @@
 package com.cn.uca.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -37,12 +36,6 @@ public class StatusMargin {
         params.setMargins(0, SystemUtil.getStatusHeight(activity), SystemUtil.dip2px(num), 0);
         view.setLayoutParams(params);
     }
-    //设置RelativeLayout的布局距离
-//    public static void setLinearLayoutBottom(Activity activity, View view,int num){
-//        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
-//        params.setMargins(0, 0, 0, num);
-//        view.setLayoutParams(params);
-//    }
 
     //设置FrameLayout的布局距离
     public static void setFrameLayoutBottom(Activity activity, View view,int num){
@@ -51,9 +44,16 @@ public class StatusMargin {
         view.setLayoutParams(params);
     }
 
-    //设置FrameLayout的布局距离
+    //设置RelativeLayout的布局距离
     public static void setRelativeLayoutBottom(Activity activity, View view,int num){
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+        params.setMargins(0, 0, 0, num);
+        view.setLayoutParams(params);
+    }
+
+    //设置RelativeLayout的布局距离
+    public static void setLinearLayoutBottom(Activity activity, View view,int num){
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
         params.setMargins(0, 0, 0, num);
         view.setLayoutParams(params);
     }

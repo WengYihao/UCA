@@ -19,8 +19,8 @@
             android:layout_height="35dp"
             android:background="@mipmap/title_back"
             android:gravity="center"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginLeft="@dimen/padding_30"
+            android:layout_marginRight="@dimen/padding_30"
             android:textColor="@color/black"/>
         
          <ImageView

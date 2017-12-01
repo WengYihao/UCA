@@ -20,7 +20,6 @@ public class HoneymoonTravelAdapter extends BaseAdapter{
 	private Context context;
 	private int height,width;
 
-	public HoneymoonTravelAdapter(){}
 	public HoneymoonTravelAdapter(List<HoneymoonTravelBean> list, Context context) {
 		this.list = list;
 		this.context = context;
@@ -71,7 +70,7 @@ public class HoneymoonTravelAdapter extends BaseAdapter{
 		ImageLoader.getInstance().displayImage(list.get(position).getPicture_url(),holder.pic);
 		holder.name.setText(list.get(position).getMiyeu_title());
 		holder.days.setText("行程天数:"+list.get(position).getDays());
-		holder.price.setText("￥"+list.get(position).getPrice());
+		holder.price.setText("￥"+(int)list.get(position).getPrice());
 		holder.purchase_number.setText(list.get(position).getPurchase_number()+"人已购买");
 		return convertView;
 	}

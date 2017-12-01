@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cn.uca.ui.view.user.BackOrderApplyActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/gradient">
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="退单申请确认" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
+            android:padding="@dimen/padding_10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ten_circular_white_background"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_15">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.cn.uca.view.CircleImageView
+                        android:id="@+id/pic"
+                        android:layout_width="@dimen/padding_50"
+                        android:layout_height="@dimen/padding_50"
+                        android:background="@color/aa" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@mipmap/chat_white_back" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/text1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/padding_15"
+                    android:text="来自xxx用户的退单申请，请在仔细阅读后进行操作，如有不实之处可向我们反馈。" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:layout_marginRight="@dimen/padding_10"
+            android:background="@color/grey2"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_8">
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_15"
+                android:text="退单原因：领咖原因" />
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_15"
+                android:text="退单时间：领咖原因" />
+
+            <TextView
+                android:id="@+id/text4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding_25"
+                android:layout_marginTop="@dimen/padding_15"
+                android:text="描    述：我等了领咖两个小时，一直没来，不来算了，总之退钱，这种情况不接受也没用" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/refuse"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/circular_gray_background"
+                android:gravity="center"
+                android:text="拒绝"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/agree"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/circular_ori_background"
+                android:text="同意"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/padding_40"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.cn.uca.view.StatusView>

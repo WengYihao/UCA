@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="@string/orderYueActuivity_title_text"/>
+            android:text="@string/otherYueActivity_title_text"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,7 +55,6 @@
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="周某某"
                     android:layout_gravity="center"
                     android:textSize="@dimen/text_16"
                     android:textColor="@color/white"
@@ -64,7 +63,6 @@
                     android:id="@+id/age"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="27岁"
                     android:layout_gravity="center"
                     android:textSize="@dimen/text_16"
                     android:textColor="@color/white"
@@ -73,7 +71,6 @@
                     android:id="@+id/sex"
                     android:layout_width="@dimen/padding_20"
                     android:layout_height="@dimen/padding_20"
-                    android:background="@color/aa"
                     android:layout_marginLeft="@dimen/padding_10"/>
 
             </LinearLayout>
@@ -93,7 +90,7 @@
                 android:id="@+id/state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="认证成为大咖"
+                android:text="@string/otherYueActivity_text"
                 android:textSize="@dimen/text_14"
                 android:textColor="@color/white"
                 android:layout_toLeftOf="@id/a"
@@ -113,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="我的收藏"
+            android:text="@string/my_collection"
             android:textSize="18sp" />
         <ImageView
             android:layout_width="wrap_content"
@@ -121,7 +118,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:src="@mipmap/right" />
+            android:src="@mipmap/right_gray" />
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -133,7 +130,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="约咖历程"/>
+            android:text="@string/orderYueActivity_yueka"
+            android:layout_marginLeft="@dimen/padding_10"/>
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"

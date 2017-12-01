@@ -12,6 +12,10 @@ public class GetEscortBean {
     private int pageCount;
     private String beg_time;
     private String end_time;
+    private int sex_id;
+    private String beg_age;
+    private String end_age;
+    private String label;
 
     public String getAccount_token() {
         return account_token;
@@ -59,5 +63,37 @@ public class GetEscortBean {
 
     public void setEnd_time(String end_time) {
         this.end_time = end_time;
+    }
+
+    public int getSex_id() {
+        return sex_id;
+    }
+
+    public String getBeg_age() {
+        return beg_age;
+    }
+
+    public String getEnd_age() {
+        return end_age;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setSex_id(int sex_id) {
+        this.sex_id = sex_id;
+    }
+
+    public void setBeg_age(String beg_age) {
+        this.beg_age = beg_age;
+    }
+
+    public void setEnd_age(String end_age) {
+        this.end_age = end_age;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

@@ -22,7 +22,7 @@
             <TextView
                 android:id="@+id/title"
                 style="@style/style_title"
-                android:text="足迹" />
+                android:text="@string/addFootPrintActivity_title_text" />
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +41,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="北京"
                     android:textColor="@color/gray2"
                     android:textSize="@dimen/text_22"/>
                 <TextView
@@ -73,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="@dimen/padding_15"
-                        android:text="时间线"
+                        android:text="@string/addFootPrintActivity_time_text"
                         android:textColor="@color/ori"
                         android:textSize="@dimen/text_18" />
 
@@ -90,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="@dimen/padding_15"
-                        android:text="地点"
+                        android:text="@string/addFootPrintActivity_place_text"
                         android:textColor="@color/ori"
                         android:textSize="@dimen/text_18" />
 
@@ -110,7 +109,7 @@
                         android:gravity="top"
                         android:textColor="@color/ori"
                         android:textColorHint="@color/gray2"
-                        android:hint="插入旅程最美的回忆"
+                        android:hint="@string/addFootPrintActivity_edittext_text"
                         android:padding="@dimen/padding_5" />
 
                     <RelativeLayout
@@ -124,7 +123,7 @@
                             android:layout_weight="1"
                             android:background="@color/gray2"
                             android:gravity="center"
-                            android:text="选择照片"
+                            android:text="@string/addFootPrintActivity_choose_photo_text"
                             android:textColor="@color/white" />
                         <ImageView
                             android:id="@+id/pic"
@@ -144,7 +143,7 @@
                     android:id="@+id/finish"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="完成"
+                    android:text="@string/infoActivity_finish_text"
                     android:gravity="center"
                     android:textColor="@color/ori"
                     android:textSize="@dimen/text_22"
@@ -171,7 +170,7 @@
                         android:id="@+id/yearNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="15"
+                        android:text="0"
                         android:textColor="@color/ori"
                         android:textSize="40sp"/>
                     <TextView
@@ -179,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:ems="1"
                         android:textColor="@color/ori"
-                        android:text="年旅程"
+                        android:text="@string/addFootPrintActivity_yearNum_text"
                         android:layout_marginLeft="@dimen/padding_5"
                         android:layout_toRightOf="@id/yearNum"/>
                 </RelativeLayout>
@@ -204,7 +203,7 @@
                         android:id="@+id/cityNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="12"
+                        android:text="0"
                         android:textColor="@color/ori"
                         android:textSize="40sp"/>
                     <TextView
@@ -212,7 +211,7 @@
                         android:layout_height="wrap_content"
                         android:ems="1"
                         android:textColor="@color/ori"
-                        android:text="个城市"
+                        android:text="@string/addFootPrintActivity_cityNum_text"
                         android:layout_marginLeft="@dimen/padding_5"
                         android:layout_toRightOf="@id/cityNum"/>
                 </RelativeLayout>

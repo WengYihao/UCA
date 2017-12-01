@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 
 public class RegisterWebActivity extends BaseBackActivity implements View.OnClickListener {
 
@@ -17,7 +16,6 @@ public class RegisterWebActivity extends BaseBackActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_register_web);
 
         initView();
@@ -28,7 +26,7 @@ public class RegisterWebActivity extends BaseBackActivity implements View.OnClic
         webView = (WebView)findViewById(R.id.webView);
         back.setOnClickListener(this);
 
-        String url = "http://www.szyouka.com/youkatravel/agreement/appUseProtocol.html";
+        String url = "http://www.szyouka.com:8080/youkatravel/agreement/appUseProtocol.html";
         webView.loadUrl(url);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);

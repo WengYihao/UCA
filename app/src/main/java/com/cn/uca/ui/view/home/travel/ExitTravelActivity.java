@@ -3,6 +3,7 @@ package com.cn.uca.ui.view.home.travel;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -15,9 +16,9 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SystemUtil;
+import com.cn.uca.view.HorizontalListView;
 import com.cn.uca.view.NoScrollGridView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -34,7 +35,7 @@ import java.util.List;
 public class ExitTravelActivity extends BaseBackActivity implements View.OnClickListener{
 
     private GridView gridView;
-    private NoScrollGridView gridView2;
+    private HorizontalListView gridView2;
     private List<ExitTravelPlaceBean> list;
     private List<ExitTravelBean> list2;
     private ExitTravelPlaceAdapter travelPlaceAdapter;
@@ -43,7 +44,6 @@ public class ExitTravelActivity extends BaseBackActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_exit_travel);
 
         initView();
@@ -53,7 +53,7 @@ public class ExitTravelActivity extends BaseBackActivity implements View.OnClick
     private void initView() {
         back = (TextView)findViewById(R.id.back);
         gridView = (GridView)findViewById(R.id.gridView);
-        gridView2 = (NoScrollGridView) findViewById(R.id.gridView2);
+        gridView2 = (HorizontalListView) findViewById(R.id.gridView2);
 
         list = new ArrayList<>();
         list2 = new ArrayList<>();
@@ -63,7 +63,9 @@ public class ExitTravelActivity extends BaseBackActivity implements View.OnClick
         gridView2.setAdapter(travelAdapter);
 
         SetLayoutParams.setLinearLayout(gridView, MyApplication.width,((MyApplication.width- SystemUtil.dip2px(40))/3)*2+SystemUtil.dip2px(10));
-
+        LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) gridView2.getLayoutParams(); //取控件textView当前的布局参数
+        linearParams.height = MyApplication.width*2/7+SystemUtil.dip2px(10);// 控件的高强制设成20
+        gridView2.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
         back.setOnClickListener(this);
     }
 

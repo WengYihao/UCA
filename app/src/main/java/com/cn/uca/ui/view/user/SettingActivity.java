@@ -1,40 +1,34 @@
 package com.cn.uca.ui.view.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.bumptech.glide.Glide;
 import com.cn.uca.R;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.ActivityCollector;
-import com.cn.uca.util.FitStateUI;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.dialog.ToastDialog;
 
 import org.json.JSONObject;
 
-import jp.wasabeef.glide.transformations.BlurTransformation;
-
 public class SettingActivity extends BaseBackActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
 
-    private RelativeLayout layout1,layout2,layout3;
+    private RelativeLayout layout1,layout2,layout3,layout4,layout5;
     private Switch select;
     private TextView exit;
-    private ImageView aaa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
         setContentView(R.layout.activity_setting);
         ActivityCollector.addActivity(this);
         initView();
@@ -45,6 +39,8 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
         layout1 = (RelativeLayout)findViewById(R.id.layout1);
         layout2 = (RelativeLayout)findViewById(R.id.layout2);
         layout3 = (RelativeLayout)findViewById(R.id.layout3);
+        layout4 = (RelativeLayout)findViewById(R.id.layout4);
+        layout5 = (RelativeLayout)findViewById(R.id.layout5);
 
         select = (Switch)findViewById(R.id.select);
         exit = (TextView)findViewById(R.id.exit);
@@ -52,15 +48,10 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
         layout1.setOnClickListener(this);
         layout2.setOnClickListener(this);
         layout3.setOnClickListener(this);
+        layout4.setOnClickListener(this);
+        layout5.setOnClickListener(this);
         exit.setOnClickListener(this);
         select.setOnCheckedChangeListener(this);
-        aaa = (ImageView)findViewById(R.id.aaa);
-//        Glide.with(this)
-//                .load("http://www.szyouka.com/youkatravel/fileRresources/upload/ticketPicture/shenzhenhuanlegu111.jpg")
-//                .crossFade(1000)
-//                .bitmapTransform(new BlurTransformation(this,23,4)) // “23”：设置模糊度(在0.0到25.0之间)，默认”25";"4":图片缩放比例,默认“1”。
-//                .into(aaa);
-        Glide.with(this).load("http://www.szyouka.com/youkatravel/fileRresources/upload/ticketPicture/shenzhenhuanlegu111.jpg").bitmapTransform(new BlurTransformation(this, 18)).into(aaa);
     }
 
     @Override
@@ -139,6 +130,12 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
                 break;
             case R.id.layout3:
 
+                break;
+            case R.id.layout4:
+
+                break;
+            case R.id.layout5:
+                startActivity(new Intent(this,FeedBackActivity.class));
                 break;
             case R.id.exit:
                 ToastDialog.exit(this);

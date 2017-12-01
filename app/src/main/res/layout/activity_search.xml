@@ -16,31 +16,29 @@
             android:id="@+id/back"
             style="@style/style_back"/>
 
-
         <com.cn.uca.view.MyEditText
             android:id="@+id/search"
-            android:layout_width="300dp"
-            android:layout_height="35dp"
-            android:padding="8dp"
+            android:layout_width="280dp"
+            android:layout_height="38dp"
+            android:padding="@dimen/padding_8"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:textCursorDrawable="@drawable/white_cursor_color"
             android:background="@drawable/twenty_circular_white_background"
-            android:hint="搜索关键词"
-            />
+            android:hint="@string/seachActivity_edittect_hint" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="@dimen/padding_10">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="推荐搜索"
-            android:textSize="18dp" />
+            android:text="@string/seachActivity_hint1"
+            android:textSize="@dimen/text_18" />
 
         <com.cn.uca.view.FluidLayout
             android:id="@+id/recommendView"
@@ -53,12 +51,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="@dimen/padding_10">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="历史搜索"
-            android:textSize="18dp"/>
+            android:text="@string/seachActivity_hint2"
+            android:textSize="@dimen/text_18"/>
         <com.cn.uca.view.FluidLayout
             android:id="@+id/historyView"
             android:layout_width="match_parent"

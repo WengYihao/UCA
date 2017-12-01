@@ -1,7 +1,6 @@
 package com.cn.uca.popupwindows;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.LayoutInflater;

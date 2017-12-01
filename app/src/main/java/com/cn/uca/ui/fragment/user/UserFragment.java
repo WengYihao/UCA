@@ -1,17 +1,26 @@
 package com.cn.uca.ui.fragment.user;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,19 +37,23 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.LoginActivity;
+import com.cn.uca.ui.view.user.AcceptOrderActivity;
 import com.cn.uca.ui.view.user.CollectionActivity;
-import com.cn.uca.ui.view.user.IdentityActivity;
 import com.cn.uca.ui.view.user.InformationActivity;
+import com.cn.uca.ui.view.user.MessageActivity;
 import com.cn.uca.ui.view.user.OrderActivity;
 import com.cn.uca.ui.view.user.SettingActivity;
 import com.cn.uca.ui.view.user.WalletActivity;
 import com.cn.uca.util.AndroidClass;
 import com.cn.uca.util.GraphicsBitmapUtils;
+import com.cn.uca.util.OpenPhoto;
 import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
+import com.cn.uca.view.dialog.LoadDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -51,8 +64,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asus on 2017/8/2.
@@ -71,7 +89,8 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private LinearLayout llTitle,myOrder,myCollection;
     private RelativeLayout layout1,layout2,layout3,layout4,layout5;
     private String userName,userAge,userSex;
-    private ProgressDialog progDialog = null;
+    private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
+    private Uri imageUri;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_user, null);
@@ -137,27 +156,6 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             userInfo.setVisibility(View.VISIBLE);
         }
 
-        progDialog = new ProgressDialog(getActivity());
-    }
-
-    /**
-     * 显示进度条对话框
-     */
-    public void showDialog() {
-        progDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progDialog.setIndeterminate(false);
-        progDialog.setCancelable(true);
-        progDialog.setMessage("请稍后...");
-        progDialog.show();
-    }
-
-    /**
-     * 隐藏进度条对话框
-     */
-    public void dismissDialog() {
-        if (progDialog != null) {
-            progDialog.dismiss();
-        }
     }
     @Override
     public void onClick(View v) {
@@ -208,17 +206,24 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.layout2:
                 if (SharePreferenceXutil.isSuccess()){
-                    startActivityForResult(new Intent(getActivity(),IdentityActivity.class),5);
-//                    startActivity(new Intent(getActivity(), IdentityActivity.class));
+                    getIdCardUrl();
                 }else {
                     ToastXutil.show("请先登录");
                 }
                 break;
             case R.id.layout3:
-
+                if (SharePreferenceXutil.isSuccess()){
+                    if (SharePreferenceXutil.isAuthentication()){
+                        startActivity(new Intent(getActivity(), AcceptOrderActivity.class));
+                    }else{
+                        ToastXutil.show("请先认证");
+                    }
+                }else {
+                    ToastXutil.show("请先登录");
+                }
                 break;
             case R.id.layout4:
-
+                startActivity(new Intent(getActivity(), MessageActivity.class));
                 break;
             case R.id.layout5:
 
@@ -281,16 +286,99 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         });
     }
 
+    private void getIdCardUrl(){
+        Map<String,Object> map = new HashMap<>();
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token",account_token);
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        String sign = SignUtil.sign(map);
+        UserHttp.getIdCardUrl(sign, time_stamp, account_token, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            String url = jsonObject.getJSONObject("data").getString("url");
+                           doVerify(url);
+                            break;
+                        case 63:
+                            ToastXutil.show("已认证");
+                            break;
+                    }
+                }catch (Exception e){
+
+                }
+
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
+    /**
+     * 启动支付宝进行认证
+     * @param url 开放平台返回的URL
+     */
+    private void doVerify(String url) {
+        if (hasApplication()) {
+            Intent action = new Intent(Intent.ACTION_VIEW);
+            StringBuilder builder = new StringBuilder();
+            // 这里使用固定appid 20000067
+            builder.append("alipays://platformapi/startapp?appId=20000067&url=");
+            builder.append(URLEncoder.encode(url));
+            action.setData(Uri.parse(builder.toString()));
+            startActivity(action);
+        } else {
+            // 处理没有安装支付宝的情况
+            new AlertDialog.Builder(getActivity())
+                    .setMessage("是否下载并安装支付宝完成认证?")
+                    .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent action = new Intent(Intent.ACTION_VIEW);
+                            action.setData(Uri.parse("https://m.alipay.com"));
+                            startActivity(action);
+                        }
+                    }).setNegativeButton("算了", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).show();
+        }
+    }
+
+    /**
+     * 判断是否安装了支付宝
+     * @return true 为已经安装
+     */
+    private  boolean hasApplication() {
+        PackageManager manager = getActivity().getPackageManager();
+        Intent action = new Intent(Intent.ACTION_VIEW);
+        action.setData(Uri.parse("alipays://"));
+        List list = manager.queryIntentActivities(action, PackageManager.GET_RESOLVED_FILTER);
+        return list != null && list.size() > 0;
+    }
     // 对话框
     DialogInterface.OnClickListener onDialogClick = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             switch (which) {
                 case 0:
-                    startCamearPicCut(dialog);// 开启照相
+                    autoObtainCameraPermission();// 开启照相
                     break;
                 case 1:
-                    startImageCaptrue(dialog);// 开启图库
+                    autoObtainStoragePermission();// 开启图库
                     break;
                 default:
                     break;
@@ -299,66 +387,39 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     };
 
     /**
-     * 打开相机
-     *
-     * @param dialog
+     * 自动获取相机权限
      */
-    public void startCamearPicCut(DialogInterface dialog) {
-        dialog.dismiss();
-        // 调用系统的拍照功能
-        try {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra("camerasensortype", 2);// 调用前置摄像头
-            intent.putExtra("autofocus", true);// 自动对焦
-            intent.putExtra("fullScreen", false);// 全屏
-            intent.putExtra("showActionIcons", false);
-            // 指定调用相机拍照后照片的储存路径
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(MyApplication.tempFile));
-            startActivityForResult(intent, Constant.PHOTO_REQUEST_TAKEPHOTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    /**
-     * 开启图库
-     *
-     * @param dialog
-     */
-    public void startImageCaptrue(DialogInterface dialog) {
-        dialog.dismiss();
-        try {
-            Intent intent = new Intent(Intent.ACTION_PICK, null);
-            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-            startActivityForResult(intent, Constant.PHOTO_REQUEST_GALLERY);
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void autoObtainCameraPermission() {
+
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
+                ToastXutil.show("您已经拒绝过一次");
+            }
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.CAMERA_PERMISSIONS_REQUEST_CODE);
+        } else {//有权限直接调用系统相机拍照
+            if (SystemUtil.hasSDCard()) {
+                imageUri = Uri.fromFile(fileUri);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                    imageUri = FileProvider.getUriForFile(getActivity(), "com.cn.uca.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
+                takePicture();
+            } else {
+                ToastXutil.show("设备没有SD卡！");
+            }
         }
     }
 
-
     /**
-     * 剪裁图片
-     *
-     * @param uri
-     * @param size
+     * 自动获取sdk权限
      */
-    private void startPhotoZoom(Uri uri, int size) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // crop为true是设置在开启的intent中设置显示的view可以剪裁
-        intent.putExtra("crop", "true");
 
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-
-        // outputX,outputY 是剪裁图片的宽高
-        intent.putExtra("outputX", size);
-        intent.putExtra("outputY", size);
-        intent.putExtra("return-data", true);
-        intent.putExtra("uri",uri);
-
-        startActivityForResult(intent, Constant.PHOTO_REQUEST_CUT);
+    private void autoObtainStoragePermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.STORAGE_PERMISSIONS_REQUEST_CODE);
+        } else {
+            openPic();
+        }
     }
 
     // 将进行剪裁后的图片显示到UI界面上
@@ -388,7 +449,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 pic.setImageDrawable(drawable);
                 photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
                 ByteArrayInputStream bais = new ByteArrayInputStream(photodata);
-                showDialog();
+                LoadDialog.show(getActivity());
                 UserHttp.uploadPic(bais, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int i, Header[] headers, byte[] bytes) {
@@ -396,9 +457,15 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                             try {
                                 JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
                                 int code = jsonObject.getInt("code");
-                                if (code == 0){
-                                    dismissDialog();
-                                    ToastXutil.show("上传成功");
+                                switch (code){
+                                    case 0:
+                                        LoadDialog.dismiss(getActivity());
+                                        ToastXutil.show("上传成功");
+                                        break;
+                                    default:
+                                        LoadDialog.dismiss(getActivity());
+                                        ToastXutil.show("上传失败");
+                                        break;
                                 }
                             } catch (UnsupportedEncodingException e) {
                                 e.printStackTrace();
@@ -416,55 +483,148 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         };
     };
 
+    /**
+     * 权限回调
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case Constant.PHOTO_REQUEST_TAKEPHOTO:
-                startPhotoZoom(Uri.fromFile(MyApplication.tempFile), 400);
-                break;
-            case Constant.PHOTO_REQUEST_GALLERY:
-                if (data != null) {
-                    startPhotoZoom(data.getData(), 400);
-                }
-                break;
-            case Constant.PHOTO_REQUEST_CUT:
-                if (data != null) {
-                    setPicToView(data);
-                }
-                break;
-            case 0:
-                try{
-                    if (data != null){
-                        userName = data.getStringExtra("userName");
-                        nickName.setText(userName);
-                        userAge = data.getStringExtra("userAge");
-                        Date date = SystemUtil.StringToUtilDate(userAge);
-                        userSex = data.getStringExtra("userSex");
-                        switch (userSex){
-                            case "男":
-                                sex.setBackgroundResource(R.mipmap.man);
-                                break;
-                            case "女":
-                                sex.setBackgroundResource(R.mipmap.woman);
-                                break;
-                            case "保密":
-                                sex.setVisibility(View.GONE);
-                                break;
-                        }
-
+            case Constant.CAMERA_PERMISSIONS_REQUEST_CODE: {//调用系统相机申请拍照权限回调
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (SystemUtil.hasSDCard()) {
+                        imageUri = Uri.fromFile(fileUri);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            imageUri = FileProvider.getUriForFile(getActivity(), "com.cn.uca.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
+                            takePicture();
+                    } else {
+                        ToastXutil.show("设备没有SD卡！");
                     }
-                }catch (Exception e){
-                    Log.i("456",e.getMessage());
+                } else {
+                    ToastXutil.show("请允许打开相机！！");
                 }
                 break;
-            case 5:
-                if (data != null){
-                    String state = data.getStringExtra("state");
-                    this.state.setText(state);
+
+            }
+            case Constant.STORAGE_PERMISSIONS_REQUEST_CODE://调用系统相册申请Sdcard权限回调
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openPic();
+                } else {
+                    ToastXutil.show("请允许打操作SDCard！！");
                 }
                 break;
         }
+    }
+
+    /**
+     * 调用系统相机
+     */
+    public  void takePicture() {
+        Intent intentCamera = new Intent();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intentCamera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //添加这一句表示对目标应用临时授权该Uri所代表的文件
+        }
+        intentCamera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+        //将拍照结果保存至photo_file的Uri中，不保留在相册中
+        intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intentCamera, Constant.PHOTO_REQUEST_TAKEPHOTO);
+    }
+
+    /**
+     * 打开相册的请求码
+     */
+    public void openPic() {
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, Constant.PHOTO_REQUEST_GALLERY);
+    }
+
+    /**
+     * 剪裁图片
+     */
+    public  void cropImageUri(Uri orgUri,int size) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+        intent.setDataAndType(orgUri, "image/*");
+        // crop为true是设置在开启的intent中设置显示的view可以剪裁
+        intent.putExtra("crop", "true");
+
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+
+        // outputX,outputY 是剪裁图片的宽高
+        intent.putExtra("outputX", size);
+        intent.putExtra("outputY", size);
+        intent.putExtra("return-data", true);
+        intent.putExtra("uri",orgUri);
+
+        startActivityForResult(intent, Constant.PHOTO_REQUEST_CUT);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            switch (requestCode) {
+                case Constant.PHOTO_REQUEST_TAKEPHOTO:
+                    cropImageUri(imageUri, 480);
+                    break;
+                case Constant.PHOTO_REQUEST_GALLERY:
+                    if (SystemUtil.hasSDCard()) {
+                        Uri newUri = Uri.parse(OpenPhoto.getPath(getActivity(), data.getData()));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            newUri = FileProvider.getUriForFile(getActivity(), "com.cn.uca.fileprovider", new File(newUri.getPath()));
+                            cropImageUri( newUri,480);
+                    } else {
+                        ToastXutil.show("设备没有SD卡！");
+                    }
+                    break;
+                case Constant.PHOTO_REQUEST_CUT:
+                    if (data != null) {
+                        setPicToView(data);
+                    }
+                    break;
+                case 0:
+                    try{
+                        if (data != null){
+                            userName = data.getStringExtra("userName");
+                            nickName.setText(userName);
+                            userAge = data.getStringExtra("userAge");
+                            Date date = SystemUtil.StringToUtilDate(userAge);
+                            userSex = data.getStringExtra("userSex");
+                            switch (userSex){
+                                case "男":
+                                    sex.setBackgroundResource(R.mipmap.man);
+                                    break;
+                                case "女":
+                                    sex.setBackgroundResource(R.mipmap.woman);
+                                    break;
+                                case "保密":
+                                    sex.setVisibility(View.GONE);
+                                    break;
+                            }
+
+                        }
+                    }catch (Exception e){
+                        Log.i("456",e.getMessage());
+                    }
+                    break;
+                case 5:
+                    if (data != null){
+                        String state = data.getStringExtra("state");
+                        this.state.setText(state);
+                    }
+                    break;
+            }
+        }else{
+            Log.i("123","456789");
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

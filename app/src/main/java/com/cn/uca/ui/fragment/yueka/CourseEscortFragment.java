@@ -39,9 +39,9 @@ public class CourseEscortFragment extends Fragment {
         list = new ArrayList<>();
         CourseEscortBean bean = new CourseEscortBean();
         List<String> list1 =  new ArrayList<>();
-        list1.add("http://www.szyouka.com/1.png");
-        list1.add("http://www.szyouka.com/2.png");
-        list1.add("http://www.szyouka.com/3.png");
+        list1.add("http://www.szyouka.com:8080/1.png");
+        list1.add("http://www.szyouka.com:8080/2.png");
+        list1.add("http://www.szyouka.com:8080/3.png");
         bean.setPicList(list1);
         bean.setType("北京-两天一夜");
         bean.setTime("2017-08-28");
@@ -64,6 +64,5 @@ public class CourseEscortFragment extends Fragment {
 
         courseEscortAdapter = new CourseEscortAdapter(list,getActivity());
         courseEscort.setAdapter(courseEscortAdapter);
-//        SetListView.setListViewHeightBasedOnChildren(courseEscort);
     }
 }

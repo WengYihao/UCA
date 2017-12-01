@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/llTitle"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/padding_40"
         android:background="@drawable/gradient">
         <TextView
             android:id="@+id/orderYue"
@@ -22,10 +22,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="约咖"
+            android:text="@string/yuekaFragment_title"
             android:layout_centerInParent="true"
             android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:textSize="@dimen/text_22" />
         <TextView
             android:id="@+id/messageYue"
             android:layout_width="20dp"
@@ -46,10 +46,9 @@
         <TextView
             android:id="@+id/place"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="深圳"
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="@dimen/text_16"/>
@@ -58,50 +57,32 @@
             android:layout_height="match_parent"
             android:scaleType="matrix"
             android:src="@color/white" />
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="4"
-            android:layout_height="wrap_content"
-            android:gravity="center">
-            <TextView
-                android:id="@+id/startTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:text="2017.8.4"
-                android:textSize="@dimen/text_16"
-                android:textColor="@color/white"/>
-            <TextView
-                android:id="@+id/vv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/startTime"
-                android:text="--"
-                android:textColor="@color/white"
-                android:layout_centerVertical="true"/>
-            <TextView
-                android:id="@+id/endTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:gravity="center"
-                android:text="2017.8.7"
-                android:layout_toRightOf="@id/vv"
-                android:textSize="@dimen/text_16"
-                android:textColor="@color/white"/>
-        </RelativeLayout>
-
         <TextView
             android:id="@+id/freeTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.5"
+            android:layout_weight="6"
             android:gravity="center"
-            android:padding="5dp"
-            android:text="空闲日期"
+            android:padding="@dimen/padding_5"
+            android:text="@string/yuekaFragmeny_text1"
             android:textColor="@color/white"
             android:textSize="@dimen/text_16" />
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:scaleType="matrix"
+            android:src="@color/white" />
+        <TextView
+            android:id="@+id/all"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="全部"
+            android:textColor="@color/white"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textSize="@dimen/text_16"
+            android:padding="@dimen/padding_5"
+            android:drawableRight="@mipmap/down"/>
     </LinearLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout

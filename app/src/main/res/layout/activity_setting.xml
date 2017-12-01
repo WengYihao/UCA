@@ -19,13 +19,36 @@
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="设置" />
+            android:text="@string/settingActivity_title_text" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_8"
+                android:text="@string/settingActivity_text1"
+                android:textSize="@dimen/text_18" />
+
+            <Switch
+                android:id="@+id/select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="@dimen/padding_10" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/layout1"
@@ -37,12 +60,11 @@
 
 
             <TextView
-                android:id="@+id/title_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="清除缓存"
-                android:textSize="18sp" />
+                android:layout_marginLeft="@dimen/padding_8"
+                android:text="@string/settingActivity_text2"
+                android:textSize="@dimen/text_16" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -50,11 +72,10 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
         </RelativeLayout>
 
         <ImageView
-            android:id="@+id/line2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:scaleType="matrix"
@@ -68,31 +89,28 @@
             android:padding="10dp">
 
 
-
             <TextView
                 android:id="@+id/title_text2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="关于我们"
-                android:textSize="18sp" />
+                android:layout_marginLeft="@dimen/padding_8"
+                android:text="@string/settingActivity_text3"
+                android:textSize="@dimen/text_16" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/right" />
+                android:layout_marginRight="@dimen/padding_8"
+                android:src="@mipmap/right_gray" />
         </RelativeLayout>
 
         <ImageView
-            android:id="@+id/line3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:scaleType="matrix"
             android:src="@color/grey2" />
-
         <RelativeLayout
             android:id="@+id/layout3"
             android:layout_width="match_parent"
@@ -102,12 +120,11 @@
 
 
             <TextView
-                android:id="@+id/title_text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="分享APP"
-                android:textSize="18sp" />
+                android:layout_marginLeft="@dimen/padding_8"
+                android:text="@string/settingActivity_text4"
+                android:textSize="@dimen/text_16" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -115,15 +132,13 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
         </RelativeLayout>
         <ImageView
-            android:id="@+id/line4"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:scaleType="matrix"
             android:src="@color/grey2" />
-
         <RelativeLayout
             android:id="@+id/layout4"
             android:layout_width="match_parent"
@@ -133,40 +148,63 @@
 
 
             <TextView
-                android:id="@+id/title_text4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="是否开启推送"
-                android:textSize="18sp" />
+                android:text="@string/settingActivity_text5"
+                android:textSize="@dimen/text_16" />
 
-            <Switch
-                android:id="@+id/select"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="10dp"
-                android:src="@mipmap/right" />
+                android:src="@mipmap/right_gray" />
         </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:scaleType="matrix"
+            android:src="@color/grey2" />
+        <RelativeLayout
+            android:id="@+id/layout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/settingActivity_text7"
+                android:textSize="@dimen/text_16" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/right_gray" />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="退出登录"
-            android:padding="10dp"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:background="@drawable/gradient"
-            android:textColor="@color/white"
-            android:layout_marginTop="80dp"
             android:layout_marginLeft="@dimen/padding_20"
-            android:layout_marginRight="@dimen/padding_20"/>
-        <ImageView
-            android:id="@+id/aaa"
-            android:layout_width="200dp"
-            android:layout_height="130dp"
-            android:scaleType="fitXY"/>
+            android:layout_marginRight="@dimen/padding_20"
+            android:layout_marginTop="80dp"
+            android:background="@drawable/twenty_circular_ori_background"
+            android:gravity="center"
+            android:padding="@dimen/padding_10"
+            android:text="@string/settingActivity_text6"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_18" />
     </LinearLayout>
 
 </com.cn.uca.view.StatusView>

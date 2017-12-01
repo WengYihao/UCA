@@ -3,20 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:padding="@dimen/padding_8">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/yueka_item_background"
         android:descendantFocusability="blocksDescendants"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/padding_8"
+        android:layout_marginRight="@dimen/padding_8"
+        android:layout_marginTop="@dimen/padding_8">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:orientation="horizontal">
 
             <com.cn.uca.view.CircleImageView
                 android:id="@+id/pic"
@@ -24,120 +27,129 @@
                 android:layout_height="50dp"
                 app:border_color="@color/white"
                 app:border_width="1dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_15">
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"/>
-
-                <TextView
-                    android:id="@+id/age"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/padding_8"
-                    android:layout_toRightOf="@id/name"/>
-
-                <TextView
-                    android:id="@+id/sex"
-                    android:layout_width="@dimen/padding_20"
-                    android:layout_height="@dimen/padding_20"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/padding_10"
-                    android:layout_toRightOf="@id/age" />
-
-                <TextView
-                    android:id="@+id/click"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/padding_12"
-                    android:background="@mipmap/nocollection" />
-            </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_5"
-                android:orientation="horizontal">
-
-                <com.cn.uca.view.RatingStarView
-                    android:id="@+id/start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="15dp"
-                    app:rating="1"
-                    app:starBackgroundColor="@color/gray"
-                    app:starForegroundColor="@color/yellow"
-                    app:starNum="5" />
-
-                <TextView
-                    android:id="@+id/startNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_5"
-                    android:textColor="@color/yellow" />
-
-                <TextView
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_5"/>
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/padding_10">
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_15">
 
                     <TextView
-                        android:id="@+id/count"
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"/>
+
+                    <TextView
+                        android:id="@+id/age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_8"
+                        android:layout_toRightOf="@id/name"/>
+
+                    <TextView
+                        android:id="@+id/sex"
+                        android:layout_width="@dimen/padding_20"
+                        android:layout_height="@dimen/padding_20"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_10"
+                        android:layout_toRightOf="@id/age" />
+
+                    <TextView
+                        android:id="@+id/click"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/padding_5"/>
+                        android:layout_marginRight="@dimen/padding_12"
+                        android:background="@mipmap/nocollection" />
                 </RelativeLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_5"
+                    android:orientation="horizontal">
 
+                    <com.cn.uca.view.RatingStarView
+                        android:id="@+id/start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="15dp"
+                        app:rating="1"
+                        app:starBackgroundColor="@color/gray"
+                        app:starForegroundColor="@color/yellow"
+                        app:starNum="5" />
+
+                    <TextView
+                        android:id="@+id/startNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_5"
+                        android:textColor="@color/yellow" />
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_5"/>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/padding_5"/>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <com.cn.uca.view.FluidLayout
+                        android:id="@+id/fluidLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></com.cn.uca.view.FluidLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:layout_marginBottom="@dimen/padding_20"
+            android:layout_marginRight="@dimen/padding_10"
+            android:orientation="vertical">
+            <com.cn.uca.view.FluidLayout
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_8"
+                android:layout_marginLeft="60dp">
+            </com.cn.uca.view.FluidLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.cn.uca.view.FluidLayout
-                    android:id="@+id/fluidLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></com.cn.uca.view.FluidLayout>
-
-                <com.cn.uca.view.FluidLayout
-                    android:id="@+id/img"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </com.cn.uca.view.FluidLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/padding_10">
 
                 <TextView
                     android:id="@+id/sum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginTop="@dimen/padding_5"
-                    android:drawableLeft="@mipmap/comment" />
+                    android:layout_gravity="center_vertical"
+                    android:drawableLeft="@mipmap/comment"
+                    android:textColor="@color/gray2"/>
 
                 <TextView
                     android:id="@+id/evaluate"
@@ -145,10 +157,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/padding_8"
                     android:layout_marginTop="@dimen/padding_8"
-                    android:background="@drawable/five_circular_gray_background"
                     android:padding="@dimen/padding_5"
-                    android:textColor="@color/black" />
+                    android:text="12345678910"
+                    android:layout_marginLeft="@dimen/padding_8"
+                    android:textColor="@color/gray2" />
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

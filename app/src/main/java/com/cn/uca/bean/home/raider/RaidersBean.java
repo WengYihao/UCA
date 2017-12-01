@@ -46,4 +46,36 @@ public class RaidersBean {
     public int getCity_id() {
         return city_id;
     }
+
+    public void setPacture_url(String pacture_url) {
+        this.pacture_url = pacture_url;
+    }
+
+    public void setCity_name(String city_name) {
+        this.city_name = city_name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setFile_resources_size(long file_resources_size) {
+        this.file_resources_size = file_resources_size;
+    }
+
+    public void setLock(boolean lock) {
+        this.lock = lock;
+    }
+
+    public void setCity_raiders_id(int city_raiders_id) {
+        this.city_raiders_id = city_raiders_id;
+    }
+
+    public void setCollection(boolean collection) {
+        this.collection = collection;
+    }
+
+    public void setCity_id(int city_id) {
+        this.city_id = city_id;
+    }
 }

@@ -15,7 +15,7 @@ import com.cn.uca.ui.fragment.user.UserFragment;
 import com.cn.uca.ui.fragment.yueka.YueKaFragment;
 import com.cn.uca.util.ActivityCollector;
 import com.cn.uca.util.AndroidWorkaround;
-import com.cn.uca.util.FitStateUI;
+import com.cn.uca.util.StatusBarUtil;
 
 import java.util.ArrayList;
 
@@ -42,8 +42,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FitStateUI.setImmersionStateMode(this);
-
+        StatusBarUtil.immersive(this);
         if (AndroidWorkaround.checkDeviceHasNavigationBar(this)) {
             AndroidWorkaround.assistActivity(findViewById(android.R.id.content));
         }

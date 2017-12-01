@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.amap.api.maps.MapView
@@ -18,9 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_50"
         android:background="@drawable/gradient"
-        android:layout_below="@+id/stateTitle"
-        android:layout_toRightOf="@+id/tv_noresult"
-        android:layout_toEndOf="@+id/tv_noresult">
+        android:layout_below="@+id/stateTitle">
 
         <TextView
             android:id="@+id/back"
@@ -28,7 +24,7 @@
 
         <TextView
             style="@style/style_title"
-            android:text="城市攻略"/>
+            android:text="@string/raiderDetailActivity_title_text"/>
 
     </RelativeLayout>
     <TextView
@@ -49,29 +45,13 @@
         android:layout_alignParentBottom="true">
 
         <TextView
-            android:id="@+id/spot"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="@dimen/padding_12"
-            android:text="景点列表" />
-        <ImageView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:scaleType="matrix"
-            android:layout_marginTop="@dimen/padding_5"
-            android:layout_marginBottom="@dimen/padding_5"
-            android:src="@color/gray" />
-
-        <TextView
             android:id="@+id/line"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:padding="@dimen/padding_12"
-            android:text="路线" />
+            android:text="@string/raiderDetailActivity_line_text" />
 
         <ImageView
             android:layout_width="1dp"
@@ -80,14 +60,31 @@
             android:layout_marginTop="@dimen/padding_5"
             android:layout_marginBottom="@dimen/padding_5"
             android:src="@color/gray" />
+
         <TextView
             android:id="@+id/raiders"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="攻略"
+            android:text="@string/raiderDetailActivity_radier_text"
             android:gravity="center"
             android:padding="@dimen/padding_12"/>
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:scaleType="matrix"
+            android:layout_marginTop="@dimen/padding_5"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:src="@color/gray" />
+        <TextView
+            android:id="@+id/spot"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/padding_12"
+            android:drawableLeft="@mipmap/list_back"
+            android:text="@string/raiderDetailActivity_spot_list" />
 
     </LinearLayout>
     <LinearLayout
@@ -106,11 +103,11 @@
                 android:id="@+id/lixian"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@color/aa"/>
+                android:background="@mipmap/off_line_back"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="离线"
+                android:text="@string/raiderDetailActivity_off_line"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/padding_5"/>
         </LinearLayout>
@@ -123,11 +120,11 @@
                 android:id="@+id/fankui"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@color/aa"/>
+                android:background="@mipmap/feedback"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="反馈"
+                android:text="@string/raiderDetailActivity_feedback_text"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/padding_5"/>
         </LinearLayout>

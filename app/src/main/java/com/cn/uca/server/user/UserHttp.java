@@ -1,5 +1,7 @@
 package com.cn.uca.server.user;
 
+import android.telecom.Call;
+
 import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
@@ -135,5 +137,187 @@ public class UserHttp extends BaseServer {
         Map<String ,String> map = new HashMap<>();
         map.put("account_token",SharePreferenceXutil.getAccountToken());
         post3(MyConfig.getWallet,map,callBack);
+    }
+
+    /**
+     * 获取芝麻认证url
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param callBack
+     */
+    public static void getIdCardUrl(String sign,String time_stamp,String account_token,CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        get(MyConfig.getIdCardUrl,map,callBack);
+    }
+
+    /**
+     * app反馈
+     * @param sign
+     * @param time_stamp
+     * @param reason
+     * @param callBack
+     */
+    public static void feedback(String account_token,String sign,String time_stamp,String reason,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("reason",reason);
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        post4(MyConfig.feedback,map,callBack);
+    }
+
+    /**
+     * 获取用户订单
+     * @param page
+     * @param pageCount
+     * @param commodity_id
+     * @param user_order_state_id
+     * @param callBack
+     */
+    public static void getUserOrder(int page,int pageCount,int commodity_id,int user_order_state_id,CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("page",page+"");
+        map.put("pageCount",pageCount+"");
+        if (commodity_id != 0){
+            map.put("commodity_id",commodity_id+"");
+        }
+        if (user_order_state_id != 0){
+            map.put("user_order_state_id",user_order_state_id+"");
+        }
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        get(MyConfig.getUserOrder,map,callBack);
+    }
+
+    /**
+     * 创建微信订单
+     * @param sign
+     * @param time_stamp
+     * @param amount_money
+     * @param account_token
+     * @param callBack
+     */
+    public static void createWeiXinOrder(String sign,String time_stamp,String amount_money,String account_token,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("amount_money",amount_money);
+        map.put("account_token",account_token);
+        post5(MyConfig.createWeiXinOrder,map,callBack);
+    }
+
+    /**
+     * 验证微信支付是否成功
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param order_no
+     * @param callBack
+     */
+    public static void queryWeiXinOrderState(String sign, String time_stamp, String account_token, String order_no, CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("order_no",order_no);
+        map.put("account_token",account_token);
+        get(MyConfig.queryWeiXinOrderState,map,callBack);
+    }
+
+    /**
+     * 获取用户明细
+     * @param account_token
+     * @param page
+     * @param pageCount
+     * @param date
+     * @param callBack
+     */
+    public static void getPurseRecords(String account_token,int page, int pageCount,String date,CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        map.put("account_token",account_token);
+        map.put("date",date);
+        get(MyConfig.getPurseRecords,map,callBack);
+    }
+
+    /**
+     * 获取我的接单
+     * @param account_token
+     * @param page
+     * @param pageCount
+     * @param sign
+     * @param time_stamp
+     * @param escort_record_state_id
+     * @param callBack
+     */
+    public static void getMyEscortOrder(String account_token,int page, int pageCount,String sign,String time_stamp,String escort_record_state_id,CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        map.put("account_token",account_token);
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("escort_record_state_id",escort_record_state_id);
+        get(MyConfig.getMyEscortOrder,map,callBack);
+    }
+
+    /**
+     * 游咖用户申请退单
+     * @param user_order_id
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param reason
+     * @param escort_back_type_id
+     * @param callBack
+     */
+    public static void travleEscortBack(int user_order_id,String account_token,String time_stamp,String sign,String reason,int escort_back_type_id,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("user_order_id",user_order_id+"");
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("reason",reason);
+        map.put("escort_back_type_id",escort_back_type_id+"");
+        post5(MyConfig.travleEscortBack,map,callBack);
+    }
+
+    /**
+     * 领咖端审批游咖退单
+     * @param travel_escort_back_id
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param result
+     * @param callBack
+     */
+    public static void approvalTravelEscortBack(int travel_escort_back_id,String account_token,String time_stamp,String sign,String result,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("travel_escort_back_id",travel_escort_back_id+"");
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("result",result);
+        post5(MyConfig.approvalTravelEscortBack,map,callBack);
+    }
+
+    /**
+     * 获取分享的内容
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param shareType
+     * @param callBack
+     */
+    public static void getShare(String account_token,String time_stamp,String sign,String shareType,CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("shareType",shareType);
+        get(MyConfig.getShare,map,callBack);
     }
 }
