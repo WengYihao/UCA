@@ -24,7 +24,7 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
 
     private RelativeLayout layout1,layout2,layout3,layout4,layout5;
     private Switch select;
-    private TextView exit;
+    private TextView back,exit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,7 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
     }
 
     private void initView() {
+        back = (TextView)findViewById(R.id.back);
         layout1 = (RelativeLayout)findViewById(R.id.layout1);
         layout2 = (RelativeLayout)findViewById(R.id.layout2);
         layout3 = (RelativeLayout)findViewById(R.id.layout3);
@@ -45,6 +46,7 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
         select = (Switch)findViewById(R.id.select);
         exit = (TextView)findViewById(R.id.exit);
 
+        back.setOnClickListener(this);
         layout1.setOnClickListener(this);
         layout2.setOnClickListener(this);
         layout3.setOnClickListener(this);
@@ -122,6 +124,9 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.back:
+                this.finish();
+                break;
             case R.id.layout1:
 
                 break;

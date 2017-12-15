@@ -263,16 +263,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.view.util.BaseHideActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".swipeback.SwipeBackActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.view.util.BaseBackActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.view.yueka.PresetManagerActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.view.yueka.LineChoiceActivity"
             android:screenOrientation="portrait" />
@@ -343,6 +343,9 @@
         <activity
             android:name=".ui.view.home.travel.CustomizTravelActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.travel.ParentingActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.view.home.raider.SpotDetailActivity" />
         <activity android:name=".ui.view.home.raider.CityRaiderDetailActivity" />
         <activity android:name=".ui.view.home.sign.SignActivity" />
@@ -354,7 +357,8 @@
         <activity android:name=".ui.view.home.raider.RaiderCollectionActivity" />
         <activity android:name=".ui.view.user.BackOrderApplyActivity" />
         <activity android:name=".ui.view.user.MessageActivity" />
-        <activity android:name=".ui.view.rongim.ConversationActivity"
+        <activity
+            android:name=".ui.view.rongim.ConversationActivity"
             android:fitsSystemWindows="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden">
@@ -369,14 +373,15 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.view.rongim.ChatListActivity"
+        <activity
+            android:name=".ui.view.rongim.ChatListActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="stateHidden|adjustPan">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
@@ -390,16 +395,18 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="com.cn.uca"
                     android:path="/subconversationlist"
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+
         <receiver
             android:name=".rongimpush.NotificationReceiver"
             android:exported="true">
@@ -410,37 +417,50 @@
                 <action android:name="io.rong.push.intent.MI_MESSAGE_CLICKED" />
             </intent-filter>
         </receiver>
-        <!--第三方的推送 权限 广播 和服务-->
+        <!-- 第三方的推送 权限 广播 和服务 -->
         <!-- 小米 配置开始 < -->
         <permission
             android:name="com.cn.uca.permission.MIPUSH_RECEIVE"
             android:protectionLevel="signature" />
+
         <uses-permission android:name="com.cn.uca.permission.MIPUSH_RECEIVE" /> <!-- 小米 配置结束 < -->
         <!-- 小米 配置开始 < -->
-        <service android:name="com.xiaomi.push.service.XMPushService" android:enabled="true" />
-        <service android:name="com.xiaomi.mipush.sdk.PushMessageHandler" android:enabled="true" android:exported="true" />
-        <service android:name="com.xiaomi.mipush.sdk.MessageHandleService" android:enabled="true" />
-        <!--注：此service必须在2.2.5版本以后（包括2.2.5版本）加入-->
-
+        <service
+            android:name="com.xiaomi.push.service.XMPushService"
+            android:enabled="true" />
+        <service
+            android:name="com.xiaomi.mipush.sdk.PushMessageHandler"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name="com.xiaomi.mipush.sdk.MessageHandleService"
+            android:enabled="true" />
+        <!-- 注：此service必须在2.2.5版本以后（包括2.2.5版本）加入 -->
         <service
             android:name="com.xiaomi.push.service.XMJobService"
             android:enabled="true"
             android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <!--注：此service必须在3.0.1版本以后（包括3.0.1版本）加入-->
-
-        <receiver android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver" android:exported="true">
+        <!-- 注：此service必须在3.0.1版本以后（包括3.0.1版本）加入 -->
+        <receiver
+            android:name="com.xiaomi.push.service.receivers.NetworkStatusReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.xiaomi.push.service.receivers.PingReceiver" android:exported="false">
+        <receiver
+            android:name="com.xiaomi.push.service.receivers.PingReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.xiaomi.push.PING_TIMER" />
             </intent-filter>
         </receiver>
-        <receiver android:name="io.rong.push.platform.MiMessageReceiver" android:exported="true">
+        <receiver
+            android:name="io.rong.push.platform.MiMessageReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.xiaomi.mipush.RECEIVE_MESSAGE" />
             </intent-filter>
@@ -452,6 +472,33 @@
             </intent-filter>
         </receiver>
         <!-- 小米 配置结束 < -->
+
+        <activity android:name=".ui.view.home.samecityka.SameCityKaActivity" />
+        <activity android:name=".ui.view.yueka.ToBeCollarActivity" />
+        <activity
+            android:name=".ui.view.home.samecityka.SendActionActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".ui.view.home.samecityka.ActionSearchActivity" />
+        <activity android:name=".ui.view.home.samecityka.ActionDetailActivity" />
+        <activity android:name=".ui.view.home.samecityka.InitiatorInfoActivity" />
+        <activity android:name=".ui.view.home.samecityka.CardManageActivity" />
+        <activity android:name=".ui.view.home.samecityka.CardEditActivity" />
+        <activity android:name=".ui.view.home.samecityka.MyTicketActivity" />
+        <activity android:name=".ui.view.home.samecityka.MyFollowActivity" />
+        <activity android:name=".ui.view.home.samecityka.ReplyNewActivity" />
+        <activity android:name=".ui.view.home.samecityka.MyActionActivity" />
+        <activity android:name=".ui.view.home.samecityka.MyNewActivity" />
+        <activity android:name=".ui.view.home.samecityka.ExamineActivity" />
+        <activity android:name=".ui.view.home.samecityka.SettlementActivity" />
+        <activity android:name=".ui.view.home.samecityka.ActionPlaceActivity" />
+        <activity android:name=".ui.view.home.samecityka.MapChoiceActivity" />
+        <activity android:name=".ui.view.home.samecityka.SearchResultActivity" />
+        <activity android:name=".ui.view.home.samecityka.CardChoiceActivity" />
+        <activity
+            android:name=".ui.view.home.samecityka.EnListActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".ui.view.home.samecityka.SendDetailActivity" />
+        <activity android:name=".ui.view.home.samecityka.FillInfoActivity"></activity>
     </application>
 
 </manifest>

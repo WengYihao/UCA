@@ -35,11 +35,13 @@ public class SignUtil {
             for (String key : mapKeyArrays) {
                 stringBuilder.append(key).append("=").append(map.get(key)).append("&");
             }
+            Log.i("123",stringBuilder.toString());
             String sign = MD5.getMD5(Constant.PUBLIC_KEY).toUpperCase();
             stringBuilder.append("publicKey").append("=").append(sign);
             sign = MD5.getMD5(stringBuilder.toString()).toUpperCase();
             return sign;
         } catch (Exception e) {
+            Log.i("456",e.getMessage());
             e.printStackTrace();
             return null;
         }

@@ -7,7 +7,7 @@
         android:bottomRightRadius="10dp"
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp" /> <!-- 设置四个角的半径 -->
-<solid
+    <solid
         android:color="@color/white" />
 
 </shape>

@@ -22,6 +22,7 @@ import com.cn.uca.ui.fragment.rongim.ConversationFragmentEx;
 import com.cn.uca.ui.view.LoginActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.ActivityCollector;
+import com.cn.uca.util.AndroidBug5497Workaround;
 import com.cn.uca.util.AndroidWorkaround;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StatusBarUtil;
@@ -53,7 +54,7 @@ public class ConversationActivity extends BaseBackActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-
+        AndroidBug5497Workaround.assistActivity(this);
         mName = (TextView) findViewById(R.id.name);
         back = (TextView)findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
@@ -63,19 +64,19 @@ public class ConversationActivity extends BaseBackActivity {
             }
         });
 
-        RongIM.getInstance().setMessageAttachedUserInfo(true);
+//        RongIM.getInstance().setMessageAttachedUserInfo(true);
         mTargetId = getIntent().getData().getQueryParameter("targetId");   // targetId:单聊即对方ID，群聊即群组ID
         title = getIntent().getData().getQueryParameter("title");    // 获取昵称
         mConversationType = Conversation.ConversationType.valueOf(getIntent().getData()
                 .getLastPathSegment().toUpperCase(Locale.US));
-        mName.setText(title);
-//        UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(mTargetId);
-//        if (userInfo != null) {
-//            Log.i("123","123");
-//            mName.setText(userInfo.getName());
-//        }else{
-//            Log.i("123","456");
-//        }
+//        mName.setText(title);
+        UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(mTargetId);
+        if (userInfo != null) {
+            Log.i("123","123");
+            mName.setText(userInfo.getName());
+        }else{
+            Log.i("123","456");
+        }
 //        if (!TextUtils.isEmpty(mTargetId)) {
 //            UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(mTargetId);
 //            if (userInfo != null) {

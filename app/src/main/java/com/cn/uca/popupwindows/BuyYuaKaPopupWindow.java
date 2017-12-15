@@ -200,6 +200,7 @@ public class BuyYuaKaPopupWindow{
             }
         });
         popupWindow = new PopupWindow(inflate,MyApplication.width,MyApplication.height*2/3);
+        popupWindow.setAnimationStyle(R.style.popwin_anim_style);
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);

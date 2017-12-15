@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,10 +17,18 @@ import com.cn.uca.ui.fragment.yueka.YueKaFragment;
 import com.cn.uca.util.ActivityCollector;
 import com.cn.uca.util.AndroidWorkaround;
 import com.cn.uca.util.StatusBarUtil;
+import com.cn.uca.view.DragPointView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener{
+import io.rong.imkit.RongIM;
+import io.rong.imkit.manager.IUnReadMessageObserver;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
+import me.leolin.shortcutbadger.ShortcutBadger;
+
+public class MainActivity extends FragmentActivity implements View.OnClickListener,IUnReadMessageObserver,DragPointView.OnDragListencer{
 
     private HomeFragment homeFragment;
     private YueKaFragment yueKaFragment;
@@ -38,6 +47,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private TextView homeText;
     private TextView yuekaText;
     private TextView userText;
+    private DragPointView mUnreadNumView;
+    final Conversation.ConversationType[] conversationTypes = {
+            Conversation.ConversationType.PRIVATE,
+            Conversation.ConversationType.SYSTEM,
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +65,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         initView();
         initFragment();
 
+        RongIM.getInstance().addUnReadMessageCountChangedObserver(this, conversationTypes);//未读消息
 
     }
 
@@ -69,6 +84,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         homeText = (TextView) findViewById(R.id.home_text);
         yuekaText = (TextView)findViewById(R.id.yueka_text);
         userText = (TextView) findViewById(R.id.user_text);
+
+        mUnreadNumView = (DragPointView)findViewById(R.id.seal_num) ;
+        mUnreadNumView.setOnClickListener(this);
+        mUnreadNumView.setDragListencer(this);
 
         mPager = (ViewPager) findViewById(R.id.content);
         mPager .setOffscreenPageLimit(3);//viewpager缓存的界面数
@@ -114,6 +133,43 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
     }
+
+    @Override
+    public void onCountChanged(int i) {
+        if (i == 0) {
+            ShortcutBadger.removeCount(this); //1.1.4版本删除数字“徽章”的方法
+            mUnreadNumView.setVisibility(View.GONE);
+        } else if (i > 0 && i < 100) {
+            mUnreadNumView.setVisibility(View.VISIBLE);
+            mUnreadNumView.setText(String.valueOf(i));
+            ShortcutBadger.applyCount(this, i); //1.1.4版本添加数字“徽章”的方法
+        } else {
+            mUnreadNumView.setVisibility(View.VISIBLE);
+            mUnreadNumView.setText(R.string.no_read_message);
+        }
+    }
+
+    @Override
+    public void onDragOut() {
+        mUnreadNumView.setVisibility(View.GONE);
+        RongIM.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
+            @Override
+            public void onSuccess(List<Conversation> conversations) {
+                if (conversations != null && conversations.size() > 0) {
+                    for (Conversation c : conversations) {
+                        RongIM.getInstance().clearMessagesUnreadStatus(c.getConversationType(), c.getTargetId(), null);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode e) {
+
+            }
+        }, conversationTypes);
+
+    }
+
     public class MyOnClickListener implements View.OnClickListener{
         private int index = 0;
         public MyOnClickListener(int i) {

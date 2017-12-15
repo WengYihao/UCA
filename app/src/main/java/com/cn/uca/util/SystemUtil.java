@@ -247,6 +247,23 @@ public class SystemUtil
 		String str = formatter.format(curDate); 
 		return str;
 	}
+
+	/**
+	 * 计算时间差
+	 * @param d1
+	 * @param d2
+	 * @return
+	 */
+	public static String countDate(Date d1,Date d2){
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		long l=d2.getTime()-d1.getTime();
+		long day=l/(24*60*60*1000);
+		long hour=(l/(60*60*1000)-day*24);
+		long min=((l/(60*1000))-day*24*60-hour*60);
+		long s=(l/1000-day*24*60*60-hour*60*60-min*60);
+//		System.out.println(""+day+"天"+hour+"小时"+min+"分"+s+"秒");
+		return "";
+	}
 	/**
 	 * 获取未来 第 past 天的日期
 	 * @param past
@@ -334,6 +351,11 @@ public class SystemUtil
 	}
 	public static String UtilDateToString2(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+		String dateString = sdf.format(date);
+		return dateString;
+	}
+	public static String UtilDateToString3(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		String dateString = sdf.format(date);
 		return dateString;
 	}

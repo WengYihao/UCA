@@ -47,8 +47,23 @@ public class SharePreferenceXutil {
 	 * 		true:登录成功
 	 */
 	public static boolean isSuccess() {
-		boolean isAutoLogin = getSp().getBoolean("isSuccess", false);
-		return isAutoLogin;
+		return getSp().getBoolean("isSuccess", false);
+	}
+	/**
+	 * 设置是否成为领咖
+	 * @param isCollar ：true:是
+	 */
+	public static void setCollar(boolean isCollar) {
+		getSp().edit().putBoolean("isCollar", isCollar).commit();
+	}
+
+	/**
+	 * 获取是否成为领咖
+	 * @return
+	 * 		true:是
+	 */
+	public static boolean isCollar() {
+		return getSp().getBoolean("isCollar", false);
 	}
 	/**
 	 * 保存极光推送id

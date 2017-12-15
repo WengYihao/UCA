@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_10">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/five_circular_white_background"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/ten_circular_red_background">
+
+            <RelativeLayout
+                android:id="@+id/layout1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/ticket_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/padding_12"
+                    android:text="门票"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/edit"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/padding_5"
+                    android:layout_toRightOf="@id/ticket_name"
+                    android:background="@mipmap/edit_ticket_name" />
+
+                <TextView
+                    android:id="@+id/delete"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/padding_15"
+                    android:background="@mipmap/close_back" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="180dp"
+                    android:layout_height="28dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/padding_12"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/padding_15"
+                    android:background="@mipmap/close_back" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_20"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/text_layout_bg"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="70dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/twenty_circular_ori_left_background">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/padding_15"
+                            android:gravity="center_vertical"
+                            android:text="票价"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_5"
+                        android:text="￥" />
+
+                    <EditText
+                        android:id="@+id/price"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginRight="@dimen/padding_20"
+                        android:background="@color/white" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/checkPrice"
+                    android:layout_width="@dimen/padding_50"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/padding_15"
+                    android:background="@drawable/text_lable_gray_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_8"
+                    android:text="免费"
+                    android:textColor="@color/grey2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_20"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/text_layout_bg"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="70dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/twenty_circular_ori_left_background">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/padding_15"
+                            android:gravity="center_vertical"
+                            android:text="票量"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/sum"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginRight="@dimen/padding_20"
+                        android:background="@color/white" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/checkSum"
+                    android:layout_width="@dimen/padding_50"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/padding_15"
+                    android:background="@drawable/text_lable_gray_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_8"
+                    android:text="不限"
+                    android:textColor="@color/grey2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_20"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/text_layout_bg"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="70dp"
+                        android:layout_height="35dp"
+                        android:background="@drawable/twenty_circular_ori_left_background">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/padding_15"
+                            android:gravity="center_vertical"
+                            android:text="限购"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/maxNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginRight="@dimen/padding_20"
+                        android:background="@color/white" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/checkMax"
+                    android:layout_width="@dimen/padding_50"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/padding_15"
+                    android:background="@drawable/text_lable_gray_bg"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:padding="@dimen/padding_8"
+                    android:text="不限"
+                    android:textColor="@color/grey2" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:text="是否开启审核" />
+
+            <Switch
+                android:id="@+id/examine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/padding_20" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/padding_8"
+            android:scaleType="matrix"
+            android:src="@color/gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_8">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="服务费须知"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/icon"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@mipmap/service_notice_gray"
+                    android:layout_marginLeft="@dimen/padding_5"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

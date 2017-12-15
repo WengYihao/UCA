@@ -3,7 +3,7 @@ package com.cn.uca.config;
 public class MyConfig {
 	// 总接口
 	public static final String url = "http://www.szyouka.com:8080/youkatravel/api/";
-//	public static final String url = "http://192.168.1.102/youkatravel/api/";
+//	public static final String url = "http://192.168.1.104/youkatravel/api/";
 	public static final String sendCode = url+"user/query/sendSMS.do";//发送短信验证码
 	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";     //获取微信token
 	public static final String weChatLogin = url+"/user/query/userLogin_weixin.do";//微信登录
@@ -86,4 +86,11 @@ public class MyConfig {
 	public static final String approvalTravelEscortBack = url +"escort/update/approvalTravelEscortBack.do";//领咖端审批游咖退单
 	public static final String getShare = url + "user/query/getShare.do";//分享
 	public static final String getRongInfo = url + "user/query/getUserInfos.do";//获取融云用户信息
+	public static final String getCafeLabel = url + "citycafe/query/getCafeLabel.do";//获取同城咖发布时的标签
+	public static final String addUserCard = url + "citycafe/update/addUserCard.do";//添加用户名片
+	public static final String getUserCard = url + "citycafe/query/getUserCard.do";//获取用户名片
+    public static final String getCityCafe = url + "citycafe/query/getCityCafe.do";//获取同城咖
+	public static final String getCityCafeInfo = url + "citycafe/query/getCityCafeInfo.do";//获取同城咖详情
+	public static final String getTickets = url + "citycafe/query/getTickets.do";//获取同城咖购票
+	public static final String orderTicket = url + "citycafe/update/orderTicket.do";//购买同城咖
 }

@@ -53,6 +53,7 @@ import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
+import com.cn.uca.view.DragPointView;
 import com.cn.uca.view.dialog.LoadDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -71,6 +72,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.rong.imkit.RongIM;
+import io.rong.imkit.manager.IUnReadMessageObserver;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Conversation;
 
 /**
  * Created by asus on 2017/8/2.
@@ -91,6 +97,11 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private String userName,userAge,userSex;
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
     private Uri imageUri;
+    private DragPointView message_num;
+    final Conversation.ConversationType[] conversationTypes = {
+            Conversation.ConversationType.PRIVATE,
+            Conversation.ConversationType.SYSTEM,
+    };
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_user, null);
@@ -141,6 +152,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         layout3 = (RelativeLayout)view.findViewById(R.id.layout3);
         layout4 = (RelativeLayout)view.findViewById(R.id.layout4);
         layout5 = (RelativeLayout)view.findViewById(R.id.layout5);
+        message_num = (DragPointView)view.findViewById(R.id.message_num);
 
         layout1.setOnClickListener(this);
         layout2.setOnClickListener(this);
@@ -156,6 +168,44 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             userInfo.setVisibility(View.VISIBLE);
         }
 
+        RongIM.getInstance().addUnReadMessageCountChangedObserver(new IUnReadMessageObserver() {
+            @Override
+            public void onCountChanged(int i) {
+                Log.i("123",+i+"条会话消息");
+                if (i == 0) {
+                    message_num.setVisibility(View.GONE);
+
+                } else if (i > 0 && i < 100) {
+                    message_num.setVisibility(View.VISIBLE);
+                    message_num.setText(String.valueOf(i));
+                } else {
+                    message_num.setVisibility(View.VISIBLE);
+                    message_num.setText(R.string.no_read_message);
+                }
+            }
+        }, conversationTypes);//未读会话消息
+
+        message_num.setDragListencer(new DragPointView.OnDragListencer() {
+            @Override
+            public void onDragOut() {
+                message_num.setVisibility(View.GONE);
+                RongIM.getInstance().getConversationList(new RongIMClient.ResultCallback<List<Conversation>>() {
+                    @Override
+                    public void onSuccess(List<Conversation> conversations) {
+                        if (conversations != null && conversations.size() > 0) {
+                            for (Conversation c : conversations) {
+                                RongIM.getInstance().clearMessagesUnreadStatus(c.getConversationType(), c.getTargetId(), null);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode e) {
+
+                    }
+                }, conversationTypes);
+            }
+        });
     }
     @Override
     public void onClick(View v) {
@@ -280,7 +330,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
             @Override
             public void onError(VolleyError error) {
-                Log.i("456",error.getMessage());
+//                Log.i("456",error.getMessage());
 
             }
         });

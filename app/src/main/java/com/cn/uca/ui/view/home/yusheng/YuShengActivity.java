@@ -101,7 +101,9 @@ public class YuShengActivity extends BaseBackActivity implements View.OnClickLis
         inflate = LayoutInflater.from(this).inflate(R.layout.choose_sex_dialog, null);
         //初始化控件
         man = (TextView) inflate.findViewById(R.id.man);
+        man.setText("男");
         woman = (TextView) inflate.findViewById(R.id.woman);
+        woman.setText("女");
         btn_cancel = (TextView)inflate.findViewById(R.id.btn_cancel);
         man.setOnClickListener(this);
         woman.setOnClickListener(this);

@@ -1,5 +1,8 @@
 package com.cn.uca.server.home;
 
+import android.telecom.Call;
+
+import com.cn.uca.bean.home.samecityka.AddCardBean;
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
 import com.cn.uca.impl.CallBack;
@@ -533,6 +536,144 @@ public class HomeHttp extends BaseServer {
         map.put("account_token",account_token);
         map.put("type",type);
         get(MyConfig.getMyRaiders,map,callBack);
+    }
+
+    /**
+     * 获取同城咖发布时的标签
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param callBack
+     */
+    public  static void getCafeLabel(String account_token, String time_stamp, String sign, CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token", account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        get(MyConfig.getCafeLabel,map,callBack);
+    }
+
+    /**
+     * 添加用户名片
+     * @param bean
+     * @param handler
+     */
+    public static void addUserCard(AddCardBean bean,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("account_token",bean.getAccount_token());
+        params.put("time_stamp", bean.getTime_stamp());
+        params.put("sign",bean.getSign());
+        params.put("corporate_name", bean.getCorporate_name());
+        params.put("hand_phone",bean.getHand_phone());
+        params.put("introduce", bean.getIntroduce());
+        params.put("learning_name", bean.getLearning_name());
+        params.put("user_card_name",bean.getUser_card_name());
+        params.put("user_card_type_id", bean.getUser_card_type_id());
+        params.put("weixin",bean.getWeixin());
+        try{
+            params.put("file", bean.getFile());
+        }catch (Exception e){
+
+        }
+        client.post(MyConfig.addUserCard,params,handler);
+    }
+
+    /**
+     * 获取用户名片
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param callBack
+     */
+    public static void getUserCard(String account_token,String time_stamp,String sign,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token", account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        get(MyConfig.getUserCard,map,callBack);
+    }
+
+    /**
+     * 获取同城咖2
+     * @param time_stamp
+     * @param user_card_type_id
+     * @param sign
+     * @param page
+     * @param pageCount
+     * @param city_id
+     * @param beg_time
+     * @param end_time
+     * @param charge
+     * @param label_id
+     * @param callBack
+     */
+    public static void getCityCafe(String time_stamp,int user_card_type_id,String sign,int page,int pageCount,int city_id,String beg_time,String end_time,String charge,String label_id,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("time_stamp",time_stamp);
+        map.put("user_card_type_id",user_card_type_id);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        map.put("city_id",city_id);
+        map.put("beg_time",beg_time);
+        map.put("end_time",end_time);
+        map.put("charge",charge);
+        map.put("sign",sign);
+        map.put("label_id",label_id);
+        get(MyConfig.getCityCafe,map,callBack);
+    }
+
+    /**
+     * 获取同城咖详情
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param city_cafe_id
+     * @param callBack
+     */
+    public static void getCityCafeInfo(String account_token,String time_stamp,String sign,int city_cafe_id,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("city_cafe_id",city_cafe_id);
+        get(MyConfig.getCityCafeInfo,map,callBack);
+    }
+
+    /**
+     * .获取同城咖购票
+     * @param time_stamp
+     * @param sign
+     * @param city_cafe_id
+     * @param callBack
+     */
+    public static void getTickets(String time_stamp,String sign,int city_cafe_id, CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("city_cafe_id",city_cafe_id);
+        get(MyConfig.getTickets,map,callBack);
+    }
+
+    /**
+     * 购买同城咖
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param city_cafe_id
+     * @param tickets
+     * @param fill_infos
+     * @param callBack
+     */
+    public static void orderTicket(String time_stamp,String sign,String account_token,int city_cafe_id,String tickets,String fill_infos,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("account_token", account_token);
+        map.put("city_cafe_id",city_cafe_id +"");
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("tickets",tickets);
+        map.put("fill_infos",fill_infos);
+        post4(MyConfig.orderTicket,map,callBack);
     }
 }
 

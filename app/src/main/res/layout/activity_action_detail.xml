@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cn.uca.ui.view.home.samecityka.ActionDetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/gradient">
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back" />
+
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="活动" />
+
+        <TextView
+            android:id="@+id/share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_10"
+            android:background="@mipmap/share_footprint_back" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/gray">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+                <ImageView
+                    android:id="@+id/pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:background="@mipmap/edc"/>
+                <LinearLayout
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:background="@color/aa"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"></LinearLayout>
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/action_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_8"
+                    android:layout_marginTop="@dimen/padding_8"
+                    android:padding="@dimen/padding_10"
+                    android:text="活动名称名称啊啊啊"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_16" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_8">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ten_circular_white_background"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/user_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_12">
+
+                        <TextView
+                            android:id="@+id/a"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:background="@mipmap/action_user_pic" />
+
+                        <TextView
+                            android:id="@+id/username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginLeft="@dimen/padding_15"
+                            android:layout_toRightOf="@id/a"
+                            android:text="张苗沐"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_16" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@mipmap/right_gray" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_12">
+
+                        <TextView
+                            android:id="@+id/b"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:background="@mipmap/action_price" />
+
+                        <TextView
+                            android:id="@+id/price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/padding_15"
+                            android:layout_toRightOf="@id/b"
+                            android:text="免费"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_16" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_12">
+
+                        <TextView
+                            android:id="@+id/c"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:background="@mipmap/action_time" />
+
+                        <TextView
+                            android:id="@+id/time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/padding_15"
+                            android:layout_toRightOf="@id/c"
+                            android:text="2017-12-23 15：23 至 2017-12-24 23:59"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_16" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@mipmap/right_gray" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/padding_12">
+
+                        <TextView
+                            android:id="@+id/d"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:background="@mipmap/action_place" />
+
+                        <TextView
+                            android:id="@+id/place"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/padding_15"
+                            android:layout_toRightOf="@id/d"
+                            android:text="罗湖区中外联谊大厦"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_16" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/ten_circular_white_background"
+                    android:layout_marginTop="@dimen/padding_15">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="活动详情"
+                        android:padding="@dimen/padding_15"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:layout_marginTop="50dp">
+                <LinearLayout
+                    android:id="@+id/collection"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/nocollection"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收藏"
+                        android:layout_marginTop="@dimen/padding_2"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/leaving_news"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.99"
+                    android:gravity="center"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/leaving_news"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="留言"
+                        android:layout_marginTop="@dimen/padding_2"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/join_action"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@color/ori"
+                    android:gravity="center"
+                    android:text="参加活动"
+                    android:textSize="@dimen/text_16"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

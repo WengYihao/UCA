@@ -67,6 +67,7 @@ public class LinePopupWindow {
 
         popupWindow = new PopupWindow(show, MyApplication.width/3,
                 LinearLayoutCompat.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setAnimationStyle(R.style.popwin_anim_style);
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));

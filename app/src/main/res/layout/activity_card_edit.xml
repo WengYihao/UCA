@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.cn.uca.ui.view.home.samecityka.CardEditActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/gradient">
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="名片编辑" />
+
+        <TextView
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_15"
+            android:text="删除"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="称呼"
+            android:padding="@dimen/padding_20"
+            android:textColor="@color/grey"/>
+
+        <EditText
+            android:id="@+id/nameet"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="黑框小娃"
+            android:layout_marginRight="@dimen/padding_15"
+            android:textColor="@color/grey"/>
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:scaleType="matrix"
+        android:layout_marginLeft="@dimen/padding_20"
+        android:layout_marginRight="@dimen/padding_15"
+        android:src="@color/gray" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_20"
+                android:text="类型"
+                android:textColor="@color/grey"/>
+
+            <RelativeLayout
+                android:id="@+id/layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/padding_15">
+
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:background="@mipmap/college_type"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/padding_5"/>
+
+                <TextView
+                    android:id="@+id/type_name"
+                    android:layout_toRightOf="@id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="学校"
+                    android:textColor="@color/ori"/>
+            </RelativeLayout>
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:scaleType="matrix"
+            android:src="@color/gray" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="形象"
+                    android:padding="@dimen/padding_20"/>
+                <com.cn.uca.view.CircleImageView
+                    android:id="@+id/pic"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    app:border_color="@color/white"
+                    android:layout_alignParentRight="true"
+                    android:background="@mipmap/user_pic"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="@dimen/padding_15"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:scaleType="matrix"
+        android:layout_marginLeft="@dimen/padding_20"
+        android:layout_marginRight="@dimen/padding_15"
+        android:src="@color/gray" />
+    <LinearLayout
+        android:id="@+id/typeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/name_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学校名称"
+            android:padding="@dimen/padding_20"
+            android:textColor="@color/grey"/>
+        <EditText
+            android:id="@+id/typenameet"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/typename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/padding_15"
+            android:text="18573324075"
+            android:textColor="@color/grey" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:scaleType="matrix"
+        android:layout_marginLeft="@dimen/padding_20"
+        android:layout_marginRight="@dimen/padding_15"
+        android:src="@color/gray" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="手机号"
+            android:padding="@dimen/padding_20"
+            android:textColor="@color/grey"/>
+        <EditText
+            android:id="@+id/phoneet"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/padding_15"
+            android:text="18573324075"
+            android:textColor="@color/grey" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:scaleType="matrix"
+        android:layout_marginLeft="@dimen/padding_20"
+        android:layout_marginRight="@dimen/padding_15"
+        android:src="@color/gray" />
+    <EditText
+        android:id="@+id/introduction"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="@dimen/padding_15"
+        android:gravity="top"
+        android:padding="@dimen/padding_5"
+        android:background="@color/white"
+        android:textSize="12sp"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:scaleType="matrix"
+        android:src="@color/gray" />
+    <TextView
+        android:id="@+id/finish"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/twenty_circular_ori_background"
+        android:layout_marginLeft="@dimen/padding_50"
+        android:layout_marginRight="@dimen/padding_50"
+        android:text="完成"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="@dimen/text_16"
+        android:layout_marginTop="@dimen/padding_30"/>
+</LinearLayout>

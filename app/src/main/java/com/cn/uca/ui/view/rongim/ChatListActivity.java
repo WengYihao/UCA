@@ -30,7 +30,7 @@ import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.message.ContactNotificationMessage;
 
-public class ChatListActivity extends BaseBackActivity implements ViewPager.OnPageChangeListener,IUnReadMessageObserver {
+public class ChatListActivity extends BaseBackActivity implements ViewPager.OnPageChangeListener{
 
     private TextView back;
     public static ViewPager mViewPager;
@@ -105,15 +105,8 @@ public class ChatListActivity extends BaseBackActivity implements ViewPager.OnPa
 
     protected void initData() {
 
-        final Conversation.ConversationType[] conversationTypes = {
-                Conversation.ConversationType.PRIVATE,
-                Conversation.ConversationType.GROUP,
-                Conversation.ConversationType.SYSTEM,
-                Conversation.ConversationType.PUBLIC_SERVICE,
-                Conversation.ConversationType.APP_PUBLIC_SERVICE
-        };
 
-        RongIM.getInstance().addUnReadMessageCountChangedObserver(this, conversationTypes);//未读消息
+
         getConversationPush();// 获取 push 的 id 和 target
         getPushMessage();
     }
@@ -158,16 +151,6 @@ public class ChatListActivity extends BaseBackActivity implements ViewPager.OnPa
     public void onPageScrollStateChanged(int state) {
 
     }
-
-    /**
-     * 未读消息
-     * @param i
-     */
-    @Override
-    public void onCountChanged(int i) {
-
-    }
-
 
     private void getConversationPush() {
         if (getIntent() != null && getIntent().hasExtra("PUSH_CONVERSATIONTYPE") && getIntent().hasExtra("PUSH_TARGETID")) {

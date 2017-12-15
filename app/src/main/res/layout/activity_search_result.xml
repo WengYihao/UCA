@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cn.uca.ui.view.home.samecityka.SearchResultActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/gradient"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/padding_20"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/twenty_circular_white_background"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/padding_8"
+                android:background="@mipmap/search_nav" />
+
+            <com.cn.uca.view.MyEditText
+                android:id="@+id/keyword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/padding_15"
+                android:background="@color/white"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:textSize="@dimen/text_12"
+                android:textCursorDrawable="@drawable/ori_cursor_color" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/padding_8"
+            android:text="取消"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="搜索结果"
+            android:padding="@dimen/padding_10"
+            android:textColor="@color/grey"
+            android:background="@color/white"/>
+        <ImageView
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:scaleType="matrix"
+            android:src="@color/gray" />
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+    </LinearLayout>
+
+</com.cn.uca.view.StatusView>

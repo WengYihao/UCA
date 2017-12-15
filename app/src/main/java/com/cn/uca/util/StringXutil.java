@@ -1,9 +1,22 @@
 package com.cn.uca.util;
 
+import android.widget.EditText;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringXutil {
+	/**
+	 * 判断edittext是否null
+	 */
+	public static String checkEditText(EditText editText) {
+		if (editText != null && editText.getText() != null
+				&& !(editText.getText().toString().trim().equals(""))) {
+			return editText.getText().toString().trim();
+		} else {
+			return "";
+		}
+	}
 	/**
 	 * 判断String是否为空或null
 	 * 

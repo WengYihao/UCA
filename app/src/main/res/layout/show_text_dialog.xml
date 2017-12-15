@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="请标签字段（四字以内）"
+            android:padding="@dimen/padding_12"
+            android:background="@color/white"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray">
+        <com.cn.uca.view.MyEditText
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_40"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/padding_40"
+            android:layout_marginBottom="@dimen/padding_40"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_15"
+            android:maxLength="4"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/ori"
+        android:gravity="center"
+        android:text="@string/dialog_show_commit"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_18" />
+</LinearLayout>

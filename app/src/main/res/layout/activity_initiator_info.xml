@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cn.uca.ui.view.home.samecityka.InitiatorInfoActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/gradient">
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back" />
+
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="发起者" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/gray"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_15">
+
+                    <com.cn.uca.view.CircleImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:background="@mipmap/user_pic" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="小蟹"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/text_18" />
+
+                    <TextView
+                        android:id="@+id/type_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/padding_15"
+                        android:text="大学生"
+                        android:textColor="@color/ori"
+                        android:textSize="@dimen/text_14" />
+
+                    <TextView
+                        android:layout_width="12dp"
+                        android:layout_height="12dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/padding_8"
+                        android:layout_toLeftOf="@id/type_name"
+                        android:background="@mipmap/college_type" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:scaleType="matrix"
+                        android:src="@color/gray" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="110dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_20"
+                        android:text="手机"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/text_16" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="18543212345"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/text_18" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:scaleType="matrix"
+                        android:src="@color/gray" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="110dp"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="@dimen/padding_20"
+                        android:text="简介"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/text_16" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/padding_15"
+                        android:text="今年大二，日常咸鱼很无聊吧，一起去搞事啊，欢迎同年龄小伙伴们，喜欢的点个关注吧"
+                        android:textColor="@color/gray2"
+                        android:textSize="@dimen/text_14"
+                        android:layout_marginBottom="@dimen/padding_15"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:scaleType="matrix"
+                        android:src="@color/gray" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray"
+                android:padding="@dimen/padding_8">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="@dimen/padding_10"
+                    android:layout_marginLeft="@dimen/padding_8"
+                    android:layout_marginRight="@dimen/padding_8"
+                    android:background="@drawable/ten_circular_white_background"
+                    android:gravity="center"
+                    android:text="+ 关注"
+                    android:textColor="@color/ori"
+                    android:textSize="@dimen/text_16" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/padding_10"
+                    android:layout_marginTop="@dimen/padding_10"
+                    android:padding="@dimen/padding_10"
+                    android:text="Ta的其他活动"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/text_16" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</com.cn.uca.view.StatusView>

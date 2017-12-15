@@ -6,6 +6,6 @@
         android:bottomRightRadius="50dp"
         android:topRightRadius="50dp" /> <!-- 设置四个角的半径 -->
 <solid
-        android:color="@color/white" />
+        android:color="@color/white"/>
 
 </shape>

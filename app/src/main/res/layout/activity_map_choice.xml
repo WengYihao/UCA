@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cn.uca.ui.view.home.samecityka.MapChoiceActivity"
+    android:background="@color/gray">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:background="@drawable/gradient">
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="地图选择" />
+        <TextView
+            android:id="@+id/finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="完成"
+            android:textColor="@color/white"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/padding_12"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <com.amap.api.maps.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <RelativeLayout
+            android:id="@+id/seachLayout"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/padding_20"
+            android:layout_marginRight="@dimen/padding_20"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/twenty_circular_white_background"
+            android:layout_marginTop="@dimen/padding_10">
+
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="@dimen/padding_15"
+                android:layout_height="@dimen/padding_15"
+                android:layout_marginLeft="@dimen/padding_8"
+                android:layout_centerVertical="true"
+                android:background="@mipmap/search_nav" />
+
+            <TextView
+                android:layout_toRightOf="@id/search"
+                android:id="@+id/search_et"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/padding_20"
+                android:layout_marginRight="@dimen/padding_8"
+                android:layout_marginLeft="@dimen/padding_8"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:background="@color/white"
+                android:hint="搜索地址"
+                android:textSize="@dimen/text_12" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/on_location"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/padding_10"
+            android:layout_marginBottom="@dimen/padding_10"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="定位"
+            android:textColor="@color/grey"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/padding_10"/>
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/padding_5"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/padding_5"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/line3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:scaleType="matrix"
+        android:src="@color/gray" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="补充"
+            android:textColor="@color/grey"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/padding_10"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/white"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:hint="对收搜结果进行补充描述"
+            android:textSize="@dimen/text_12"
+            android:textColorHint="@color/milky"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:scaleType="matrix"
+            android:src="@color/gray"/>
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"></ListView>
+    </LinearLayout>
+
+</LinearLayout>

@@ -336,10 +336,11 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
         });
         //将布局设置给Dialog
         dialog.setContentView(inflate);
+//        dialog.setCanceledOnTouchOutside(true);
         //获取当前Activity所在的窗体
         Window dialogWindow = dialog.getWindow();
         //设置Dialog从窗体底部弹出
-        dialogWindow.setGravity( Gravity.BOTTOM);
+        dialogWindow.setGravity(Gravity.BOTTOM);
         WindowManager.LayoutParams params = dialogWindow.getAttributes();
         params.dimAmount = 0f;
         params.width = MyApplication.width;

@@ -232,4 +232,5 @@
     <string name="orderBackActivity_text4">领咖原因</string>
     <string name="orderBackActivity_text5">请进行简单描述</string>
     <string name="orderBackActivity_text6">提交</string>
+    <string name="no_read_message">"···"</string>
 </resources>

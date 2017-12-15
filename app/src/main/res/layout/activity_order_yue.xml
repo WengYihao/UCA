@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="@string/orderYueActuivity_title_text" />
+            android:text="约咖管理" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,120 +29,197 @@
             android:layout_marginRight="@dimen/padding_10"
             android:background="@mipmap/yueka_message" />
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/padding_10"
-        android:background="@drawable/gradient">
-        <com.cn.uca.view.CircleImageView
-            android:id="@+id/pic"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            app:border_width="1dp"
-            app:border_color="@color/white"
-            android:src="@mipmap/user_pic"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/pic">
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/padding_10">
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/text_16"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="@dimen/padding_10"/>
-                <TextView
-                    android:id="@+id/age"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/text_16"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="@dimen/padding_10"/>
-                <TextView
-                    android:id="@+id/sex"
-                    android:layout_width="@dimen/padding_20"
-                    android:layout_height="@dimen/padding_20"
-                    android:layout_marginLeft="@dimen/padding_10"/>
-
-            </LinearLayout>
-            <com.cn.uca.view.RatingStarView
-                android:id="@+id/start"
-                android:layout_marginTop="@dimen/padding_5"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/padding_15"
-                android:layout_marginLeft="@dimen/padding_20"
-                app:rating="4"
-                app:starBackgroundColor="@color/gray"
-                app:starForegroundColor="@color/yellow"
-                app:starNum="5" />
-        </LinearLayout>
-        <RelativeLayout
-            android:id="@+id/layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
-            <TextView
-                android:id="@+id/a"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@mipmap/right"/>
-            <TextView
-                android:id="@+id/state"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/orderYueActivity_text"
-                android:textSize="@dimen/text_14"
-                android:textColor="@color/white"
-                android:layout_toLeftOf="@id/a"
-                android:layout_marginRight="@dimen/padding_8"/>
-
-        </RelativeLayout>
-    </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:overScrollMode="never">
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="match_parent"
            android:orientation="vertical">
+           <RelativeLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:padding="@dimen/padding_15">
+               <com.cn.uca.view.CircleImageView
+                   android:id="@+id/pic"
+                   android:layout_width="60dp"
+                   android:layout_height="60dp"
+                   app:border_width="1dp"
+                   app:border_color="@color/white"
+                   android:src="@mipmap/user_pic"/>
+               <LinearLayout
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical"
+                   android:layout_centerVertical="true"
+                   android:layout_toRightOf="@id/pic">
+                   <LinearLayout
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:orientation="horizontal"
+                       android:layout_marginLeft="@dimen/padding_10">
+                       <TextView
+                           android:id="@+id/name"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_gravity="center"
+                           android:textSize="@dimen/text_16"
+                           android:textColor="@color/black"
+                           android:text="哈哈"
+                           android:layout_marginLeft="@dimen/padding_10"/>
+                       <TextView
+                           android:layout_width="@dimen/padding_20"
+                           android:layout_height="@dimen/padding_20"
+                           android:background="@color/aa"
+                           android:layout_marginLeft="@dimen/padding_8"/>
+                       <TextView
+                           android:layout_width="@dimen/padding_20"
+                           android:layout_height="@dimen/padding_20"
+                           android:background="@color/aa"
+                           android:layout_marginLeft="@dimen/padding_8"/>
+                   </LinearLayout>
 
+               </LinearLayout>
+               <RelativeLayout
+                   android:id="@+id/layout"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_centerVertical="true">
+                   <TextView
+                       android:id="@+id/a"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentRight="true"
+                       android:background="@mipmap/right_gray"/>
+                   <TextView
+                       android:id="@+id/state"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="已认证"
+                       android:textSize="@dimen/text_14"
+                       android:textColor="@color/ori"
+                       android:layout_marginRight="8dp"
+                       android:layout_alignParentTop="true"
+                       android:layout_toLeftOf="@+id/a"
+                       android:layout_toStartOf="@+id/a"
+                       android:layout_marginEnd="8dp" />
+
+               </RelativeLayout>
+           </RelativeLayout>
            <ImageView
-               android:id="@+id/line"
                android:layout_width="match_parent"
                android:layout_height="1dp"
                android:scaleType="matrix"
-               android:src="@color/grey2" />
-
+               android:src="@color/gray" />
            <LinearLayout
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:orientation="vertical">
+               android:orientation="horizontal"
+               android:background="@color/white">
+               <LinearLayout
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1">
+                   <TextView
+                       android:id="@+id/age"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:text="年龄:27岁"
+                       android:layout_gravity="center_vertical"
+                       android:gravity="center"/>
+               </LinearLayout>
+               <ImageView
+                   android:layout_width="1dp"
+                   android:layout_height="match_parent"
+                   android:scaleType="matrix"
+                   android:src="@color/gray" />
+               <LinearLayout
+                   android:layout_width="0dp"
+                   android:layout_height="match_parent"
+                   android:layout_weight="1">
+                   <TextView
+                       android:id="@+id/sex"
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:text="性别:女"
+                       android:gravity="center"
+                       android:layout_gravity="center_vertical"/>
+               </LinearLayout>
+               <ImageView
+                   android:layout_width="1dp"
+                   android:layout_height="match_parent"
+                   android:scaleType="matrix"
+                   android:src="@color/gray" />
+               <LinearLayout
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="2"
+                   android:padding="@dimen/padding_10"
+                   android:orientation="horizontal">
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="星级:"
+                       android:layout_gravity="center_vertical"/>
+                   <com.cn.uca.view.RatingStarView
+                       android:id="@+id/start"
+                       android:layout_width="wrap_content"
+                       android:layout_height="@dimen/padding_15"
+                       android:layout_marginLeft="@dimen/padding_8"
+                       app:rating="4"
+                       app:starBackgroundColor="@color/gray"
+                       app:starForegroundColor="@color/yellow"
+                       app:starNum="5"
+                       android:layout_gravity="center_vertical"/>
+                   <TextView
+                       android:layout_width="@dimen/padding_20"
+                       android:layout_height="@dimen/padding_20"
+                       android:background="@color/aa"
+                       android:layout_gravity="center_vertical"
+                       android:layout_marginLeft="@dimen/padding_8"/>
+               </LinearLayout>
+           </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="horizontal"
+               android:background="@color/grey2"
+               android:padding="@dimen/padding_10">
+               <TextView
+                   android:layout_width="@dimen/padding_20"
+                   android:layout_height="@dimen/padding_20"
+                   android:background="@color/aa"/>
+               <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="我是游咖"
+                   android:layout_gravity="center_vertical"
+                   android:layout_marginLeft="@dimen/padding_5"/>
+           </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               android:background="@color/white">
 
                <RelativeLayout
                    android:id="@+id/layout1"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:background="@color/white"
-                   android:padding="10dp">
+                   android:padding="10dp"
+                   android:layout_marginTop="@dimen/padding_8"
+                   android:layout_marginBottom="@dimen/padding_8">
 
                    <TextView
                        android:id="@+id/title_text1"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginLeft="10dp"
-                       android:text="@string/orderYueActivity_line_text"
+                       android:text="我的收藏"
+                       android:textColor="@color/grey"
                        android:textSize="@dimen/text_16" />
 
                    <ImageView
@@ -165,15 +242,18 @@
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:background="@color/white"
-                   android:padding="@dimen/padding_10">
+                   android:padding="@dimen/padding_10"
+                   android:layout_marginTop="@dimen/padding_8"
+                   android:layout_marginBottom="@dimen/padding_8">
 
                    <TextView
                        android:id="@+id/title_text2"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginLeft="@dimen/padding_10"
-                       android:text="@string/orderYueActivity_send_text"
-                       android:textSize="@dimen/text_16" />
+                       android:text="我的约单"
+                       android:textSize="@dimen/text_16"
+                       android:textColor="@color/grey"/>
 
                    <ImageView
                        android:id="@+id/icon"
@@ -188,14 +268,30 @@
                <LinearLayout
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   android:background="@color/grey2"
+                   android:padding="@dimen/padding_10">
+                   <TextView
+                       android:layout_width="@dimen/padding_20"
+                       android:layout_height="@dimen/padding_20"
+                       android:background="@color/aa"/>
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="我是领咖"
+                       android:layout_gravity="center_vertical"
+                       android:layout_marginLeft="@dimen/padding_5"/>
+               </LinearLayout>
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
                    android:orientation="vertical"
-                   android:layout_marginTop="@dimen/padding_20">
+                   android:background="@color/grey2">
 
                    <RelativeLayout
                        android:id="@+id/layout3"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
-
                        android:background="@color/white"
                        android:padding="@dimen/padding_10">
 
@@ -204,8 +300,37 @@
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:layout_marginLeft="@dimen/padding_10"
-                           android:text="@string/orderYueActivity_my_yueka"
-                           android:textSize="@dimen/text_16" />
+                           android:text="发布约咖"
+                           android:textSize="@dimen/text_16"
+                           android:textColor="@color/grey"
+                           android:layout_marginTop="@dimen/padding_8"
+                           android:layout_marginBottom="@dimen/padding_8"/>
+
+                       <ImageView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
+                           android:layout_marginRight="@dimen/padding_10"
+                           android:src="@mipmap/right_gray" />
+                   </RelativeLayout>
+
+                   <RelativeLayout
+                       android:id="@+id/layout4"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:background="@color/white"
+                       android:padding="@dimen/padding_10"
+                       android:layout_marginTop="@dimen/padding_10">
+
+                       <TextView
+                           android:id="@+id/title_text4"
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginLeft="@dimen/padding_10"
+                           android:text="我的发布"
+                           android:textSize="@dimen/text_16"
+                           android:textColor="@color/grey"/>
 
                        <ImageView
                            android:layout_width="wrap_content"
@@ -220,20 +345,21 @@
                        android:layout_height="1dp"
                        android:scaleType="matrix"
                        android:src="@color/gray" />
+
                    <RelativeLayout
-                       android:id="@+id/layout4"
+                       android:id="@+id/layout5"
                        android:layout_width="match_parent"
                        android:layout_height="wrap_content"
                        android:background="@color/white"
                        android:padding="@dimen/padding_10">
 
                        <TextView
-                           android:id="@+id/title_text4"
                            android:layout_width="wrap_content"
                            android:layout_height="wrap_content"
                            android:layout_marginLeft="@dimen/padding_10"
-                           android:text="@string/orderYueActivity_my_collection"
-                           android:textSize="@dimen/text_16" />
+                           android:text="我的接单"
+                           android:textSize="@dimen/text_16"
+                           android:textColor="@color/grey"/>
 
                        <ImageView
                            android:layout_width="wrap_content"
@@ -243,7 +369,35 @@
                            android:layout_marginRight="@dimen/padding_10"
                            android:src="@mipmap/right_gray" />
                    </RelativeLayout>
+                   <ImageView
+                       android:layout_width="match_parent"
+                       android:layout_height="1dp"
+                       android:scaleType="matrix"
+                       android:src="@color/gray" />
 
+                   <RelativeLayout
+                       android:id="@+id/layout6"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:background="@color/white"
+                       android:padding="@dimen/padding_10">
+
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_marginLeft="@dimen/padding_10"
+                           android:text="我的评价"
+                           android:textSize="@dimen/text_16"
+                           android:textColor="@color/grey"/>
+
+                       <ImageView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:layout_alignParentRight="true"
+                           android:layout_centerVertical="true"
+                           android:layout_marginRight="@dimen/padding_10"
+                           android:src="@mipmap/right_gray" />
+                   </RelativeLayout>
                </LinearLayout>
 
                <ImageView
@@ -252,57 +406,87 @@
                    android:scaleType="matrix"
                    android:src="@color/grey2" />
 
-           </LinearLayout>
-
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical">
                <RelativeLayout
+                   android:id="@+id/layout7"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:background="@color/grey2"
+                   android:background="@color/white"
                    android:padding="@dimen/padding_10">
+
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginLeft="@dimen/padding_10"
-                       android:text="@string/orderYueActivity_yueka"
-                       android:textSize="@dimen/text_18"
-                       android:textColor="@color/gray2"/>
-               </RelativeLayout>
+                       android:text="路线管理"
+                       android:textSize="@dimen/text_16"
+                       android:textColor="@color/grey"/>
 
-               <com.cn.uca.view.HorizontalListView
-                   android:id="@+id/orderCourse"
+                   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentRight="true"
+                       android:layout_centerVertical="true"
+                       android:layout_marginRight="@dimen/padding_10"
+                       android:src="@mipmap/right_gray" />
+               </RelativeLayout>
+               <ImageView
                    android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_marginRight="@dimen/padding_10">
-               </com.cn.uca.view.HorizontalListView>
-           </LinearLayout>
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:orientation="vertical"
-               android:descendantFocusability="blocksDescendants">
+                   android:layout_height="1dp"
+                   android:scaleType="matrix"
+                   android:src="@color/grey2" />
+
                <RelativeLayout
+                   android:id="@+id/layout8"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:background="@color/grey2"
+                   android:background="@color/white"
                    android:padding="@dimen/padding_10">
+
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_marginLeft="@dimen/padding_10"
-                       android:text="@string/orderYueActivity_user_content"
-                       android:textSize="@dimen/text_18"
-                       android:textColor="@color/gray2"/>
-               </RelativeLayout>
+                       android:text="标签管理"
+                       android:textSize="@dimen/text_16"
+                       android:textColor="@color/grey"/>
 
-               <com.cn.uca.view.NoScrollListView
-                   android:id="@+id/comment"
+                   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentRight="true"
+                       android:layout_centerVertical="true"
+                       android:layout_marginRight="@dimen/padding_10"
+                       android:src="@mipmap/right_gray" />
+               </RelativeLayout>
+               <ImageView
                    android:layout_width="match_parent"
-                   android:layout_height="wrap_content">
-               </com.cn.uca.view.NoScrollListView>
+                   android:layout_height="1dp"
+                   android:scaleType="matrix"
+                   android:src="@color/grey2" />
+
+               <RelativeLayout
+                   android:id="@+id/layout9"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@color/white"
+                   android:padding="@dimen/padding_10">
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_marginLeft="@dimen/padding_10"
+                       android:text="设置背景图"
+                       android:textSize="@dimen/text_16"
+                       android:textColor="@color/grey"/>
+
+                   <ImageView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_alignParentRight="true"
+                       android:layout_centerVertical="true"
+                       android:layout_marginRight="@dimen/padding_10"
+                       android:src="@mipmap/right_gray" />
+               </RelativeLayout>
            </LinearLayout>
        </LinearLayout>
     </ScrollView>

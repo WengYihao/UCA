@@ -8,7 +8,7 @@ import com.cn.uca.swipeback.impl.SwipeBackActivityBase;
 import com.cn.uca.swipeback.util.Utils;
 
 public class SwipeBackActivity extends AppCompatActivity implements SwipeBackActivityBase{
-    private SwipeBackActivityHelper mHelper;
+    private  SwipeBackActivityHelper mHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +18,7 @@ public class SwipeBackActivity extends AppCompatActivity implements SwipeBackAct
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    public void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mHelper.onPostCreate();
     }

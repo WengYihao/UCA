@@ -30,6 +30,9 @@ import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.poisearch.PoiSearch;
 import com.cn.uca.R;
 import com.cn.uca.bean.yueka.PlacesBean;
 import com.cn.uca.server.yueka.YueKaHttp;
@@ -74,6 +77,7 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
     private TextView finish,delete,back;
     private Circle mCircle;
     private Marker mLocMarker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +139,6 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.purple_pin)));
         //设置Marker在屏幕上,不跟随地图移动
         screenMarker.setPositionByPixels(screenPosition.x,screenPosition.y);
-
     }
     private void initMap() {
         if (aMap == null){
@@ -154,7 +157,7 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
         aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
-
+//                position.target.
             }
 
             @Override
@@ -177,9 +180,7 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (mListener != null && aMapLocation != null){
             if (aMapLocation != null && aMapLocation.getErrorCode() == 0){
-//                mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
                 if (isFirst){
-                    Log.i("123","123");
                     aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 15));//定位成功移到当前定位点
                     CircleOptions circleOptions = MapUtil.addCircle(
                             new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()),
@@ -188,7 +189,6 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
                             new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), this);
                     mCircle = aMap.addCircle(circleOptions);// 添加定位精度圆
                     mLocMarker = aMap.addMarker(options);// 添加定位图标
-//                    mSensorHelper.setCurrentMarker(mLocMarker);// 定位图标旋转
                     isFirst = false;
                 }
                 lat = aMapLocation.getLatitude();

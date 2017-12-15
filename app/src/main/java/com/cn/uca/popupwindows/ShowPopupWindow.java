@@ -22,6 +22,7 @@ import com.cn.uca.R;
 import com.cn.uca.adapter.ShowAdapter;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.impl.ItemClick;
 import com.cn.uca.receiver.UpdateService;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.util.SharePreferenceXutil;
@@ -35,18 +36,10 @@ import java.util.Map;
 
 public class ShowPopupWindow {
 
-	public static void show(Context context,List<String> list,View view){
+	public static void show(Context context, List<String> list, View view,final ItemClick click){
 		View show = LayoutInflater.from(context).inflate(R.layout.show_list, null);
 		ListView listView = (ListView)show.findViewById(R.id.list);
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-			}
-		});
-
 		ShowAdapter showAdapter = new ShowAdapter(list,context);
-
 		listView.setAdapter(showAdapter);
 
 		final PopupWindow popupWindow = new PopupWindow(show, MyApplication.width/4,
@@ -55,6 +48,14 @@ public class ShowPopupWindow {
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
 		popupWindow.showAsDropDown(view);
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+				click.click(i);
+				popupWindow.dismiss();
+			}
+		});
 	}
 
 	public static void updateWindow(View view, final Context context, String linkUrl, final String loadUrl){

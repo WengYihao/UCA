@@ -29,6 +29,7 @@ import com.cn.uca.popupwindows.LoadingPopupWindow;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.ui.view.home.samecityka.SameCityKaActivity;
 import com.cn.uca.ui.view.home.sign.SignActivity;
 import com.cn.uca.ui.view.home.footprint.FootPrintActivity;
 import com.cn.uca.ui.view.home.hotel.HotleActivity;
@@ -80,7 +81,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         initView();
         getCarouselFigures();
         initListeners();
-
         return view;
     }
 
@@ -214,9 +214,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), SignActivity.class));
                 break;
             case R.id.planeTicket:
-                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
-//                LoadingPopupWindow popupWindow = new LoadingPopupWindow(getActivity());
-//                popupWindow.show();
+//                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
+                startActivity(new Intent(getActivity(), SameCityKaActivity.class));
                 break;
             case R.id.hotel:
                 startActivity(new Intent(getActivity(), HotleActivity.class));

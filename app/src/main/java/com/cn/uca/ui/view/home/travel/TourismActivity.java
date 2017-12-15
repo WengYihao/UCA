@@ -192,7 +192,7 @@ public class TourismActivity extends BaseBackActivity implements View.OnClickLis
                 break;
             case R.id.layout5:
                 //亲子游
-                ToastXutil.show("敬请期待-亲子游");
+                startActivity(new Intent(TourismActivity.this,ParentingActivity.class));
                 break;
             case R.id.layout6:
                 //蜜月游

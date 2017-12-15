@@ -1,6 +1,10 @@
 package com.cn.uca.ui.view.home;
 
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.SpannedString;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +13,7 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.view.FluidLayout;
+import com.cn.uca.view.MyEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +21,7 @@ import java.util.List;
 public class SearchActivity extends BaseBackActivity implements View.OnClickListener{
 
     private TextView back;
+    private MyEditText search;
     private FluidLayout recommendView,historyView;
     private List<String> recommendList,historyList;
 
@@ -31,6 +37,12 @@ public class SearchActivity extends BaseBackActivity implements View.OnClickList
         back = (TextView)findViewById(R.id.back);
         recommendView = (FluidLayout)findViewById(R.id.recommendView);
         historyView = (FluidLayout)findViewById(R.id.historyView);
+
+        search = (MyEditText)findViewById(R.id.search);
+        SpannableString ss = new SpannableString("搜索关键字");//定义hint的值
+        AbsoluteSizeSpan ass = new AbsoluteSizeSpan(12,true);//设置字体大小 true表示单位是sp
+        ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        search.setHint(new SpannedString(ss));
 
         recommendList = new ArrayList<>();
         recommendList.add("九寨沟");
