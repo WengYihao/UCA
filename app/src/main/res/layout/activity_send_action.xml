@@ -20,9 +20,11 @@
             style="@style/style_title"
             android:text="发布活动" />
     </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,39 +36,43 @@
                 android:background="@color/gray"
                 android:orientation="vertical"
                 android:padding="@dimen/padding_10">
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:background="@drawable/ten_circular_white_background">
+
                     <TextView
                         android:id="@+id/addPic"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:background="@mipmap/add_back"
-                        android:layout_centerInParent="true"/>
+                        android:layout_centerInParent="true"
+                        android:background="@mipmap/add_back" />
+
                     <ImageView
                         android:id="@+id/pic"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:scaleType="fitXY"/>
+                        android:scaleType="fitXY" />
                 </RelativeLayout>
 
                 <EditText
-                    android:id="@+id/editText4"
+                    android:id="@+id/actionTitle"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_below="@id/pic"
                     android:layout_marginTop="@dimen/padding_10"
                     android:background="@color/white"
                     android:hint="活动标题，不少于5字"
-                    android:textColorHint="@color/grey2"
-                    android:padding="@dimen/padding_5" />
+                    android:padding="@dimen/padding_5"
+                    android:textColorHint="@color/grey2" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@color/gray">
+                android:background="@color/gray"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/layout1"
@@ -78,19 +84,22 @@
                     <TextView
                         android:id="@+id/type_start"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:padding="@dimen/padding_15"
                         android:text="发起者" />
+
                     <TextView
                         android:id="@+id/cardname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/padding_10"/>
+                        android:layout_marginRight="@dimen/padding_10" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/right_gray"/>
+                        android:background="@mipmap/right_gray" />
+
                     <ImageView
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
@@ -124,6 +133,7 @@
                     android:background="@color/white">
 
                     <TextView
+                        android:id="@+id/actionType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_15"
@@ -137,14 +147,16 @@
                         android:layout_centerInParent="true"
                         android:layout_marginRight="10dp"
                         android:src="@mipmap/right_gray" />
+
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="去选择"
-                        android:layout_toLeftOf="@id/a"
                         android:layout_centerVertical="true"
-                        android:textColor="@color/grey2"
-                        android:layout_marginRight="@dimen/padding_2"/>
+                        android:layout_marginRight="@dimen/padding_2"
+                        android:layout_toLeftOf="@id/a"
+                        android:text="去选择"
+                        android:textColor="@color/grey2" />
                 </RelativeLayout>
 
                 <ImageView
@@ -157,8 +169,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -169,31 +181,35 @@
                     <TextView
                         android:id="@+id/startTime"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:text="开始时间"
-                        android:textColor="@color/grey2"
-                        android:gravity="center"/>
+                        android:textColor="@color/grey2" />
+
                     <ImageView
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
                         android:scaleType="matrix"
                         android:src="@color/gray" />
+
                     <TextView
                         android:id="@+id/endTime"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:text="结束时间"
-                        android:textColor="@color/grey2"
-                        android:gravity="center"/>
+                        android:textColor="@color/grey2" />
                 </LinearLayout>
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/layout3"
                     android:scaleType="matrix"
                     android:src="@color/gray" />
+
                 <RelativeLayout
                     android:id="@+id/layout3"
                     android:layout_width="match_parent"
@@ -214,14 +230,15 @@
                         android:layout_centerInParent="true"
                         android:layout_marginRight="10dp"
                         android:src="@mipmap/right_gray" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="在线报名/免费"
-                        android:layout_toLeftOf="@id/b"
                         android:layout_centerVertical="true"
-                        android:textColor="@color/grey2"
-                        android:layout_marginRight="@dimen/padding_2"/>
+                        android:layout_marginRight="@dimen/padding_2"
+                        android:layout_toLeftOf="@id/b"
+                        android:text="在线报名/免费"
+                        android:textColor="@color/grey2" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -234,10 +251,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_15"
-                        android:text="活动详情"
+                        android:layout_marginBottom="@dimen/padding_2"
                         android:layout_marginTop="@dimen/padding_2"
-                        android:layout_marginBottom="@dimen/padding_2"/>
+                        android:padding="@dimen/padding_15"
+                        android:text="活动详情" />
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -259,9 +276,9 @@
                         android:id="@+id/c"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/padding_15"
-                        android:layout_marginTop="@dimen/padding_2"
                         android:layout_marginBottom="@dimen/padding_2"
+                        android:layout_marginTop="@dimen/padding_2"
+                        android:padding="@dimen/padding_15"
                         android:text="活动标签" />
 
                     <TextView
@@ -271,31 +288,32 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="10dp"
-                        android:background="@color/aa"/>
+                        android:background="@mipmap/add_lable" />
+
                     <com.cn.uca.view.FluidLayout
                         android:id="@+id/lable_item"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toRightOf="@id/c"
-                        android:layout_toLeftOf="@id/add_lable"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/padding_5"
-                        android:visibility="gone">
-                    </com.cn.uca.view.FluidLayout>
+                        android:layout_toLeftOf="@id/add_lable"
+                        android:layout_toRightOf="@id/c"
+                        android:visibility="gone"></com.cn.uca.view.FluidLayout>
                 </RelativeLayout>
+
                 <TextView
                     android:id="@+id/send"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@drawable/twenty_circular_ori_background"
-                    android:text="发布"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_16"
-                    android:layout_marginTop="@dimen/padding_20"
+                    android:layout_marginBottom="@dimen/padding_20"
                     android:layout_marginLeft="@dimen/padding_15"
                     android:layout_marginRight="@dimen/padding_15"
-                    android:layout_marginBottom="@dimen/padding_20"/>
+                    android:layout_marginTop="@dimen/padding_20"
+                    android:background="@drawable/twenty_circular_ori_background"
+                    android:gravity="center"
+                    android:text="发布"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -1,13 +1,12 @@
 package com.cn.uca.ui.view.home.samecityka;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,6 +37,7 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.samecityka.SearchResultAdapter;
+import com.cn.uca.bean.home.lvpai.getAddressBean;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.MapUtil;
 import com.cn.uca.util.ToastXutil;
@@ -72,6 +72,8 @@ public class MapChoiceActivity extends BaseBackActivity implements View.OnClickL
     private TextView address;
     private TextView location;
     private TextView finish;
+    private EditText supplement;
+    private String code,type;
 
 
     @Override
@@ -80,10 +82,17 @@ public class MapChoiceActivity extends BaseBackActivity implements View.OnClickL
         setContentView(R.layout.activity_map_choice);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
+        getInfo();
         initView();
 
     }
 
+    private void getInfo(){
+        Intent intent = getIntent();
+        if (intent != null){
+            type = intent.getStringExtra("type");
+        }
+    }
     private void initView() {
         back = (TextView)findViewById(R.id.back);
         back.setOnClickListener(this);
@@ -92,7 +101,7 @@ public class MapChoiceActivity extends BaseBackActivity implements View.OnClickL
         seachLayout = (RelativeLayout)findViewById(R.id.seachLayout);
         location = (TextView)findViewById(R.id.location);
         finish = (TextView)findViewById(R.id.finish);
-
+        supplement = (EditText)findViewById(R.id.supplement);
         location.setOnClickListener(this);
         seachLayout.setOnClickListener(this);
         finish.setOnClickListener(this);
@@ -200,7 +209,19 @@ public class MapChoiceActivity extends BaseBackActivity implements View.OnClickL
                 aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 15));//定位成功移到当前定位点
                 break;
             case R.id.finish:
-                ToastXutil.show("地址:"+address.getText().toString()+"-"+"坐标："+selectLat+","+selectLng);
+//                ToastXutil.show("地址:"+address.getText().toString()+"-"+"坐标："+selectLat+","+selectLng);
+                switch (type){
+                    case "lvpai":
+                        getAddressBean bean = new getAddressBean();
+                        bean.setAddress(address.getText().toString()+supplement.getText().toString());
+                        bean.setGaode_code(code);
+                        Intent intent1 = new Intent();
+                        intent1.putExtra("address", bean);
+                        setResult(0,intent1);
+                        this.finish();
+                        break;
+                }
+
                 break;
         }
     }
@@ -352,7 +373,9 @@ public class MapChoiceActivity extends BaseBackActivity implements View.OnClickL
         if (rCode == AMapException.CODE_AMAP_SUCCESS) {
             if (result != null && result.getRegeocodeAddress() != null
                     && result.getRegeocodeAddress().getFormatAddress() != null) {
+                Log.i("456","1111");
                 address.setText(result.getRegeocodeAddress().getFormatAddress());
+                code = result.getRegeocodeAddress().getCityCode();
             }
         }
     }

@@ -74,7 +74,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="@dimen/padding_15"
-                    android:background="@color/blue" />
+                    android:background="@mipmap/action_place" />
 
                 <TextView
                     android:id="@+id/place"
@@ -96,7 +96,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="@dimen/padding_15"
-                    android:background="@color/blue" />
+                    android:background="@mipmap/action_time_item" />
 
                 <TextView
                     android:id="@+id/time"

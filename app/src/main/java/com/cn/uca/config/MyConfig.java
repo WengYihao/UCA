@@ -3,7 +3,7 @@ package com.cn.uca.config;
 public class MyConfig {
 	// 总接口
 	public static final String url = "http://www.szyouka.com:8080/youkatravel/api/";
-//	public static final String url = "http://192.168.1.104/youkatravel/api/";
+//	public static final String url = "http://192.168.1.105:80/youkatravel/api/";
 	public static final String sendCode = url+"user/query/sendSMS.do";//发送短信验证码
 	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";     //获取微信token
 	public static final String weChatLogin = url+"/user/query/userLogin_weixin.do";//微信登录
@@ -93,4 +93,25 @@ public class MyConfig {
 	public static final String getCityCafeInfo = url + "citycafe/query/getCityCafeInfo.do";//获取同城咖详情
 	public static final String getTickets = url + "citycafe/query/getTickets.do";//获取同城咖购票
 	public static final String orderTicket = url + "citycafe/update/orderTicket.do";//购买同城咖
+	public static final String releaseCityCafe = url + "citycafe/update/releaseCityCafe.do";//发布同城咖
+	public static final String getMyTicket = url + "citycafe/query/getMyTicket.do";//获取我的门票
+	public static final String getUserTickets = url +"citycafe/query/getUserTickets.do";//获取门票码
+	public static final String becomeMerchant = url+"tripshoot/update/becomeMerchant.do";//商家入驻
+	public static final String getMerchantInfo = url + "tripshoot/query/getMerchantInfo.do";//获取商家信息
+	public static final String gerAddress = url +"tripshoot/query/gerAddress.do";//获取商家地址
+	public static final String getStyleLable = url + "tripshoot/query/getStyleLable.do";//获取旅拍样式标签
+    public static final String getTs = url + "tripshoot/query/getTs.do";//获取旅拍商品
+    public static final String getMerchants = url + "tripshoot/query/getMerchants.do";//获取旅拍商户
+	public static final String releaseTripShoot = url + "tripshoot/update/releaseTripShoot.do";//发布旅拍
+	public static final String getCommodityInfo = url + "tripshoot/query/getTsInfo.do";//获取商品详细信息
+	public static final String getMerInfo = url + "tripshoot/query/getMerInfo.do";//获取商家信息
+	public static final String getMerAllPic = url + "tripshoot/query/getMerAllPic.do";//获取旅拍商户相册图片
+    public static final String getTsDate = url + "tripshoot/query/getTsDate.do";//获取旅拍商品行程
+	public static final String collectionTs = url + "tripshoot/update/collectionTs.do";//收藏或取消收藏旅拍商品
+	public static final String followMerchant = url + "tripshoot/update/followMerchant.do";//关注/取消关注旅拍商户
+	public static final String createTsOrder = url + "tripshoot/update/createTsOrder.do";//预定商品
+	public static final String updateTeam = url + "tripshoot/update/updateTeam.do";//增删改团队
+	public static final String getTeam = url + "tripshoot/query/getTeam.do";//获取团队
+	public static final String getFollowMers = url + "tripshoot/query/getFollowMers.do";//获取用户收藏的旅拍商户
+	public static final String getCollTs = url + "tripshoot/query/getCollTs.do";//获取用户收藏的旅拍商品
 }

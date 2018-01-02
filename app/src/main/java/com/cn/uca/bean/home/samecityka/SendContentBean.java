@@ -29,7 +29,7 @@ public class SendContentBean {
 
     @Override
     public String toString() {
-        return "SendContentBean{" +
+        return "{" +
                 "paragraph_type='" + paragraph_type + '\'' +
                 ", content='" + content + '\'' +
                 '}';

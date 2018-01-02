@@ -117,6 +117,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/padding_10"/>
         <EditText
+            android:id="@+id/supplement"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:background="@color/white"

@@ -2,6 +2,8 @@ package com.cn.uca.util;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -97,6 +99,21 @@ public class SystemUtil
 		return dateFormat.format(date) + ".png";
 	}
 
+	/**
+	 * 根据string.xml资源格式化字符串
+	 *
+	 * @param context
+	 * @param resource
+	 * @param args
+	 * @return
+	 */
+	public static String formatResourceString(Context context, int resource, Object... args) {
+		String str = context.getResources().getString(resource);
+		if (TextUtils.isEmpty(str)) {
+			return null;
+		}
+		return String.format(str, args);
+	}
     public static String getRealPathFromURI(Uri contentUri,Activity activity) {
         String res = null;
 		try{
@@ -115,6 +132,79 @@ public class SystemUtil
         return res;
     }
 
+	/**
+	 * 获取磁盘缓存文件
+	 *
+	 * @param context
+	 * @param uniqueName
+	 * @return
+	 */
+	public static File getDiskCacheDir(Context context, String uniqueName) {
+		String cachePath;
+		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
+				|| !Environment.isExternalStorageRemovable()) {
+			cachePath = context.getExternalCacheDir().getPath();
+		} else {
+			cachePath = context.getCacheDir().getPath();
+		}
+		return new File(cachePath + File.separator + uniqueName);
+	}
+	/**
+	 * 获取应用程序版本号
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static int getAppVersion(Context context) {
+		try {
+			PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			return info.versionCode;
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return 1;
+	}
+	public static String hashKeyForDisk(String key) {
+		String cacheKey;
+		try {
+			final MessageDigest mDigest = MessageDigest.getInstance("MD5");
+			mDigest.update(key.getBytes());
+			cacheKey = bytesToHexString(mDigest.digest());
+		} catch (NoSuchAlgorithmException e) {
+			cacheKey = String.valueOf(key.hashCode());
+		}
+		return cacheKey;
+	}
+	/**
+	 * 获取拍照相片存储文件
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static File createFile(Context context) {
+		File file;
+		if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+			String timeStamp = String.valueOf(new Date().getTime());
+			file = new File(Environment.getExternalStorageDirectory() +
+					File.separator + timeStamp + ".jpg");
+		} else {
+			File cacheDir = context.getCacheDir();
+			String timeStamp = String.valueOf(new Date().getTime());
+			file = new File(cacheDir, timeStamp + ".jpg");
+		}
+		return file;
+	}
+	private static String bytesToHexString(byte[] bytes) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < bytes.length; i++) {
+			String hex = Integer.toHexString(0xFF & bytes[i]);
+			if (hex.length() == 1) {
+				sb.append('0');
+			}
+			sb.append(hex);
+		}
+		return sb.toString();
+	}
 	/**
 	 * 获取状态栏高度
 	 * @return
@@ -249,6 +339,30 @@ public class SystemUtil
 	}
 
 	/**
+	 * 获取当前年月
+	 * @return
+	 */
+	public static String getCurrentDateOnly3()
+	{
+		SimpleDateFormat formatter = new  SimpleDateFormat("yyyy-MM");
+		Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+		String str = formatter.format(curDate);
+		return str;
+	}
+
+	/**
+	 * 获取某月年月
+	 * @param date
+	 * @return
+	 */
+	public static String getCurrentDateOnly4(Date date)
+	{
+		SimpleDateFormat formatter = new  SimpleDateFormat("yyyy-MM");
+		String str = formatter.format(date);
+		return str;
+	}
+
+	/**
 	 * 计算时间差
 	 * @param d1
 	 * @param d2
@@ -278,6 +392,20 @@ public class SystemUtil
 		return result;
 	}
 
+	public static List<String> getBetweenDate(String date,int past){
+		List<String> list = null;
+		try{
+			Date start = StringToUtilDate(date);
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(start);
+			cal.add(Calendar.DAY_OF_MONTH, past);
+			Date end = cal.getTime();
+			list = getBetweenDateString(start,end);
+		}catch (Exception e){
+
+		}
+		return list;
+	}
 	/**
 	 * 日期转换字符串
 	 * @param DateTimeString
@@ -314,6 +442,22 @@ public class SystemUtil
 			tempStart.add(Calendar.DAY_OF_YEAR, 1);
 		}
 		result.add(end);
+		return result;
+	}
+	public static List<String> getBetweenDateString(Date start, Date end) {
+		List<String> result = new ArrayList<>();
+		Calendar tempStart = Calendar.getInstance();
+		tempStart.setTime(start);
+		tempStart.add(Calendar.DAY_OF_YEAR, 1);
+
+		Calendar tempEnd = Calendar.getInstance();
+		tempEnd.setTime(end);
+		result.add(UtilDateToString(start));
+		while (tempStart.before(tempEnd)) {
+			result.add(UtilDateToString(tempStart.getTime()));
+			tempStart.add(Calendar.DAY_OF_YEAR, 1);
+		}
+		result.add(UtilDateToString(end));
 		return result;
 	}
 	//由出生日期获得年龄
@@ -394,6 +538,20 @@ public class SystemUtil
         return sf.format(d);
     }
 
+	public static String getDateOnly2(String timeStr)
+	{
+		if(TextUtils.isEmpty(timeStr)||timeStr.equals("null"))
+		{
+			SimpleDateFormat formatter = new  SimpleDateFormat("yyyy-MM-dd HH:mm");
+			Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+			String str = formatter.format(curDate);
+			return str;
+		}
+		long time = Long.parseLong(timeStr);
+		Date d = new Date(time);
+		SimpleDateFormat  sf = new SimpleDateFormat("yyyy-MM-dd");
+		return sf.format(d);
+	}
     /**
      * 
      * @param time

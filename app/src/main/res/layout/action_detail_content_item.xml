@@ -5,18 +5,31 @@
     android:orientation="vertical"
     android:padding="@dimen/padding_10">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:background="@drawable/content_lable_bg"
         android:padding="@dimen/padding_5">
+
         <EditText
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/padding_5"
+            android:background="@color/white"
             android:gravity="top"
-            android:textSize="@dimen/text_14"
-            android:background="@color/white"/>
-    </LinearLayout>
+            android:padding="@dimen/padding_5"
+            android:textSize="@dimen/text_14" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/five_top_circular_ori_background"
+            android:textSize="10sp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:padding="@dimen/padding_2"
+            android:text="文本" />
+    </RelativeLayout>
 </LinearLayout>

@@ -29,6 +29,7 @@ import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.NoScrollListView;
+import com.cn.uca.view.dialog.LoadDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -49,6 +50,7 @@ public class FillInfoActivity extends BaseBackActivity implements View.OnClickLi
     private List<SetInfoBean> setInfoBeen;
     private FillInfoAdapter adapter;
     private int id;
+   private SameCityKaOrderBean bean;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,10 +128,10 @@ public class FillInfoActivity extends BaseBackActivity implements View.OnClickLi
                     switch (code){
                         case 0:
                             Gson gson = new Gson();
-                            JSONArray array = jsonObject.getJSONArray("data");
-                            SameCityKaOrderBean bean = gson.fromJson(array.toString(),new TypeToken<CityNameBean>() {
+                            JSONObject array = jsonObject.optJSONObject("data");
+                            bean = gson.fromJson(array.toString(),new TypeToken<SameCityKaOrderBean>() {
                             }.getType());
-                            BuySameCityKaPopupWindow window = new BuySameCityKaPopupWindow(getApplicationContext(),getWindow().getDecorView(),bean,FillInfoActivity.this);
+                            BuySameCityKaPopupWindow window = new BuySameCityKaPopupWindow(FillInfoActivity.this,getWindow().getDecorView(),bean,FillInfoActivity.this);
                             break;
                     }
                 }catch (Exception e){
@@ -150,7 +152,46 @@ public class FillInfoActivity extends BaseBackActivity implements View.OnClickLi
     }
 
     @Override
-    public void clickCall(PopupWindow window) {
+    public void clickCall(final PopupWindow window) {
+        LoadDialog.show(this);
+        Map<String,Object> map = new HashMap<>();
+        String timr_temp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",timr_temp);
+        String token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token", token);
+        map.put("actual_payment",bean.getPrice());
+        map.put("order_number",bean.getOrder_number());
+        String sign = SignUtil.sign(map);
+        HomeHttp.orderPayment(token, bean.getPrice(), 0, bean.getOrder_number(), sign, timr_temp, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                switch ((int)response){
+                    case 0:
+                        LoadDialog.dismiss(FillInfoActivity.this);
+                        window.dismiss();
+                        ToastXutil.show("支付成功");
+                        break;
+                    case 172:
+                        LoadDialog.dismiss(FillInfoActivity.this);
+                        window.dismiss();
+                        ToastXutil.show("钱包余额不足");
+                        break;
+                    default:
+                        window.dismiss();
+                        LoadDialog.dismiss(FillInfoActivity.this);
+                        break;
+                }
+            }
 
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
     }
 }

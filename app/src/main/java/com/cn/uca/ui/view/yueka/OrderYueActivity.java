@@ -1,10 +1,9 @@
 package com.cn.uca.ui.view.yueka;
 
-import android.content.Intent;
+ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -12,9 +11,6 @@ import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.yueka.CommentAdapter;
 import com.cn.uca.adapter.yueka.OrderCourseAdapter;
-import com.cn.uca.bean.OrderCourseBean;
-import com.cn.uca.bean.yueka.CommentBean;
-import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.yueka.YueKaHttp;
 import com.cn.uca.ui.view.user.AcceptOrderActivity;
@@ -23,15 +19,11 @@ import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
-import com.cn.uca.view.HorizontalListView;
-import com.cn.uca.view.NoScrollListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class OrderYueActivity extends BaseBackActivity implements View.OnClickListener{
 
@@ -62,19 +54,17 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
         age = (TextView)findViewById(R.id.age);
         pic = (CircleImageView)findViewById(R.id.pic);
 
-        layout = (RelativeLayout)findViewById(R.id.layout);
-        layout1 = (RelativeLayout)findViewById(R.id.layout1);
-        layout2 = (RelativeLayout)findViewById(R.id.layout2);
-        layout3 = (RelativeLayout)findViewById(R.id.layout3);
-        layout4 = (RelativeLayout)findViewById(R.id.layout4);
-        layout5 = (RelativeLayout)findViewById(R.id.layout5);
-        layout6 = (RelativeLayout)findViewById(R.id.layout6);
-        layout7 = (RelativeLayout)findViewById(R.id.layout7);
-        layout8 = (RelativeLayout)findViewById(R.id.layout8);
-        layout9 = (RelativeLayout)findViewById(R.id.layout9);
+        layout1 = (RelativeLayout)findViewById(R.id.layout1);//约咖-我的收藏
+        layout2 = (RelativeLayout)findViewById(R.id.layout2);//约咖-我的约单
+        layout3 = (RelativeLayout)findViewById(R.id.layout3);//领咖-发布约咖
+        layout4 = (RelativeLayout)findViewById(R.id.layout4);//领咖-我的发布
+        layout5 = (RelativeLayout)findViewById(R.id.layout5);//领咖-我的接单
+        layout6 = (RelativeLayout)findViewById(R.id.layout6);//领咖-我的评价
+        layout7 = (RelativeLayout)findViewById(R.id.layout7);//领咖-路线管理
+        layout8 = (RelativeLayout)findViewById(R.id.layout8);//领咖-标签管理
+        layout9 = (RelativeLayout)findViewById(R.id.layout9);//领咖-设置背景图
 
         back.setOnClickListener(this);
-        layout.setOnClickListener(this);
         layout1.setOnClickListener(this);
         layout2.setOnClickListener(this);
         layout3.setOnClickListener(this);
@@ -85,11 +75,6 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
         layout8.setOnClickListener(this);
         layout9.setOnClickListener(this);
 
-        if (SharePreferenceXutil.isAuthentication() && SharePreferenceXutil.isCollar()){
-            state.setText("已认证");
-        }else{
-            state.setText("成为领咖");
-        }
     }
 
     private void getEscortInfo(){
@@ -143,17 +128,6 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
             case R.id.back:
                 this.finish();
                 break;
-            case R.id.layout:
-//                startActivity(new Intent(OrderYueActivity.this,YuekaInfoActivity.class));
-                switch (state.getText().toString()){
-                    case "已认证":
-
-                        break;
-                    case "成为领咖":
-                        startActivityForResult(new Intent(OrderYueActivity.this,ToBeCollarActivity.class),0);
-                        break;
-                }
-                break;
             case R.id.layout1://游咖-我的收藏
 //                startActivity(new Intent(OrderYueActivity.this,PresetManagerActivity.class));
                 break;
@@ -164,38 +138,42 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
                startActivity(new Intent(OrderYueActivity.this,SendYueKaActivity.class));
                 break;
             case R.id.layout4://领咖-我的发布
-                if (SharePreferenceXutil.isCollar()){
-                    startActivity(new Intent(OrderYueActivity.this,SendListActivity.class));
-                }else{
-                    ToastXutil.show("请先成为大咖");
-                }
+                startActivity(new Intent(OrderYueActivity.this,SendListActivity.class));
+//                if (SharePreferenceXutil.isCollar()){
+//
+//                }else{
+//                    ToastXutil.show("请先成为大咖");
+//                }
                 break;
             case R.id.layout5://领咖-我的接单
-                if (SharePreferenceXutil.isCollar()){
-                    startActivity(new Intent(OrderYueActivity.this,AcceptOrderActivity.class));
-                }else{
-                    ToastXutil.show("请先成为大咖");
-                }
+                startActivity(new Intent(OrderYueActivity.this,AcceptOrderActivity.class));
+//                if (SharePreferenceXutil.isCollar()){
+//
+//                }else{
+//                    ToastXutil.show("请先成为大咖");
+//                }
                 break;
             case R.id.layout6://领咖-我的评价
 
                 break;
             case R.id.layout7://领咖-路线管理
-                if (SharePreferenceXutil.isCollar()){
-                    startActivity(new Intent(OrderYueActivity.this,PresetManagerActivity.class));
-                }else{
-                    ToastXutil.show("请先成为大咖");
-                }
+                startActivity(new Intent(OrderYueActivity.this,PresetManagerActivity.class));
+//                if (SharePreferenceXutil.isCollar()){
+//
+//                }else{
+//                    ToastXutil.show("请先成为大咖");
+//                }
                 break;
             case R.id.layout8://领咖-标签管理
 
                 break;
             case R.id.layout9://领咖-设置背景图
-                if (SharePreferenceXutil.isCollar()){
-                    startActivity(new Intent(OrderYueActivity.this,BackImageActivity.class));
-                }else{
-                    ToastXutil.show("请先成为大咖");
-                }
+                startActivity(new Intent(OrderYueActivity.this,BackImageActivity.class));
+//                if (SharePreferenceXutil.isCollar()){
+//
+//                }else{
+//                    ToastXutil.show("请先成为大咖");
+//                }
                 break;
         }
     }

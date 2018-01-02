@@ -2,6 +2,10 @@ package com.cn.uca.util;
 
 import android.widget.EditText;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +34,18 @@ public class StringXutil {
 		return false;
 	}
 
+	public static String ListtoString(List<String> list){
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0;i<list.size();i++){
+			if (i+1 == list.size()){
+				builder.append(list.get(i));
+			}else{
+				builder.append(list.get(i)+",");
+			}
+		}
+		return builder.toString();
+	}
+
 	/**
 	 * 正则表达式验证密码
 	 *
@@ -55,7 +71,20 @@ public class StringXutil {
 		Matcher m = p.matcher(strEmail);
 		return m.matches();
 	}
+	public static byte[] toByteArray(InputStream input){
+		try{
+			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			byte[] buffer = new byte[4096];
+			int n = 0;
+			while (-1 != (n = input.read(buffer))) {
+				output.write(buffer, 0, n);
+			}
+			return output.toByteArray();
+		}catch (Exception e){
 
+		}
+		return null;
+	}
 	/**
 	 * 验证身份证
 	 *

@@ -28,14 +28,13 @@
     <EditText
         android:id="@+id/sh"
         android:layout_width="fill_parent"
-        android:layout_height="55dp"
+        android:layout_height="50dp"
         android:drawableLeft="@mipmap/search_nav"
         android:drawablePadding="@dimen/padding_5"
         android:hint="@string/location_city_et_hint"
         android:padding="@dimen/padding_10"
         android:textColor="@color/gray"
         android:textSize="@dimen/text_16"
-        android:layout_marginTop="@dimen/padding_10"
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true">
     </EditText>
@@ -84,7 +83,6 @@
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
         android:layout_below="@id/sh"
-        android:layout_marginRight="@dimen/padding_2"
-        android:layout_marginTop="@dimen/padding_8"/>
+        android:layout_marginRight="@dimen/padding_2"/>
 
 </RelativeLayout>

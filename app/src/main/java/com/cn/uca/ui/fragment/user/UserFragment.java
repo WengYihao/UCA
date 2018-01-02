@@ -287,6 +287,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             public void onResponse(Object response) {
                 Gson gson = new Gson();
                 UserInfo info = gson.fromJson(response.toString(),new TypeToken<UserInfo>(){}.getType());
+                Log.e("456",info.getUser_head_portrait());
                 try{
                     ImageLoader.getInstance().displayImage(info.getUser_head_portrait(), pic);
                     userName = info.getUser_nick_name();
@@ -494,42 +495,47 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            if (msg.obj != null) {
-                Drawable drawable = new BitmapDrawable((Bitmap) msg.obj);
-                pic.setImageDrawable(drawable);
-                photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
-                ByteArrayInputStream bais = new ByteArrayInputStream(photodata);
-                LoadDialog.show(getActivity());
-                UserHttp.uploadPic(bais, new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                        if (i == 200){
-                            try {
-                                JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
-                                int code = jsonObject.getInt("code");
-                                switch (code){
-                                    case 0:
-                                        LoadDialog.dismiss(getActivity());
-                                        ToastXutil.show("上传成功");
-                                        break;
-                                    default:
-                                        LoadDialog.dismiss(getActivity());
-                                        ToastXutil.show("上传失败");
-                                        break;
+            try{
+                if (msg.obj != null) {
+                    Drawable drawable = new BitmapDrawable((Bitmap) msg.obj);
+                    pic.setImageDrawable(drawable);
+                    photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
+                    ByteArrayInputStream bais = new ByteArrayInputStream(photodata);
+                    LoadDialog.show(getActivity());
+                    UserHttp.uploadPic(bais, new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                            if (i == 200){
+                                try {
+                                    JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
+                                    int code = jsonObject.getInt("code");
+                                    switch (code){
+                                        case 0:
+                                            LoadDialog.dismiss(getActivity());
+                                            ToastXutil.show("上传成功");
+                                            break;
+                                        default:
+                                            LoadDialog.dismiss(getActivity());
+                                            ToastXutil.show("上传失败");
+                                            break;
+                                    }
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
                         }
-                    }
-                    @Override
-                    public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                        ToastXutil.show("上传失败");
-                    }
-                });
+                        @Override
+                        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                            ToastXutil.show("上传失败");
+                        }
+                    });
+                }
+            }catch (Exception e){
+                Log.e("789",e.getMessage());
             }
+
         };
     };
 
@@ -603,12 +609,12 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         intent.setDataAndType(orgUri, "image/*");
         // crop为true是设置在开启的intent中设置显示的view可以剪裁
         intent.putExtra("crop", "true");
-
         // aspectX aspectY 是宽高的比例
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
 
         // outputX,outputY 是剪裁图片的宽高
+
         intent.putExtra("outputX", size);
         intent.putExtra("outputY", size);
         intent.putExtra("return-data", true);

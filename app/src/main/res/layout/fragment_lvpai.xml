@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商家"
+            android:drawableBottom="@mipmap/little_down"
+            android:textColor="@color/ori"
+            android:padding="@dimen/padding_10"/>
+        <LinearLayout
+            android:id="@+id/seachLayout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/twenty_circular_gray_background"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/padding_15"
+            android:layout_marginRight="@dimen/padding_30">
+
+
+            <TextView
+                android:id="@+id/search_et"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/padding_8"
+                android:layout_marginRight="@dimen/padding_8"
+                android:textColor="@color/milky"
+                android:hint="输入想去的地方或喜欢的风格~"
+                android:textSize="@dimen/text_12" />
+
+            <ImageView
+                android:id="@+id/search"
+                android:layout_width="@dimen/padding_15"
+                android:layout_height="@dimen/padding_15"
+                android:layout_marginRight="@dimen/padding_8"
+                android:layout_gravity="center_vertical"
+                android:background="@mipmap/search_nav" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/more_option"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/padding_12"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_10"
+        android:background="@color/gray">
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="@dimen/padding_10"
+            android:divider="@color/transparent"></ListView>
+    </LinearLayout>
+</LinearLayout>

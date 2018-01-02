@@ -60,6 +60,7 @@ public class ActionDetailActivity extends BaseBackActivity implements View.OnCli
     private ListView listView;
     private TextView submit;
     private List<AddTicketBean> ticketList;
+    private Dialog dialog;
 //    private List<FillInfoBean> infoList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +137,7 @@ public class ActionDetailActivity extends BaseBackActivity implements View.OnCli
                 intent.putParcelableArrayListExtra("ticketList",(ArrayList<? extends Parcelable>) ticketList);
                 intent.putParcelableArrayListExtra("infoList",(ArrayList<? extends Parcelable>) bean.getFillUserInfos());
                 startActivity(intent);
+                dialog.dismiss();
                 break;
 
         }
@@ -196,7 +198,7 @@ public class ActionDetailActivity extends BaseBackActivity implements View.OnCli
      * 参与活动门票弹窗
      */
     private void showCityDialog(){
-        Dialog dialog = new Dialog(this,R.style.dialog_style);
+       dialog = new Dialog(this,R.style.dialog_style);
         View inflate = LayoutInflater.from(this).inflate(R.layout.join_action_dialog, null);
         listView = (ListView)inflate.findViewById(R.id.listView);
         submit = (TextView)inflate.findViewById(R.id.submit);

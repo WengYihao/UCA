@@ -29,6 +29,10 @@ import com.cn.uca.popupwindows.LoadingPopupWindow;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.ui.view.home.lvpai.LvPaiActivity;
+import com.cn.uca.ui.view.home.lvpai.MerchantAlbumActivity;
+import com.cn.uca.ui.view.home.lvpai.MerchantInfoActivity;
+import com.cn.uca.ui.view.home.lvpai.MerchantManageActivity;
 import com.cn.uca.ui.view.home.samecityka.SameCityKaActivity;
 import com.cn.uca.ui.view.home.sign.SignActivity;
 import com.cn.uca.ui.view.home.footprint.FootPrintActivity;
@@ -39,6 +43,7 @@ import com.cn.uca.ui.view.home.SearchActivity;
 import com.cn.uca.ui.view.home.travel.TourismActivity;
 import com.cn.uca.ui.view.home.yusheng.YuShengActivity;
 import com.cn.uca.ui.view.home.yusheng.YuShengDetailsActivity;
+import com.cn.uca.ui.view.util.CountyActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StatusMargin;
@@ -68,7 +73,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private List<String> images=new ArrayList<>();//图片地址集合
     private int height; //透明内容高度
     private TextView backlayout,sign;
-    private LinearLayout planeTicket,hotel,tourism,oneRaiders,yusheng,footprint;//机票、酒店、旅游、一元攻略、余生、足迹
+    private LinearLayout planeTicket,hotel,tourism,oneRaiders,yusheng,footprint,samecityka,lvpai;//机票、酒店、旅游、一元攻略、余生、足迹
     private TextView search_et;
     private List<CarouselFiguresBean> listPic;
     private String version,new_version;
@@ -144,6 +149,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         planeTicket = (LinearLayout) view.findViewById(R.id.planeTicket);
         hotel = (LinearLayout)view.findViewById(R.id.hotel);
         tourism = (LinearLayout)view.findViewById(R.id.tourism);
+        samecityka = (LinearLayout)view.findViewById(R.id.samecityka);
+        lvpai = (LinearLayout)view.findViewById(R.id.lvpai);
         oneRaiders = (LinearLayout)view.findViewById(R.id.oneRaiders);
         yusheng = (LinearLayout)view.findViewById(R.id.yusheng);
         footprint = (LinearLayout)view.findViewById(R.id.footprint);
@@ -154,6 +161,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         planeTicket.setOnClickListener(this);
         hotel.setOnClickListener(this);
         tourism.setOnClickListener(this);
+        samecityka.setOnClickListener(this);
+        lvpai.setOnClickListener(this);
         oneRaiders.setOnClickListener(this);
         yusheng.setOnClickListener(this);
         footprint.setOnClickListener(this);
@@ -214,14 +223,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), SignActivity.class));
                 break;
             case R.id.planeTicket:
-//                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
-                startActivity(new Intent(getActivity(), SameCityKaActivity.class));
+                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
                 break;
             case R.id.hotel:
-                startActivity(new Intent(getActivity(), HotleActivity.class));
+//                startActivity(new Intent(getActivity(), HotleActivity.class));
+
+                startActivity(new Intent(getActivity(), CountyActivity.class));
                 break;
             case R.id.tourism:
-                startActivity(new Intent(getActivity(), TourismActivity.class));
+//                startActivity(new Intent(getActivity(), TourismActivity.class));
+                startActivity(new Intent(getActivity(), MerchantManageActivity.class));
+                break;
+            case R.id.samecityka:
+                startActivity(new Intent(getActivity(), SameCityKaActivity.class));
+                break;
+            case R.id.lvpai:
+                startActivity(new Intent(getActivity(), LvPaiActivity.class));
                 break;
             case R.id.oneRaiders:
                 startActivity(new Intent(getActivity(), RaidersActivity.class));

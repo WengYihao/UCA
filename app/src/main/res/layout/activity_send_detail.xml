@@ -36,18 +36,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <com.cn.uca.view.NoScrollListView
-                android:id="@+id/listView"
+            <LinearLayout
+                android:id="@+id/layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></com.cn.uca.view.NoScrollListView>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_40">
                 <TextView
                     android:id="@+id/add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:background="@mipmap/add_back"
                     android:layout_centerHorizontal="true"/>
             </RelativeLayout>

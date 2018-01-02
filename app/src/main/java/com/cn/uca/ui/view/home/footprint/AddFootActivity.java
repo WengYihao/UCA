@@ -45,6 +45,7 @@ import com.cn.uca.impl.datepicker.OnSureLisener;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseHideActivity;
 import com.cn.uca.util.AndroidClass;
+import com.cn.uca.util.PhotoCompress;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -77,7 +78,7 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
     private RelativeLayout llTitle;
     private String[] arrayString = { "拍照", "相册" };
     private String title = "上传照片";
-    private File bais;
+    private Bitmap bais;
     private String codeCity,name;
     private int year_num,city_num;
     private List<CityNameBean> listCity;
@@ -297,8 +298,9 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                     map.put("city_id",cityId);
                     map.put("travel_time",travelTime);
                     map.put("content",travelContent);
+                    File file = PhotoCompress.comp(bais);
                     String sign = SignUtil.sign(map);
-                    HomeHttp.addFootprintChina(sign, time_stamp, account_token, cityId, travelTime, travelContent, bais, new AsyncHttpResponseHandler() {
+                    HomeHttp.addFootprintChina(sign, time_stamp, account_token, cityId, travelTime, travelContent, file, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int i, Header[] headers, byte[] bytes) {
                             if (i == 200){
@@ -349,7 +351,8 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                 map.put("travel_time",travelTime);
                 map.put("content",travelContent);
                 String sign = SignUtil.sign(map);
-                HomeHttp.addFootprintWorld(sign, time_stamp, account_token, codeCity, travelTime, travelContent, bais, new AsyncHttpResponseHandler() {
+                File file = PhotoCompress.comp(bais);
+                HomeHttp.addFootprintWorld(sign, time_stamp, account_token, codeCity, travelTime, travelContent, file, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int i, Header[] headers, byte[] bytes) {
                         if (i == 200){
@@ -491,13 +494,12 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
     private void setPicToView(File picdata) {
         if (picdata != null){
             try{
-                bais = picdata;
-                final Bitmap bitmap= BitmapFactory.decodeFile(picdata.toString());
+                bais= BitmapFactory.decodeFile(picdata.toString());
                 new Thread() {
                     @Override
                     public void run() {
-                        if (bitmap != null) {
-                            handler.obtainMessage(0, bitmap).sendToTarget();
+                        if (bais != null) {
+                            handler.obtainMessage(0, bais).sendToTarget();
                             //将bitmap转换成File类型
                         } else {
                             handler.obtainMessage(-1, null).sendToTarget();

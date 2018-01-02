@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class OtherYueActivity extends BaseBackActivity implements View.OnClickListener {
 
-    private TextView back,name,age,sex,state;
+    private TextView back,name,age,sex;
     private CircleImageView pic;
 
     @Override
@@ -99,10 +99,8 @@ public class OtherYueActivity extends BaseBackActivity implements View.OnClickLi
         name = (TextView)findViewById(R.id.name);
         age = (TextView)findViewById(R.id.age);
         sex = (TextView)findViewById(R.id.sex);
-        state = (TextView)findViewById(R.id.state);
 
         back.setOnClickListener(this);
-        state.setOnClickListener(this);
     }
 
     @Override

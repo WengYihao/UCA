@@ -191,6 +191,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                 Intent intent = new Intent();
                 intent.setClass(getActivity(),CityActivity.class);
                 intent.putExtra("city",city);
+                intent.putExtra("type","yueka");
                 startActivityForResult(intent,0);
                 break;
             case R.id.messageYue:

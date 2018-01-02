@@ -1,11 +1,13 @@
 package com.cn.uca.server.home;
 
-import android.telecom.Call;
-
+import com.cn.uca.bean.home.lvpai.BecomeMerchantBean;
 import com.cn.uca.bean.home.samecityka.AddCardBean;
+import com.cn.uca.bean.home.samecityka.SendActionBean;
+import com.cn.uca.bean.home.samecityka.SendImgFileBean;
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.util.PhotoCompress;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -13,7 +15,9 @@ import com.loopj.android.http.RequestParams;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -673,7 +677,477 @@ public class HomeHttp extends BaseServer {
         map.put("time_stamp",time_stamp);
         map.put("tickets",tickets);
         map.put("fill_infos",fill_infos);
-        post4(MyConfig.orderTicket,map,callBack);
+        post5(MyConfig.orderTicket,map,callBack);
+    }
+
+    /**
+     * 发布同城咖
+     * @param bean
+     * @param list
+     * @param handler
+     */
+    public static void releaseCityCafe(SendActionBean bean, List<SendImgFileBean> list,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("account_token",bean.getAccount_token());
+        params.put("time_stamp", bean.getTime_stamp());
+        params.put("sign",bean.getSign());
+        params.put("charge",bean.isCharge());
+        params.put("activity_type_id", bean.getActivity_type_id());
+        params.put("beg_time",bean.getBeg_time());
+        params.put("end_time", bean.getEnd_time());
+        params.put("labels", bean.getLabels());
+        params.put("purchase_ticket",bean.isPurchase_ticket());
+        params.put("title", bean.getTitle());
+        params.put("details",bean.getDetails());
+        params.put("user_card_id", bean.getUser_card_id());
+        params.put("cover",bean.getCover());
+        params.put("position", bean.getPosition());
+        params.put("tickets",bean.getTickets());
+        params.put("fill_infos",bean.getFill_infos());
+        if (list.size() > 0){
+            for (int i = 0;i<list.size();i++){
+                params.put(list.get(i).getImgName(),list.get(i).getFile());
+            }
+        }
+        client.post(MyConfig.releaseCityCafe,params,handler);
+    }
+
+    /**
+     * 获取我的门票
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param page
+     * @param pageCount
+     * @param callBack
+     */
+    public static void getMyTicket(String account_token,String time_stamp,String sign,int page,int pageCount,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.getMyTicket,map,callBack);
+    }
+
+    /**
+     * 获取门票二维码
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param city_cafe_order_id
+     * @param callBack
+     */
+    public static void getUserTickets(String account_token,String time_stamp,String sign,int city_cafe_order_id,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("city_cafe_order_id",city_cafe_order_id);
+        get(MyConfig.getUserTickets,map,callBack);
+    }
+
+    /**
+     * 旅拍商家入驻
+     * @param bean
+     * @param stream
+     * @param handler
+     */
+    public static void becomeMerchant(BecomeMerchantBean bean, InputStream stream, AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("account_token",bean.getAccount_token());
+        params.put("time_stamp",bean.getTime_stamp());
+        params.put("sign",bean.getSign());
+        params.put("contacts",bean.getContacts());
+        params.put("domestic_travel",bean.getDomestic_travel());
+        params.put("introduce",bean.getIntroduce());
+        params.put("merchant_name",bean.getMerchant_name());
+        params.put("overseas_tour",bean.getOverseas_tour());
+        params.put("weixin",bean.getWeixin());
+        params.put("position",bean.getPosition());
+//        if (bean.getPictures() != null){
+//
+//        }
+        params.put("head_portrait",stream);
+        params.put("phone",bean.getPhone());
+        client.post(MyConfig.becomeMerchant,params,handler);
+    }
+
+    /**
+     * 获取商家信息
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param callBack
+     */
+    public static void getMerchantInfo(String time_stamp,String sign,String account_token,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        get(MyConfig.getMerchantInfo,map,callBack);
+    }
+
+    /**
+     * 获取旅拍商家地址
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param trip_shoopt_merchant_address_id
+     * @param callBack
+     */
+    public static void gerAddress(String time_stamp,String sign,String account_token,int trip_shoopt_merchant_address_id,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        if (trip_shoopt_merchant_address_id != 0){
+            map.put("trip_shoopt_merchant_address_id",trip_shoopt_merchant_address_id);
+        }
+        get(MyConfig.gerAddress,map,callBack);
+    }
+
+    /**
+     * 获取旅拍样式标签
+     * @param time_stamp
+     * @param sign
+     * @param callBack
+     */
+    public static void getStyleLable(String time_stamp,String sign,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        get(MyConfig.getStyleLable,map,callBack);
+    }
+
+    /**
+     * 获取旅拍商品 包括关键字搜索 (-旅拍-)
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param page
+     * @param pageCount
+     * @param labels
+     * @param type
+     * @param sortType
+     * @param sortMode
+     * @param trip_shoot_merchant_id
+     * @param keyword
+     * @param handler
+     */
+    public static void getTs(String time_stamp,String sign,String account_token,int page,int pageCount,
+                             String labels,String type,String sortType,String sortMode,int trip_shoot_merchant_id,
+                             String keyword,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("time_stamp",time_stamp);
+        params.put("sign",sign);
+        params.put("account_token",account_token);
+        params.put("page",page);
+        params.put("pageCount",pageCount);
+        params.put("labels",labels);
+        params.put("type",type);
+        params.put("sortType",sortType);
+        params.put("sortMode",sortMode);
+        if (trip_shoot_merchant_id != 0){
+            params.put("trip_shoot_merchant_id",trip_shoot_merchant_id);
+        }
+        params.put("keyword",keyword);
+        client.get(MyConfig.getTs,params,handler);
+    }
+
+    /**
+     * 获取旅拍商户 (-旅拍-商家-)
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param page
+     * @param pageCount
+     * @param gaode_code
+     * @param sortType
+     * @param sortMode
+     * @param keyword
+     * @param handler
+     */
+    public static void getMerchants(String time_stamp,String sign,String account_token,int page,int pageCount,String gaode_code,String sortType,String sortMode,String keyword,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("time_stamp",time_stamp);
+        params.put("sign",sign);
+        params.put("account_token",account_token);
+        params.put("page",page);
+        params.put("pageCount",pageCount);
+        params.put("gaode_code",gaode_code);
+        params.put("sortType",sortType);
+        params.put("sortMode",sortMode);
+        params.put("keyword",keyword);
+        client.get(MyConfig.getMerchants,params,handler);
+    }
+
+    /**
+     * 发布旅拍
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param trip_shoot_type_id
+     * @param days
+     * @param rest_day
+     * @param title
+     * @param price
+     * @param style_label_ids
+     * @param summary
+     * @param trip
+     * @param photo
+     * @param notice
+     * @param pictures
+     * @param gaode_code
+     * @param country_id
+     * @param list
+     * @param handler
+     */
+    public static void releaseTripShoot(String time_stamp,String sign,
+            String account_token,int trip_shoot_type_id,
+            int days,String rest_day,String title,String price,
+            String style_label_ids,String summary,String trip,
+            String photo,String notice,String pictures,
+            String gaode_code,int country_id,List<SendImgFileBean> list,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("time_stamp",time_stamp);
+        params.put("sign",sign);
+        params.put("account_token",account_token);
+        params.put("trip_shoot_type_id",trip_shoot_type_id);
+        params.put("days",days);
+        params.put("rest_day",rest_day);
+        params.put("title",title);
+        params.put("price",price);
+        params.put("style_label_ids",style_label_ids);
+        params.put("summary",summary);
+        params.put("trip",trip);
+        params.put("photo",photo);
+        params.put("notice",notice);
+        params.put("pictures",pictures);
+        params.put("gaode_code",gaode_code);
+        params.put("country_id",country_id);
+        for (int i = 0;i<list.size();i++){
+            try {
+                params.put(list.get(i).getImgName(), PhotoCompress.comp(list.get(i).getFile()));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        client.post(MyConfig.releaseTripShoot,params,handler);
+    }
+
+    /**
+     * 获取商品详细信息
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param trip_shoot_id
+     * @param callBack
+     */
+    public static void getCommodityInfo(String time_stamp,String sign,String account_token,int trip_shoot_id,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("trip_shoot_id",trip_shoot_id);
+        get(MyConfig.getCommodityInfo,map,callBack);
+    }
+
+    /**
+     * 获取商家详细信息
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param trip_shoot_merchant_id
+     * @param callBack
+     */
+    public static void getMerInfo(String time_stamp,String sign,String account_token,int trip_shoot_merchant_id,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("trip_shoot_merchant_id",trip_shoot_merchant_id);
+        get(MyConfig.getMerInfo,map,callBack);
+    }
+
+    /**
+     * 获取旅拍商户相册图片
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param trip_shoot_merchant_id
+     * @param callBack
+     */
+    public static void getMerAllPic(String time_stamp,String sign,String account_token,int trip_shoot_merchant_id,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("trip_shoot_merchant_id",trip_shoot_merchant_id);
+        get(MyConfig.getMerAllPic,map,callBack);
+    }
+
+    /**
+     * .获取旅拍商品行程
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param trip_shoot_id
+     * @param callBack
+     */
+    public static void getTsDate(String time_stamp,String sign,String account_token,int trip_shoot_id,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("trip_shoot_id",trip_shoot_id);
+        get(MyConfig.getTsDate,map,callBack);
+    }
+
+    /**
+     * 收藏或取消收藏旅拍商品
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param trip_shoot_id
+     * @param callBack
+     */
+    public static void collectionTs(String time_stamp,String sign,String account_token,int trip_shoot_id,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("trip_shoot_id",trip_shoot_id+"");
+        post4(MyConfig.collectionTs,map,callBack);
+    }
+
+    /**
+     * 关注/取消关注旅拍商户
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param trip_shoot_merchant_id
+     * @param callBack
+     */
+    public static void followMerchant(String time_stamp,String sign,String account_token,int trip_shoot_merchant_id,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("trip_shoot_merchant_id",trip_shoot_merchant_id+"");
+        post4(MyConfig.followMerchant,map,callBack);
+    }
+
+    /**
+     * 行程选择
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param trip_shoot_id
+     * @param dates
+     * @param callBack
+     */
+    public static void createTsOrder(String time_stamp,String sign,String account_token,int trip_shoot_id,String dates,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("trip_shoot_id",trip_shoot_id+"");
+        map.put("dates",dates);
+        post5(MyConfig.createTsOrder,map,callBack);
+    }
+
+    /**
+     * 旅拍团队增删改
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param type
+     * @param introduce
+     * @param head_portrait
+     * @param trip_shoot_team_id
+     * @param handler
+     */
+    public static void updateTeam(String time_stamp,String sign,String account_token,String type,String introduce,File head_portrait,int trip_shoot_team_id,AsyncHttpResponseHandler handler ){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sign",sign);
+        params.put("time_stamp", time_stamp);
+        params.put("account_token",account_token);
+        params.put("type",type);
+       if (introduce != null){
+           params.put("introduce",introduce);
+       }
+        try {
+            if (head_portrait != null){
+                params.put("head_portrait",head_portrait);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (trip_shoot_team_id != 0){
+            params.put("trip_shoot_team_id",trip_shoot_team_id);
+        }
+        client.post(MyConfig.updateTeam,params,handler);
+    }
+
+    /**
+     * 获取旅拍团队
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param callBack
+     */
+    public static void getTeam(String time_stamp,String sign,String account_token,CallBack callBack) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        get(MyConfig.getTeam,map,callBack);
+    }
+
+    /**
+     * 获取用户收藏的旅拍商户
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param page
+     * @param pageCount
+     * @param callBack
+     */
+    public static void getFollowMers(String time_stamp,String sign,String account_token,int page,int pageCount,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.getFollowMers,map,callBack);
+    }
+
+    /**
+     * 获取用户收藏的旅拍商户
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param page
+     * @param pageCount
+     * @param callBack
+     */
+    public static void getCollTs(String time_stamp,String sign,String account_token,int page,int pageCount,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.getCollTs,map,callBack);
     }
 }
 

@@ -41,6 +41,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".config.MyApplication"
@@ -498,7 +499,28 @@
             android:name=".ui.view.home.samecityka.EnListActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".ui.view.home.samecityka.SendDetailActivity" />
-        <activity android:name=".ui.view.home.samecityka.FillInfoActivity"></activity>
+        <activity android:name=".ui.view.home.samecityka.FillInfoActivity" />
+        <activity android:name=".ui.view.home.samecityka.TicketCodeActivity" />
+        <activity android:name=".ui.view.home.lvpai.LvPaiActivity" />
+        <activity android:name=".ui.view.home.lvpai.MerchantDetailActivity" />
+        <activity android:name=".ui.view.home.lvpai.CommodityDetailActivity" />
+        <activity android:name=".ui.view.home.lvpai.MerchantEntryActivity" />
+        <activity android:name=".ui.view.home.lvpai.MerchantInfoActivity" />
+        <activity android:name=".ui.view.home.lvpai.MerchantManageActivity" />
+        <activity android:name=".ui.view.home.lvpai.MerchantAlbumActivity" />
+        <activity android:name=".ui.view.home.lvpai.MerchantAddressActivity" />
+        <activity android:name=".ui.view.home.lvpai.MerchantCommodityActivity" />
+        <activity android:name=".ui.view.home.lvpai.MerchantTeamActivity" />
+        <activity android:name=".ui.view.home.lvpai.MerchantOrderActivity" />
+        <activity android:name=".ui.view.home.lvpai.AddMerchantActivity" />
+        <activity android:name=".ui.view.home.lvpai.DatePickerActivity" />
+        <activity android:name=".ui.view.home.lvpai.LvPaiDetailActivity" />
+        <activity android:name=".ui.view.util.CountyActivity" />
+        <activity android:name=".ui.view.util.PhotoPickerActivity" />
+        <activity android:name=".ui.view.util.PreviewPhotoActivity" />
+        <activity android:name=".ui.view.home.lvpai.LookPhotoActivity" />
+        <activity android:name=".ui.view.home.lvpai.DateChoiceActivity" />
+        <activity android:name=".ui.view.home.lvpai.AddTeamActivity"></activity>
     </application>
 
 </manifest>

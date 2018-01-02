@@ -63,7 +63,7 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
     private TextView tv_noresult;
     private DatabaseHelper helper;
     private TextView stateTitle,back;
-    private String city;
+    private String city,type;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -145,7 +145,14 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
                     city_history.add(allCity_lists.get(position).getName());
                     InsertCity(allCity_lists.get(position).getName());
                     adapter.notifyDataSetChanged();
-                    sendInfo(allCity_lists.get(position).getName());
+                    switch (type){
+                        case "yueka":
+                            sendInfo(allCity_lists.get(position).getName(),0);
+                            break;
+                        case "lvpai":
+                            sendInfo(allCity_lists.get(position).getName(),2);
+                            break;
+                    }
                 }
             }
         });
@@ -160,7 +167,14 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
                 InsertCity(city_result.get(position).getName());
                 city_history.add(city_result.get(position).getName());
                 adapter.notifyDataSetChanged();
-                sendInfo(city_result.get(position).getName());
+                switch (type){
+                    case "yueka":
+                        sendInfo(city_result.get(position).getName(),0);
+                        break;
+                    case "lvpai":
+                        sendInfo(city_result.get(position).getName(),2);
+                        break;
+                }
             }
         });
     }
@@ -315,12 +329,12 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
     }
 
 
-    private void sendInfo(String name){
+    private void sendInfo(String name,int resultCode){
         String code = getCodeByName(name);
         Intent intent = new Intent();
         intent.putExtra("city",name);
         intent.putExtra("code",code);
-        setResult(0,intent);
+        setResult(resultCode,intent);
         this.finish();
     }
     Comparator comparator = new Comparator<City>() {
@@ -346,9 +360,17 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
     public void getInfo() {
         Intent intent = getIntent();
         if (intent != null){
-            city = intent.getStringExtra("city");
-            city_history.add(city);
-            adapter.notifyDataSetChanged();
+            type = intent.getStringExtra("type");
+            switch (type){
+                case "yueka":
+                    city = intent.getStringExtra("city");
+                    city_history.add(city);
+                    adapter.notifyDataSetChanged();
+                    break;
+                case "lvpai":
+
+                    break;
+            }
         }
     }
 
@@ -469,11 +491,14 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
-
-//                        Toast.makeText(getApplicationContext(),--
-//                                city_history.get(position)+"2", Toast.LENGTH_SHORT)
-//                                .show();
-                        sendInfo(city_history.get(position));
+                        switch (type){
+                            case "yueka":
+                                sendInfo(city_history.get(position),0);
+                                break;
+                            case "lvpai":
+                                sendInfo(city_history.get(position),2);
+                                break;
+                        }
                     }
                 });
                 TextView recentHint = (TextView) convertView
@@ -496,7 +521,14 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
                         InsertCity(city_hot.get(position).getName());
                         city_history.add(city_hot.get(position).getName());
                         adapter.notifyDataSetChanged();
-                        sendInfo(city_hot.get(position).getName());
+                        switch (type){
+                            case "yueka":
+                                sendInfo(city_hot.get(position).getName(),0);
+                                break;
+                            case "lvpai":
+                                sendInfo(city_hot.get(position).getName(),2);
+                                break;
+                        }
                     }
                 });
                 hotCity.setAdapter(new HotCityAdapter(context, this.hotList));

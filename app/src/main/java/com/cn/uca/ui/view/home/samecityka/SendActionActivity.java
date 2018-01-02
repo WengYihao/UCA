@@ -37,6 +37,10 @@ import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.bean.home.samecityka.LableBean;
+import com.cn.uca.bean.home.samecityka.SendActionBean;
+import com.cn.uca.bean.home.samecityka.SendImgFileBean;
+import com.cn.uca.bean.home.samecityka.SetTicketInfoBean;
+import com.cn.uca.bean.home.samecityka.TicketBean;
 import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
@@ -44,6 +48,7 @@ import com.cn.uca.impl.datepicker.OnSureLisener;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.AndroidClass;
+import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusMargin;
@@ -52,12 +57,16 @@ import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.FluidLayout;
 import com.cn.uca.view.datepicker.DatePickDialog;
+import com.cn.uca.view.dialog.LoadDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,7 +79,8 @@ import java.util.Map;
  */
 public class SendActionActivity extends BaseBackActivity implements View.OnClickListener,OnSureLisener{
 
-    private TextView back,edit,type_start,cardname,add_lable;
+    private TextView back,edit,actionType,type_start,cardname,add_lable,send;
+    private EditText actionTitle;
     private LinearLayout layout1;
     private RelativeLayout layout2,layout3,layout4,layout5;
     private ImageView pic;
@@ -85,14 +95,18 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
     private List<String> listLable;
     private List<String> selectList;
     private EditText lable_text;
-    private int cardId;
+    private int cardId,actionTypeId;
     private int type;
     private String start_time,end_time;
     private String[] arrayString = { "拍照", "相册" };
     private String title = "上传照片";
     private Uri imageUri;
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
-    private File bais;
+    private ByteArrayInputStream bais;
+    private  ArrayList<String> list;//活动详情
+    private ArrayList<SendImgFileBean> listImg;
+    private ArrayList<SetTicketInfoBean> listTicket;
+    private ArrayList<String> listInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +117,8 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
 
     private void initView() {
         back = (TextView)findViewById(R.id.back);
+        actionTitle= (EditText)findViewById(R.id.actionTitle);
+        actionType = (TextView)findViewById(R.id.actionType);//活动形式
         edit = (TextView)findViewById(R.id.edit);
         addPic = (TextView)findViewById(R.id.addPic);
         pic = (ImageView)findViewById(R.id.pic);
@@ -117,6 +133,7 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
         add_lable = (TextView) findViewById(R.id.add_lable);
         startTime = (TextView)findViewById(R.id.startTime);
         endTime = (TextView)findViewById(R.id.endTime);
+        send = (TextView)findViewById(R.id.send);
 
         back.setOnClickListener(this);
         edit.setOnClickListener(this);
@@ -129,10 +146,14 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
         add_lable.setOnClickListener(this);
         startTime.setOnClickListener(this);
         endTime.setOnClickListener(this);
-
+        send.setOnClickListener(this);
         selectList = new ArrayList<>();
         listLable = new ArrayList<>();
         getCafeLabel();
+        list = new ArrayList<>();
+        listInfo = new ArrayList<>();
+        listTicket = new ArrayList<>();
+        listImg = new ArrayList<>();
 
     }
 
@@ -288,9 +309,13 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                 startActivityForResult(new Intent(SendActionActivity.this,CardChoiceActivity.class),0);
                 break;
             case R.id.man:
+                actionType.setText("线上活动");
+                actionTypeId = 1;
                 this.dialog.dismiss();
                 break;
             case R.id.woman:
+                actionType.setText("线下活动");
+                actionTypeId = 2;
                 startActivity(new Intent(SendActionActivity.this,ActionPlaceActivity.class));
                 this.dialog.dismiss();
                 break;
@@ -306,10 +331,10 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                 show();
                 break;
             case R.id.layout3:
-                startActivity(new Intent(SendActionActivity.this,EnListActivity.class));
+                startActivityForResult(new Intent(SendActionActivity.this,EnListActivity.class),3);//报名设置
                 break;
             case R.id.layout4:
-                startActivity(new Intent(SendActionActivity.this,SendDetailActivity.class));
+                startActivityForResult(new Intent(SendActionActivity.this,SendDetailActivity.class),4);//详情
                 break;
             case R.id.add_lable:
                 showLable();
@@ -337,7 +362,21 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                     lable_item.setVisibility(View.GONE);
                 }
                 break;
+            case R.id.send:
+                sendAction();
+                break;
         }
+    }
+    private String ListtoString(List<String> list){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0;i<list.size();i++){
+            if (i != list.size()-1){
+                stringBuilder.append(list.get(i)).append(",");
+            }else{
+                stringBuilder.append(list.get(i));
+            }
+        }
+        return stringBuilder.toString();
     }
     private void getCafeLabel(){
         Map<String,Object> map = new HashMap<>();
@@ -506,7 +545,6 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
     private void setPicToView(File picdata) {
         if (picdata != null){
             try{
-                bais = picdata;
                 final Bitmap bitmap= BitmapFactory.decodeFile(picdata.toString());
                 new Thread() {
                     @Override
@@ -530,6 +568,8 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                 Drawable drawable = new BitmapDrawable((Bitmap) msg.obj);
                 pic.setVisibility(View.VISIBLE);
                 pic.setImageDrawable(drawable);
+                byte [] photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
+                bais = new ByteArrayInputStream(photodata);
             }
         };
     };
@@ -565,6 +605,127 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                     setPicToView(new File(SystemUtil.getRealPathFromURI(data.getData(),this)));
                 }
                 break;
+            case 3:
+                listTicket = data.getParcelableArrayListExtra("ticketList");
+                listInfo = data.getStringArrayListExtra("infoList");
+                break;
+            case 4:
+                list = data.getStringArrayListExtra("listContent");
+                break;
+
         }
+    }
+
+    private void sendAction(){
+        Gson gson = new Gson();
+        SendActionBean bean = new SendActionBean();
+        if (StringXutil.isEmpty(actionTitle.getText().toString())){
+            ToastXutil.show("活动标题不能为空");
+        }else{
+            bean.setTitle(actionTitle.getText().toString());
+            if (bais != null){
+                bean.setCover(bais);
+                if (cardId != 0){
+                    bean.setUser_card_id(cardId);
+                    if (actionTypeId != 0){
+                        bean.setActivity_type_id(actionTypeId);
+                        switch (actionTypeId){
+                            case 1://线上活动
+                                bean.setPosition("");
+                                break;
+                            case 2://线下活动
+
+                                break;
+                        }
+                        if (StringXutil.isEmpty(start_time)){
+                            ToastXutil.show("活动开始时间不能为空");
+                        }else{
+                            bean.setBeg_time(start_time);
+                            if (StringXutil.isEmpty(end_time)){
+                                ToastXutil.show("结束时间不能为空");
+                            }else{
+                                bean.setEnd_time(end_time);
+                                if (listTicket.size() != 0){
+                                    bean.setTickets(gson.toJson(listTicket));
+                                    for (int b = 0;b<listTicket.size();b++){
+                                        if (listTicket.get(b).getPrice() != 0){
+                                            bean.setCharge(true);
+                                            break;
+                                        }else {
+                                            bean.setCharge(false);
+                                        }
+                                    }
+                                    if (listInfo != null){
+                                        bean.setFill_infos(gson.toJson(listInfo));
+                                    }
+                                    if (selectList.size() != 0){
+                                        bean.setLabels(ListtoString(selectList));
+                                        if (list.size() != 0){
+                                            LoadDialog.show(this);
+                                            bean.setDetails(gson.toJson(list));
+                                            Map<String,Object> map = new HashMap<>();
+                                            String account_token = SharePreferenceXutil.getAccountToken();
+                                            map.put("account_token", account_token);
+                                            String time_stamp = SystemUtil.getCurrentDate2();
+                                            map.put("time_stamp",time_stamp);
+                                            map.put("charge",bean.isCharge());
+                                            map.put("activity_type_id",bean.getActivity_type_id());
+                                            map.put("beg_time",bean.getBeg_time());
+                                            map.put("end_time",bean.getEnd_time());
+                                            map.put("labels",bean.getLabels());
+                                            map.put("purchase_ticket",bean.isPurchase_ticket());
+                                            map.put("title",bean.getTitle());
+                                            map.put("details",bean.getDetails());
+                                            map.put("user_card_id",bean.getUser_card_id());
+                                            map.put("position",bean.getPosition());
+                                            map.put("tickets",bean.getTickets());
+                                            map.put("fill_infos",bean.getFill_infos());
+                                            String sign = SignUtil.sign(map);
+                                            bean.setSign(sign);
+                                            bean.setAccount_token(account_token);
+                                            bean.setTime_stamp(time_stamp);
+                                            HomeHttp.releaseCityCafe(bean, listImg, new AsyncHttpResponseHandler() {
+                                                @Override
+                                                public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                                                    try {
+                                                        if (i == 200) {
+                                                            LoadDialog.dismiss(SendActionActivity.this);
+                                                            JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
+                                                            Log.e("123", jsonObject.toString() + "--");
+                                                        }
+                                                    }catch (Exception e){
+                                                        Log.e("456",e.getMessage()+"报错");
+                                                    }
+
+                                                }
+
+                                                @Override
+                                                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                                                    LoadDialog.dismiss(SendActionActivity.this);
+                                                }
+                                            });
+                                        }else{
+                                            ToastXutil.show("请添加活动详情");
+                                        }
+                                    }else{
+                                        ToastXutil.show("请选择活动标签");
+                                    }
+                                }else{
+                                    ToastXutil.show("请添加线下活动信息");
+                                }
+                            }
+                        }
+                    }else{
+                        ToastXutil.show("请选择活动形式");
+                    }
+                }else{
+                    ToastXutil.show("请选择一张名片");
+                }
+            }else{
+                ToastXutil.show("请选择活动海报");
+            }
+        }
+        Log.e("456",bean.toString());
+
     }
 }

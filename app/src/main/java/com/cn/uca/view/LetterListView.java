@@ -39,7 +39,7 @@ public class LetterListView extends View {
 		int singleHeight = height / b.length;
 		for (int i = 0; i < b.length; i++) {
 			paint.setColor(Color.parseColor("#572af8"));
-			paint.setTextSize(30);
+			paint.setTextSize(20);
 			paint.setAntiAlias(true);
 			float xPos = width / 2 - paint.measureText(b[i]) / 2;
 			float yPos = singleHeight * i + singleHeight;

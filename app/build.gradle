@@ -71,5 +71,7 @@ dependencies {
     compile 'com.felipecsl.asymmetricgridview:library:2.0.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.2'
     compile 'me.leolin:ShortcutBadger:1.1.4@aar'
+    compile 'com.google.zxing:core:3.2.1'
+    compile 'com.journeyapps:zxing-android-embedded:3.3.0'
     testCompile 'junit:junit:4.12'
 }

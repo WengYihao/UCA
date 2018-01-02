@@ -13,7 +13,7 @@
     <string name="homeFragment_menu_home_text">首页</string>
     <string name="homeFragment_menu_yueka_text">约咖</string>
     <string name="homeFragment_menu_user_text">我的</string>
-    <string name="location_city">定位城市</string>
+    <string name="location_city">选择城市</string>
     <string name="location_city_et_hint">输入城市名或拼音</string>
     <string name="my_collection">我的收藏</string>
     <string name="location_city_no_result_for_search">抱歉，暂时没找到相关城市</string>
@@ -233,4 +233,11 @@
     <string name="orderBackActivity_text5">请进行简单描述</string>
     <string name="orderBackActivity_text6">提交</string>
     <string name="no_read_message">"···"</string>
+    <string name="photos_num">%1$d张</string>
+    <string name="msg_no_camera">没找到摄像头</string>
+    <string name="msg_maxi_capacity">已达到照片选择上限</string>
+    <string name="commit">确定</string>
+    <string name="commit_num">确定(%1$d/%2$d)</string>
+    <string name="only_choose_num">超出可选图片张数</string>
+    <string name="finish">完成(%1$d/9)</string>
 </resources>

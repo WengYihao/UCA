@@ -17,9 +17,9 @@
             android:layout_weight="1"
             android:gravity="center">
             <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/aa"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/add_content_back"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,9 +34,9 @@
             android:layout_weight="1"
             android:gravity="center">
             <TextView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/aa"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/add_pic_back"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -35,6 +36,7 @@ import com.cn.uca.R;
 import com.cn.uca.adapter.home.samecityka.AddContentAdapter;
 import com.cn.uca.bean.home.samecityka.SendContentBean;
 import com.cn.uca.bean.home.samecityka.SendImgBean;
+import com.cn.uca.bean.home.samecityka.SendImgFileBean;
 import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.ui.view.util.BaseBackActivity;
@@ -55,20 +57,17 @@ import java.util.Map;
 public class SendDetailActivity extends BaseBackActivity implements View.OnClickListener {
 
     private TextView back,finish,add;
-    private NoScrollListView listView;
+    private LinearLayout layout;
     private Dialog dialog;
     private LinearLayout content,pic;
-    private AddContentAdapter adapter;
-    private List list,listBean;
-//    private List<String> listContent;
+    private ArrayList<String>list;
     private String[] arrayString = { "拍照", "相册" };
     private String title = "上传照片";
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
     private Uri imageUri;
-//    private File bais;
     private ImageView imageView;
-    private int index;
-    private Map<Integer,InputStream> map;
+    private ArrayList<SendImgFileBean> listImg;
+    private Map<Integer,String> listImgNAME;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,39 +79,16 @@ public class SendDetailActivity extends BaseBackActivity implements View.OnClick
     private void initView() {
         back = (TextView)findViewById(R.id.back);
         finish = (TextView)findViewById(R.id.finish);
+        layout = (LinearLayout)findViewById(R.id.layout);
         add = (TextView)findViewById(R.id.add);
-        listView = (NoScrollListView)findViewById(R.id.listView);
 
         back.setOnClickListener(this);
         finish.setOnClickListener(this);
         add.setOnClickListener(this);
 
         list = new ArrayList<>();
-        listBean = new ArrayList();
-//        listContent = new ArrayList<>();
-        adapter = new AddContentAdapter(list,this);
-        listView.setAdapter(adapter);
-
-        map = new HashMap<>();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ToastXutil.show(position+"--");
-                switch (adapter.getItemViewType(position)){
-                    case 0:
-
-                        break;
-                    case 1:
-                        index = position;
-                        ToastXutil.show(position+"**");
-                        LinearLayout layout = (LinearLayout)listView.getChildAt(position);// 获得子item的layout
-                        imageView = (ImageView) layout.findViewById(R.id.pic);
-                        AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(SendDetailActivity.this, arrayString, title, onDialogClick);
-                        dialog.show();
-                        break;
-                }
-            }
-        });
+        listImg = new ArrayList<>();
+        listImgNAME = new HashMap<>();
 
     }
 
@@ -123,47 +99,57 @@ public class SendDetailActivity extends BaseBackActivity implements View.OnClick
                this.finish();
                break;
            case R.id.finish:
-               for (int i = 0;i<list.size();i++){
-                   switch (adapter.getItemViewType(i)){
-                       case 0:
-                           LinearLayout layout = (LinearLayout)listView.getChildAt(i);// 获得子item的layout
-                           EditText editText = (EditText) layout.findViewById(R.id.content);
-                           SendContentBean bean = new SendContentBean();
-                           bean.setParagraph_type("p");
-                           bean.setContent(editText.getText().toString());
-                           listBean.add(bean);
-//                           list.get(i).setParagraph_type("p");
-//                           list.get(i).setContent(editText.getText().toString());
-//                           listContent.add(editText.getText().toString());
-                           break;
-                       case 1:
-                           SendImgBean bean1 = new SendImgBean();
-                           bean1.setParagraph_type("img");
-                           bean1.setImg_url("图片"+i);
-                           listBean.add(bean1);
-                           break;
+               for (int i = 0;i<layout.getChildCount();i++){
+                   LinearLayout layoutItem = (LinearLayout)layout.getChildAt(i);// 获得子item的layout
+                   EditText editText = (EditText)layoutItem.findViewById(R.id.content) ;
+                   if (editText == null ){
+                       SendImgBean bean = new SendImgBean();
+                       bean.setImg_url(listImgNAME.get(0));
+                       listImgNAME.remove(0);
+                       bean.setParagraph_type("img");
+                       list.add(bean.toString());
+                   }else{
+                       SendContentBean bean = new SendContentBean();
+                       bean.setContent(editText.getText().toString());
+                       bean.setParagraph_type("p");
+                       list.add(bean.toString());
                    }
                }
-               Log.i("123",listBean.toString()+"----");
+               Intent intent = new Intent();
+               intent.putStringArrayListExtra("listContent",list);
+               intent.putParcelableArrayListExtra("listImage",(ArrayList<? extends Parcelable>) listImg);//图片
+               setResult(4,intent);
+               SendDetailActivity.this.finish();
                break;
            case R.id.add:
                showDialog();
                break;
            case R.id.content:
-               SendContentBean bean = new SendContentBean();
-               bean.setParagraph_type("p");
-               list.add(bean);
-               adapter.setList(list);
+               addContentItem();
                dialog.dismiss();
                break;
            case R.id.pic:
-               SendImgBean bean1 = new SendImgBean();
-               bean1.setParagraph_type("img");
-               list.add(bean1);
-               adapter.setList(list);
+               addPicItem();
                dialog.dismiss();
                break;
        }
+    }
+    private void addContentItem(){
+        View itemContent = View.inflate(this, R.layout.action_detail_content_item,null);
+        layout.addView(itemContent);
+    }
+    private void addPicItem(){
+       final View itemPic = View.inflate(this, R.layout.action_detail_pic_item,null);
+        layout.addView(itemPic);
+        LinearLayout addLayout = (LinearLayout)itemPic.findViewById(R.id.addLayout);
+        addLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView = (ImageView) itemPic.findViewById(R.id.pic);
+                AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(SendDetailActivity.this, arrayString, title, onDialogClick);
+                dialog.show();
+            }
+        });
     }
     public void showDialog(){
         dialog = new Dialog(this,R.style.dialog_style);
@@ -318,9 +304,12 @@ public class SendDetailActivity extends BaseBackActivity implements View.OnClick
             if (msg.obj != null) {
                 Drawable drawable = new BitmapDrawable((Bitmap) msg.obj);
                 imageView.setImageDrawable(drawable);
-                byte [] photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
-                ByteArrayInputStream bais = new ByteArrayInputStream(photodata);
-                map.put(index,bais);
+                String a = "图片_"+System.currentTimeMillis();
+                listImgNAME.put(layout.getChildCount(),a);
+                SendImgFileBean bean = new SendImgFileBean();
+                bean.setImgName(a);
+                bean.setFile((Bitmap)msg.obj);
+                listImg.add(bean);
             }
         };
     };

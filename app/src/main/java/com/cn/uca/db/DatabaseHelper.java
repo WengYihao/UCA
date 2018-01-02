@@ -18,6 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		Log.i("123", "create table");
 		db.execSQL("CREATE TABLE IF NOT EXISTS recentcity (id integer primary key autoincrement, name varchar(40), date INTEGER)");
+		db.execSQL("CREATE TABLE IF NOT EXISTS recentcounty (id integer primary key autoincrement, name varchar(40), date INTEGER)");
 	}
 
 	@Override

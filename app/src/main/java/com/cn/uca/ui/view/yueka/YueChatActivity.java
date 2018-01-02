@@ -293,6 +293,7 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                                     if ((int) response == 0){
                                         ToastXutil.show("取消收藏");
                                         collection.setBackgroundResource(R.mipmap.nocollection);
+                                        isCollection = 2;
                                     }
                                 }
 
@@ -314,6 +315,7 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                                     if ((int) response == 0){
                                         ToastXutil.show("收藏成功");
                                         collection.setBackgroundResource(R.mipmap.collection);
+                                        isCollection = 1;
                                     }
                                 }
 

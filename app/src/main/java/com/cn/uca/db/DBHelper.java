@@ -90,25 +90,25 @@ public class DBHelper extends SQLiteOpenHelper {
 		boolean dbExist = checkDataBase();
 		if (dbExist) {
 			// 数据库已存在，do nothing.
-            Log.i("123","数据库已存在");
+            Log.e("123","数据库已存在");
 		} else {
 			// 创建数据库
 			try {
 				File dir = new File(DB_PATH);
 				if (!dir.exists()) {
 					dir.mkdirs();
-                    Log.i("123","数据库已存在");
+                    Log.e("123","数据库已存在");
 				}
 				File dbf = new File(DB_PATH + DB_NAME);
 				if (dbf.exists()) {
 					dbf.delete();
-                    Log.i("123","数据库已删除");
+                    Log.e("123","数据库已删除");
 				}
 				SQLiteDatabase.openOrCreateDatabase(dbf, null);
 				// 复制asseets中的db文件到DB_PATH下
 				copyDataBase();
 			} catch (IOException e) {
-				Log.i("456",e.getMessage()+"爆粗--------------");
+				Log.e("456",e.getMessage()+"爆粗--------------");
 				throw new Error("数据库创建失败");
 			}
 		}
@@ -128,7 +128,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		if (checkDB != null) {
 			checkDB.close();
 		}
-		Log.i("123",(checkDB != null ? true : false)+"数据库是否有效");
+		Log.e("123",(checkDB != null ? true : false)+"数据库是否有效");
 		return checkDB != null ? true : false;
 	}
 
@@ -149,7 +149,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		int length;
 		while ((length = myInput.read(buffer)) > 0) {
 			myOutput.write(buffer, 0, length);
-            Log.i("123",buffer.toString()+"--");
+            Log.e("123",buffer.toString()+"--");
 		}
 		// Close the streams
 		myOutput.flush();

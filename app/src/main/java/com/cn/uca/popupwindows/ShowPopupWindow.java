@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.ShowAdapter;
+import com.cn.uca.adapter.home.lvpai.PopupWindowAddressAdapter;
+import com.cn.uca.bean.home.lvpai.setAddressBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.ItemClick;
@@ -210,6 +212,20 @@ public class ShowPopupWindow {
 				}
 			}
 		});
+	}
+
+	public static void addresspopuWindow(View view, Context context, List<setAddressBean> list){
+		View inflate = LayoutInflater.from(context).inflate(R.layout.choose_spot_dialog, null);
+		ListView listView = (ListView)inflate.findViewById(R.id.listView);
+//		PopupWindowAddressAdapter adapter = new PopupWindowAddressAdapter(list,context);
+//		listView.setAdapter(adapter);
+
+		PopupWindow popupWindow = new PopupWindow(inflate, MyApplication.width-80,
+				MyApplication.height*3/5, true);
+		popupWindow.setTouchable(true);
+		popupWindow.setOutsideTouchable(true);
+		popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+		popupWindow.showAsDropDown(view);
 	}
 
 }

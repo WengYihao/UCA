@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/address_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_15">
+
+        <TextView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@mipmap/address_back_img" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/padding_5"
+            android:text="广东省深圳市罗湖区嘉兴街道22号"
+            android:textColor="@color/grey" />
+    </LinearLayout>
+</LinearLayout>
