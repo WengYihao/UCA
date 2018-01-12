@@ -13,7 +13,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:roundedCornerRadius="@dimen/padding_5"
-            app:placeholderImageScaleType="fitXY">
+            app:placeholderImageScaleType="centerCrop">
         </com.facebook.drawee.view.SimpleDraweeView>
         <RelativeLayout
             android:layout_width="match_parent"

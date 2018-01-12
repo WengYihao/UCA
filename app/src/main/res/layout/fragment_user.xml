@@ -8,19 +8,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <RelativeLayout
                 android:id="@+id/head"
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
+
                 <RelativeLayout
                     android:id="@+id/noneLayout"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:background="@mipmap/user_fragment_back">
-                </RelativeLayout>
+                    android:background="@mipmap/user_fragment_back"></RelativeLayout>
+
                 <LinearLayout
                     android:id="@+id/llTitle"
                     android:layout_width="match_parent"
@@ -34,7 +37,6 @@
                         android:layout_weight="1">
 
                     </LinearLayout>
-
 
 
                     <LinearLayout
@@ -56,13 +58,15 @@
                             android:layout_marginTop="@dimen/padding_5"
                             android:text="@string/userFragment_text1" />
                     </LinearLayout>
+
                     <ImageView
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:scaleType="matrix"
-                        android:layout_marginTop="@dimen/padding_15"
                         android:layout_marginBottom="@dimen/padding_15"
+                        android:layout_marginTop="@dimen/padding_15"
+                        android:scaleType="matrix"
                         android:src="@color/gray" />
+
                     <LinearLayout
                         android:id="@+id/myCollection"
                         android:layout_width="0dp"
@@ -84,22 +88,24 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <com.cn.uca.view.CircleImageView
                     android:id="@+id/pic"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/padding_10"
                     android:src="@mipmap/user_pic"
                     app:border_color="@color/white"
-                    app:border_width="1dp"
-                    android:layout_centerVertical="true" />
+                    app:border_width="1dp" />
+
                 <RelativeLayout
                     android:id="@+id/userInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/llTitle"
-                    android:layout_toRightOf="@id/pic"
-                    android:layout_marginLeft="@dimen/padding_10">
+                    android:layout_marginLeft="@dimen/padding_10"
+                    android:layout_toRightOf="@id/pic">
 
                     <TextView
                         android:id="@+id/nickName"
@@ -113,49 +119,52 @@
                         android:id="@+id/sex"
                         android:layout_width="@dimen/padding_20"
                         android:layout_height="@dimen/padding_20"
-                        android:layout_toRightOf="@id/nickName"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_10"
+                        android:layout_toRightOf="@id/nickName"
                         android:background="@color/white" />
 
                     <TextView
                         android:id="@+id/state"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_10"
                         android:layout_toRightOf="@id/sex"
                         android:background="@drawable/twenty_circular_half_background"
-                        android:layout_centerVertical="true"
-                        android:textColor="@color/white"
                         android:padding="@dimen/padding_2"
+                        android:textColor="@color/white"
                         android:textSize="10sp" />
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/padding_40"
-                        android:src="@mipmap/right_white"
-                        android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/padding_15"/>
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/padding_40"
+                        android:layout_marginRight="@dimen/padding_15"
+                        android:src="@mipmap/right_white" />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/loginLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/llTitle"
-                    android:layout_toRightOf="@id/pic"
                     android:layout_marginLeft="@dimen/padding_10"
+                    android:layout_toRightOf="@id/pic"
                     android:visibility="gone">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="登录/注册"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_22"/>
+                        android:textSize="@dimen/text_22" />
 
                 </RelativeLayout>
             </RelativeLayout>
+
             <TextView
                 android:id="@+id/setting"
                 android:layout_width="wrap_content"
@@ -164,6 +173,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="@dimen/padding_10"
                 android:background="@mipmap/my_setting" />
+
             <ImageView
                 android:id="@+id/line"
                 android:layout_width="match_parent"
@@ -171,14 +181,15 @@
                 android:layout_below="@id/head"
                 android:scaleType="matrix"
                 android:src="@color/gray" />
+
             <RelativeLayout
                 android:id="@+id/layout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="10dp"
+                android:layout_below="@+id/head"
                 android:layout_marginTop="1dp"
-                android:layout_below="@+id/head">
+                android:background="@color/white"
+                android:padding="10dp">
 
                 <ImageView
                     android:id="@+id/title_logo1"
@@ -206,12 +217,19 @@
                     android:src="@mipmap/right_gray" />
             </RelativeLayout>
 
+            <ImageView
+                android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/layout1"
+                android:scaleType="matrix"
+                android:src="@color/gray" />
+
             <RelativeLayout
                 android:id="@+id/layout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout1"
-                android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:padding="10dp">
 
@@ -241,58 +259,15 @@
                     android:src="@mipmap/right_gray" />
             </RelativeLayout>
 
+
             <RelativeLayout
                 android:id="@+id/layout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/white"
                 android:padding="@dimen/padding_10"
                 android:layout_below="@+id/layout2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
-
-                <ImageView
-                    android:id="@+id/title_logo3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_5"
-                    android:src="@mipmap/my_jiedan" />
-
-                <TextView
-                    android:id="@+id/title_text3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="@dimen/padding_20"
-                    android:layout_toRightOf="@id/title_logo3"
-                    android:text="@string/userFragment_text5"
-                    android:textSize="@dimen/text_14" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginRight="10dp"
-                    android:src="@mipmap/right_gray" />
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/line2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/layout3"
-                android:scaleType="matrix"
-                android:src="@color/gray" />
-
-            <RelativeLayout
-                android:id="@+id/layout4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="@dimen/padding_10"
-                android:layout_below="@+id/line2"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true">
 
@@ -321,16 +296,17 @@
                     android:layout_centerInParent="true"
                     android:layout_marginRight="@dimen/padding_10"
                     android:src="@mipmap/right_gray" />
+
                 <com.cn.uca.view.DragPointView
                     android:id="@+id/message_num"
                     android:layout_width="@dimen/padding_20"
                     android:layout_height="@dimen/padding_20"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/padding_10"
+                    android:layout_toLeftOf="@id/a"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/text_12"
-                    android:visibility="invisible"
-                    android:layout_gravity="center"
-                    android:layout_toLeftOf="@id/a"
-                    android:layout_marginRight="@dimen/padding_10"/>
+                    android:visibility="invisible" />
             </RelativeLayout>
 
             <ImageView
@@ -341,39 +317,6 @@
                 android:scaleType="matrix"
                 android:src="@color/gray" />
 
-            <RelativeLayout
-                android:id="@+id/layout5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/line3"
-                android:background="@color/white"
-                android:padding="@dimen/padding_10">
-
-                <ImageView
-                    android:id="@+id/title_logo5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_5"
-                    android:src="@mipmap/my_evaluate" />
-
-                <TextView
-                    android:id="@+id/title_text5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="@dimen/padding_20"
-                    android:layout_toRightOf="@id/title_logo5"
-                    android:text="@string/userFragment_text7"
-                    android:textSize="@dimen/text_14" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerInParent="true"
-                    android:layout_marginRight="@dimen/padding_10"
-                    android:src="@mipmap/right_gray" />
-            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

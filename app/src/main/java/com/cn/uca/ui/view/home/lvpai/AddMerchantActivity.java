@@ -44,6 +44,7 @@ import com.cn.uca.ui.view.util.PhotoPickerActivity;
 import com.cn.uca.ui.view.util.PreviewPhotoActivity;
 import com.cn.uca.util.Bimp;
 import com.cn.uca.util.PhotoCompress;
+import com.cn.uca.util.SetListView;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusMargin;
@@ -51,6 +52,7 @@ import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.FluidLayout;
+import com.cn.uca.view.NoScrollGridView;
 import com.cn.uca.view.dialog.LoadDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -72,7 +74,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
     private RadioButton abroad,domestic;
     private RelativeLayout layout1,layout2,layout3,layout4;
     private List<Bitmap> mResults = new ArrayList<>();
-    private GridView gridview;
+    private NoScrollGridView gridview;
     private GridAdapter adapter;
     public static Bitmap bimap;
     private static final int PICK_PHOTO = 1;
@@ -83,8 +85,8 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
     private FluidLayout lable;
     private EditText lable_text;
     private TextView lablename,config;
-    private List<String> listLable;
-    private List<String> selectList;
+    private List<LableBean> listLable;
+    private List<LableBean> selectList;
     private int day,countryId;
     private String title,lvpaiPrice,restDay,cityCode,city;
     private static List<SendImgFileBean> list;
@@ -99,10 +101,6 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
         mResults.add(bimap);
         initView();
     }
-
-    public AddMerchantActivity(){
-        Log.e("456",SystemUtil.getCurrentDate()+"--");
-    }
     private void initView() {
         back = (TextView)findViewById(R.id.back);
         lvpaiTitle = (EditText)findViewById(R.id.lvpaiTitle);
@@ -114,7 +112,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
         layout2 = (RelativeLayout)findViewById(R.id.layout2);
         layout3 = (RelativeLayout)findViewById(R.id.layout3);
         layout4 = (RelativeLayout)findViewById(R.id.layout4);
-        gridview = (GridView)findViewById(R.id.gridview);
+        gridview = (NoScrollGridView)findViewById(R.id.gridview);
         send = (TextView)findViewById(R.id.send);
 
         list = new ArrayList<>();
@@ -133,6 +131,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
         adapter = new GridAdapter(this);
         adapter.update();
         gridview.setAdapter(adapter);
+        SetListView.setGridViewHeightBasedOnChildren(gridview);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -156,6 +155,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
         });
     }
 
+    //获取标签
     private void getStyleLable(){
         Map<String,Object> map = new HashMap<>();
         String time_stamp = SystemUtil.getCurrentDate2();
@@ -173,13 +173,13 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
                             JSONArray array = jsonObject.getJSONArray("data");
                             List<LableBean> bean = gson.fromJson(array.toString(),new TypeToken<List<LableBean>>() {
                             }.getType());
-                            for (int i = 0;i<bean.size();i++){
-                                listLable.add(bean.get(i).getStyle_lable_name());
-                            }
+                            Log.e("123",array.toString()+"----");
+                            listLable = bean;
+                            Log.e("123",listLable.toString()+"----");
                             break;
                     }
                 }catch (Exception e){
-
+                    Log.e("456",e.getMessage()+"报错");
                 }
             }
 
@@ -233,26 +233,15 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
             case R.id.config:
                 lableDialog.dismiss();
                 if (selectList.size() > 0) {
-                    String text = lable_text.getText().toString();
-                    if (!StringXutil.isEmpty(text)) {
-                        if (selectList.size() < 3) {
-                            listLable.add(text);
-                            selectList.add(text);
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < selectList.size(); i++) {
+                        if (i + 1 == selectList.size()) {
+                            builder.append(selectList.get(i).getStyle_label_name());
                         } else {
-                            listLable.add(text);
-                            ToastXutil.show("标签最多添加3个，请重新选择");
+                            builder.append(selectList.get(i).getStyle_label_name() + ",");
                         }
-                    } else {
-                        StringBuilder builder = new StringBuilder();
-                        for (int i = 0; i < selectList.size(); i++) {
-                            if (i + 1 == selectList.size()) {
-                                builder.append(selectList.get(i));
-                            } else {
-                                builder.append(selectList.get(i) + ",");
-                            }
-                        }
-                        lablename.setText(builder.toString());
                     }
+                    lablename.setText(builder.toString());
                 }
                 break;
             case R.id.layout3:
@@ -276,6 +265,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
         lable = (FluidLayout)inflateLable.findViewById(R.id.lable);
         genTag(listLable,lable);
         lable_text = (EditText)inflateLable.findViewById(R.id.lable_text);
+        lable_text.setVisibility(View.GONE);
         config = (TextView)inflateLable.findViewById(R.id.config);
         config.setOnClickListener(this);
         //将布局设置给Dialog
@@ -290,19 +280,19 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
         StatusMargin.setFrameLayoutBottom(AddMerchantActivity.this,inflateLable,0);
         lableDialog.show();//显示对话框
     }
-    private void genTag(final List<String> list, FluidLayout fluidLayout) {
+    private void genTag(final List<LableBean> list, FluidLayout fluidLayout) {
         fluidLayout.removeAllViews();
         fluidLayout.setGravity(Gravity.TOP);
         for (int i = 0; i < list.size(); i++) {
             final CheckBox tv = new CheckBox(this);
-            tv.setText(list.get(i));
+            tv.setText(list.get(i).getStyle_label_name());
             tv.setTextSize(13);
             tv.setBackgroundResource(R.drawable.text_lable_gray_bg);
             tv.setTextColor(getResources().getColor(R.color.grey2));
             tv.setButtonDrawable(0);
             tv.setPadding(20,0,20,0);
             for (int a = 0;a < selectList.size();a++){
-                if (list.get(i).equals(selectList.get(a))){
+                if (list.get(i).getStyle_label_name().equals(selectList.get(a).getStyle_label_name())){
                     tv.setChecked(true);
                     tv.setBackgroundResource(R.drawable.text_lable_bg);
                     tv.setTextColor(getResources().getColor(R.color.ori));
@@ -315,7 +305,12 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
                         if (selectList.size()<=2){
                             tv.setBackgroundResource(R.drawable.text_lable_bg);
                             tv.setTextColor(getResources().getColor(R.color.ori));
-                            selectList.add(tv.getText().toString());
+                            for (int i = 0;i<listLable.size();i++){
+                                if (tv.getText().toString() == listLable.get(i).getStyle_label_name()){
+                                    selectList.add(listLable.get(i));
+                                }
+                            }
+
                         }else{
                             ToastXutil.show("最多添加3个标签");
                         }
@@ -323,7 +318,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
                         tv.setBackgroundResource(R.drawable.text_lable_gray_bg);
                         tv.setTextColor(getResources().getColor(R.color.grey2));
                         for (int b =0;b < selectList.size();b++){
-                            if (selectList.get(b).equals(tv.getText().toString())){
+                            if (selectList.get(b).getStyle_label_name().equals(tv.getText().toString())){
                                 selectList.remove(b);
                             }
                         }
@@ -342,6 +337,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
         }
     }
 
+    //发布lvpai
     private void releaseTripShoot(){
         Gson gson = new Gson();
         title = lvpaiTitle.getText().toString();
@@ -363,9 +359,13 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
                                 if (StringXutil.isEmpty(restDay)){
                                     ToastXutil.show("休假日不不能为空");
                                 }else{
-                                    if (StringXutil.isEmpty(gson.toJson(selectList.toString()))){
+                                    if (selectList.size() == 0){
                                         ToastXutil.show("请选择旅拍样式标签");
                                     }else{
+                                        List<String> listLa = new ArrayList<>();
+                                        for (int i = 0;i<selectList.size();i++){
+                                            listLa.add(selectList.get(i).getStyle_label_id()+"");
+                                        }
                                         if (StringXutil.isEmpty(service.getContent())){
                                             ToastXutil.show("服务概述不能为空");
                                         }else{
@@ -397,7 +397,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
                                                     map.put("rest_day",restDay);
                                                     map.put("title",title);
                                                     map.put("price",lvpaiPrice);
-                                                    map.put("style_label_ids","1,2,3");
+                                                    map.put("style_label_ids",StringXutil.ListtoString(listLa));
                                                     map.put("summary",service.getContent());
                                                     map.put("trip",recommended.getContent());
                                                     map.put("photo",photo.getContent());
@@ -406,9 +406,8 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
                                                     map.put("gaode_code",cityCode);
                                                     map.put("country_id",0);
                                                     String sign = SignUtil.sign(map);
-                                                    Log.e("456",time_stamp+sign+account_token+lvpaiType+""+day+""+restDay+title+lvpaiPrice+StringXutil.ListtoString(selectList)+service.getContent()+recommended.getContent()+photo.getContent()+description+gson.toJson(listPic)+cityCode+0+list);
                                                     HomeHttp.releaseTripShoot(time_stamp, sign, account_token, lvpaiType, day, restDay, title, lvpaiPrice,
-                                                            "1,2,3", service.getContent(), recommended.getContent(),
+                                                            StringXutil.ListtoString(listLa), service.getContent(), recommended.getContent(),
                                                             photo.getContent(), description, StringXutil.ListtoString(listPic), cityCode, 0, list, new AsyncHttpResponseHandler() {
                                                         @Override
                                                         public void onSuccess(int i, Header[] headers, byte[] bytes) {
@@ -417,7 +416,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
                                                                 if (i == 200) {
                                                                     JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
                                                                     Log.e("456", jsonObject.toString() + "--");
-                                                                    int code = jsonObject.getInt("codee");
+                                                                    int code = jsonObject.getInt("code");
                                                                     switch (code){
                                                                         case 0:
                                                                             ToastXutil.show("发布成功");
@@ -468,20 +467,27 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case PICK_PHOTO:
-                result = data.getStringArrayListExtra(PhotoPickerActivity.KEY_RESULT);
-                showResult(result);
+                if (data != null){
+                    result = data.getStringArrayListExtra(PhotoPickerActivity.KEY_RESULT);
+                    showResult(result);
+                }
                 break;
             case 2://国内城市
-               cityCode = data.getStringExtra("code");
-               city = data.getStringExtra("city");
+                if (data != null){
+                    cityCode = data.getStringExtra("code");
+                    city = data.getStringExtra("city");
+                }
                 break;
             case 3://国家
-                countryId = data.getIntExtra("id",0);
+                if(data != null){
+                    countryId = data.getIntExtra("id",0);
+                }
                 break;
             case 6:
-                day = data.getIntExtra("day",0);
-                restDay = data.getStringExtra("list");
-                Log.e("456",day+"--"+restDay);
+                if (data != null){
+                    day = data.getIntExtra("day",0);
+                    restDay = data.getStringExtra("list");
+                }
                 break;
         }
     }
@@ -497,10 +503,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
         for (int i = 0; i < paths.size(); i++) {
             // 压缩图片
             Bitmap bitmap = PhotoCompress.decodeSampledBitmapFromFd(paths.get(i), 400, 500);
-            // 针对小图也可以不压缩
-//            Bitmap bitmap = BitmapFactory.decodeFile(paths.get(i));
             mResults.add(bitmap);
-
             ImageItem takePhoto = new ImageItem();
             takePhoto.setBitmap(bitmap);
             Bimp.tempSelectBitmap.add(takePhoto);
@@ -555,8 +558,8 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
                 holder.image = (ImageView) convertView
                         .findViewById(R.id.imageView1);
                 LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) holder.image.getLayoutParams(); //取控件textView当前的布局参数
-                linearParams.height = MyApplication.width/3;// 控件的高强制设成屏幕的三分之一
-                linearParams.width = MyApplication.width/3;// 控件的宽强制设成屏幕的三分之一
+                linearParams.height = (MyApplication.width-SystemUtil.dip2px(20))/3;// 控件的高强制设成屏幕的三分之一
+                linearParams.width = (MyApplication.width-SystemUtil.dip2px(20))/3;// 控件的宽强制设成屏幕的三分之一
                 holder.image.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
                 convertView.setTag(holder);
             } else {
@@ -606,6 +609,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
                             Message message = new Message();
                             message.what = 1;
                             handler.sendMessage(message);
+                            break;
                         }
                     }
                 }

@@ -175,19 +175,15 @@ public class UserHttp extends BaseServer {
      * @param page
      * @param pageCount
      * @param commodity_id
-     * @param user_order_state_id
+     * @param user_order_satet
      * @param callBack
      */
-    public static void getUserOrder(int page,int pageCount,int commodity_id,int user_order_state_id,CallBack callBack){
+    public static void getUserOrder(int page,int pageCount,int commodity_id,String user_order_satet,CallBack callBack){
         Map<String,Object> map =new HashMap<>();
         map.put("page",page+"");
         map.put("pageCount",pageCount+"");
-        if (commodity_id != 0){
-            map.put("commodity_id",commodity_id+"");
-        }
-        if (user_order_state_id != 0){
-            map.put("user_order_state_id",user_order_state_id+"");
-        }
+        map.put("commodity_id",commodity_id+"");
+        map.put("user_order_satet",user_order_satet);
         map.put("account_token",SharePreferenceXutil.getAccountToken());
         get(MyConfig.getUserOrder,map,callBack);
     }
@@ -312,12 +308,15 @@ public class UserHttp extends BaseServer {
      * @param shareType
      * @param callBack
      */
-    public static void getShare(String account_token,String time_stamp,String sign,String shareType,CallBack callBack){
+    public static void getShare(String account_token,String time_stamp,String sign,String shareType,int id,CallBack callBack){
         Map<String,Object> map =new HashMap<>();
         map.put("account_token",account_token);
         map.put("time_stamp",time_stamp);
         map.put("sign",sign);
         map.put("shareType",shareType);
+        if (shareType != "ZUJI"){
+            map.put("id",id);
+        }
         get(MyConfig.getShare,map,callBack);
     }
 }

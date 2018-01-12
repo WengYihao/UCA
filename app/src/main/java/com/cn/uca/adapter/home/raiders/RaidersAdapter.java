@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 夺宝城市适配器
  */
-public class RaidersAdapter extends BaseAdapter implements CollectionClickListener{
+public class RaidersAdapter extends BaseAdapter{
 	private List<RaidersBean> list;
 	private Context context;
 	private int TypeOne = 0;// 注意这个不同布局的类型起始值必须从0开始
@@ -134,11 +134,6 @@ public class RaidersAdapter extends BaseAdapter implements CollectionClickListen
 				break;
 		}
 		return convertView;
-	}
-
-	@Override
-	public void onCollectionClick(View v) {
-
 	}
 
 	class ViewHolder {

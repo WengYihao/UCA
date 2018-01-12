@@ -9,9 +9,7 @@
         android:id="@+id/layout_1"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:layout_marginLeft="@dimen/padding_12"
-        android:layout_marginRight="@dimen/padding_12"
-        android:background="@drawable/ten_twenty_circular_ori_background"
+        android:background="@drawable/tewnty_bottom_circular_ori_background"
         android:orientation="horizontal"
         android:visibility="gone">
 

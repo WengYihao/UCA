@@ -3,10 +3,13 @@ package com.cn.uca.config;
 public class MyConfig {
 	// 总接口
 	public static final String url = "http://www.szyouka.com:8080/youkatravel/api/";
-//	public static final String url = "http://192.168.1.105:80/youkatravel/api/";
+//	public static final String url = "http://192.168.1.103:80/youkatravel/api/";
 	public static final String sendCode = url+"user/query/sendSMS.do";//发送短信验证码
-	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";     //获取微信token
+	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";//获取微信token
 	public static final String weChatLogin = url+"/user/query/userLogin_weixin.do";//微信登录
+	public static final String createZfbOrder = url + "user/update/createZfbOrder.do";//创建支付包订单
+	public static final String getAuthInfo = url + "user/query/zfbAuthInfo.do";//获取支付宝登录信息
+	public static final String userLogin = url  + "user/query/userLogin_zfb.do";//支付宝登录
 	public static final String uplodePic = url+"user/update/uploadHeadPortrait.do";//上传用户头像
 	public static final String getUserBriefInfo = url+"user/query/getUserBriefInfo.do";//获取简单用户信息
 	public static final String setUserInfo = url+"user/update/setUserInfo.do";//修改用户信息
@@ -96,6 +99,21 @@ public class MyConfig {
 	public static final String releaseCityCafe = url + "citycafe/update/releaseCityCafe.do";//发布同城咖
 	public static final String getMyTicket = url + "citycafe/query/getMyTicket.do";//获取我的门票
 	public static final String getUserTickets = url +"citycafe/query/getUserTickets.do";//获取门票码
+	public static final String getCollectionCityCafe = url + "citycafe/query/getCollectionCityCafe.do";//获取用户收藏的同城咖
+	public static final String getMyCityCafe = url + "citycafe/query/getMyCityCafe.do";//获取我的活动
+	public static final String getTicketApproval = url +"citycafe/query/getTicketApproval.do";//获取报名审核
+	public static final String getRefundTicket = url + "citycafe/query/getRefundTicket.do";//获取退票审核
+	public static final String approvalTicket = url + "citycafe/update/approvalTicket.do";//报名审核
+	public static final String approvalRefundTicket = url + "citycafe/update/approvalRefundTicket.do";//退票审核
+	public static final String getSettlement  = url + "citycafe/query/getSettlement.do";//获取同城咖结算
+	public static final String settlement = url + "citycafe/update/settlement.do";//同城咖结算
+	public static final String cityCafeAdmin = url + "citycafe/query/cityCafeAdmin.do";//同城咖活动管理
+	public static final String staSusCityCafe = url +"citycafe/update/staSusCityCafe.do";//开始或暂停同城咖售票
+	public static final String collectionCityCafe = url + "citycafe/update/collectionCityCafe.do";//收藏/取消收藏同城咖
+	public static final String getCafeUser = url + "citycafe/query/getCafeUser.do";//获取同城咖发布者卡票信息
+	/**
+	 * 旅拍
+	 */
 	public static final String becomeMerchant = url+"tripshoot/update/becomeMerchant.do";//商家入驻
 	public static final String getMerchantInfo = url + "tripshoot/query/getMerchantInfo.do";//获取商家信息
 	public static final String gerAddress = url +"tripshoot/query/gerAddress.do";//获取商家地址
@@ -114,4 +132,11 @@ public class MyConfig {
 	public static final String getTeam = url + "tripshoot/query/getTeam.do";//获取团队
 	public static final String getFollowMers = url + "tripshoot/query/getFollowMers.do";//获取用户收藏的旅拍商户
 	public static final String getCollTs = url + "tripshoot/query/getCollTs.do";//获取用户收藏的旅拍商品
-}
+	public static final String getMerchantAlbum = url + "tripshoot/query/getMerchantAlbum.do";//获取商家相册
+	public static final String getAlbumPicture = url + "tripshoot/query/getAlbumPicture.do";//获取相册中的图片
+	public static final String getMyTs = url + "tripshoot/query/getMyTs.do";//获取旅拍商户发布的商品
+	public static final String getTsOrders = url + "tripshoot/query/getTsOrders.do";//获取商家旅拍订单
+	public static final String hotspot = url +"tripshoot/update/hotspot.do";//设置旅拍商品推荐
+	public static final String saveDetails = url + "escort/update/saveDetails.do";//约咖详情
+	public static final String upLoShelves = url +"tripshoot/update/upLoShelves.do";//旅拍商品上架&&下架
+ }

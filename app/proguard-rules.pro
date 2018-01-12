@@ -13,9 +13,9 @@
 # and specify the fully qualified class name to the JavaScript interface
 # class:
 #----webview混淆
--keepclassmembers class fqcn.of.javascript.interface.for.webview {
-  public *;
-}
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#  public *;
+#}
 #
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
@@ -80,9 +80,10 @@
     native <methods>;
 }
 -dontwarn okio.**
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
 -dontwarn com.squareup.okhttp.**
 -dontwarn okhttp3.**
--dontwarn javax.annotation.**
 -dontwarn com.android.volley.toolbox.**
 -dontwarn com.facebook.infer.**
 -keep public class * extends android.view.View {
@@ -91,8 +92,6 @@
      public <init>(android.content.Context, android.util.AttributeSet, int);
      public void set*(...);
 }
-
-
 #保持 native 方法不被混淆
 -keepclasseswithmembernames class * {
      native <methods>;
@@ -148,13 +147,36 @@
 -keep class com.cn.uca.adapter.** { *; }
 -keepattributes Signature
 -keepattributes *Annotation*
+-ignorewarnings
 #--融云
--dontwarn io.rong.push.**
- -dontnote com.xiaomi.**
--keep public class com.google.firebase.* {*;}
- -dontnote io.rong.**
--keep com.cn.uca.rongimpush.NotificationReceiver {*;}
-
+#-dontwarn io.rong.push.**
+# -dontnote com.xiaomi.**
+#-keep public class com.google.firebase.* {*;}
+# -dontnote io.rong.**
+#-keep com.cn.uca.rongimpush.NotificationReceiver {*;}
+-keepclassmembers class ** {
+    public void onEvent*(**);
+}
+#支付宝
+-keep class com.alipay.android.app.IAlixPay{*;}
+-keep class com.alipay.android.app.IAlixPay$Stub{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
+-keep class com.alipay.sdk.app.PayTask{ public *;}
+-keep class com.alipay.sdk.app.AuthTask{ public *;}
+-keep class com.alipay.sdk.app.H5PayCallback {
+    <fields>;
+    <methods>;
+}
+-keep class com.alipay.android.phone.mrpc.core.** { *; }
+-keep class com.alipay.apmobilesecuritysdk.** { *; }
+-keep class com.alipay.mobile.framework.service.annotation.** { *; }
+-keep class com.alipay.mobilesecuritysdk.face.** { *; }
+-keep class com.alipay.tscenter.biz.rpc.** { *; }
+-keep class org.json.alipay.** { *; }
+-keep class com.alipay.tscenter.** { *; }
+-keep class com.ta.utdid2.** { *;}
+-keep class com.ut.device.** { *;}
 
 
 

@@ -12,7 +12,6 @@ import com.cn.uca.R;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.ui.view.home.samecityka.MyFollowActivity;
 import com.cn.uca.ui.view.home.samecityka.MyTicketActivity;
-import com.cn.uca.ui.view.home.samecityka.ReplyNewActivity;
 import com.cn.uca.util.SetLayoutParams;
 
 /**
@@ -58,7 +57,7 @@ public class ParticipantFragment extends Fragment implements View.OnClickListene
                 startActivity(new Intent(getActivity(), MyFollowActivity.class));
                 break;
             case R.id.layout3:
-                startActivity(new Intent(getActivity(), ReplyNewActivity.class));
+//                startActivity(new Intent(getActivity(), ReplyNewActivity.class));
                 break;
         }
     }

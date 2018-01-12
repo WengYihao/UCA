@@ -9,6 +9,6 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:roundedCornerRadius="5dp"
-        app:placeholderImageScaleType="fitXY">
+        app:placeholderImageScaleType="centerCrop">
     </com.facebook.drawee.view.SimpleDraweeView>
 </LinearLayout>

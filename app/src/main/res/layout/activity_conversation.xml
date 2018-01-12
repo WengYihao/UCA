@@ -6,8 +6,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_50"
-        android:background="@drawable/gradient">
+        android:layout_height="@dimen/padding_40"
+        android:background="@drawable/gradient" >
 
         <TextView
             android:id="@+id/back"
@@ -17,11 +17,11 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_20"
-            android:textColor="@color/white"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/padding_20"
             android:layout_toRightOf="@id/back"
-            android:layout_marginLeft="@dimen/padding_20"/>
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_20" />
     </RelativeLayout>
 
     <FrameLayout

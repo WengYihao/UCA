@@ -7,7 +7,7 @@
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_50"
+        android:layout_height="@dimen/padding_40"
         android:background="@drawable/gradient" >
         <TextView
             android:id="@+id/back"
@@ -17,6 +17,14 @@
             android:id="@+id/title"
             style="@style/style_title"
             android:text="@string/sendYueKaActivity_title_text"/>
+        <TextView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_10"
+            android:background="@mipmap/lvpai_add_back" />
     </RelativeLayout>
 
     <ScrollView

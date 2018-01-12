@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.MediaController;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
+import com.cn.uca.alipay.AliPayUtil;
 import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.config.wechat.WeChatManager;
+import com.cn.uca.impl.CallBack;
 import com.cn.uca.secretkey.Base64;
 import com.cn.uca.secretkey.MD5;
 import com.cn.uca.secretkey.RSAUtils;
@@ -112,7 +115,7 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.alipayLogin:
-                ToastXutil.show("该功能暂未开放");
+                aliPayLogin();
                 break;
             case R.id.weChatLogin:
                 SharePreferenceXutil.saveAccessToken("");
@@ -126,9 +129,7 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
         }
     }
 
-    /**
-     * 手机号登录
-     */
+    //手机号登录
     private void phoneLogin(){
         LoadDialog.show(this);
         try {
@@ -187,9 +188,7 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
             e.printStackTrace();
         }
     }
-    /**
-     * 微信登录
-     */
+    //微信登录
     private void sendWeChatAuthRequest() {
         if (WeChatManager.instance().isWXAppInstalled()) {
             final SendAuth.Req req = new SendAuth.Req();
@@ -200,5 +199,37 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
         } else {
             ToastXutil.show(R.string.wechat_not_installed);
         }
+    }
+    //支付宝登录
+    private void aliPayLogin(){
+        QueryHttp.getAuthInfo(new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            byte [] bytes = Base64.decode(jsonObject.getJSONObject("data").getString("auth_info"));
+                            String str = new String(bytes,"UTF-8");
+                            AliPayUtil payUtil = new AliPayUtil();
+                            payUtil.toAliLogin(LoginActivity.this,str);
+                            break;
+                    }
+                }catch (Exception E){
+
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
     }
 }

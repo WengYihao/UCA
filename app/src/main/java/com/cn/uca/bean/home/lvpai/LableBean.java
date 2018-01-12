@@ -5,14 +5,14 @@ package com.cn.uca.bean.home.lvpai;
  */
 
 public class LableBean {
-    private int style_lable_id;
-    private String style_lable_name;
+    private int style_label_id;
+    private String style_label_name;
 
-    public int getStyle_lable_id() {
-        return style_lable_id;
+    public int getStyle_label_id() {
+        return style_label_id;
     }
 
-    public String getStyle_lable_name() {
-        return style_lable_name;
+    public String getStyle_label_name() {
+        return style_label_name;
     }
 }

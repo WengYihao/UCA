@@ -129,7 +129,7 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
         HomeHttp.getLifeDays(sign, time_stamp, account_token, page, "u", new CallBack() {
             @Override
             public void onResponse(Object response) {
-                Log.i("123",response.toString());
+                Log.e("123",response.toString());
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     int code = jsonObject.getInt("code");

@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_50"
+        android:layout_height="@dimen/padding_40"
         android:background="@drawable/gradient">
 
         <TextView

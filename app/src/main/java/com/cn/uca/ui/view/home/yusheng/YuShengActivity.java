@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,7 +39,7 @@ import java.util.Map;
 
 public class YuShengActivity extends BaseBackActivity implements View.OnClickListener,OnSureLisener{
 
-    private TextView start,baithDate,sex;
+    private TextView back,start,baithDate,sex;
     private LinearLayout layout1,layout2;
     private WaveView waveView;
     private View inflate;
@@ -57,6 +58,7 @@ public class YuShengActivity extends BaseBackActivity implements View.OnClickLis
     }
 
     private void initView() {
+        back = (TextView)findViewById(R.id.back);
         start = (TextView)findViewById(R.id.start);
         baithDate = (TextView)findViewById(R.id.baithDate);
         sex = (TextView)findViewById(R.id.sex);
@@ -67,6 +69,7 @@ public class YuShengActivity extends BaseBackActivity implements View.OnClickLis
 
         SetLayoutParams.setLinearLayout(layout1, MyApplication.width/2,0);
         SetLayoutParams.setLinearLayout(layout2, MyApplication.width/2,0);
+        back.setOnClickListener(this);
         start.setOnClickListener(this);
         sex.setOnClickListener(this);
         baithDate.setOnClickListener(this);
@@ -112,14 +115,20 @@ public class YuShengActivity extends BaseBackActivity implements View.OnClickLis
         dialog.setContentView(inflate);
         //获取当前Activity所在的窗体
         Window dialogWindow = dialog.getWindow();
+        WindowManager.LayoutParams params = dialogWindow.getAttributes();
+        params.width = MyApplication.width;
         //设置Dialog从窗体底部弹出
         dialogWindow.setGravity( Gravity.BOTTOM);
+        dialogWindow.setAttributes(params);
         StatusMargin.setFrameLayoutBottom(YuShengActivity.this,inflate,20);
         dialog.show();//显示对话框
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.back:
+                this.finish();
+                break;
             case R.id.start:
                 openLife();
                 break;

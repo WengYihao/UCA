@@ -234,6 +234,10 @@ public class BuyYuaKaPopupWindow{
                             ToastXutil.show("您已订购此陪游");
                             popupWindow.dismiss();
                             break;
+                        case 191:
+                            ToastXutil.show("不能购买个人商品  ");
+                            popupWindow.dismiss();
+                            break;
                         default:
                             ToastXutil.show("订购失败");
                             break;

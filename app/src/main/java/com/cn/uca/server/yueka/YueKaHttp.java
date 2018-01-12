@@ -2,11 +2,13 @@ package com.cn.uca.server.yueka;
 
 import android.telecom.Call;
 
+import com.cn.uca.bean.home.samecityka.SendImgFileBean;
 import com.cn.uca.bean.yueka.GetEscortBean;
 import com.cn.uca.bean.yueka.ReleaseEscortRecordBean;
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.util.PhotoCompress;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
 import com.loopj.android.http.AsyncHttpClient;
@@ -16,6 +18,7 @@ import com.loopj.android.http.RequestParams;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -343,5 +346,31 @@ public class YueKaHttp extends BaseServer{
         map.put("time_stamp",time_stamp);
         map.put("sign",sign);
         get(MyConfig.getTravelEscortBack,map,callBack);
+    }
+
+    /**
+     * 发布约咖-详情
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param details
+     * @param list
+     * @param handler
+     */
+    public static void saveDetails(String account_token, String time_stamp, String sign, String details, List<SendImgFileBean> list, AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("time_stamp",time_stamp);
+        params.put("sign",sign);
+        params.put("account_token",account_token);
+        params.put("details",details);
+        for (int i = 0;i<list.size();i++){
+            try {
+                params.put(list.get(i).getImgName(), PhotoCompress.comp(list.get(i).getFile()));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        client.post(MyConfig.saveDetails,params,handler);
     }
 }

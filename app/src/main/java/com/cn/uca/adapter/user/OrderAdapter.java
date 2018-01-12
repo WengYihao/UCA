@@ -85,10 +85,14 @@ public class OrderAdapter extends BaseAdapter{
                 holder.pic.setBackgroundResource(R.mipmap.plant_state_back);
                 holder.type.setText("机票");
                 break;
-            case 5:
-                holder.pic.setBackgroundResource(R.mipmap.raider_state_back);
-                holder.type.setText("攻略");
-                break;
+			case 6:
+				holder.pic.setBackgroundResource(R.mipmap.samecityka_state_back);
+				holder.type.setText("同城咖");
+				break;
+			case 7:
+				holder.pic.setBackgroundResource(R.mipmap.lvpai_state_back);
+				holder.type.setText("旅拍");
+				break;
         }
         switch (list.get(position).getUser_order_state_id()){
             case 1:

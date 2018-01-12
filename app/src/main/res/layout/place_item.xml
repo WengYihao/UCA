@@ -12,8 +12,7 @@
         <com.cn.uca.view.CircleImageView
             android:id="@+id/pic"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:border_color="@color/white">
+            android:layout_height="match_parent">
         </com.cn.uca.view.CircleImageView>
 
         <TextView

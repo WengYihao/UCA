@@ -31,6 +31,7 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.datepicker.OnDoubleSureLisener;
 import com.cn.uca.server.yueka.YueKaHttp;
+import com.cn.uca.ui.view.home.samecityka.SendDetailActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
@@ -55,7 +56,7 @@ import java.util.List;
 public class SendYueKaActivity extends BaseBackActivity implements View.OnClickListener,OnDoubleSureLisener {
 
     private SendYueKaBean bean;
-    private TextView back,line_name,moreLine,explainMore,moreDetails,price,average_score_content,startTime,endTime,send;
+    private TextView back,more,line_name,moreLine,explainMore,moreDetails,price,average_score_content,startTime,endTime,send;
     private MyEditText yueka_name;
     private EditText peopleNum;
     private HorizontalListView lineName;
@@ -87,6 +88,7 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         bean = new SendYueKaBean();
         escortRecordBean = new ReleaseEscortRecordBean();
         back = (TextView)findViewById(R.id.back);
+        more = (TextView)findViewById(R.id.more);
         line_name = (TextView)findViewById(R.id.line_name);
         lineName = (HorizontalListView)findViewById(R.id.lineName);
         pointAdapter = new PointAdapter(linePoint,this);
@@ -128,6 +130,7 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         send.setOnClickListener(this);
         explainMore.setOnClickListener(this);
         back.setOnClickListener(this);
+        more.setOnClickListener(this);
         moreLine.setOnClickListener(this);
         supplement.setOnClickListener(this);
         freeTime.setOnClickListener(this);
@@ -267,6 +270,9 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
             case R.id.back:
                 this.finish();
                 break;
+            case R.id.more:
+                startActivity(new Intent(SendYueKaActivity.this,PresetManagerActivity.class));
+                break;
             case R.id.one:
                 one.setBackgroundColor(getResources().getColor(R.color.ori));
                 one.setTextColor(getResources().getColor(R.color.white));
@@ -388,7 +394,7 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         switch (requestCode){
             case 0:
                 if (data != null){
-                    id = Integer.parseInt(data.getStringExtra("id"));
+                    id = data.getIntExtra("id",0);
                     moreDetails.setText("详情"+id);
                 }else{
                     moreDetails.setText("发布的详情暂未保存");

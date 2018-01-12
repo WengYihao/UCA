@@ -42,6 +42,7 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.AndroidClass;
 import com.cn.uca.util.GraphicsBitmapUtils;
+import com.cn.uca.util.PhotoCompress;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.NoScrollListView;
@@ -60,13 +61,13 @@ public class SendDetailActivity extends BaseBackActivity implements View.OnClick
     private LinearLayout layout;
     private Dialog dialog;
     private LinearLayout content,pic;
-    private ArrayList<String>list;
+    private List<Object>list;
     private String[] arrayString = { "拍照", "相册" };
     private String title = "上传照片";
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
     private Uri imageUri;
     private ImageView imageView;
-    private ArrayList<SendImgFileBean> listImg;
+    private List<SendImgFileBean> listImg;
     private Map<Integer,String> listImgNAME;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,21 +105,17 @@ public class SendDetailActivity extends BaseBackActivity implements View.OnClick
                    EditText editText = (EditText)layoutItem.findViewById(R.id.content) ;
                    if (editText == null ){
                        SendImgBean bean = new SendImgBean();
-                       bean.setImg_url(listImgNAME.get(0));
-                       listImgNAME.remove(0);
+                       bean.setImg_url(listImgNAME.get(i+1));
                        bean.setParagraph_type("img");
-                       list.add(bean.toString());
+                       list.add(bean);
                    }else{
                        SendContentBean bean = new SendContentBean();
                        bean.setContent(editText.getText().toString());
                        bean.setParagraph_type("p");
-                       list.add(bean.toString());
+                       list.add(bean);
                    }
                }
-               Intent intent = new Intent();
-               intent.putStringArrayListExtra("listContent",list);
-               intent.putParcelableArrayListExtra("listImage",(ArrayList<? extends Parcelable>) listImg);//图片
-               setResult(4,intent);
+               SendActionActivity.getMessage(listImg,list);
                SendDetailActivity.this.finish();
                break;
            case R.id.add:
@@ -302,13 +299,15 @@ public class SendDetailActivity extends BaseBackActivity implements View.OnClick
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             if (msg.obj != null) {
-                Drawable drawable = new BitmapDrawable((Bitmap) msg.obj);
+                File file = PhotoCompress.comp((Bitmap) msg.obj);
+                Bitmap bitmap= BitmapFactory.decodeFile(file.toString());
+                Drawable drawable = new BitmapDrawable(bitmap);
                 imageView.setImageDrawable(drawable);
                 String a = "图片_"+System.currentTimeMillis();
                 listImgNAME.put(layout.getChildCount(),a);
                 SendImgFileBean bean = new SendImgFileBean();
                 bean.setImgName(a);
-                bean.setFile((Bitmap)msg.obj);
+                bean.setFile(bitmap);
                 listImg.add(bean);
             }
         };
@@ -320,7 +319,9 @@ public class SendDetailActivity extends BaseBackActivity implements View.OnClick
         if (resultCode == RESULT_OK){
             switch (requestCode) {
                 case Constant.PHOTO_REQUEST_TAKEPHOTO:
-                    setPicToView(fileUri);
+                    if (fileUri != null){
+                        setPicToView(fileUri);
+                    }
                     break;
                 case Constant.PHOTO_REQUEST_GALLERY:
                     if (data.getData() != null) {

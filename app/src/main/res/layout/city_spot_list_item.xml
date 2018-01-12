@@ -19,7 +19,7 @@
                 android:id="@+id/pic"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                app:placeholderImageScaleType="fitXY"
+                app:placeholderImageScaleType="centerCrop"
                 app:roundedCornerRadius="@dimen/padding_5"></com.facebook.drawee.view.SimpleDraweeView>
         </LinearLayout>
 

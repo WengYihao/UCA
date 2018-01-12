@@ -12,6 +12,7 @@ import com.cn.uca.R;
 import com.cn.uca.bean.home.lvpai.MerchantPhotoBean;
 import com.cn.uca.bean.home.lvpai.PhotoDetailBean;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.config.MyConfig;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.view.NoScrollGridView;
@@ -64,7 +65,7 @@ public class PhotoItemAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Uri uri = Uri.parse(list.get(position).getPicture_url());
+        Uri uri = Uri.parse(MyConfig.photo+list.get(position).getPicture_url());
         holder.pic.setImageURI(uri);
         SetLayoutParams.setLinearLayout(holder.pic, (MyApplication.width- SystemUtil.dip2px(26))/3,(MyApplication.width- SystemUtil.dip2px(26))/3);
         return convertView;

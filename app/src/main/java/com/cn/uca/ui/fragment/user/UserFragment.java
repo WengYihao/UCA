@@ -93,7 +93,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private TextView setting,nickName,sex,state;
     private RelativeLayout head,noneLayout,userInfo,loginLayout;
     private LinearLayout llTitle,myOrder,myCollection;
-    private RelativeLayout layout1,layout2,layout3,layout4,layout5;
+    private RelativeLayout layout1,layout2,layout3;
     private String userName,userAge,userSex;
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
     private Uri imageUri;
@@ -150,15 +150,11 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         layout1 = (RelativeLayout)view.findViewById(R.id.layout1);
         layout2 = (RelativeLayout)view.findViewById(R.id.layout2);
         layout3 = (RelativeLayout)view.findViewById(R.id.layout3);
-        layout4 = (RelativeLayout)view.findViewById(R.id.layout4);
-        layout5 = (RelativeLayout)view.findViewById(R.id.layout5);
         message_num = (DragPointView)view.findViewById(R.id.message_num);
 
         layout1.setOnClickListener(this);
         layout2.setOnClickListener(this);
         layout3.setOnClickListener(this);
-        layout4.setOnClickListener(this);
-        layout5.setOnClickListener(this);
         loginLayout.setOnClickListener(this);
         if (!SharePreferenceXutil.isSuccess()){
             loginLayout.setVisibility(View.VISIBLE);
@@ -171,7 +167,6 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         RongIM.getInstance().addUnReadMessageCountChangedObserver(new IUnReadMessageObserver() {
             @Override
             public void onCountChanged(int i) {
-                Log.i("123",+i+"条会话消息");
                 if (i == 0) {
                     message_num.setVisibility(View.GONE);
 
@@ -262,21 +257,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 }
                 break;
             case R.id.layout3:
-                if (SharePreferenceXutil.isSuccess()){
-                    if (SharePreferenceXutil.isAuthentication()){
-                        startActivity(new Intent(getActivity(), AcceptOrderActivity.class));
-                    }else{
-                        ToastXutil.show("请先认证");
-                    }
-                }else {
-                    ToastXutil.show("请先登录");
-                }
-                break;
-            case R.id.layout4:
                 startActivity(new Intent(getActivity(), MessageActivity.class));
-                break;
-            case R.id.layout5:
-
                 break;
         }
     }
@@ -436,6 +417,21 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             }
         }
     };
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            //刷新数据
+//            if (!SharePreferenceXutil.isSuccess()){
+//                loginLayout.setVisibility(View.VISIBLE);
+//                userInfo.setVisibility(View.GONE);
+//            }else{
+//                loginLayout.setVisibility(View.GONE);
+//                userInfo.setVisibility(View.VISIBLE);
+//            }
+        }
+    }
 
     /**
      * 自动获取相机权限

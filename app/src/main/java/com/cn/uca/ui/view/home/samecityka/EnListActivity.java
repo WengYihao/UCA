@@ -140,9 +140,9 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
                         Log.e("456",list.toString()+"--");
                         Log.e("456",selectList.toString()+"--");
                         Intent intent = new Intent();
-                        intent.putExtra("a","a");
                         intent.putParcelableArrayListExtra("ticketList",(ArrayList<? extends Parcelable>) list);//门票
                         intent.putStringArrayListExtra("infoList",selectList);
+                        intent.putExtra("type",type);
                         setResult(3,intent);
                         EnListActivity.this.finish();
                         break;
@@ -152,6 +152,7 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
                 }
                 break;
             case R.id.online:
+                type = 1;
                 online.setTextColor(getResources().getColor(R.color.white));
                 online.setBackgroundResource(R.drawable.twenty_circular_ori_background);
                 unwanted.setTextColor(getResources().getColor(R.color.grey));
@@ -159,6 +160,7 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
                 scrollView.setVisibility(View.VISIBLE);
                 break;
             case R.id.unwanted:
+                type = 2;
                 unwanted.setTextColor(getResources().getColor(R.color.white));
                 unwanted.setBackgroundResource(R.drawable.twenty_circular_ori_background);
                 online.setTextColor(getResources().getColor(R.color.grey));

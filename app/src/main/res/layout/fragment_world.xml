@@ -141,6 +141,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@mipmap/share_footprint_back"/>
                             <TextView
+                                android:id="@+id/share"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/footPrintFragment_text2"
@@ -149,13 +150,15 @@
                                 android:layout_marginLeft="@dimen/padding_8"/>
                         </LinearLayout>
                     </LinearLayout>
-                    <WebView
+                    <com.cn.uca.view.TouchWebView
                         android:id="@+id/webView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/transparent"
+                        android:overScrollMode="never"
+                        android:scrollbars="none"
+                        android:background="#b29b71"
                         android:layout_above="@id/link">
-                    </WebView>
+                    </com.cn.uca.view.TouchWebView>
                 </RelativeLayout>
 
                 <LinearLayout

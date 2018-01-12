@@ -8,6 +8,8 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import java.io.File;
 
 public class Constant {
+	final public static int PAGE = 1; //当前页数
+	final public static int PAGE_COUNT = 10;//当前记录数
 	final public static String userIdKey = "UserInfo";       //保存用户信息的key
 	final public static String TAG = "UCA";
 	final public static int PHOTO_REQUEST_TAKEPHOTO = 1;  // 拍照

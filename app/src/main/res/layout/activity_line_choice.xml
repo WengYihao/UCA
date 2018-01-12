@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.view.yueka.LineChoiceActivity"
     android:orientation="vertical">
     <RelativeLayout
-        android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_50"
-        android:background="@drawable/gradient">
+        android:layout_height="@dimen/padding_40"
+        android:background="@drawable/gradient" >
 
         <TextView
             android:id="@+id/back"

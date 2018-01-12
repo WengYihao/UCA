@@ -22,10 +22,13 @@ import com.cn.uca.bean.home.lvpai.CommodityDetailBean;
 import com.cn.uca.bean.home.lvpai.DetailContentBean;
 import com.cn.uca.bean.home.lvpai.TeamBean;
 import com.cn.uca.config.BannerConfig;
+import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.server.user.UserHttp;
+import com.cn.uca.ui.view.home.samecityka.ActionDetailActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.OpenPhoto;
 import com.cn.uca.util.SetListView;
@@ -60,7 +63,7 @@ import io.rong.imkit.RongIM;
  */
 public class CommodityDetailActivity extends BaseBackActivity implements View.OnClickListener {
 
-    private TextView back,collection,commodityname,price,username,score,place,photo_num,address,purchase_number,call,contentnum,teamcontent,yuding;
+    private TextView back,collection,share,commodityname,price,username,score,place,photo_num,address,purchase_number,call,contentnum,teamcontent,yuding;
     private Banner banner;
     private CircleImageView user_pic;
     private RatingStarView star;
@@ -100,6 +103,7 @@ public class CommodityDetailActivity extends BaseBackActivity implements View.On
         listTeam = new ArrayList<>();
         listLable = new ArrayList<>();
         back = (TextView)findViewById(R.id.back);
+        share = (TextView)findViewById(R.id.share);
         collection = (TextView)findViewById(R.id.collection);
         banner = (Banner)findViewById(R.id.banner);
         commodityname = (TextView)findViewById(R.id.commodityname);
@@ -134,6 +138,7 @@ public class CommodityDetailActivity extends BaseBackActivity implements View.On
         });
 
         back.setOnClickListener(this);
+        share.setOnClickListener(this);
         call.setOnClickListener(this);
         chat.setOnClickListener(this);
         collection.setOnClickListener(this);
@@ -149,6 +154,9 @@ public class CommodityDetailActivity extends BaseBackActivity implements View.On
             case R.id.collection:
                 //收藏
                 collectionTs();
+                break;
+            case R.id.share:
+                getShare();
                 break;
             case R.id.call:
                 Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -175,6 +183,49 @@ public class CommodityDetailActivity extends BaseBackActivity implements View.On
                 break;
         }
     }
+
+    private void getShare(){
+        Map<String,Object> map = new HashMap<>();
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token",account_token);
+        map.put("shareType","LP");
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        map.put("id",id);
+        String sign = SignUtil.sign(map);
+        UserHttp.getShare(account_token, time_stamp, sign, "LP",id, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            String share_title = jsonObject.getJSONObject("data").getString("share_title");
+                            String web_url = jsonObject.getJSONObject("data").getString("web_url");
+                            WeChatManager.instance().sendWebPageToWX(CommodityDetailActivity.this,true,web_url,R.mipmap.logo,share_title,"唯美的旅拍套餐吧！");
+                            break;
+                        default:
+                            ToastXutil.show("分享失败");
+                            break;
+                    }
+                }catch (Exception e){
+
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
+
      //获取商品信息
     private void getCommodityInfo(){
         Map<String,Object> map = new HashMap<>();

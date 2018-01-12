@@ -24,28 +24,16 @@
             <RadioButton
                 android:id="@+id/title02"
                 style="@style/style_button"
-                android:text="已支付" />
+                android:text="等待审核" />
             <RadioButton
                 android:id="@+id/title03"
                 style="@style/style_button"
-                android:text="待支付" />
+                android:text="已购票" />
 
             <RadioButton
                 android:id="@+id/title04"
                 style="@style/style_button"
-                android:text="已失效" />
-            <RadioButton
-                android:id="@+id/title05"
-                style="@style/style_button"
-                android:text="待确认" />
-            <RadioButton
-                android:id="@+id/title06"
-                style="@style/style_button"
-                android:text="已取消" />
-            <RadioButton
-                android:id="@+id/title07"
-                style="@style/style_button"
-                android:text="退单" />
+                android:text="已退票" />
         </RadioGroup>
     </LinearLayout>
     <ListView

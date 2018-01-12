@@ -19,8 +19,10 @@ import com.cn.uca.adapter.home.footprint.WorldPrintAdapter;
 import com.cn.uca.bean.home.footprint.CountryDetailsBean;
 import com.cn.uca.bean.home.footprint.WorldCountryBean;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.home.footprint.AddFootActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
@@ -29,6 +31,7 @@ import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.NoScrollListView;
+import com.cn.uca.view.TouchWebView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -46,13 +49,13 @@ import java.util.Map;
  * Created by asus on 2017/11/7.
  */
 
-public class WorldFragment extends Fragment{
+public class WorldFragment extends Fragment implements View.OnClickListener{
 
     private View view;
-    private WebView webView;
+    private TouchWebView webView;
     private RelativeLayout addLayout;
     private int travelYearNum,travelCityNum;
-    private TextView yearNum,cityNum;
+    private TextView share,yearNum,cityNum;
     private SmartRefreshLayout refreshLayout;
     private NoScrollListView listView;
     private WorldPrintAdapter worldPrintAdapter;
@@ -68,7 +71,8 @@ public class WorldFragment extends Fragment{
     }
 
     private void initView() {
-        webView = (WebView)view.findViewById(R.id.webView);
+        share = (TextView)view.findViewById(R.id.share);
+        webView = (TouchWebView) view.findViewById(R.id.webView);
         addLayout = (RelativeLayout)view.findViewById(R.id.addLayout);
         yearNum = (TextView)view.findViewById(R.id.yearNum);
         cityNum = (TextView)view.findViewById(R.id.cityNum);
@@ -77,6 +81,7 @@ public class WorldFragment extends Fragment{
         list = new ArrayList<>();
         worldPrintAdapter = new WorldPrintAdapter(list,getActivity());
         listView.setAdapter(worldPrintAdapter);
+        share.setOnClickListener(this);
         Map<String ,Object> map = new HashMap<>();
         String time_stamp = SystemUtil.getCurrentDate2();
         map.put("time_stamp",time_stamp);
@@ -92,6 +97,8 @@ public class WorldFragment extends Fragment{
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setSupportZoom(true);
         webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setDisplayZoomControls(false);
+        webView.setBackgroundColor(0); // 设置背景色
         webView.addJavascriptInterface(new footprint(), "footprint");
         // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
         webView.setWebViewClient(new WebViewClient() {
@@ -166,15 +173,18 @@ public class WorldFragment extends Fragment{
                                 String color = "f8e58c";
                                 webView.loadUrl("javascript:setMapColor('" + countryCode + "','" + color + "')");
                             }
+//                            if (backlayout.getVisibility() == View.VISIBLE){
+//                                backlayout.setVisibility(View.GONE);
+//                            }
                             if (bean.getFootprintWorldCountrys().size() > 0){
-                            list.clear();
-                            list.addAll(bean.getFootprintWorldCountrys());
-                            worldPrintAdapter.setList(list);
-                        }else {
-                            if (list.size() != 0){
-                                ToastXutil.show("没有更多数据了");
+                                list.clear();
+                                list.addAll(bean.getFootprintWorldCountrys());
+                                worldPrintAdapter.setList(list);
+                            }else {
+                                if (list.size() != 0){
+                                    ToastXutil.show("没有更多数据了");
+                                }
                             }
-                        }
                             break;
                     }
                 }catch (Exception e){
@@ -243,6 +253,55 @@ public class WorldFragment extends Fragment{
         });
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.share:
+                getShare();
+                break;
+        }
+    }
+
+    private void getShare(){
+        Map<String,Object> map = new HashMap<>();
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token",account_token);
+        map.put("shareType","ZUJI");
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        String sign = SignUtil.sign(map);
+        UserHttp.getShare(account_token, time_stamp, sign, "ZUJI",0, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            String share_title = jsonObject.getJSONObject("data").getString("share_title");
+                            String web_url = jsonObject.getJSONObject("data").getString("web_url");
+                            WeChatManager.instance().sendWebPageToWX(getActivity(),true,web_url,R.mipmap.logo,share_title,"快来围观一下我的足迹呗！");
+                            break;
+                        default:
+                            ToastXutil.show("分享失败");
+                            break;
+                    }
+                }catch (Exception e){
+
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
     public class footprint{
             @JavascriptInterface
              public void mapClick(String name,String code){

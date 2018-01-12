@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cn.uca.ui.view.home.lvpai.PhotoManageActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_40"
+        android:background="@drawable/gradient">
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="相册" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="相册"
+            android:padding="@dimen/padding_10"
+            android:textColor="@color/grey"
+            android:background="@color/white"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray"
+            android:padding="@dimen/padding_10">
+            <com.cn.uca.view.NoScrollGridView
+                android:id="@+id/gridView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:horizontalSpacing="3dp"
+                android:verticalSpacing="3dp"
+                android:numColumns="3"></com.cn.uca.view.NoScrollGridView>
+        </LinearLayout>
+    </LinearLayout>
+</com.cn.uca.view.StatusView>

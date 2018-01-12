@@ -265,7 +265,7 @@ public class ChinaFragment extends Fragment implements CompoundButton.OnCheckedC
         String time_stamp = SystemUtil.getCurrentDate2();
         map.put("time_stamp",time_stamp);
         String sign = SignUtil.sign(map);
-        UserHttp.getShare(account_token, time_stamp, sign, "ZUJI", new CallBack() {
+        UserHttp.getShare(account_token, time_stamp, sign, "ZUJI",0, new CallBack() {
             @Override
             public void onResponse(Object response) {
                 try {

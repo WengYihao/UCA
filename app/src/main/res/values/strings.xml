@@ -61,12 +61,12 @@
     <string name="identityActivity_submit_text">立即认证</string>
     <string name="infoSexActivity_title_text">选择性别</string>
     <string name="orderActivity_title_text">我的订单</string>
-    <string name="orderActivity_title01_text">全部</string>
-    <string name="orderActivity_title02_text">约咖</string>
+    <string name="orderActivity_title01_text">机票</string>
+    <string name="orderActivity_title02_text">酒店</string>
     <string name="orderActivity_title03_text">旅游</string>
-    <string name="orderActivity_title04_text">酒店</string>
-    <string name="orderActivity_title05_text">机票</string>
-    <string name="orderActivity_title06_text">攻略</string>
+    <string name="orderActivity_title04_text">同城咖</string>
+    <string name="orderActivity_title05_text">约咖</string>
+    <string name="orderActivity_title06_text">旅拍</string>
     <string name="orderYueActuivity_title_text">我是领咖</string>
     <string name="otherYueActivity_title_text">成为领咖</string>
     <string name="planeTicketActivity_one_text">单程</string>
@@ -121,7 +121,7 @@
     <string name="otherYueActivity_text">认证成为大咖</string>
     <string name="presetManagerActivity_title_text">路线预设</string>
     <string name="presetManagerActivity_add_line">添加路线</string>
-    <string name="raiderActivity_title_text">一元攻略</string>
+    <string name="raiderActivity_title_text">攻略</string>
     <string name="raiderDetailActivity_title_text">城市攻略</string>
     <string name="raiderDetailActivity_spot_list">景点列表</string>
     <string name="raiderDetailActivity_radier_text">攻略</string>
@@ -169,6 +169,7 @@
     <string name="walletActivity_text5">充值</string>
     <string name="walletActivity_text6">提现</string>
     <string name="walletActivity_text7">银行卡</string>
+    <string name="walletActivity_text8">支付设置</string>
     <string name="webViewActivity_title_text">编辑详情</string>
     <string name="yushengActivity_title_text">余生</string>
     <string name="yushengActivity_text1">人的一生其实非常短暂</string>

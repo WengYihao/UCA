@@ -75,7 +75,7 @@ public class WalletDetailAdapter extends BaseAdapter{
 				int curMonth = (position-1) >= 0 ? SystemUtil.StringToUtilDate2(list.get(position-1).getTransaction_time()).getMonth():0;
 				if (month != curMonth && curMonth != 0){
 					holder.month.setVisibility(View.VISIBLE);
-					holder.month.setText(curMonth+1+"月");
+					holder.month.setText(curMonth+"月");
 				}else{
 					holder.month.setVisibility(View.GONE);
 				}

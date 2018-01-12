@@ -170,7 +170,7 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                             titleName = bean.getUser_nick_name();
                             if (bean.isCollection()){
                                 isCollection = 1;
-                                collection.setBackgroundResource(R.mipmap.collection_white);
+                                collection.setBackgroundResource(R.mipmap.collection);
                             }else{
                                 isCollection = 2;
                                 collection.setBackgroundResource(R.mipmap.nocollection);

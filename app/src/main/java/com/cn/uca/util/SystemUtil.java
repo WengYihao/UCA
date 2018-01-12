@@ -422,6 +422,11 @@ public class SystemUtil
 		Date date = sdf.parse(DateTimeString);
 		return date;
 	}
+	public static Date StringToUtilDate3(String DateTimeString) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date date = sdf.parse(DateTimeString);
+		return date;
+	}
 	/**
 	 * 获取两个日期之间的日期
 	 * @param start 开始日期
@@ -444,6 +449,7 @@ public class SystemUtil
 		result.add(end);
 		return result;
 	}
+
 	public static List<String> getBetweenDateString(Date start, Date end) {
 		List<String> result = new ArrayList<>();
 		Calendar tempStart = Calendar.getInstance();

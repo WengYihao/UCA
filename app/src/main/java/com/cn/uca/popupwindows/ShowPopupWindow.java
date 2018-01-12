@@ -1,5 +1,6 @@
 package com.cn.uca.popupwindows;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -9,6 +10,8 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
@@ -25,6 +28,7 @@ import com.cn.uca.bean.home.lvpai.setAddressBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.ItemClick;
+import com.cn.uca.impl.ServiceBack;
 import com.cn.uca.receiver.UpdateService;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.util.SharePreferenceXutil;
@@ -60,6 +64,13 @@ public class ShowPopupWindow {
 		});
 	}
 
+	/**
+	 * 升级提示
+	 * @param view
+	 * @param context
+	 * @param linkUrl
+	 * @param loadUrl
+	 */
 	public static void updateWindow(View view, final Context context, String linkUrl, final String loadUrl){
 		View update = LayoutInflater.from(context).inflate(R.layout.update_dialog,null);
 		TextView positiveButton = (TextView)update.findViewById(R.id.positiveButton);
@@ -107,6 +118,53 @@ public class ShowPopupWindow {
 		});
 	}
 
+	/**
+	 * 服务须知
+	 * @param view
+	 * @param context
+	 * @param loadUrl
+	 */
+	public static void seviceWindow(View view, final Context context, final String loadUrl, final ServiceBack back){
+		final Dialog dialog = new Dialog(context,R.style.dialog_style);
+		View update = LayoutInflater.from(context).inflate(R.layout.service_notice_dialog,null);
+		TextView positiveButton = (TextView)update.findViewById(R.id.positiveButton);
+		TextView negativeButton = (TextView)update.findViewById(R.id.negativeButton);
+		WebView webView = (WebView)update.findViewById(R.id.webView);
+		webView.loadUrl(loadUrl);
+		webView.getSettings().setJavaScriptEnabled(true);
+		webView.setWebViewClient(new WebViewClient() {
+
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				// 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+				view.loadUrl(url);
+				return true;
+			}
+		});
+
+		dialog.setContentView(update);
+		Window dialogWindow = dialog.getWindow();
+		dialogWindow.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams params = dialogWindow.getAttributes();
+		params.width = MyApplication.width-SystemUtil.dip2px(36);
+		params.height = MyApplication.height*5/7  ;
+		dialog.show();//显示对话框
+
+		positiveButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				back.sure();
+				dialog.dismiss();
+			}
+		});
+
+		negativeButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialog.dismiss();
+			}
+		});
+	}
 	public static void dayPopupwindow(View view, Context context, final int day, final String type){
 		View dayPopupwindow = LayoutInflater.from(context).inflate(R.layout.day_popupwindow,null);
 		TextView num = (TextView)dayPopupwindow.findViewById(R.id.num);

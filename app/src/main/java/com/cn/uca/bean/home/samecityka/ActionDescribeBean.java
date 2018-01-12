@@ -26,4 +26,14 @@ public class ActionDescribeBean {
     public int getParagraph_id() {
         return paragraph_id;
     }
+
+    @Override
+    public String toString() {
+        return "ActionDescribeBean{" +
+                "img_url='" + img_url + '\'' +
+                ", paragraph_type='" + paragraph_type + '\'' +
+                ", content='" + content + '\'' +
+                ", paragraph_id=" + paragraph_id +
+                '}';
+    }
 }

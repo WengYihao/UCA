@@ -146,8 +146,8 @@ public class MyApplication extends Application {
 		// 上下文
 		mContext = getApplicationContext();
 
-		JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);     		// 初始化 JPush
+//		JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
+//        JPushInterface.init(this);     		// 初始化 JPush
 
 		queue = Volley.newRequestQueue(getApplicationContext());
 

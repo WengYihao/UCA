@@ -156,8 +156,8 @@ public class LvPaiFragment extends Fragment implements View.OnClickListener{
                                 List<MerchantBean> bean = gson.fromJson(array.toString(), new TypeToken<List<MerchantBean>>() {
                                 }.getType());
                                 if (bean.size() > 0) {
-                                listMerchant.addAll(bean);
-                                merchantAdapter.setList(listMerchant);
+                                    listMerchant.addAll(bean);
+                                    merchantAdapter.setList(listMerchant);
                             }
                         }
                     }

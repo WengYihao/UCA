@@ -102,7 +102,6 @@
         </LinearLayout>
     </LinearLayout>
     <ImageView
-        android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/layout3"

@@ -12,7 +12,9 @@ import com.cn.uca.R;
 import com.cn.uca.adapter.yueka.CommentAdapter;
 import com.cn.uca.adapter.yueka.OrderCourseAdapter;
 import com.cn.uca.impl.CallBack;
-import com.cn.uca.server.yueka.YueKaHttp;
+ import com.cn.uca.impl.ServiceBack;
+ import com.cn.uca.popupwindows.ShowPopupWindow;
+ import com.cn.uca.server.yueka.YueKaHttp;
 import com.cn.uca.ui.view.user.AcceptOrderActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
@@ -25,7 +27,7 @@ import org.json.JSONObject;
 
 import java.util.Date;
 
-public class OrderYueActivity extends BaseBackActivity implements View.OnClickListener{
+public class OrderYueActivity extends BaseBackActivity implements View.OnClickListener,ServiceBack{
 
     private TextView back,state,name,age,sex;
     private CircleImageView pic;
@@ -35,7 +37,7 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
 //    private List<CommentBean> list2;//领咖用户评论
     private OrderCourseAdapter orderCourseAdapter;
     private CommentAdapter commentAdapter;
-    private RelativeLayout layout,layout1,layout2,layout3,layout4,layout5,layout6,layout7,layout8,layout9;
+    private RelativeLayout layout,layout1,layout2,layout3,layout4,layout5,layout6,layout8,layout9;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,7 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
         layout4 = (RelativeLayout)findViewById(R.id.layout4);//领咖-我的发布
         layout5 = (RelativeLayout)findViewById(R.id.layout5);//领咖-我的接单
         layout6 = (RelativeLayout)findViewById(R.id.layout6);//领咖-我的评价
-        layout7 = (RelativeLayout)findViewById(R.id.layout7);//领咖-路线管理
+//        layout7 = (RelativeLayout)findViewById(R.id.layout7);//领咖-路线管理
         layout8 = (RelativeLayout)findViewById(R.id.layout8);//领咖-标签管理
         layout9 = (RelativeLayout)findViewById(R.id.layout9);//领咖-设置背景图
 
@@ -71,7 +73,7 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
         layout4.setOnClickListener(this);
         layout5.setOnClickListener(this);
         layout6.setOnClickListener(this);
-        layout7.setOnClickListener(this);
+//        layout7.setOnClickListener(this);
         layout8.setOnClickListener(this);
         layout9.setOnClickListener(this);
 
@@ -135,7 +137,8 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
 //                startActivity(new Intent(OrderYueActivity.this,SendYueKaActivity.class));
                 break;
             case R.id.layout3://领咖-发布约咖
-               startActivity(new Intent(OrderYueActivity.this,SendYueKaActivity.class));
+                String str = "http://www.szyouka.com:8080/youkatravel/agreement/escortProtocol.html";
+                ShowPopupWindow.seviceWindow(getWindow().getDecorView(),this,str,this);
                 break;
             case R.id.layout4://领咖-我的发布
                 startActivity(new Intent(OrderYueActivity.this,SendListActivity.class));
@@ -147,33 +150,15 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
                 break;
             case R.id.layout5://领咖-我的接单
                 startActivity(new Intent(OrderYueActivity.this,AcceptOrderActivity.class));
-//                if (SharePreferenceXutil.isCollar()){
-//
-//                }else{
-//                    ToastXutil.show("请先成为大咖");
-//                }
                 break;
             case R.id.layout6://领咖-我的评价
 
-                break;
-            case R.id.layout7://领咖-路线管理
-                startActivity(new Intent(OrderYueActivity.this,PresetManagerActivity.class));
-//                if (SharePreferenceXutil.isCollar()){
-//
-//                }else{
-//                    ToastXutil.show("请先成为大咖");
-//                }
                 break;
             case R.id.layout8://领咖-标签管理
 
                 break;
             case R.id.layout9://领咖-设置背景图
                 startActivity(new Intent(OrderYueActivity.this,BackImageActivity.class));
-//                if (SharePreferenceXutil.isCollar()){
-//
-//                }else{
-//                    ToastXutil.show("请先成为大咖");
-//                }
                 break;
         }
     }
@@ -191,5 +176,10 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
                     break;
             }
         }
+    }
+
+    @Override
+    public void sure() {
+        startActivity(new Intent(OrderYueActivity.this,SendYueKaActivity.class));
     }
 }

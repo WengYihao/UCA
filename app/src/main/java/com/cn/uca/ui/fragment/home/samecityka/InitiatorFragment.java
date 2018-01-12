@@ -15,10 +15,10 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.ui.view.home.samecityka.CardManageActivity;
 import com.cn.uca.ui.view.home.samecityka.ExamineActivity;
 import com.cn.uca.ui.view.home.samecityka.MyActionActivity;
-import com.cn.uca.ui.view.home.samecityka.MyNewActivity;
 import com.cn.uca.ui.view.home.samecityka.SettlementActivity;
 import com.cn.uca.util.SetLayoutParams;
-import com.google.zxing.client.android.CaptureActivity;
+import com.cn.uca.util.ToastXutil;
+import com.cn.uca.zxing.CaptureActivity;
 
 /**
  * Created by asus on 2017/12/5.
@@ -68,7 +68,7 @@ public class InitiatorFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), MyActionActivity.class));
                 break;
             case R.id.layout2:
-                startActivity(new Intent(getActivity(), MyNewActivity.class));
+//                startActivity(new Intent(getActivity(), MyNewActivity.class));
                 break;
             case R.id.layout3:
                 Intent intent = new Intent(getActivity(), CaptureActivity.class);

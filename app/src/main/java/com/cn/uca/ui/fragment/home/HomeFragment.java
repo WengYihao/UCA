@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
+import com.cn.uca.alipay.AliPayUtil;
 import com.cn.uca.animate.ScaleInOutTransformer;
 import com.cn.uca.bean.home.CarouselFiguresBean;
 import com.cn.uca.config.BannerConfig;
@@ -25,27 +26,24 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
-import com.cn.uca.popupwindows.LoadingPopupWindow;
 import com.cn.uca.popupwindows.ShowPopupWindow;
+import com.cn.uca.secretkey.Base64;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.home.lvpai.LvPaiActivity;
-import com.cn.uca.ui.view.home.lvpai.MerchantAlbumActivity;
-import com.cn.uca.ui.view.home.lvpai.MerchantInfoActivity;
 import com.cn.uca.ui.view.home.lvpai.MerchantManageActivity;
 import com.cn.uca.ui.view.home.samecityka.SameCityKaActivity;
 import com.cn.uca.ui.view.home.sign.SignActivity;
 import com.cn.uca.ui.view.home.footprint.FootPrintActivity;
-import com.cn.uca.ui.view.home.hotel.HotleActivity;
 import com.cn.uca.ui.view.home.planeticket.PlaneTicketActivity;
 import com.cn.uca.ui.view.home.raider.RaidersActivity;
 import com.cn.uca.ui.view.home.SearchActivity;
-import com.cn.uca.ui.view.home.travel.TourismActivity;
 import com.cn.uca.ui.view.home.yusheng.YuShengActivity;
 import com.cn.uca.ui.view.home.yusheng.YuShengDetailsActivity;
 import com.cn.uca.ui.view.util.CountyActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
@@ -58,7 +56,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asus on 2017/8/2.
@@ -86,9 +86,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         initView();
         getCarouselFigures();
         initListeners();
+
         return view;
     }
-
     private void  getUserState(){
         QueryHttp.getUserState(new CallBack() {
             @Override
@@ -235,7 +235,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), MerchantManageActivity.class));
                 break;
             case R.id.samecityka:
-                startActivity(new Intent(getActivity(), SameCityKaActivity.class));
+                 startActivity(new Intent(getActivity(), SameCityKaActivity.class));
                 break;
             case R.id.lvpai:
                 startActivity(new Intent(getActivity(), LvPaiActivity.class));

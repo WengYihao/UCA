@@ -22,7 +22,7 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/pic"
-            app:placeholderImageScaleType="fitXY"
+            app:placeholderImageScaleType="centerCrop"
             app:roundedCornerRadius="8dp"
             android:layout_width="match_parent"
             android:layout_height="180dp"

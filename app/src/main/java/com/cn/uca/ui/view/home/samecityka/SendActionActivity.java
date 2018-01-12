@@ -37,6 +37,7 @@ import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.bean.home.samecityka.LableBean;
+import com.cn.uca.bean.home.samecityka.PositionBean;
 import com.cn.uca.bean.home.samecityka.SendActionBean;
 import com.cn.uca.bean.home.samecityka.SendImgFileBean;
 import com.cn.uca.bean.home.samecityka.SetTicketInfoBean;
@@ -49,6 +50,7 @@ import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.AndroidClass;
 import com.cn.uca.util.GraphicsBitmapUtils;
+import com.cn.uca.util.PhotoCompress;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusMargin;
@@ -102,11 +104,13 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
     private String title = "上传照片";
     private Uri imageUri;
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
-    private ByteArrayInputStream bais;
-    private  ArrayList<String> list;//活动详情
-    private ArrayList<SendImgFileBean> listImg;
+    private File bais;
+    private static String detail;//活动详情
+    private static List<SendImgFileBean> listImg;
     private ArrayList<SetTicketInfoBean> listTicket;
     private ArrayList<String> listInfo;
+    private String position;
+    private int enListtType;//是否需要报名
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,7 +154,6 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
         selectList = new ArrayList<>();
         listLable = new ArrayList<>();
         getCafeLabel();
-        list = new ArrayList<>();
         listInfo = new ArrayList<>();
         listTicket = new ArrayList<>();
         listImg = new ArrayList<>();
@@ -316,7 +319,10 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
             case R.id.woman:
                 actionType.setText("线下活动");
                 actionTypeId = 2;
-                startActivity(new Intent(SendActionActivity.this,ActionPlaceActivity.class));
+                Intent intent1 = new Intent();
+                intent1.setClass(SendActionActivity.this,MapChoiceActivity.class);
+                intent1.putExtra("type","samecityka");
+                startActivityForResult(intent1,7);
                 this.dialog.dismiss();
                 break;
             case R.id.startTime:
@@ -334,7 +340,7 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                 startActivityForResult(new Intent(SendActionActivity.this,EnListActivity.class),3);//报名设置
                 break;
             case R.id.layout4:
-                startActivityForResult(new Intent(SendActionActivity.this,SendDetailActivity.class),4);//详情
+                startActivity(new Intent(SendActionActivity.this,SendDetailActivity.class));//详情
                 break;
             case R.id.add_lable:
                 showLable();
@@ -565,11 +571,11 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
     private Handler handler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             if (msg.obj != null) {
-                Drawable drawable = new BitmapDrawable((Bitmap) msg.obj);
+                bais = PhotoCompress.comp((Bitmap) msg.obj);
+                Bitmap bitmap= BitmapFactory.decodeFile(bais.toString());
+                Drawable drawable = new BitmapDrawable(bitmap);
                 pic.setVisibility(View.VISIBLE);
                 pic.setImageDrawable(drawable);
-                byte [] photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
-                bais = new ByteArrayInputStream(photodata);
             }
         };
     };
@@ -598,7 +604,9 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                 }
                 break;
             case Constant.PHOTO_REQUEST_TAKEPHOTO:
-                setPicToView(fileUri);
+                if (fileUri != null){
+                    setPicToView(fileUri);
+                }
                 break;
             case Constant.PHOTO_REQUEST_GALLERY:
                 if (data.getData() != null) {
@@ -606,16 +614,36 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                 }
                 break;
             case 3:
-                listTicket = data.getParcelableArrayListExtra("ticketList");
-                listInfo = data.getStringArrayListExtra("infoList");
+                if (data != null){
+                    listTicket = data.getParcelableArrayListExtra("ticketList");
+                    listInfo = data.getStringArrayListExtra("infoList");
+                    enListtType = data.getIntExtra("type",0);
+                }
                 break;
-            case 4:
-                list = data.getStringArrayListExtra("listContent");
+            case 7:
+                if (data != null){
+                    PositionBean positionBean = new PositionBean();
+                    String address = data.getStringExtra("address");
+                    double lat = data.getDoubleExtra("lat",0);
+                    double lng = data.getDoubleExtra("lng",0);
+                    String code = data.getStringExtra("code");
+                    positionBean.setAddress(address);
+                    positionBean.setLat(lat);
+                    positionBean.setLng(lng);
+                    positionBean.setGaode_code(code);
+                    positionBean.setRemarks("");
+                    position = positionBean.toString();
+                }
                 break;
 
         }
     }
 
+    public static void  getMessage(List<SendImgFileBean> list1,List list2){
+       listImg = list1;
+        Gson gson = new Gson();
+        detail = gson.toJson(list2);
+    }
     private void sendAction(){
         Gson gson = new Gson();
         SendActionBean bean = new SendActionBean();
@@ -634,7 +662,11 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                                 bean.setPosition("");
                                 break;
                             case 2://线下活动
-
+                                if (StringXutil.isEmpty(position)){
+                                    ToastXutil.show("线下活动地址不能为空");
+                                }else{
+                                    bean.setPosition(position);
+                                }
                                 break;
                         }
                         if (StringXutil.isEmpty(start_time)){
@@ -655,14 +687,22 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                                             bean.setCharge(false);
                                         }
                                     }
+                                    switch (enListtType){
+                                        case 1:
+                                            bean.setPurchase_ticket(true);
+                                            break;
+                                        case 2:
+                                            bean.setPurchase_ticket(false);
+                                            break;
+                                    }
                                     if (listInfo != null){
                                         bean.setFill_infos(gson.toJson(listInfo));
                                     }
                                     if (selectList.size() != 0){
                                         bean.setLabels(ListtoString(selectList));
-                                        if (list.size() != 0){
+                                        if (!StringXutil.isEmpty(detail)){
                                             LoadDialog.show(this);
-                                            bean.setDetails(gson.toJson(list));
+                                            bean.setDetails(detail);
                                             Map<String,Object> map = new HashMap<>();
                                             String account_token = SharePreferenceXutil.getAccountToken();
                                             map.put("account_token", account_token);
@@ -691,6 +731,13 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                                                         if (i == 200) {
                                                             LoadDialog.dismiss(SendActionActivity.this);
                                                             JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
+                                                            int code = jsonObject.getInt("code");
+                                                            switch (code){
+                                                                case 0:
+                                                                    ToastXutil.show("发布成功");
+                                                                    SendActionActivity.this.finish();
+                                                                    break;
+                                                            }
                                                             Log.e("123", jsonObject.toString() + "--");
                                                         }
                                                     }catch (Exception e){

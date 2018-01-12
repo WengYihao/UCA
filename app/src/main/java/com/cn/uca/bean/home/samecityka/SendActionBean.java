@@ -1,5 +1,6 @@
 package com.cn.uca.bean.home.samecityka;
 
+import java.io.File;
 import java.io.InputStream;
 
 /**
@@ -19,7 +20,7 @@ public class SendActionBean {
     private String title;
     private String details;
     private int user_card_id;
-    private InputStream cover;
+    private File cover;
     private String position;
     private String tickets;
     private String fill_infos;
@@ -72,7 +73,7 @@ public class SendActionBean {
         return user_card_id;
     }
 
-    public InputStream getCover() {
+    public File getCover() {
         return cover;
     }
 
@@ -136,7 +137,7 @@ public class SendActionBean {
         this.user_card_id = user_card_id;
     }
 
-    public void setCover(InputStream cover) {
+    public void setCover(File cover) {
         this.cover = cover;
     }
 

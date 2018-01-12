@@ -1,7 +1,5 @@
 package com.cn.uca.bean;
 
-import java.io.Serializable;
-
 public class City{
 	public String name;
 	public String pinyi;

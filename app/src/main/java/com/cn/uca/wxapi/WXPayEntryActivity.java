@@ -34,10 +34,9 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 
 	@Override
 	public void onResp(BaseResp resp) {
-		Log.i("123", "onPayFinish, errCode = " + resp.errCode);
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-			if (resp.errCode == 0){
-//				ToastXutil.show("支付成功");
+			if (resp.errCode == 0){//本地验证
+				ToastXutil.show("支付成功");
 //				PayResp.Resp newResp = (SendAuth.Resp) resp;
 //				String code = newResp.code;
 //				//获取微信传回的code--------

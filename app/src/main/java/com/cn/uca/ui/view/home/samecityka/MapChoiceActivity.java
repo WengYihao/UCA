@@ -220,6 +220,15 @@ public class MapChoiceActivity extends BaseBackActivity implements View.OnClickL
                         setResult(0,intent1);
                         this.finish();
                         break;
+                    case "samecityka":
+                        Intent intent2 = new Intent();
+                        intent2.putExtra("lat",selectLat);
+                        intent2.putExtra("lng",selectLng);
+                        intent2.putExtra("code",code);
+                        intent2.putExtra("address",address.getText().toString()+supplement.getText().toString());
+                        setResult(7,intent2);
+                        this.finish();
+                        break;
                 }
 
                 break;

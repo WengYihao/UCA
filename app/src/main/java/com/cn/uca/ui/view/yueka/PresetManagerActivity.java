@@ -222,7 +222,7 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
     @Override
     public void clickTrue(View v) {
         LinearLayout layout = (LinearLayout)listView.getChildAt((int) v.getTag());// 获得子item的layout
-        MyEditText editText = (MyEditText)layout.findViewById(R.id.lineName);
+        final MyEditText editText = (MyEditText)layout.findViewById(R.id.lineName);
 
         final String routeName = editText.getText().toString().trim();
         final int id = listData.get((int) v.getTag()).getRoute_id();
@@ -233,6 +233,8 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
                 try {
                     if ((int)response == 0){
                         ToastXutil.show("修改成功");
+                        editText.setText("");
+                        editText.setHint(routeName);
                         for (int i = 0;i<listData.size();i++){
                             if (listData.get(i).getRoute_id() == id){
                                 listData.get(i).setRoute_name(routeName);

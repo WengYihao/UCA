@@ -7,13 +7,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.cn.uca.R;
+import com.cn.uca.impl.ServiceBack;
+import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.ui.fragment.home.samecityka.ActionSquareFragment;
 import com.cn.uca.ui.fragment.home.samecityka.MyActionFragment;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.BottomBar;
 
-public class SameCityKaActivity extends BaseBackActivity implements View.OnClickListener{
+public class SameCityKaActivity extends BaseBackActivity implements View.OnClickListener,ServiceBack{
 
     private TextView back,search;
     private ActionSquareFragment squareFragment;
@@ -50,7 +52,8 @@ public class SameCityKaActivity extends BaseBackActivity implements View.OnClick
 
             @Override
             public void onCenterClick() {
-                startActivity(new Intent(SameCityKaActivity.this ,SendActionActivity.class));
+                String str = "http://www.szyouka.com:8080/youkatravel/agreement/CityCafeProtocol.html";
+                ShowPopupWindow.seviceWindow(getWindow().getDecorView(),SameCityKaActivity.this,str,SameCityKaActivity.this);
             }
 
 
@@ -102,5 +105,10 @@ public class SameCityKaActivity extends BaseBackActivity implements View.OnClick
                 startActivity(new Intent(SameCityKaActivity.this,ActionSearchActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void sure() {
+        startActivity(new Intent(SameCityKaActivity.this ,SendActionActivity.class));
     }
 }

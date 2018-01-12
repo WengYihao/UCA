@@ -11,11 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cn.uca.R;
+import com.cn.uca.zxing.BarcodeEncoder;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 /**
  * Created by asus on 2017/12/15.

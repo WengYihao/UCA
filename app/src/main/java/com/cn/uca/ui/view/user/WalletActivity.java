@@ -20,7 +20,7 @@ public class WalletActivity extends BaseBackActivity implements View.OnClickList
 
     private TextView back,count;
     private LinearLayout layout1,layout2;
-    private RelativeLayout layout3,layout4,layout5;
+    private RelativeLayout layout3,layout4,layout5,layout6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,7 @@ public class WalletActivity extends BaseBackActivity implements View.OnClickList
         layout3 = (RelativeLayout) findViewById(R.id.layout3);
         layout4 = (RelativeLayout) findViewById(R.id.layout4);
         layout5 = (RelativeLayout)findViewById(R.id.layout5);
+        layout6 = (RelativeLayout)findViewById(R.id.layout6);
 
         back.setOnClickListener(this);
         layout1.setOnClickListener(this);
@@ -44,6 +45,7 @@ public class WalletActivity extends BaseBackActivity implements View.OnClickList
         layout3.setOnClickListener(this);
         layout4.setOnClickListener(this);
         layout5.setOnClickListener(this);
+        layout6.setOnClickListener(this);
 
         count = (TextView)findViewById(R.id.count);
 
@@ -71,6 +73,9 @@ public class WalletActivity extends BaseBackActivity implements View.OnClickList
                 break;
             case R.id.layout5:
 //                银行卡
+                break;
+            case R.id.layout6:
+                startActivity(new Intent(WalletActivity.this,RechargeSettingActivity.class));
                 break;
         }
     }

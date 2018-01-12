@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:padding="@dimen/padding_10">
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"></WebView>
+        </LinearLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:scaleType="matrix"
+            android:src="@color/gray" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/padding_40"
+            android:layout_gravity="bottom"
+            android:background="@mipmap/btn_back"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/positiveButton"
+                style="@style/text_15_ffffff_sdw"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/padding_50"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@mipmap/btn_cancel_selector"
+                android:text="同意"
+                android:textColor="@color/ori" />
+
+            <ImageView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:scaleType="matrix"
+                android:src="@color/gray" />
+
+            <Button
+                android:id="@+id/negativeButton"
+                style="@style/text_15_666666_sdw"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/padding_50"
+                android:layout_weight="1"
+                android:background="@mipmap/btn_cancel_selector"
+                android:gravity="center"
+                android:text="@string/dialog_show_cancel"
+                android:textColor="@color/grey" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

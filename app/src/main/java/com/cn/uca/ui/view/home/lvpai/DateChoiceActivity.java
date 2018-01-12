@@ -2,7 +2,6 @@ package com.cn.uca.ui.view.home.lvpai;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -10,23 +9,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.lvpai.data.ListViewAdapter;
+import com.cn.uca.bean.home.lvpai.OrderBean;
 import com.cn.uca.bean.home.lvpai.dateview.DateBean;
 import com.cn.uca.bean.home.lvpai.dateview.GridViewBean;
 import com.cn.uca.bean.home.lvpai.dateview.ListViewBean;
 import com.cn.uca.bean.home.lvpai.dateview.SourceDateBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.impl.ServiceBack;
 import com.cn.uca.impl.lvpai.CallBackDate;
+import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.ui.view.home.samecityka.SameCityKaActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -50,7 +50,7 @@ import java.util.Map;
 /**
  * 行程选择
  */
-public class DateChoiceActivity extends BaseBackActivity implements View.OnClickListener,CallBackDate{
+public class DateChoiceActivity extends BaseBackActivity implements View.OnClickListener,CallBackDate,ServiceBack{
 
     private TextView back,dayLong,buy,config;
     private ListView listView;
@@ -62,6 +62,7 @@ public class DateChoiceActivity extends BaseBackActivity implements View.OnClick
     private View inflateLable;
     private String orderStr;
     private double orderPrice;
+    private OrderBean bean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,7 +253,9 @@ public class DateChoiceActivity extends BaseBackActivity implements View.OnClick
                             List<SourceDateBean> beanList = gson.fromJson(array.toString(),new TypeToken<List<SourceDateBean>>() {
                             }.getType());
                             list = getDate(beanList);
-                            adapter.setList(list);
+                            if (list.size() != 0){
+                                adapter.setList(list);
+                            }
                             Log.e("456",list.toString());
                             break;
                     }
@@ -291,11 +294,12 @@ public class DateChoiceActivity extends BaseBackActivity implements View.OnClick
                         switch (code){
                             case 0:
                                 Gson gson = new Gson();
-                                OrderBean bean = gson.fromJson(jsonObject.getJSONObject("data").toString(),new TypeToken<OrderBean>() {
+                                bean = gson.fromJson(jsonObject.getJSONObject("data").toString(),new TypeToken<OrderBean>() {
                                 }.getType());
                                 orderPrice = bean.getActual_payment();
                                 orderStr = bean.getOrder_number();
-                                showLable(bean);
+                                String str = "http://www.szyouka.com:8080/youkatravel/agreement/tripShootUserProtocol.html";
+                                ShowPopupWindow.seviceWindow(getWindow().getDecorView(),DateChoiceActivity.this,str,DateChoiceActivity.this);
                                 break;
                         }
                     }catch (Exception e){
@@ -400,5 +404,10 @@ public class DateChoiceActivity extends BaseBackActivity implements View.OnClick
                 }
             }
         }
+    }
+
+    @Override
+    public void sure() {
+        showLable(bean);
     }
 }

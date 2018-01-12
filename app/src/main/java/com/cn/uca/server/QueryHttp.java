@@ -1,5 +1,7 @@
 package com.cn.uca.server;
 
+import android.telecom.Call;
+
 import com.cn.uca.bean.user.RegisterBean;
 import com.cn.uca.bean.wechat.WeChatLogin;
 import com.cn.uca.config.Constant;
@@ -134,5 +136,47 @@ public class QueryHttp extends BaseServer{
         map.put("sign", sign);
         map.put("time_stamp", time_stamp);
         get(MyConfig.getRongInfo,map,callBack);
+    }
+
+    /**
+     * 创建支付宝订单
+     * @param account_token
+     * @param sign
+     * @param time_stamp
+     * @param amount_money
+     * @param callBack
+     */
+    public static void createZfbOrder(String account_token,String sign,String time_stamp,String amount_money,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("amount_money",amount_money);
+        post5(MyConfig.createZfbOrder,map,callBack);
+    }
+
+    /**
+     * 获取支付宝登录信息
+     * @param callBack
+     */
+    public static void getAuthInfo(CallBack callBack){
+        get(MyConfig.getAuthInfo,null,callBack);
+    }
+
+    /**
+     * 支付宝登录
+     * @param auth_code
+     * @param user_id
+     * @param sign
+     * @param time_stamp
+     * @param callBack
+     */
+    public static void userLogin(String auth_code,String user_id,String sign,String time_stamp,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("auth_code",auth_code);
+        map.put("user_id",user_id);
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        post5(MyConfig.userLogin,map,callBack);
     }
 }

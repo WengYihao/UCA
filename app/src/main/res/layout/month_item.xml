@@ -10,14 +10,37 @@
         android:layout_height="wrap_content"
         android:background="@mipmap/moon_back"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/padding_20"/>
+        android:layout_marginLeft="@dimen/padding_15"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/padding_30">
+        android:layout_marginRight="@dimen/padding_15">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="假如时间是静止的，而"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_12"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="流逝"
+                android:textSize="@dimen/text_20"
+                android:textColor="@color/yellow"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="的是你"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_12"/>
+        </LinearLayout>
         <TextView
             android:id="@+id/month"
             android:layout_width="match_parent"
@@ -25,13 +48,15 @@
             android:text="余344月"
             android:gravity="right"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_22"/>
+            android:textSize="@dimen/text_22"
+            android:layout_marginTop="@dimen/padding_10"/>
         <TextView
             android:id="@+id/add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/yusheng_add"
-            android:layout_marginTop="@dimen/padding_20"/>
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/padding_10"/>
     </LinearLayout>
 
 </RelativeLayout>

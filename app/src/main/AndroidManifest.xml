@@ -327,9 +327,6 @@
             android:name=".ui.view.user.RechargeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.view.yueka.YuekaInfoActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.view.yueka.BackImageActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -486,12 +483,9 @@
         <activity android:name=".ui.view.home.samecityka.CardEditActivity" />
         <activity android:name=".ui.view.home.samecityka.MyTicketActivity" />
         <activity android:name=".ui.view.home.samecityka.MyFollowActivity" />
-        <activity android:name=".ui.view.home.samecityka.ReplyNewActivity" />
         <activity android:name=".ui.view.home.samecityka.MyActionActivity" />
-        <activity android:name=".ui.view.home.samecityka.MyNewActivity" />
         <activity android:name=".ui.view.home.samecityka.ExamineActivity" />
         <activity android:name=".ui.view.home.samecityka.SettlementActivity" />
-        <activity android:name=".ui.view.home.samecityka.ActionPlaceActivity" />
         <activity android:name=".ui.view.home.samecityka.MapChoiceActivity" />
         <activity android:name=".ui.view.home.samecityka.SearchResultActivity" />
         <activity android:name=".ui.view.home.samecityka.CardChoiceActivity" />
@@ -520,7 +514,27 @@
         <activity android:name=".ui.view.util.PreviewPhotoActivity" />
         <activity android:name=".ui.view.home.lvpai.LookPhotoActivity" />
         <activity android:name=".ui.view.home.lvpai.DateChoiceActivity" />
-        <activity android:name=".ui.view.home.lvpai.AddTeamActivity"></activity>
+        <activity android:name=".ui.view.home.lvpai.AddTeamActivity" />
+        <activity android:name=".ui.view.home.lvpai.PhotoManageActivity" />
+        <activity
+            android:name=".zxing.CaptureActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.view.home.samecityka.ActionManageActivity" />
+        <activity android:name=".ui.view.home.samecityka.TicketManageActivity" />
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".ui.view.user.RechargeSettingActivity" />
+        <activity android:name=".ui.view.user.WalletPasswordActivity"></activity>
     </application>
 
 </manifest>

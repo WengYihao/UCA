@@ -15,9 +15,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,10 +29,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
+import com.cn.uca.adapter.FragmentAdapter;
+import com.cn.uca.bean.home.lvpai.SendImgBean;
 import com.cn.uca.bean.home.lvpai.getAddressBean;
 import com.cn.uca.bean.home.lvpai.BecomeMerchantBean;
+import com.cn.uca.bean.home.samecityka.SendImgFileBean;
 import com.cn.uca.config.Constant;
+import com.cn.uca.impl.CallBackValue;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.ui.fragment.home.lvpai.PhotoFragment;
 import com.cn.uca.ui.view.home.samecityka.MapChoiceActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.AndroidClass;
@@ -42,6 +49,7 @@ import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
+import com.cn.uca.view.PageControlView;
 import com.cn.uca.view.dialog.LoadDialog;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -51,13 +59,15 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * 商家入驻
  */
-public class MerchantEntryActivity extends BaseBackActivity implements OnClickListener{
+public class MerchantEntryActivity extends BaseBackActivity implements OnClickListener,CallBackValue{
 
     private CircleImageView pic;
     private TextView confirm,back,address;
@@ -70,6 +80,11 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
     private Uri imageUri;
     private String addressStr;
     private ByteArrayInputStream bais;
+    private PhotoFragment fragment;
+    private ViewPager mPager;
+    private ArrayList<Fragment> fragmentList;
+    private PageControlView pageControl;
+    private List<SendImgFileBean> listPhoto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +95,8 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
 
     private void initView() {
         back = (TextView)findViewById(R.id.back);
+        mPager = (ViewPager)findViewById(R.id.mPager);
+        pageControl = (PageControlView)findViewById(R.id.pageControl);
         pic = (CircleImageView)findViewById(R.id.pic);
         name = (EditText)findViewById(R.id.name);
         introduce = (EditText)findViewById(R.id.introduce);
@@ -96,8 +113,36 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
         address_layout.setOnClickListener(this);
         confirm.setOnClickListener(this);
 
+        listPhoto = new ArrayList<>();
+        fragmentList = new ArrayList<>();
+        for (int i = 1;i<=6;i++){
+            fragment = PhotoFragment.newInstance(i);
+            fragmentList.add(fragment);
+        }
+        mPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), fragmentList));
+        mPager.setCurrentItem(0);
+        pageControl.count = 6;
+        pageControl.generalPageControl(0);
+        mPager .setOffscreenPageLimit(6);//viewpager缓存的界面数
+        mPager.setOnPageChangeListener(onPageChangeListener);
     }
 
+    ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            pageControl.generalPageControl(position);
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+
+        }
+    };
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -115,6 +160,7 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
                 dialog.show();
                 break;
             case R.id.confirm:
+                ToastXutil.show("正在获取数据...");
                 becomeMerchant();
                 break;
         }
@@ -125,7 +171,19 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
         String time_stamp = SystemUtil.getCurrentDate2();
         BecomeMerchantBean bean = new BecomeMerchantBean();
         bean.setWeixin("");
-        bean.setPictures("");
+        if (listPhoto.size() > 0){
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0;i<listPhoto.size();i++){
+                if (i+1 == listPhoto.size()){
+                    builder.append(listPhoto.get(i).getImgName());
+                }else{
+                    builder.append(listPhoto.get(i).getImgName()+",");
+                }
+            }
+            bean.setPictures(builder.toString());
+        }else{
+            bean.setPictures("");
+        }
         bean.setAccount_token(account_token);
         bean.setTime_stamp(time_stamp);
         if (bais != null){
@@ -174,16 +232,18 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
                                 map.put("phone",bean.getPhone());
                                 String sign = SignUtil.sign(map);
                                 bean.setSign(sign);
-                                HomeHttp.becomeMerchant(bean, bais, new AsyncHttpResponseHandler() {
+                                HomeHttp.becomeMerchant(bean, bais,listPhoto,new AsyncHttpResponseHandler() {
                                     @Override
                                     public void onSuccess(int i, Header[] headers, byte[] bytes) {
                                         LoadDialog.dismiss(MerchantEntryActivity.this);
                                         try {
                                             if (i == 200) {
                                                 JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
+                                                Log.e("456",jsonObject.toString());
                                                 int code  = jsonObject.getInt("code");
                                                 switch (code){
                                                     case 0:
+                                                        MerchantEntryActivity.this.finish();
                                                         ToastXutil.show("商家入驻成功！");
                                                         break;
                                                 }
@@ -413,5 +473,12 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
                 address.setText(bean.getAddress());
             }
         }
+    }
+
+    @Override
+    public void sendMessage(int type, Object obj) {
+        SendImgFileBean bean = (SendImgFileBean)obj;
+        Log.e("456",type+"-"+bean.toString()+"activity");
+        listPhoto.add(type-1,bean);
     }
 }
