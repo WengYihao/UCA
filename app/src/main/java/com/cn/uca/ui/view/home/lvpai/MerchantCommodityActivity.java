@@ -179,7 +179,6 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
                 title02.setTextColor(getResources().getColor(R.color.ori));
                 list.clear();
                 getMyTs("unsold",1,pageCountUp*pageUp);
-
                 break;
             case R.id.add_new_commodity:
                 popupWindow.dismiss();

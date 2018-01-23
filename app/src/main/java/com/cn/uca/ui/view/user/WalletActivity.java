@@ -70,6 +70,7 @@ public class WalletActivity extends BaseBackActivity implements View.OnClickList
                 break;
             case R.id.layout4:
                 //提现
+                startActivity(new Intent(WalletActivity.this,DepositActivity.class));
                 break;
             case R.id.layout5:
 //                银行卡

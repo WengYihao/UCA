@@ -32,10 +32,8 @@ import java.util.ArrayList;
 public class YueDetailsFragment extends Fragment implements View.OnClickListener{
 
     private View view;
-    private ListView line;
     private RelativeLayout layout1,layout2;
     private LinearLayout notice,notes;//预定须知/退款须知
-    private LineAdapter lineAdapter;
     private boolean isShow = false;
     private boolean isShow2 = false;
     private ImageView icon,icon1;
@@ -71,11 +69,6 @@ public class YueDetailsFragment extends Fragment implements View.OnClickListener
     }
 
     private void initView() {
-        line = (ListView)view.findViewById(R.id.line);
-        lineAdapter = new LineAdapter(list,getActivity());
-        line.setAdapter(lineAdapter);
-        SetListView.setListViewHeightBasedOnChildren(line);
-
         layout1 = (RelativeLayout)view.findViewById(R.id.layout1);
         layout2 = (RelativeLayout)view.findViewById(R.id.layout2);
         notice = (LinearLayout)view.findViewById(R.id.notice);
@@ -95,15 +88,6 @@ public class YueDetailsFragment extends Fragment implements View.OnClickListener
         listLayout = (LinearLayout)view.findViewById(R.id.list);
         final LinearLayout.LayoutParams linearParams =(LinearLayout.LayoutParams) listLayout.getLayoutParams(); //取控件textView当前的布局参数
 
-        //获取title高度
-        ViewTreeObserver viewTreeObserver1 = line.getViewTreeObserver();
-        viewTreeObserver1.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                linearParams.height = line.getHeight();// 控件的宽强制设成30
-            }
-        });
-
         listLayout.setLayoutParams(linearParams); //使设置好的布局参数应用到控件
         webView = (WebView)view.findViewById(R.id.webView);
 
@@ -113,6 +97,7 @@ public class YueDetailsFragment extends Fragment implements View.OnClickListener
         settings.setAllowFileAccess(true);
         // WebView加载web资源
         webView.loadUrl(url);
+//        webView.loadUrl("http:www.baidu.com");
         // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
         webView.setWebViewClient(new WebViewClient() {
             @Override

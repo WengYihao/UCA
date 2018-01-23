@@ -51,6 +51,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.rong.imkit.RongIM;
+
 /**
  * 活动详情-同城咖
  */
@@ -72,6 +74,7 @@ public class ActionDetailActivity extends BaseBackActivity implements View.OnCli
     private ListView detail;
     private List<ActionDescribeBean> list;
     private ActionDetailAdapter adapter;
+    private int chatId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +144,10 @@ public class ActionDetailActivity extends BaseBackActivity implements View.OnCli
                 collectionCityCafe();
                 break;
             case R.id.leaving_news:
-                ToastXutil.show("哈哈...");
+                if (RongIM.getInstance() != null) {
+                    RongIM.getInstance().setMessageAttachedUserInfo(true);
+                    RongIM.getInstance().startPrivateChat(this, chatId+"","");
+                }
                 break;
             case R.id.join_action:
                 showCityDialog();
@@ -274,6 +280,7 @@ public class ActionDetailActivity extends BaseBackActivity implements View.OnCli
                             ActionDetailBean bean = gson.fromJson(jsonObject.getJSONObject("data").toString(),new TypeToken<ActionDetailBean>() {
                             }.getType());
                             ImageLoader.getInstance().displayImage(bean.getCover_url(),pic);
+                            chatId = bean.getAccount_number_id();
                             action_name.setText(bean.getTitle());
                             username.setText(bean.getUser_card_name());
                             if (bean.isCharge()){

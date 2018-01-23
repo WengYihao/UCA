@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.ui.view.util.BaseBackActivity;
+import com.cn.uca.util.ToastXutil;
 import com.cn.uca.zxing.camera.CameraManager;
 import com.google.zxing.Result;
 

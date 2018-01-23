@@ -2,6 +2,7 @@ package com.cn.uca.popupwindows;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,6 +18,8 @@ import com.cn.uca.bean.yueka.SubmitYuekaBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.yueka.YueKaHttp;
+import com.cn.uca.ui.view.user.RechargeSettingActivity;
+import com.cn.uca.ui.view.user.WalletPasswordActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -236,6 +239,17 @@ public class BuyYuaKaPopupWindow{
                             break;
                         case 191:
                             ToastXutil.show("不能购买个人商品  ");
+                            popupWindow.dismiss();
+                            break;
+                        case 275:
+                            ToastXutil.show("请先认证");
+                            break;
+                        case 740:
+                            ToastXutil.show("请先设置支付密码");
+                            Intent intent = new Intent();
+                            intent.setClass(context, WalletPasswordActivity.class);
+                            intent.putExtra("type",2);
+                            context.startActivity(intent);
                             popupWindow.dismiss();
                             break;
                         default:

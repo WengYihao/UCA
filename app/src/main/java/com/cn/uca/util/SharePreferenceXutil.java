@@ -89,7 +89,6 @@ public class SharePreferenceXutil {
 		boolean isExit = getSp().getBoolean("isExit", false);
 		return isExit;
 	}
-//
 	/**
 	 * 保存是否认证
 	 * @param isAuthentication ：true:已认证
@@ -105,6 +104,91 @@ public class SharePreferenceXutil {
 	public static boolean isAuthentication() {
 		boolean isAuthentication = getSp().getBoolean("isAuthentication", false);
 		return isAuthentication;
+	}
+
+	/**
+	 * 保存是否签到
+	 * @param isClock ：true:已签到
+	 */
+	public static void setClock(boolean isClock) {
+		getSp().edit().putBoolean("isClock", isClock).commit();
+	}
+
+	/**
+	 * 获取是否签到
+	 * @return
+	 */
+	public static boolean isClock() {
+		boolean isClock = getSp().getBoolean("isClock", false);
+		return isClock;
+	}
+
+	/**
+	 * 保存是否绑定微信
+	 * @param isBindWeChat ：true:已绑定
+	 */
+	public static void setBindWeCaht(boolean isBindWeChat) {
+		getSp().edit().putBoolean("isBindWeChat", isBindWeChat).commit();
+	}
+
+	/**
+	 * 获取是否绑定微信
+	 * @return
+	 */
+	public static boolean isBindWeCaht() {
+		boolean isBindWeChat = getSp().getBoolean("isBindWeChat", false);
+		return isBindWeChat;
+	}
+
+	/**
+	 * 保存是否绑定支付宝
+	 * @param isBindPay ：true:已绑定
+	 */
+	public static void setBindPay(boolean isBindPay) {
+		getSp().edit().putBoolean("isBindPay", isBindPay).commit();
+	}
+
+	/**
+	 * 获取是否绑定支付宝
+	 * @return
+	 */
+	public static boolean isBindPay() {
+		boolean isBindPay = getSp().getBoolean("isBindPay", false);
+		return isBindPay;
+	}
+
+	/**
+	 * 保存是否商家入驻
+	 * @param isEnter ：true:已入驻
+	 */
+	public static void setEnter(boolean isEnter) {
+		getSp().edit().putBoolean("isEnter", isEnter).commit();
+	}
+
+	/**
+	 * 获取是否已入住
+	 * @return
+	 */
+	public static boolean isEnter() {
+		boolean isEnter = getSp().getBoolean("isEnter", false);
+		return isEnter;
+	}
+
+	/**
+	 * 保存是否成为领咖
+	 * @param isLingKa ：true:领咖
+	 */
+	public static void setLingKa(boolean isLingKa) {
+		getSp().edit().putBoolean("isLingKa", isLingKa).commit();
+	}
+
+	/**
+	 * 获取是否成为领咖
+	 * @return
+	 */
+	public static boolean isLingKa() {
+		boolean isLingKa = getSp().getBoolean("isLingKa", false);
+		return isLingKa;
 	}
 	/**
 	 * 保存是否开启余生
@@ -304,5 +388,23 @@ public class SharePreferenceXutil {
 		boolean isSign = getSp().getBoolean("isSign", false);
 		return isSign;
 	}
+
+    /**
+     * 设置是否微信登录
+     * @param isWeChatLogin ：true
+     */
+    public static void setWeChatLogin(boolean isWeChatLogin) {
+        getSp().edit().putBoolean("isWeChatLogin", isWeChatLogin).commit();
+    }
+
+    /**
+     * 获取是否微信登录
+     * @return
+     */
+    public static boolean isWeChatLogin() {
+        boolean isWeChatLogin = getSp().getBoolean("isWeChatLogin", false);
+        return isWeChatLogin;
+    }
+
 
 }

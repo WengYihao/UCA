@@ -108,7 +108,7 @@ public class YuekaSearchPopupWindow implements View.OnClickListener{
                 second_pv.setEndAge(pickers);
             }
         });
-        popupWindow = new PopupWindow(show, MyApplication.width,MyApplication.height*3/7);
+        popupWindow = new PopupWindow(show, MyApplication.width,MyApplication.height*4/7);
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);

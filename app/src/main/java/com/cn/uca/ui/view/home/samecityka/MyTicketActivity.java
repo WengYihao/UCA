@@ -69,9 +69,6 @@ public class MyTicketActivity extends BaseBackActivity implements View.OnClickLi
             case R.id.back:
                 this.finish();
                 break;
-            case R.id.layout:
-                startActivity(new Intent(MyTicketActivity.this,TicketCodeActivity.class));
-                break;
         }
     }
 
@@ -132,7 +129,7 @@ public class MyTicketActivity extends BaseBackActivity implements View.OnClickLi
         Intent intent = new Intent();
         intent.setClass(this, TicketCodeActivity.class);
         intent.putExtra("id",list.get((int) view.getTag()).getCity_cafe_order_id());
-//        intent.putParcelableArrayListExtra("listTicket",(ArrayList<? extends Parcelable>) list.get((int)view.getTag()).getTickets());
+        intent.putParcelableArrayListExtra("listTicket",(ArrayList<? extends Parcelable>) list.get((int)view.getTag()).getTickets());
         startActivity(intent);
     }
 }

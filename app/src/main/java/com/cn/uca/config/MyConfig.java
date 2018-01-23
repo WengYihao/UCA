@@ -10,9 +10,14 @@ public class MyConfig {
 	public static final String createZfbOrder = url + "user/update/createZfbOrder.do";//创建支付包订单
 	public static final String getAuthInfo = url + "user/query/zfbAuthInfo.do";//获取支付宝登录信息
 	public static final String userLogin = url  + "user/query/userLogin_zfb.do";//支付宝登录
+	public static final String bindPhoneNumber = url + "user/update/bindPhoneNumber.do";//绑定手机号
+	public static final String bindZfb = url + "user/update/bindZfb.do";//绑定支付宝
+    public static final String bindWeixin = url + "user/update/bindWeixin.do";//绑定微信
 	public static final String uplodePic = url+"user/update/uploadHeadPortrait.do";//上传用户头像
 	public static final String getUserBriefInfo = url+"user/query/getUserBriefInfo.do";//获取简单用户信息
 	public static final String setUserInfo = url+"user/update/setUserInfo.do";//修改用户信息
+	public static final String setPayPwd = url + "user/update/setPayPwd.do";//设置支付密码
+	public static final String updatePayPwd = url + "user/update/updatePayPwd.do";//修改支付密码
 	public static final String phoneLogin = url+"user/query/phone_login.do"; //手机用户登录
 	public static final String phoneRegister = url+"user/update/userRegister.do";//手机号注册
 	public static final String getUserInfo = url+"user/query/getUserInfo.do";//获取用户信息
@@ -67,9 +72,10 @@ public class MyConfig {
 	public static final String deleteCoverPicture = url+"escort/update/deleteCoverPicture.do";//删除用户图片
 	public static final String getIdCardUrl = url+"user/query/getIdCardUrl.do";//获取芝麻信用url
 	public static final String feedback = url+"home/query/feedback.do";//app反馈
-	public static final String purchaseCityRaiders = url+"travel/update/purchaseCityRaiders.do";//购买一元攻略
+//	public static final String purchaseCityRaiders = url+"travel/update/purchaseCityRaiders.do";//购买一元攻略
     public static final String orderPayment = url+"/user/update/orderPayment.do";//支付订单
 	public static final String getUserOrder = url +"user/query/getUserOrder.do";//获取用户订单
+	public static final String getUserOrderInfo = url + "user/query/getUserOrderInfo.do";//获取订单信息
     public static final String createWeiXinOrder = url+"user/update/createWeiXinOrder.do";//创建微信订单
 	public static final String queryWeiXinOrderState = url+"query/queryWeiXinOrderState.do";//验证微信支付是否成功
 	public static final String userClock = url+"user/update/userClock.do";//用户签到
@@ -111,6 +117,8 @@ public class MyConfig {
 	public static final String staSusCityCafe = url +"citycafe/update/staSusCityCafe.do";//开始或暂停同城咖售票
 	public static final String collectionCityCafe = url + "citycafe/update/collectionCityCafe.do";//收藏/取消收藏同城咖
 	public static final String getCafeUser = url + "citycafe/query/getCafeUser.do";//获取同城咖发布者卡票信息
+	public static final String checkTicket = url +"citycafe/update/checkTicket.do\n";//发起者验票
+	public static final String getPushUser = url + "user/query/getPushUser.do";//获取用户推送
 	/**
 	 * 旅拍
 	 */
@@ -135,8 +143,11 @@ public class MyConfig {
 	public static final String getMerchantAlbum = url + "tripshoot/query/getMerchantAlbum.do";//获取商家相册
 	public static final String getAlbumPicture = url + "tripshoot/query/getAlbumPicture.do";//获取相册中的图片
 	public static final String getMyTs = url + "tripshoot/query/getMyTs.do";//获取旅拍商户发布的商品
-	public static final String getTsOrders = url + "tripshoot/query/getTsOrders.do";//获取商家旅拍订单
+	public static final String getTsOrders = url + "tripshoot/query/getTsOrders.do";//获取商家某个商品旅拍订单
+	public static final String getTsOrder = url + "tripshoot/query/getTsOrder.do";//获取旅拍商家所有订单
 	public static final String hotspot = url +"tripshoot/update/hotspot.do";//设置旅拍商品推荐
 	public static final String saveDetails = url + "escort/update/saveDetails.do";//约咖详情
 	public static final String upLoShelves = url +"tripshoot/update/upLoShelves.do";//旅拍商品上架&&下架
+	public static final String updateMerchantAlbum = url +"tripshoot/update/updateMerchantAlbum.do";//增删改商家相册
+	public static final String addAlbumPicture = url + "tripshoot/update/addAlbumPicture.do";//添加照片
  }

@@ -20,9 +20,11 @@
             android:text="@string/acceptOrderActivity_title_text" />
     </RelativeLayout>
     <LinearLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/gradient">
 
         <TextView
             android:id="@+id/title01"
@@ -30,8 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="@dimen/padding_20"
-            android:text="@string/orderActivity_title01_text"
+            android:padding="@dimen/padding_15"
+            android:text="全部"
             android:textColor="@color/black"
             android:textSize="@dimen/text_14" />
 
@@ -41,7 +43,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/acceptOrderActivity_text1"
-            android:padding="@dimen/padding_20"
+            android:padding="@dimen/padding_15"
             android:textSize="@dimen/text_14"
             android:textColor="@color/black"
             android:gravity="center"/>
@@ -51,7 +53,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/acceptOrderActivity_text2"
-            android:padding="@dimen/padding_20"
+            android:padding="@dimen/padding_15"
             android:textSize="@dimen/text_14"
             android:textColor="@color/black"
             android:gravity="center"/>
@@ -61,7 +63,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="@string/acceptOrderActivity_text3"
-            android:padding="@dimen/padding_20"
+            android:padding="@dimen/padding_15"
             android:textSize="@dimen/text_14"
             android:textColor="@color/black"
             android:gravity="center"/>

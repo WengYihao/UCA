@@ -36,7 +36,7 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/albumname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -83,7 +83,7 @@
                 android:background="@mipmap/btn_cancel_selector"
                 android:gravity="center"
                 android:text="取消"
-                android:textColor="@color/gray" />
+                android:textColor="@color/gray2" />
         </LinearLayout>
     </LinearLayout>
 

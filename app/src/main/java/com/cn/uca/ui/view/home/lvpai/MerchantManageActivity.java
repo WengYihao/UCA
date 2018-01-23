@@ -1,7 +1,6 @@
 package com.cn.uca.ui.view.home.lvpai;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,12 @@ import com.cn.uca.R;
 import com.cn.uca.bean.home.lvpai.MerchantInfoBean;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.ui.view.rongim.ChatListActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
+import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
 import com.cn.uca.view.FluidLayout;
 import com.cn.uca.view.RatingStarView;
@@ -32,11 +33,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 旅拍商家管里
+ * 旅拍商家管理
  */
 public class MerchantManageActivity extends BaseBackActivity implements View.OnClickListener {
 
-    private TextView back,prompt,close,edit,score,username,introduce,merchantname,merchantphone,merchantwechat;
+    private TextView back,message,prompt,close,edit,score,username,introduce,merchantname,merchantphone,merchantwechat;
     private LinearLayout layout;
     private CircleImageView user_pic;
     private RatingStarView star;
@@ -56,6 +57,7 @@ public class MerchantManageActivity extends BaseBackActivity implements View.OnC
 
     private void initView() {
         back = (TextView)findViewById(R.id.back);
+        message = (TextView)findViewById(R.id.message);
         prompt = (TextView)findViewById(R.id.prompt);
         layout = (LinearLayout)findViewById(R.id.layout);
         close = (TextView)findViewById(R.id.close);
@@ -77,6 +79,7 @@ public class MerchantManageActivity extends BaseBackActivity implements View.OnC
         layout6 = (LinearLayout)findViewById(R.id.layout6);
         personal_tailor = (Switch)findViewById(R.id.personal_tailor);
         back.setOnClickListener(this);
+        message.setOnClickListener(this);
         close.setOnClickListener(this);
         edit.setOnClickListener(this);
         layout1.setOnClickListener(this);
@@ -92,6 +95,13 @@ public class MerchantManageActivity extends BaseBackActivity implements View.OnC
         switch (v.getId()){
             case R.id.back:
                 this.finish();
+                break;
+            case R.id.message:
+                if (SharePreferenceXutil.isSuccess()){
+                    startActivity(new Intent(this, ChatListActivity.class));
+                }else{
+                    ToastXutil.show("请先登录");
+                }
                 break;
             case R.id.close:
                 layout.setVisibility(View.GONE);
@@ -115,7 +125,7 @@ public class MerchantManageActivity extends BaseBackActivity implements View.OnC
 
                 break;
             case R.id.layout5:
-
+                startActivity(new Intent(this,OrderManageActivity.class));
                 break;
             case R.id.layout6:
                 startActivity(new Intent(this, MerchantTeamActivity.class));

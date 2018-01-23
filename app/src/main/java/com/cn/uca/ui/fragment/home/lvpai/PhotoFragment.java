@@ -79,7 +79,7 @@ public class PhotoFragment extends Fragment implements View.OnClickListener{
         pic = (ImageView)view.findViewById(R.id.pic);
         addPhoto.setOnClickListener(this);
         index = getArguments().getInt("index");
-        text.setText("请添加六张摄影作品(+"+index+"/6)");
+        text.setText("请添加六张摄影作品("+index+"/6)");
     }
 
     @Override
@@ -260,6 +260,7 @@ public class PhotoFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        File file = null;
         if (resultCode == getActivity().RESULT_OK){
             switch (requestCode) {
                 case Constant.PHOTO_REQUEST_TAKEPHOTO:
@@ -267,7 +268,8 @@ public class PhotoFragment extends Fragment implements View.OnClickListener{
                     break;
                 case Constant.PHOTO_REQUEST_GALLERY:
                     if (data.getData() != null) {
-                        setPicToView(new File(SystemUtil.getRealPathFromURI(data.getData(),getActivity())));
+                        file = new File(SystemUtil.getRealPathFromURI(data.getData(),getActivity()));
+                        setPicToView(file);
                     }
                     break;
             }

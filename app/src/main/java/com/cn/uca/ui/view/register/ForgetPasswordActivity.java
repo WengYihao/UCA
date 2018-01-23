@@ -15,6 +15,7 @@ import com.cn.uca.secretkey.Base64;
 import com.cn.uca.secretkey.MD5;
 import com.cn.uca.secretkey.RSAUtils;
 import com.cn.uca.server.QueryHttp;
+import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.ui.view.MainActivity;
 import com.cn.uca.util.ActivityCollector;
@@ -28,9 +29,10 @@ import java.security.PublicKey;
 public class ForgetPasswordActivity extends BaseBackActivity implements View.OnClickListener{
 
     private MyEditText phone,password,code;
-    private TextView back,getCode,finish;
+    private TextView back,title,getCode,finish;
     private String phoneNumber,passwordNumber,codeNumber;
     private TimeCount time;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +40,31 @@ public class ForgetPasswordActivity extends BaseBackActivity implements View.OnC
         setContentView(R.layout.activity_forget_password);
 
         ActivityCollector.forgetActivity.add(this);
-
         initView();
+        getInfo();
+    }
+
+    private void getInfo(){
+        Intent intent = getIntent();
+        if (intent != null){
+            type = intent.getIntExtra("id",0);
+            switch (type){
+                case 1://忘记密码（手机号登录密码）
+                    title.setText("忘记密码");
+                    break;
+                case 2://绑定手机号
+                    title.setText("绑定手机号");
+                    break;
+                case 3://忘记支付密码
+                    title.setText("重置密码");
+                    break;
+            }
+        }
     }
 
     private void initView() {
         back = (TextView)findViewById(R.id.back);
+        title = (TextView)findViewById(R.id.title);
         phone = (MyEditText)findViewById(R.id.phone);
         password = (MyEditText)findViewById(R.id.password);
         code = (MyEditText)findViewById(R.id.code);
@@ -69,7 +90,17 @@ public class ForgetPasswordActivity extends BaseBackActivity implements View.OnC
                 time.start();
                 break;
             case R.id.finish:
-                forgetPassword();
+                switch (type){
+                    case 1:
+                        forgetPassword();
+                        break;
+                    case 2:
+                        bindPhoneNumber();
+                        break;
+                    case 3:
+
+                        break;
+                }
                 break;
         }
     }
@@ -92,6 +123,7 @@ public class ForgetPasswordActivity extends BaseBackActivity implements View.OnC
         }
     }
 
+    //忘记密码
     private void forgetPassword(){
         try {
             if (StringXutil.isPhoneNumberValid(phone.getText().toString())){
@@ -128,6 +160,75 @@ public class ForgetPasswordActivity extends BaseBackActivity implements View.OnC
                                             break;
                                         default:
                                             ToastXutil.show("找回密码失败");
+                                            break;
+                                    }
+                                }
+
+                                @Override
+                                public void onErrorMsg(String errorMsg) {
+
+                                }
+
+                                @Override
+                                public void onError(VolleyError error) {
+
+                                }
+                            });
+                        }else{
+                            ToastXutil.show("请输入6位验证码");
+                        }
+                    }else{
+                        ToastXutil.show("6-20密码暴扣非法字符");
+                    }
+                }else{
+                    ToastXutil.show("新密码不能为空");
+                }
+            }else{
+                ToastXutil.show("请输入正确的手机号");
+            }
+
+        }catch (Exception e){
+
+        }
+
+    }
+    //绑定手机号
+    private void bindPhoneNumber(){
+        try {
+            if (StringXutil.isPhoneNumberValid(phone.getText().toString())){
+                if (!StringXutil.isEmpty(password.getText().toString())){
+                    if(StringXutil.rexCheckPassword(password.getText().toString())){
+                        if (!StringXutil.isEmpty(code.getText().toString())&& code.getText().toString().length() == 6){
+                            final String passwordText = password.getText().toString().trim();
+                            PublicKey publicKey = RSAUtils.loadPublicKey(Constant.PUBLIC_KEY);
+                            byte[] encryptByte = RSAUtils.encryptData(MD5.getMD5(passwordText).getBytes(), publicKey);
+                            passwordNumber = Base64.encode(encryptByte);
+                            codeNumber = code.getText().toString().trim();
+                            UserHttp.bindPhoneNumber(phoneNumber, codeNumber,passwordNumber, new CallBack() {
+                                @Override
+                                public void onResponse(Object response) {
+                                    switch ((int) response){
+                                        case 0:
+                                            ToastXutil.show("绑定成功");
+                                            SharePreferenceXutil.saveUserName(phoneNumber);
+                                            SharePreferenceXutil.savePassword(passwordText);
+                                            Intent intent = new Intent();
+                                            intent.putExtra("type","phone");
+                                            intent.putExtra("phone",phoneNumber);
+                                            setResult(0,intent);
+                                            ForgetPasswordActivity.this.finish();
+                                            break;
+                                        case 34:
+                                            ToastXutil.show("该手机号已被绑定");
+                                            break;
+                                        case 36:
+                                            ToastXutil.show("验证码已失效");
+                                            break;
+                                        case 37:
+                                            ToastXutil.show("验证码错误");
+                                            break;
+                                        default:
+                                            ToastXutil.show("绑定手机号失败");
                                             break;
                                     }
                                 }

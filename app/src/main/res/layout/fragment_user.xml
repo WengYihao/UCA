@@ -95,9 +95,7 @@
                     android:layout_height="80dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/padding_10"
-                    android:src="@mipmap/user_pic"
-                    app:border_color="@color/white"
-                    app:border_width="1dp" />
+                    android:src="@mipmap/user_pic"/>
 
                 <RelativeLayout
                     android:id="@+id/userInfo"

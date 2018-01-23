@@ -146,12 +146,21 @@ public class QueryHttp extends BaseServer{
      * @param amount_money
      * @param callBack
      */
-    public static void createZfbOrder(String account_token,String sign,String time_stamp,String amount_money,CallBack callBack){
+    public static void createZfbOrder(String account_token,String sign,String time_stamp,String amount_money,String pay_type,String order_number,int user_coupon_id,CallBack callBack){
         Map<String,String> map = new HashMap<>();
         map.put("account_token",account_token);
         map.put("sign",sign);
         map.put("time_stamp",time_stamp);
         map.put("amount_money",amount_money);
+        if (pay_type != null){
+            map.put("pay_type",pay_type);
+        }
+        if (order_number != null){
+            map.put("order_number",order_number);
+        }
+        if (user_coupon_id != 0){
+            map.put("user_coupon_id",user_coupon_id+"");
+        }
         post5(MyConfig.createZfbOrder,map,callBack);
     }
 
@@ -179,4 +188,6 @@ public class QueryHttp extends BaseServer{
         map.put("time_stamp",time_stamp);
         post5(MyConfig.userLogin,map,callBack);
     }
+
+
 }

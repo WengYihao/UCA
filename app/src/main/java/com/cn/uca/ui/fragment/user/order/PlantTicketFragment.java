@@ -17,6 +17,7 @@ import com.cn.uca.bean.user.OrderBean;
 import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.yueka.TypeClickCallBack;
+import com.cn.uca.loading.LoadingLayout;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.util.ToastXutil;
 import com.google.gson.Gson;
@@ -35,6 +36,7 @@ import java.util.List;
 public class PlantTicketFragment extends Fragment implements View.OnClickListener,TypeClickCallBack {
 
     private View view;
+    private LoadingLayout loading;
     private RadioButton title01,title02,title03;
     private List<OrderBean> list;
     private OrderAdapter orderAdapter;
@@ -52,6 +54,7 @@ public class PlantTicketFragment extends Fragment implements View.OnClickListene
     }
 
     private void initView() {
+        loading = (LoadingLayout)view.findViewById(R.id.loading);
         title01 = (RadioButton)view.findViewById(R.id.title01);
         title02 = (RadioButton)view.findViewById(R.id.title02);
         title03 = (RadioButton)view.findViewById(R.id.title03);
@@ -84,16 +87,16 @@ public class PlantTicketFragment extends Fragment implements View.OnClickListene
                             if (bean.size() > 0){
                                 list.clear();
                                 list.addAll(bean);
+                                loading.setStatus(LoadingLayout.Success);
                                 orderAdapter.setList(list);
                             }else{
                                 if (list.size() != 0){
                                     list.clear();
+                                    loading.setStatus(LoadingLayout.Success);
                                     orderAdapter.setList(list);
                                     ToastXutil.show("没有更多数据了");
                                 }else {
-                                    Log.e("456","-------------------------------------");
-//                                    mLoadingLayout.showEmpty();
-                                    listView.setEmptyView(view.findViewById(R.id.layout));
+                                    loading.setStatus(LoadingLayout.Empty);
                                 }
                             }
                             break;
@@ -117,7 +120,17 @@ public class PlantTicketFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.title01:
 
+                break;
+            case R.id.title02:
+
+                break;
+            case R.id.title03:
+
+                break;
+        }
     }
 
     @Override

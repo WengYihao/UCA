@@ -11,6 +11,7 @@ import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.lvpai.MerchantOrderAdapter;
 import com.cn.uca.bean.home.lvpai.MerchantOrderBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.lvpai.OrderCallback;
 import com.cn.uca.server.home.HomeHttp;
@@ -34,8 +35,8 @@ import java.util.Map;
 public class MerchantOrderActivity extends BaseBackActivity implements View.OnClickListener,OrderCallback{
 
     private TextView back;
-    private int page = 1;
-    private int pageCount = 5;
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
     private int id = 0;
     private ListView listView;
     private MerchantOrderAdapter adapter;
@@ -84,6 +85,7 @@ public class MerchantOrderActivity extends BaseBackActivity implements View.OnCl
         map.put("page",page);
         map.put("pageCount",pageCount);
         map.put("trip_shoot_id",id);
+        map.put("trip_shoot_state","orders");
         String sign = SignUtil.sign(map);
         HomeHttp.getTsOrders(time_stamp, sign, account_token, page, pageCount, id, new CallBack() {
             @Override

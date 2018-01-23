@@ -79,7 +79,6 @@ public class YueKaAdapter extends BaseAdapter implements View.OnClickListener{
 			holder.sex = (TextView)convertView.findViewById(R.id.sex);
 			holder.click = (TextView)convertView.findViewById(R.id.click);
 			holder.start = (RatingStarView)convertView.findViewById(R.id.start);
-			holder.startNum = (TextView)convertView.findViewById(R.id.startNum);
 			holder.price = (TextView)convertView.findViewById(R.id.price);
 			holder.sum = (TextView)convertView.findViewById(R.id.sum);
 			holder.evaluate = (TextView)convertView.findViewById(R.id.evaluate);
@@ -119,7 +118,6 @@ public class YueKaAdapter extends BaseAdapter implements View.OnClickListener{
 				holder.click.setBackgroundResource(R.mipmap.nocollection);
 			}
 			holder.start.setRating((float)list.get(position).getAverage_score());
-			holder.startNum.setText(list.get(position).getAverage_score()+"");
 			holder.price.setText("￥"+(int)list.get(position).getMin_consumption()+"~"+(int)list.get(position).getMax_consumption());
 			holder.count.setText("浏览"+list.get(position).getBrowse_times()+"次");
 			holder.fluidLayout.removeAllViews();
@@ -128,16 +126,8 @@ public class YueKaAdapter extends BaseAdapter implements View.OnClickListener{
 				TextView tv = new TextView(context);
 				tv.setText(list.get(position).getEscortLabels().get(a).getEscort_label_name());
 				tv.setTextSize(10);
-				if (a == 0) {
-					tv.setBackgroundResource(R.drawable.text_bg_yellow);
-					tv.setTextColor(context.getResources().getColor(R.color.white));
-				} else if (a == 1) {
-					tv.setBackgroundResource(R.drawable.text_bg_ori);
-					tv.setTextColor(context.getResources().getColor(R.color.white));
-				} else {
-					tv.setBackgroundResource(R.drawable.text_bg);
-					tv.setTextColor(context.getResources().getColor(R.color.white));
-				}
+				tv.setBackgroundResource(R.drawable.yueka_lable_back);
+				tv.setTextColor(context.getResources().getColor(R.color.ori));
 				FluidLayout.LayoutParams params = new FluidLayout.LayoutParams(
 						ViewGroup.LayoutParams.WRAP_CONTENT,
 						ViewGroup.LayoutParams.WRAP_CONTENT
@@ -172,12 +162,16 @@ public class YueKaAdapter extends BaseAdapter implements View.OnClickListener{
 					params.setMargins(12, 12, 12, 12);
 					holder.img.addView(draweeView, params);
 					FluidLayout.LayoutParams layoutParams =(FluidLayout.LayoutParams) draweeView.getLayoutParams(); //取控件textView当前的布局参数
-					layoutParams.height =MyApplication.width/5*3/4;// 控件的高强制设成20
-					layoutParams.width = MyApplication.width/5;
+					layoutParams.height =MyApplication.width/4*3/4;// 控件的高强制设成20
+					layoutParams.width = MyApplication.width/4;
 					draweeView.setLayoutParams(layoutParams); //使设置好的布局参数应用到控件
 				}
 			}
-			holder.sum.setText(list.get(position).getComment_number()+"");
+			if (list.get(position).getComment_number() == 0){
+				holder.sum.setText("暂无评论");
+			}else{
+				holder.sum.setText(list.get(position).getComment_number()+"");
+			}
 			if (!StringXutil.isEmpty(list.get(position).getComment_content())){
 				holder.evaluate.setText(list.get(position).getComment_content());
 			}else{
@@ -201,7 +195,7 @@ public class YueKaAdapter extends BaseAdapter implements View.OnClickListener{
 
 	class ViewHolder {
 		CircleImageView pic;
-		TextView name,age,sex,click,price,startNum,sum,evaluate,count;
+		TextView name,age,sex,click,price,sum,evaluate,count;
 		FluidLayout fluidLayout;
 		FluidLayout img;
 		RatingStarView start;

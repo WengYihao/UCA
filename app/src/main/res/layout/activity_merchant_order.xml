@@ -32,6 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@color/transparent"
+            android:overScrollMode="never"
+            android:scrollbars="none"
             android:dividerHeight="@dimen/padding_10"></ListView>
     </LinearLayout>
 </com.cn.uca.view.StatusView>

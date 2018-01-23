@@ -119,11 +119,13 @@ public class LoginActivity extends BaseHideActivity implements View.OnClickListe
                 break;
             case R.id.weChatLogin:
                 SharePreferenceXutil.saveAccessToken("");
+                SharePreferenceXutil.setWeChatLogin(true);
                 sendWeChatAuthRequest();
                 break;
             case R.id.forgetPassword:
                 Intent intent2 = new Intent();
                 intent2.setClass(LoginActivity.this,ForgetPasswordActivity.class);
+                intent2.putExtra("id",1);
                 startActivity(intent2);
                 break;
         }

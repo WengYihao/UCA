@@ -11,6 +11,8 @@
             <option value="$PROJECT_DIR$/IMKit" />
             <option value="$PROJECT_DIR$/IMLib" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/loading" />
+            <option value="$PROJECT_DIR$/ownerview" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -11,6 +11,8 @@ import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.impl.datepicker.OnSureLisener;
 import com.cn.uca.server.user.UserHttp;
+import com.cn.uca.ui.view.home.samecityka.InitiatorInfoActivity;
+import com.cn.uca.ui.view.register.ForgetPasswordActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
@@ -28,7 +30,7 @@ import java.util.Date;
 
 public class InformationActivity extends BaseBackActivity implements View.OnClickListener,OnSureLisener {
 
-    private RelativeLayout layout1,layout2,layout3,layout4,layout5,layout6,layout7;
+    private RelativeLayout layout1,layout2,layout3,layout4,layout6,layout7;
     private TextView nickName,sex,birthDate,phone;
     private String userName,userSex,userAge,userPhoneNumber;
     private int sexId;
@@ -49,7 +51,6 @@ public class InformationActivity extends BaseBackActivity implements View.OnClic
         layout2 = (RelativeLayout)findViewById(R.id.layout2);
         layout3 = (RelativeLayout)findViewById(R.id.layout3);
         layout4 = (RelativeLayout)findViewById(R.id.layout4);
-        layout5 = (RelativeLayout)findViewById(R.id.layout5);
         layout6 = (RelativeLayout)findViewById(R.id.layout6);
         layout7 = (RelativeLayout)findViewById(R.id.layout7);
 
@@ -58,7 +59,6 @@ public class InformationActivity extends BaseBackActivity implements View.OnClic
         layout2.setOnClickListener(this);
         layout3.setOnClickListener(this);
         layout4.setOnClickListener(this);
-        layout5.setOnClickListener(this);
         layout6.setOnClickListener(this);
         layout7.setOnClickListener(this);
 
@@ -92,21 +92,19 @@ public class InformationActivity extends BaseBackActivity implements View.OnClic
                 showDatePickDialog(DateType.TYPE_YMD);
                 break;
             case R.id.layout4:
+                Intent intent3 = new Intent();
+                intent3.setClass(InformationActivity.this,ForgetPasswordActivity.class);
                 if (!StringXutil.isEmpty(SharePreferenceXutil.getPhoneNumber())){
-                    intent.putExtra("type","phone");
-                    intent.putExtra("phone", SharePreferenceXutil.getPhoneNumber());
-                    startActivityForResult(intent,0);
+                    ToastXutil.show("已绑定");
                 }else{
-                    intent.putExtra("type","phone");
-                    intent.putExtra("phone", "");
-                    startActivityForResult(intent,0);
+                    intent3.putExtra("id",2);
+                    startActivityForResult(intent3,0);
                 }
                 break;
-            case R.id.layout5:
-
-                break;
             case R.id.layout6:
-
+                Intent intent4 = new Intent();
+                intent4.setClass(InformationActivity.this,AccountAssociationActivity.class);
+                startActivity(intent4);
                 break;
             case R.id.layout7:
                 Intent intent2 = new Intent();

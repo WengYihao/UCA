@@ -12,7 +12,13 @@ import com.cn.uca.R;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.ui.view.home.samecityka.MyFollowActivity;
 import com.cn.uca.ui.view.home.samecityka.MyTicketActivity;
+import com.cn.uca.ui.view.rongim.ChatListActivity;
 import com.cn.uca.util.SetLayoutParams;
+import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.ToastXutil;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 /**
  * Created by asus on 2017/12/5.
@@ -57,8 +63,13 @@ public class ParticipantFragment extends Fragment implements View.OnClickListene
                 startActivity(new Intent(getActivity(), MyFollowActivity.class));
                 break;
             case R.id.layout3:
-//                startActivity(new Intent(getActivity(), ReplyNewActivity.class));
+                if (SharePreferenceXutil.isSuccess()){
+                    startActivity(new Intent(getActivity(), ChatListActivity.class));
+                }else{
+                    ToastXutil.show("请先登录");
+                }
                 break;
         }
     }
+
 }

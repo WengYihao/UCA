@@ -55,6 +55,7 @@ import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.datepicker.DatePickDialog;
+import com.cn.uca.view.dialog.LoadDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -290,6 +291,7 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                 if (StringXutil.isEmpty(travelContent)){
                     ToastXutil.show("请编辑您的旅行回忆");
                 }else{
+                    LoadDialog.show(this);
                     Map<String,Object> map = new HashMap<>();
                     String account_token = SharePreferenceXutil.getAccountToken();
                     map.put("account_token", account_token);
@@ -304,9 +306,9 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                         @Override
                         public void onSuccess(int i, Header[] headers, byte[] bytes) {
                             if (i == 200){
+                                LoadDialog.dismiss(AddFootActivity.this);
                                 try {
                                     JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
-                                    Log.i("123",jsonObject.toString());
                                     int code = jsonObject.getInt("code");
                                     switch (code){
                                         case 0:
@@ -316,16 +318,20 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                                             setResult(0,intent);
                                             AddFootActivity.this.finish();
                                             break;
+                                        default:
+                                            ToastXutil.show("添加失败");
+                                            LoadDialog.dismiss(AddFootActivity.this);
+                                            break;
                                     }
                                 }catch (Exception e){
-
+                                    LoadDialog.dismiss(AddFootActivity.this);
                                 }
                             }
                         }
 
                         @Override
                         public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-
+                            LoadDialog.dismiss(AddFootActivity.this);
                         }
                     });
                 }
@@ -524,6 +530,7 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        File file = null;
         if (resultCode == RESULT_OK){
             switch (requestCode) {
                 case Constant.PHOTO_REQUEST_TAKEPHOTO:
@@ -531,7 +538,8 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                     break;
                 case Constant.PHOTO_REQUEST_GALLERY:
                     if (data.getData() != null) {
-                        setPicToView(new File(SystemUtil.getRealPathFromURI(data.getData(),this)));
+                        file = new File(SystemUtil.getRealPathFromURI(data.getData(),this));
+                        setPicToView(file);
                     }
                     break;
             }
@@ -539,6 +547,7 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
 
         super.onActivityResult(requestCode, resultCode, data);
     }
+
 
     @Override
     public void onSure(Date date) {

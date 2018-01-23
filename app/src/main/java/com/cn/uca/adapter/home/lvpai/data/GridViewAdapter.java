@@ -51,6 +51,7 @@ public class GridViewAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = LayoutInflater.from(context).inflate(R.layout.lvpai_date_day_item, parent, false);
             holder.day = (TextView)convertView.findViewById(R.id.day);
+            holder.text = (TextView)convertView.findViewById(R.id.text);
             holder.layout = (LinearLayout) convertView.findViewById(R.id.layout);
             convertView.setTag(holder);
         } else {
@@ -58,60 +59,76 @@ public class GridViewAdapter extends BaseAdapter {
         }
         int week = bean.getWeekId();
         if (position<week-1){
-            holder.layout.setBackgroundResource(R.color.gray2);
+            holder.layout.setBackgroundResource(R.color.grey2);
             holder.day.setVisibility(View.GONE);
         }else{
-            for (int a = 0;a<bean.getSourceBeen().size();a++){
-                if (bean.getViewBean().get(position).getDate().equals(bean.getSourceBeen().get(a).getDate())){
-                    switch (bean.getSourceBeen().get(a).getType()){
-                        case 1://行程被购买
-                            holder.layout.setBackgroundResource(R.color.red);
-                            holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
-                            holder.layout.setEnabled(false);
-                            break;
-                        case 2://商家忙碌
-                            holder.layout.setBackgroundResource(R.color.yellow);
-                            holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
-                            holder.layout.setEnabled(false);
-                            break;
+            if (bean.getSourceBeen().size() != 0){
+                for (int a = 0;a<bean.getSourceBeen().size();a++){
+                    if (bean.getViewBean().get(position).getDate().equals(bean.getSourceBeen().get(a).getDate())){
+                        switch (bean.getSourceBeen().get(a).getType()){
+                            case 1://行程被购买
+                                holder.layout.setBackgroundResource(R.color.gray2);
+                                holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
+                                holder.text.setVisibility(View.VISIBLE);
+                                holder.layout.setEnabled(false);
+                                break;
+                            case 2://商家忙碌
+                                holder.layout.setBackgroundResource(R.color.yellow);
+                                holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
+                                holder.day.setTextColor(context.getResources().getColor(R.color.white));
+                                holder.layout.setEnabled(false);
+                                holder.text.setVisibility(View.VISIBLE);
+                                holder.text.setText("商家忙碌");
+                                holder.text.setTextColor(context.getResources().getColor(R.color.white));
+                                break;
+                        }
+                        break;
+                    }else{
+                        switch (bean.getViewBean().get(position).getSelect()){
+                            case "true":
+                                holder.layout.setBackgroundResource(R.color.ori);
+                                holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
+                                holder.day.setTextColor(context.getResources().getColor(R.color.white));
+                                SetLayoutParams.setLinearLayout(holder.day,SystemUtil.dip2px(40),SystemUtil.dip2px(40));
+                                holder.day.setBackgroundResource(R.drawable.circular_background2);
+                                break;
+                            case "ob":
+                                holder.layout.setBackgroundResource(R.color.ori2);
+                                holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
+                                holder.day.setTextColor(context.getResources().getColor(R.color.white));
+                                break;
+                            default:
+                                holder.layout.setBackgroundResource(R.color.white);
+                                holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
+                                break;
+                        }
                     }
-                    break;
-                }else{
-//                    if ()
-                    switch (bean.getViewBean().get(position).getSelect()){
-                        case "true":
-                            holder.layout.setBackgroundResource(R.color.ori);
-                            holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
-                            holder.day.setTextColor(context.getResources().getColor(R.color.white));
-                            holder.day.setBackgroundResource(R.drawable.circular_background);
-                            break;
-                        case "ob":
-                            holder.layout.setBackgroundResource(R.color.ori2);
-                            holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
-                            holder.day.setTextColor(context.getResources().getColor(R.color.white));
-                            break;
-                        default:
-                            holder.layout.setBackgroundResource(R.color.white);
-                            holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
-                            break;
-                    }
+                }
+            }else{
+                switch (bean.getViewBean().get(position).getSelect()){
+                    case "true":
+                        holder.layout.setBackgroundResource(R.color.ori);
+                        holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
+                        holder.day.setTextColor(context.getResources().getColor(R.color.white));
+                        holder.day.setBackgroundResource(R.drawable.circular_background);
+                        break;
+                    case "ob":
+                        holder.layout.setBackgroundResource(R.color.ori2);
+                        holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
+                        holder.day.setTextColor(context.getResources().getColor(R.color.white));
+                        break;
+                    default:
+                        holder.layout.setBackgroundResource(R.color.white);
+                        holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
+                        break;
                 }
             }
         }
-//        holder.layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String dateStart = bean.getViewBean().get(position).getDate();
-//                SystemUtil.getBetweenDate(dateStart,8);
-//                ToastXutil.show(SystemUtil.getBetweenDate(dateStart,8-1)+"");
-//                Log.e("456",SystemUtil.getBetweenDate(dateStart,8-1)+"--");
-//            }
-//        });
         SetLayoutParams.setLinearLayout(holder.layout,MyApplication.width/7,MyApplication.width/6);
         return convertView;
     }
     class ViewHolder {
         LinearLayout layout;
-        TextView day;
+        TextView day,text;
     }
 }

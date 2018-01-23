@@ -30,6 +30,7 @@ import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.secretkey.Base64;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.ui.view.home.hotel.HotleActivity;
 import com.cn.uca.ui.view.home.lvpai.LvPaiActivity;
 import com.cn.uca.ui.view.home.lvpai.MerchantManageActivity;
 import com.cn.uca.ui.view.home.samecityka.SameCityKaActivity;
@@ -38,6 +39,7 @@ import com.cn.uca.ui.view.home.footprint.FootPrintActivity;
 import com.cn.uca.ui.view.home.planeticket.PlaneTicketActivity;
 import com.cn.uca.ui.view.home.raider.RaidersActivity;
 import com.cn.uca.ui.view.home.SearchActivity;
+import com.cn.uca.ui.view.home.travel.TourismActivity;
 import com.cn.uca.ui.view.home.yusheng.YuShengActivity;
 import com.cn.uca.ui.view.home.yusheng.YuShengDetailsActivity;
 import com.cn.uca.ui.view.util.CountyActivity;
@@ -111,9 +113,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                             }else{
                                 SharePreferenceXutil.setOpenYS(false);
                             }
+                            int orders_state_id = object.getInt("open_orders_state_id");
+                            if (orders_state_id == 1){
+                                SharePreferenceXutil.setLingKa(true);
+                            }else{
+                                SharePreferenceXutil.setLingKa(false);
+                            }
+                            SharePreferenceXutil.setClock(object.getBoolean("clock"));
+                            SharePreferenceXutil.setEnter(object.getBoolean("owners"));
+                            int weixin_state_id = object.getInt("bind_weixin_state_id");
+                            if (weixin_state_id == 1){
+                                SharePreferenceXutil.setBindWeCaht(true);
+                            }else{
+                                SharePreferenceXutil.setBindWeCaht(false);
+                            }
+                            int zhifubao_state_id = object.getInt("bind_zhifubao_state_id");
+                            if (zhifubao_state_id == 1){
+                                SharePreferenceXutil.setBindPay(true);
+                            }else{
+                                SharePreferenceXutil.setBindPay(false);
+                            }
                             break;
                         case 17:
-                            Log.i("123","-------------------------");
                             ToastXutil.show("登录已过期，请重新登录！");
                             SharePreferenceXutil.setExit(true);
                             SharePreferenceXutil.setSuccess(false);
@@ -226,13 +247,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
                 break;
             case R.id.hotel:
-//                startActivity(new Intent(getActivity(), HotleActivity.class));
-
-                startActivity(new Intent(getActivity(), CountyActivity.class));
+                startActivity(new Intent(getActivity(), HotleActivity.class));
                 break;
             case R.id.tourism:
-//                startActivity(new Intent(getActivity(), TourismActivity.class));
-                startActivity(new Intent(getActivity(), MerchantManageActivity.class));
+                startActivity(new Intent(getActivity(), TourismActivity.class));
                 break;
             case R.id.samecityka:
                  startActivity(new Intent(getActivity(), SameCityKaActivity.class));

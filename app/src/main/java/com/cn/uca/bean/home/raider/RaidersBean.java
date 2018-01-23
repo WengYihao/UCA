@@ -78,4 +78,18 @@ public class RaidersBean {
     public void setCity_id(int city_id) {
         this.city_id = city_id;
     }
+
+    @Override
+    public String toString() {
+        return "RaidersBean{" +
+                "pacture_url='" + pacture_url + '\'' +
+                ", city_name='" + city_name + '\'' +
+                ", price=" + price +
+                ", file_resources_size=" + file_resources_size +
+                ", lock=" + lock +
+                ", city_raiders_id=" + city_raiders_id +
+                ", collection=" + collection +
+                ", city_id=" + city_id +
+                '}';
+    }
 }

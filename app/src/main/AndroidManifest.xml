@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.cn.uca">
 
     <!-- Required -->
@@ -49,7 +50,8 @@
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon, android:theme">
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.cn.uca.fileprovider"
@@ -354,7 +356,7 @@
         <activity android:name=".ui.view.yueka.ConfirmOrderActivity" />
         <activity android:name=".ui.view.home.raider.RaiderCollectionActivity" />
         <activity android:name=".ui.view.user.BackOrderApplyActivity" />
-        <activity android:name=".ui.view.user.MessageActivity" />
+        <activity android:name=".ui.view.user.message.MessageActivity" />
         <activity
             android:name=".ui.view.rongim.ConversationActivity"
             android:fitsSystemWindows="true"
@@ -534,7 +536,22 @@
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".ui.view.user.RechargeSettingActivity" />
-        <activity android:name=".ui.view.user.WalletPasswordActivity"></activity>
+        <activity
+            android:name=".ui.view.user.WalletPasswordActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity android:name=".ui.view.home.lvpai.OrderManageActivity" />
+        <activity android:name=".ui.view.user.AccountAssociationActivity" />
+        <activity android:name=".ui.view.user.order.YueKaOrderDetailActivity" />
+        <activity android:name=".ui.view.user.order.LvPaiOrderDetailActivity" />
+        <activity android:name=".ui.view.user.order.HotelOrderDetailActivity" />
+        <activity android:name=".ui.view.user.order.TravelOrderDetailActivity" />
+        <activity android:name=".ui.view.user.order.ActionOrderDetailActivity" />
+        <activity android:name=".ui.view.user.order.TicketOrderDetailActivity" />
+        <activity android:name=".ui.view.user.DepositActivity" />
+        <activity android:name=".ui.view.user.message.OrderMessageActivity" />
+        <activity android:name=".ui.view.user.message.SystemMesaageActivity" />
+        <activity android:name=".ui.view.home.travel.TravelOrderActivity"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,9 @@
 package com.cn.uca.ui.view.user;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -128,7 +131,7 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
                 this.finish();
                 break;
             case R.id.layout1:
-
+                goToMarket(this,"com.cn.uca");
                 break;
             case R.id.layout2:
 
@@ -145,6 +148,16 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
             case R.id.exit:
                 ToastDialog.exit(this);
                 break;
+        }
+    }
+
+    public static void goToMarket(Context context, String packageName) {
+        Uri uri = Uri.parse("market://details?id=" + packageName);
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            context.startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

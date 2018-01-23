@@ -28,7 +28,6 @@
     <string name="informationActivity_sex_text">性别</string>
     <string name="informationActivity_dateTime_text">出生日期</string>
     <string name="informationActivity_bindPhoto_text">绑定手机</string>
-    <string name="informationActivity_bindEmail_text">绑定邮箱</string>
     <string name="informationActivity_accountAssociation_text">账号关联</string>
     <string name="informationActivity_updatePassword_text">修改密码</string>
     <string name="loginActivity_login_text">登录</string>
@@ -189,7 +188,7 @@
     <string name="yushengDetailActivity_text2">月</string>
     <string name="yushengDetailActivity_text3">痕迹</string>
     <string name="yukaCahtActivity_text1">详情</string>
-    <string name="yukaCahtActivity_text2">陪咖历程</string>
+    <string name="yukaCahtActivity_text2">历程</string>
     <string name="yukaCahtActivity_text3">直接聊天</string>
     <string name="yukaCahtActivity_text4">确认约咖</string>
     <string name="dialog_man">男</string>
@@ -241,4 +240,5 @@
     <string name="commit_num">确定(%1$d/%2$d)</string>
     <string name="only_choose_num">超出可选图片张数</string>
     <string name="finish">完成(%1$d/9)</string>
+    <string name="order_detail">订单详情</string>
 </resources>

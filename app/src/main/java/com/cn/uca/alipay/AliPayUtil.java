@@ -14,6 +14,7 @@ import com.alipay.sdk.app.PayTask;
 import com.android.volley.VolleyError;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.QueryHttp;
+import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.MainActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -36,6 +37,7 @@ public class AliPayUtil {
     private Activity activity;
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
+    private static final int SDK_RELATION_FLAG = 3;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -86,6 +88,22 @@ public class AliPayUtil {
                         ToastXutil.show( "授权失败" + String.format("authCode:%s", authResult.getAuthCode()));
                     }
                     break;
+                case SDK_RELATION_FLAG:
+                    AuthResult authResult2 = new AuthResult((Map<String, String>) msg.obj, true);
+                    String resultStatus2 = authResult2.getResultStatus();
+                    // 判断resultStatus 为“9000”且result_code
+                    // 为“200”则代表授权成功，具体状态码代表含义可参考授权接口文档
+                    if (TextUtils.equals(resultStatus2, "9000") && TextUtils.equals(authResult2.getResultCode(), "200")) {
+                        // 获取alipay_open_id，调支付时作为参数extern_token 的value
+                        // 传入，则支付账户为该授权账户
+                        String str = authResult2.getResult();
+                        String userId = org.apache.commons.lang.StringUtils.substringBetween(str,"user_id=","&target_id");
+                        bindZfb(authResult2.getAuthCode(),userId);
+                    } else {
+                        // 其他状态值则为授权失败
+                        ToastXutil.show( "授权失败" + String.format("authCode:%s", authResult2.getAuthCode()));
+                    }
+                    break;
             }
         }
     };
@@ -115,6 +133,7 @@ public class AliPayUtil {
         payThread.start();
     }
 
+    //支付
     public void toAliLogin(final Activity activity,final String authInfo){
         this.activity = activity;
         Runnable authRunnable = new Runnable() {
@@ -134,7 +153,27 @@ public class AliPayUtil {
         Thread authThread = new Thread(authRunnable);
         authThread.start();
     }
-
+    //关联
+    public void toAliRelation(final Activity activity,final String authInfo){
+        this.activity = activity;
+        Runnable authRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // 构造AuthTask 对象
+                AuthTask authTask = new AuthTask(activity);
+                // 调用授权接口，获取授权结果
+                Map<String, String> result = authTask.authV2(authInfo, true);
+                Message msg = new Message();
+                msg.what = SDK_RELATION_FLAG;
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            }
+        };
+        // 必须异步调用
+        Thread authThread = new Thread(authRunnable);
+        authThread.start();
+    }
+    //登录
     private void startLogin(String auth_code,String user_id){
         Map<String,Object> map = new HashMap<>();
         map.put("auth_code",auth_code);
@@ -159,6 +198,46 @@ public class AliPayUtil {
                             intent.setClass(activity,MainActivity.class);
                             activity.startActivity(intent);
                             activity.finish();
+                            break;
+                    }
+                }catch (Exception e){
+
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
+    //绑定支付宝
+    private void bindZfb(String auth_code,String user_id){
+        Map<String,Object> map = new HashMap<>();
+        map.put("auth_code",auth_code);
+        map.put("user_id",user_id);
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token",account_token);
+        String sign = SignUtil.sign(map);
+        UserHttp.bindZfb(auth_code, user_id, sign, time_stamp, account_token, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            ToastXutil.show("关联成功");
+                            break;
+                        case 735:
+                            ToastXutil.show("此支付宝账号已被绑定");
                             break;
                     }
                 }catch (Exception e){

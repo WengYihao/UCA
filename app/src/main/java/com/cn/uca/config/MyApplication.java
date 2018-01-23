@@ -8,6 +8,7 @@ import com.cn.uca.bean.rongim.RongInfoBean;
 import com.cn.uca.bean.wechat.WeChatAccessToken;
 import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.loading.LoadingLayout;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.ui.view.rongim.ChatListActivity;
 import com.cn.uca.util.SharePreferenceXutil;
@@ -98,29 +99,7 @@ public class MyApplication extends Application {
 		getScreen(this);
 		RongPushClient.registerMiPush(this, "2882303761517653802", "5761765373802");
 		RongIM.init(this);
-		try {
-			Log.i("hao","----------------------");
-			RongPushClient.checkManifest(this);
-			Log.i("hao","**********************");
-		} catch (RongException e) {
-			Log.i("hao",e.getMessage());
-		}
-		LoggerInterface newLogger = new LoggerInterface() {
-			@Override
-			public void setTag(String tag) {
-				// ignore
-				Log.i("789","////////////////");
-			}
-			@Override
-			public void log(String content, Throwable t) {
-				Log.i("789", content, t);
-			}
-			@Override
-			public void log(String content) {
-				Log.i("789", content);
-			}
-		};
-		Logger.setLogger(this, newLogger);
+		LoadingLayout.getConfig().setEmptyText("抱歉，暂无数据").setEmptyImage(R.mipmap.no_data_pic);
 		SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
 			@Override
 			public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
@@ -146,9 +125,6 @@ public class MyApplication extends Application {
 		// 上下文
 		mContext = getApplicationContext();
 
-//		JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
-//        JPushInterface.init(this);     		// 初始化 JPush
-
 		queue = Volley.newRequestQueue(getApplicationContext());
 
 		regToWeChat();
@@ -161,11 +137,12 @@ public class MyApplication extends Application {
 
 		SharePreferenceXutil.saveChannelId("12345678998547854");
 		if (SharePreferenceXutil.getRongToken() != ""){
+			Log.e("456","----");
 			connectRongServer(SharePreferenceXutil.getRongToken());
+		}else {
+			Log.e("456","****");
 		}
 	}
-	public static void checkManifest(Context context) throws RongException {}
-
 	public static RequestQueue getHttpQueue() {
 		return queue;
 	}
@@ -208,9 +185,7 @@ public class MyApplication extends Application {
 		}else{
 			if (StringXutil.isPhoneNumberValid(code) && code.length() == 11){
 				Map<String,Object> map = new HashMap<>();
-				map.put("code",code);
-				String account_token = SharePreferenceXutil.getAccountToken();
-				map.put("account_token",account_token);
+				map.put("phone_number",code);
 				String time_stamp = SystemUtil.getCurrentDate2();
 				map.put("time_stamp",time_stamp);
 				final String sign = SignUtil.sign(map);
@@ -249,17 +224,18 @@ public class MyApplication extends Application {
 		RongIM.connect(token, new RongIMClient.ConnectCallback() {
 			@Override
 			public void onSuccess(String userId) {
+				Log.e("456","成功");
 				getInfo(userId);
 			}
 
 			@Override
 			public void onError(RongIMClient.ErrorCode errorCode) {
-				Log.i("123",errorCode+"---报错");
+				Log.e("123",errorCode+"---报错");
 			}
 
 			@Override
 			public void onTokenIncorrect() {
-				Log.i("123","---报错");
+				Log.e("123","---报错");
 			}
 		});
 	}

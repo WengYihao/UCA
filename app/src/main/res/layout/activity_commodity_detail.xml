@@ -187,7 +187,8 @@
                                     android:layout_marginTop="@dimen/padding_12"
                                     app:rating="4"
                                     app:starBackgroundColor="@color/white"
-                                    app:starForegroundColor="@color/yellow" />
+                                    app:strokeColor="@color/ori"
+                                    app:starForegroundColor="@color/ori" />
 
                                 <TextView
                                     android:id="@+id/score"

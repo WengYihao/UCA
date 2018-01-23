@@ -1,41 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants" >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:descendantFocusability="blocksDescendants">
-
+        android:orientation="vertical">
         <LinearLayout
             android:id="@+id/list"
             android:layout_width="match_parent"
-            android:layout_height="800dp"
-            android:orientation="horizontal"
-            android:background="@color/white">
-
-            <com.cn.uca.view.ListViewForScrollView
-                android:id="@+id/line"
-                android:layout_width="@dimen/padding_40"
-                android:layout_height="match_parent"
-                android:divider="@null"
-                android:overScrollMode="never"
-                android:scrollbars="none">
-            </com.cn.uca.view.ListViewForScrollView>
-
-            <RelativeLayout
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:descendantFocusability="blocksDescendants" >
+            <WebView
+                android:id="@+id/webView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.cn.uca.view.TouchWebView
-                    android:id="@+id/webView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></com.cn.uca.view.TouchWebView>
-            </RelativeLayout>
-
+                android:layout_height="wrap_content"></WebView>
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -119,4 +101,4 @@
             </LinearLayout>
          </LinearLayout>
      </LinearLayout>
-</LinearLayout>
+</ScrollView>

@@ -54,8 +54,8 @@
 
                     <TextView
                         android:id="@+id/sex"
-                        android:layout_width="@dimen/padding_20"
-                        android:layout_height="@dimen/padding_20"
+                        android:layout_width="@dimen/padding_15"
+                        android:layout_height="@dimen/padding_15"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/padding_10"
                         android:layout_toRightOf="@id/age" />
@@ -78,24 +78,19 @@
                     <com.cn.uca.view.RatingStarView
                         android:id="@+id/start"
                         android:layout_width="wrap_content"
-                        android:layout_height="15dp"
+                        android:layout_height="12dp"
+                        app:starBackgroundColor="@color/white"
+                        app:strokeColor="@color/ori"
+                        app:starForegroundColor="@color/ori"
                         app:rating="1"
-                        app:starBackgroundColor="@color/gray"
-                        app:starForegroundColor="@color/yellow"
                         app:starNum="5" />
-
-                    <TextView
-                        android:id="@+id/startNum"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/padding_5"
-                        android:textColor="@color/yellow" />
-
                     <TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/padding_5"/>
+                        android:layout_marginLeft="@dimen/padding_5"
+                        android:textColor="@color/grey"
+                        android:textSize="@dimen/text_12"/>
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -106,6 +101,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_12"
                             android:layout_marginRight="@dimen/padding_5"/>
                     </RelativeLayout>
 

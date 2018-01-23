@@ -244,6 +244,7 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
                                                 switch (code){
                                                     case 0:
                                                         MerchantEntryActivity.this.finish();
+                                                        SharePreferenceXutil.setEnter(true);
                                                         ToastXutil.show("商家入驻成功！");
                                                         break;
                                                 }
@@ -451,10 +452,8 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
                     break;
                 case Constant.PHOTO_REQUEST_GALLERY:
                     if (SystemUtil.hasSDCard()) {
-                        Uri newUri = Uri.parse(OpenPhoto.getPath(this, data.getData()));
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                            newUri = FileProvider.getUriForFile(this, "com.cn.uca.fileprovider", new File(newUri.getPath()));
-                        cropImageUri(newUri, 480);
+                            cropImageUri(data.getData(), 480);
                     } else {
                         ToastXutil.show("设备没有SD卡！");
                     }

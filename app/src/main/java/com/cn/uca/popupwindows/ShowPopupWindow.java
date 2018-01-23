@@ -18,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -29,13 +31,17 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.ItemClick;
 import com.cn.uca.impl.ServiceBack;
+import com.cn.uca.impl.user.PayBack;
 import com.cn.uca.receiver.UpdateService;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
+import com.cn.uca.view.PasswordInputView;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -286,4 +292,123 @@ public class ShowPopupWindow {
 		popupWindow.showAsDropDown(view);
 	}
 
+	public static void paymentWindow(final Context context, final String payName, final double actual_payment, final int type, final PayBack payBack){
+		final Dialog dialog = new Dialog(context,R.style.dialog_style);
+		View payment = LayoutInflater.from(context).inflate(R.layout.payment_dialog,null);
+		TextView close = (TextView)payment.findViewById(R.id.close);
+		TextView name = (TextView)payment.findViewById(R.id.name);
+		TextView price = (TextView)payment.findViewById(R.id.price);
+		TextView mode_type = (TextView)payment.findViewById(R.id.mode_type);
+        TextView icon = (TextView)payment.findViewById(R.id.icon);
+		final PasswordInputView passwordView = (PasswordInputView)payment.findViewById(R.id.passwordView);
+		TextView pay = (TextView)payment.findViewById(R.id.pay);
+		SetLayoutParams.setLinearLayout(pay,(MyApplication.width*2/3)-SystemUtil.dip2px(24),((MyApplication.width*2/3)-SystemUtil.dip2px(24))/6);
+		RelativeLayout layout = (RelativeLayout)payment.findViewById(R.id.layout);
+		name.setText(payName);
+		price.setText("￥"+actual_payment);
+		switch (type){
+			case 1://钱包
+				mode_type.setText("钱包");
+                icon.setBackgroundResource(R.mipmap.wallet_pay_icon);
+				break;
+			case 2://微信
+				mode_type.setText("微信");
+                icon.setBackgroundResource(R.mipmap.wechat_pay_icon);
+				pay.setVisibility(View.VISIBLE);
+				passwordView.setVisibility(View.GONE);
+				break;
+			case 3://支付宝
+				mode_type.setText("支付宝");
+                icon.setBackgroundResource(R.mipmap.alipay_icon);
+				pay.setVisibility(View.VISIBLE);
+				passwordView.setVisibility(View.GONE);
+				break;
+		}
+		SetLayoutParams.setLinearLayout(passwordView,(MyApplication.width*2/3)-SystemUtil.dip2px(24),((MyApplication.width*2/3)-SystemUtil.dip2px(24))/6);
+		close.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		layout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				paymentModeWindow(context,payName,actual_payment,type,payBack);
+				dialog.dismiss();
+			}
+		});
+		passwordView.setOnFinishListener(new PasswordInputView.OnFinishListener() {
+			@Override
+			public void setOnPasswordFinished() {
+				if (passwordView.getOriginText().length() == passwordView.getMaxPasswordLength()) {
+//					ToastXutil.show("支付成功");
+					payBack.walletPay(passwordView.getOriginText());
+					dialog.dismiss();
+				}
+			}
+		});
+		pay.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+//				ToastXutil.show("支付成功");
+				payBack.otherPay(type);
+				dialog.dismiss();
+			}
+		});
+		dialog.setContentView(payment);
+		Window dialogWindow = dialog.getWindow();
+		dialogWindow.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams params = dialogWindow.getAttributes();
+		params.width = MyApplication.width*2/3;
+		params.height = MyApplication.height*2/5;
+		dialog.show();//显示对话框
+	}
+
+	public static void paymentModeWindow(final Context context,final String payName,final double actual_payment,int type,final PayBack payBack){
+		final Dialog dialog = new Dialog(context,R.style.dialog_style);
+		View payment = LayoutInflater.from(context).inflate(R.layout.payment_mode_dialog,null);
+		RadioButton btn1 = (RadioButton)payment.findViewById(R.id.btn1);
+		RadioButton btn2 = (RadioButton)payment.findViewById(R.id.btn2);
+		RadioButton btn3 = (RadioButton)payment.findViewById(R.id.btn3);
+		switch (type){
+			case 1:
+				btn1.setChecked(true);
+				break;
+			case 2:
+				btn2.setChecked(true);
+				break;
+			case 3:
+				btn3.setChecked(true);
+				break;
+		}
+		btn1.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				paymentWindow(context,payName,actual_payment,1,payBack);
+				dialog.dismiss();
+			}
+		});
+		btn2.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				paymentWindow(context,payName,actual_payment,2,payBack);
+				dialog.dismiss();
+			}
+		});
+		btn3.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				paymentWindow(context,payName,actual_payment,3,payBack);
+				dialog.dismiss();
+			}
+		});
+		dialog.setContentView(payment);
+		Window dialogWindow = dialog.getWindow();
+		dialogWindow.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams params = dialogWindow.getAttributes();
+		params.width = MyApplication.width*2/3;
+		params.height = MyApplication.height*2/5;
+		dialog.show();//显示对话框
+	}
 }

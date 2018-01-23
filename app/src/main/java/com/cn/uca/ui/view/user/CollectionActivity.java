@@ -2,6 +2,7 @@ package com.cn.uca.ui.view.user;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ public class CollectionActivity extends BaseBackActivity implements View.OnClick
     private int currentIndex = -1;
     private CollectionAdapter collectionAdapter;
     private List<CollectionBean> list;
+    private LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class CollectionActivity extends BaseBackActivity implements View.OnClick
         title01 = (TextView)findViewById(R.id.title01);
         title02 = (TextView)findViewById(R.id.title02);
         title03 = (TextView)findViewById(R.id.title03);
+
+        layout = (LinearLayout)findViewById(R.id.layout);
 
         back.setOnClickListener(this);
         title01.setOnClickListener(this);
@@ -69,32 +73,32 @@ public class CollectionActivity extends BaseBackActivity implements View.OnClick
         }
         switch (index) {
             case 0:
+                layout.setBackgroundResource(R.drawable.gradient);
+                title01.setBackgroundResource(0);
+                title02.setBackgroundResource(0);
+                title03.setBackgroundResource(0);
                 title01.setTextColor(getResources().getColor(R.color.ori));
                 title01.setBackgroundResource(R.color.white);
-
                 title02.setTextColor(getResources().getColor(R.color.white));
-                title02.setBackgroundResource(R.color.ori);
-
                 title03.setTextColor(getResources().getColor(R.color.white));
-                title03.setBackgroundResource(R.color.ori);
                 break;
             case 1:
+                layout.setBackgroundResource(R.drawable.gradient);
+                title01.setBackgroundResource(0);
+                title02.setBackgroundResource(0);
+                title03.setBackgroundResource(0);
                 title01.setTextColor(getResources().getColor(R.color.white));
-                title01.setBackgroundResource(R.color.ori);
-
                 title02.setTextColor(getResources().getColor(R.color.ori));
                 title02.setBackgroundResource(R.color.white);
-
                 title03.setTextColor(getResources().getColor(R.color.white));
-                title03.setBackgroundResource(R.color.ori);
                 break;
             case 2:
+                layout.setBackgroundResource(R.drawable.gradient);
+                title01.setBackgroundResource(0);
+                title02.setBackgroundResource(0);
+                title03.setBackgroundResource(0);
                 title01.setTextColor(getResources().getColor(R.color.white));
-                title01.setBackgroundResource(R.color.ori);
-
                 title02.setTextColor(getResources().getColor(R.color.white));
-                title02.setBackgroundResource(R.color.ori);
-
                 title03.setTextColor(getResources().getColor(R.color.ori));
                 title03.setBackgroundResource(R.color.white);
                 break;

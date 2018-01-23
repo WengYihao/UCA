@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.cn.uca.ui.view.user.MessageActivity">
+    tools:context="com.cn.uca.ui.view.user.message.MessageActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_40"
@@ -23,9 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <LinearLayout
-            android:id="@+id/system_message_layout"
+            android:id="@+id/order_message_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -35,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@mipmap/system_message_back"
+                android:background="@mipmap/order_message_back"
                 android:layout_marginLeft="@dimen/padding_20"/>
 
             <LinearLayout
@@ -48,27 +47,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="系统消息"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_18"/>
-
-                <TextView
-                    android:id="@+id/message_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="暂无新消息"
-                    android:layout_marginTop="@dimen/padding_5"
-                    android:textColor="@color/milky"/>
+                    android:text="订单通知"
+                    android:textColor="@color/grey"/>
             </LinearLayout>
-            <com.cn.uca.view.DragPointView
-                android:id="@+id/system_num"
-                android:layout_width="@dimen/padding_20"
-                android:layout_height="@dimen/padding_20"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/text_12"
-                android:visibility="invisible"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/padding_10"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,16 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="对话消息"
-                    android:textColor="@color/grey"
-                    android:textSize="@dimen/text_18"/>
-
-                <TextView
-                    android:id="@+id/message_text2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="暂无新消息"
-                    android:layout_marginTop="@dimen/padding_5"
-                    android:textColor="@color/milky"/>
+                    android:textColor="@color/grey"/>
             </LinearLayout>
             <com.cn.uca.view.DragPointView
                 android:id="@+id/chat_num"
@@ -126,6 +98,41 @@
                 android:visibility="invisible"
                 android:layout_marginRight="@dimen/padding_10"
                 android:layout_gravity="center"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/right_gray"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/padding_5"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/system_message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/padding_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@mipmap/system_message_back"
+                android:layout_marginLeft="@dimen/padding_20"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_20">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="系统消息"
+                    android:textColor="@color/grey"/>
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

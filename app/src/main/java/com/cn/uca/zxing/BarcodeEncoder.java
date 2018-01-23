@@ -15,11 +15,22 @@ import java.util.Map;
  */
 
 public class BarcodeEncoder {
-    private static final int WHITE = 0xFFFFFFFF;
-    private static final int BLACK = 0xFF000000;
+//    private  int WHITE = 0xFFFFFFFF;
+//    private  int BLACK = 0xFF000000;
 
+
+    private  int WHITE;
+    private  int BLACK;
+    public void setWHITE(int WHITE) {
+        this.WHITE = WHITE;
+    }
+
+    public void setBLACK(int BLACK) {
+        this.BLACK = BLACK;
+    }
 
     public BarcodeEncoder() {
+
     }
 
     public Bitmap createBitmap(BitMatrix matrix) {

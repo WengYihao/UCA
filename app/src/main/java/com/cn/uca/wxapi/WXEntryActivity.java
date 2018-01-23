@@ -13,7 +13,9 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.QueryHttp;
+import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.MainActivity;
+import com.cn.uca.ui.view.user.AccountAssociationActivity;
 import com.cn.uca.util.ActivityCollector;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.ToastXutil;
@@ -84,32 +86,36 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
     public void onResponse(Object response) {
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
-            Log.i("123",jsonObject.toString()+"---");
+            Log.e("123",jsonObject.toString()+"---");
             Gson gson = new Gson();
             WeChatAccessToken token = gson.fromJson(jsonObject.toString(),new TypeToken<WeChatAccessToken>(){}.getType());
             MyApplication.getInstance().setAccessToken(token);
             SharePreferenceXutil.saveAccessToken(token.getAccess_token());
             SharePreferenceXutil.saveOpenId(token.getOpenId());
             if (MyApplication.getAccessToken().getOpenId() != null){
-                startLogin();
+                if (SharePreferenceXutil.isWeChatLogin()){
+                    startLogin();//微信登录
+                }else{
+                    //关联微信
+                    bindWeixin();
+                }
             }
         }catch (Exception e){
-                    finish();
+            finish();
         }
     }
 
     @Override
     public void onErrorMsg(String errorMsg) {
-        Log.i("456",errorMsg);
         ToastXutil.show(errorMsg);
 
     }
 
     @Override
     public void onError(VolleyError error) {
-        ToastXutil.show("出错了");
     }
 
+    //微信登录
     private void startLogin() {
         WeChatLogin weChatLogin = new WeChatLogin();
         weChatLogin.setRegistration_id(SharePreferenceXutil.getChannelId());
@@ -122,7 +128,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
                     Gson gson = new Gson();
                     WeChatLogin token = gson.fromJson(response.toString(),new TypeToken<WeChatLogin>(){}.getType());
                     ToastXutil.show(R.string.errcode_login_success);
-                    Log.i("123",token.getAccount_token());
+                    Log.e("123",token.getAccount_token());
                     SharePreferenceXutil.saveAccountToken(token.getAccount_token());
                     SharePreferenceXutil.setSuccess(true);
                     SharePreferenceXutil.setExit(false);
@@ -142,6 +148,41 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
             public void onError(VolleyError error) {
                 Log.i("456",error.getMessage()+"---");
                 ToastXutil.show("报错了");
+            }
+        });
+    }
+    //微信关联
+    private void bindWeixin(){
+        String ac = SharePreferenceXutil.getAccessToken();
+        String openId = SharePreferenceXutil.getOpenId();
+        UserHttp.bindWeixin(ac, openId, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            ToastXutil.show("账号关联成功");
+                            AccountAssociationActivity.getUserState();
+                            break;
+                        case 42:
+                            ToastXutil.show("微信账号已被绑定");
+                            break;
+                    }
+                }catch (Exception e){
+
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
             }
         });
     }

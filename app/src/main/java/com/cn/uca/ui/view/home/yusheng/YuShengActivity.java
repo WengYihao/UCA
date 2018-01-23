@@ -120,7 +120,7 @@ public class YuShengActivity extends BaseBackActivity implements View.OnClickLis
         //设置Dialog从窗体底部弹出
         dialogWindow.setGravity( Gravity.BOTTOM);
         dialogWindow.setAttributes(params);
-        StatusMargin.setFrameLayoutBottom(YuShengActivity.this,inflate,20);
+        StatusMargin.setFrameLayoutBottom(YuShengActivity.this,inflate,0);
         dialog.show();//显示对话框
     }
     @Override

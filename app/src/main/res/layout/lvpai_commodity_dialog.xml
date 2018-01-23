@@ -14,14 +14,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="添加新品"
-            android:padding="@dimen/padding_20"
+            android:textSize="@dimen/text_12"
+            android:padding="@dimen/padding_15"
             android:gravity="center"/>
         <TextView
             android:id="@+id/more_operation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="批量操作"
-            android:padding="@dimen/padding_20"
+            android:textSize="@dimen/text_12"
+            android:padding="@dimen/padding_15"
             android:gravity="center"/>
     </LinearLayout>
 </LinearLayout>

@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -17,7 +18,10 @@ import com.cn.uca.adapter.home.lvpai.MerchantPhotoAdapter;
 import com.cn.uca.bean.home.lvpai.AlbumBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.impl.lvpai.AddAlbumBack;
+import com.cn.uca.impl.lvpai.ServiceBack;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.server.util.LvPaiUtil;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -36,7 +40,7 @@ import java.util.Map;
 /**
  * 商家相册
  */
-public class MerchantAlbumActivity extends BaseBackActivity implements View.OnClickListener{
+public class MerchantAlbumActivity extends BaseBackActivity implements View.OnClickListener,AddAlbumBack,ServiceBack{
 
     private TextView back,more;
     private ListView listView;
@@ -86,19 +90,40 @@ public class MerchantAlbumActivity extends BaseBackActivity implements View.OnCl
                 this.finish();
                 break;
             case R.id.more:
-                addresspopuWindow();
+                addresspopuWindow(this);
                 break;
         }
     }
-    private void addresspopuWindow(){
+    private void addresspopuWindow(final AddAlbumBack back){
         View inflate = LayoutInflater.from(this).inflate(R.layout.lvpai_addpic_dialog, null);
+        final EditText albumname = (EditText)inflate.findViewById(R.id.albumname);
+        TextView positiveButton = (TextView)inflate.findViewById(R.id.positiveButton);//确定
+        TextView negativeButton = (TextView)inflate.findViewById(R.id.negativeButton);//取消
 
-        PopupWindow popupWindow = new PopupWindow(inflate, MyApplication.width,
+
+        final PopupWindow popupWindow = new PopupWindow(inflate, MyApplication.width,
                 MyApplication.height/3, true);
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
         popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER,0,0);
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (albumname.getText().toString() != null){
+                    back.determine(albumname.getText().toString());
+                    popupWindow.dismiss();
+                }else{
+                    ToastXutil.show("相册名不能为空");
+                }
+            }
+        });
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
     }
     private void getMerchantAlbum(){
         Map<String,Object> map = new HashMap<>();
@@ -139,5 +164,16 @@ public class MerchantAlbumActivity extends BaseBackActivity implements View.OnCl
 
             }
         });
+    }
+
+    @Override
+    public void determine(String name) {
+        LvPaiUtil.updateMerchantAlbum(this,"add",0,name);
+    }
+
+    @Override
+    public void success(String name) {
+        list.clear();
+        getMerchantAlbum();
     }
 }

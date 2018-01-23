@@ -1,5 +1,6 @@
 package com.cn.uca.ui.fragment.user.order;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 
@@ -17,7 +19,9 @@ import com.cn.uca.bean.user.OrderBean;
 import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.yueka.TypeClickCallBack;
+import com.cn.uca.loading.LoadingLayout;
 import com.cn.uca.server.user.UserHttp;
+import com.cn.uca.ui.view.user.order.YueKaOrderDetailActivity;
 import com.cn.uca.util.ToastXutil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -34,8 +38,8 @@ import java.util.List;
 
 public class YueKaFragment extends Fragment implements View.OnClickListener,TypeClickCallBack {
 
-
     private View view;
+    private LoadingLayout loading;
     private RadioButton title01,title02,title03,title04,title05;
     private List<OrderBean> list;
     private OrderAdapter orderAdapter;
@@ -51,6 +55,7 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,Type
         return view;
 }
     private void initView() {
+        loading = (LoadingLayout)view.findViewById(R.id.loading);
         title01 = (RadioButton)view.findViewById(R.id.title01);
         title02 = (RadioButton)view.findViewById(R.id.title02);
         title03 = (RadioButton)view.findViewById(R.id.title03);
@@ -68,6 +73,15 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,Type
         title05.setOnClickListener(this);
         title01.setChecked(true);
         getUserOrder("all");
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(),YueKaOrderDetailActivity.class);
+                intent.putExtra("id",list.get(position).getUser_order_id());
+                startActivity(intent);
+            }
+        });
     }
 
     private void getUserOrder(String state){
@@ -86,16 +100,17 @@ public class YueKaFragment extends Fragment implements View.OnClickListener,Type
                             if (bean.size() > 0){
                                 list.clear();
                                 list.addAll(bean);
+                                loading.setStatus(LoadingLayout.Success);
                                 orderAdapter.setList(list);
                             }else{
                                 if (list.size() != 0){
                                     list.clear();
+                                    loading.setStatus(LoadingLayout.Success);
                                     orderAdapter.setList(list);
                                     ToastXutil.show("没有更多数据了");
                                 }else {
                                     //没有数据
-                                    orderAdapter.setList(list);
-                                    ToastXutil.show("暂无数据");
+                                    loading.setStatus(LoadingLayout.Empty);
                                 }
                             }
                             break;

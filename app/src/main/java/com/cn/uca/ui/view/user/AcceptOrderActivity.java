@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.user.AcceptOrderAdapter;
 import com.cn.uca.bean.yueka.AcceptOrderBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.yueka.BackOrderCallBack;
 import com.cn.uca.server.user.UserHttp;
@@ -35,10 +37,11 @@ public class AcceptOrderActivity extends BaseBackActivity implements View.OnClic
     private TextView back;
     private ListView listView;
     private TextView title01,title02,title03,title04;
-    private int page = 1;
-    private int pageCount = 5;
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
     private AcceptOrderAdapter adapter;
     private List<AcceptOrderBean> list;
+    private LinearLayout layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +62,11 @@ public class AcceptOrderActivity extends BaseBackActivity implements View.OnClic
         title03.setOnClickListener(this);
         title04.setOnClickListener(this);
 
+        layout = (LinearLayout)findViewById(R.id.layout);
         listView = (ListView)findViewById(R.id.listView);
         list = new ArrayList<>();
         adapter = new AcceptOrderAdapter(list,getApplicationContext(),this);
         listView.setAdapter(adapter);
-
         show(0);
     }
 
@@ -91,57 +94,53 @@ public class AcceptOrderActivity extends BaseBackActivity implements View.OnClic
     private void show(int index){
         switch (index){
             case 0:
+                layout.setBackgroundResource(R.drawable.gradient);
+                title01.setBackgroundResource(0);
+                title02.setBackgroundResource(0);
+                title03.setBackgroundResource(0);
+                title04.setBackgroundResource(0);
                 title01.setTextColor(getResources().getColor(R.color.ori));
                 title01.setBackgroundResource(R.color.white);
-
                 title02.setTextColor(getResources().getColor(R.color.white));
-                title02.setBackgroundResource(R.color.ori);
-
                 title03.setTextColor(getResources().getColor(R.color.white));
-                title03.setBackgroundResource(R.color.ori);
-
                 title04.setTextColor(getResources().getColor(R.color.white));
-                title04.setBackgroundResource(R.color.ori);
                 getMyOrder("",page,pageCount);
                 break;
             case 1:
+                layout.setBackgroundResource(R.drawable.gradient);
+                title01.setBackgroundResource(0);
+                title02.setBackgroundResource(0);
+                title03.setBackgroundResource(0);
+                title04.setBackgroundResource(0);
                 title01.setTextColor(getResources().getColor(R.color.white));
-                title01.setBackgroundResource(R.color.ori);
-
                 title02.setTextColor(getResources().getColor(R.color.ori));
                 title02.setBackgroundResource(R.color.white);
-
                 title03.setTextColor(getResources().getColor(R.color.white));
-                title03.setBackgroundResource(R.color.ori);
-
                 title04.setTextColor(getResources().getColor(R.color.white));
-                title04.setBackgroundResource(R.color.ori);
                 getMyOrder("3",page,pageCount);
                 break;
             case 2:
+                layout.setBackgroundResource(R.drawable.gradient);
+                title01.setBackgroundResource(0);
+                title02.setBackgroundResource(0);
+                title03.setBackgroundResource(0);
+                title04.setBackgroundResource(0);
                 title01.setTextColor(getResources().getColor(R.color.white));
-                title01.setBackgroundResource(R.color.ori);
-
                 title02.setTextColor(getResources().getColor(R.color.white));
-                title02.setBackgroundResource(R.color.ori);
-
                 title03.setTextColor(getResources().getColor(R.color.ori));
                 title03.setBackgroundResource(R.color.white);
-
                 title04.setTextColor(getResources().getColor(R.color.white));
-                title04.setBackgroundResource(R.color.ori);
                 getMyOrder("2",page,pageCount);
                 break;
             case 3:
+                layout.setBackgroundResource(R.drawable.gradient);
+                title01.setBackgroundResource(0);
+                title02.setBackgroundResource(0);
+                title03.setBackgroundResource(0);
+                title04.setBackgroundResource(0);
                 title01.setTextColor(getResources().getColor(R.color.white));
-                title01.setBackgroundResource(R.color.ori);
-
                 title02.setTextColor(getResources().getColor(R.color.white));
-                title02.setBackgroundResource(R.color.ori);
-
                 title03.setTextColor(getResources().getColor(R.color.white));
-                title03.setBackgroundResource(R.color.ori);
-
                 title04.setTextColor(getResources().getColor(R.color.ori));
                 title04.setBackgroundResource(R.color.white);
                 getMyOrder("4",page,pageCount);

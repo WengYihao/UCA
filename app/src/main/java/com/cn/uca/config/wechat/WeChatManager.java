@@ -14,13 +14,17 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 
 import com.amap.api.maps.model.BitmapDescriptor;
+import com.cn.uca.R;
 import com.cn.uca.bean.wechat.WeChatLogin;
+import com.cn.uca.bean.wechat.WeChatPayBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.util.GraphicsBitmapUtils;
+import com.cn.uca.util.ToastXutil;
 import com.cn.uca.util.wechat.Util;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -277,9 +281,20 @@ public class WeChatManager {
 	/**
 	 * 微信支付
 	 */
-	public void aaa(){
-		PayReq payReq = new PayReq();
-		api.sendReq(payReq);
+	public void wechatPay(WeChatPayBean bean){
+		if (WeChatManager.instance().isWXAppInstalled()) {
+			PayReq payReq = new PayReq();
+			payReq.appId = Constant.WX_APP_ID;
+			payReq.partnerId = bean.getPartnerid();
+			payReq.prepayId = bean.getPrepayid();
+			payReq.packageValue = "Sign=WXPay";
+			payReq.nonceStr = bean.getNoncestr();
+			payReq.timeStamp = bean.getTimestamp();
+			payReq.sign = bean.getSign();
+			sendReq(payReq);
+		}else {
+			ToastXutil.show(R.string.wechat_not_installed);
+		}
 	}
 
 	public void getAccessToken(WeChatLogin weChatLogin, CallBack callBack) {

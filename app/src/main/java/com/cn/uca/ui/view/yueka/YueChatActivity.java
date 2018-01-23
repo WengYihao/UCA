@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.ui.fragment.yueka.CourseEscortFragment;
 import com.cn.uca.ui.fragment.yueka.YueDetailsFragment;
 import com.cn.uca.util.OpenPhoto;
+import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
@@ -47,7 +49,8 @@ import io.rong.imkit.RongIM;
 
 public class YueChatActivity extends BaseBackActivity implements View.OnClickListener{
 
-    private TextView stateTitle,title01,title02;
+    private TextView stateTitle,line,title01,title02;
+    private ImageView line1,line2;
     private int currentIndex = -1;
     private YueDetailsFragment yueDetailsFragment;
     private CourseEscortFragment courseEscortFragment;
@@ -80,11 +83,14 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
 
     private void initView() {
         listPhoto = new ArrayList<>();
+        line = (TextView)findViewById(R.id.line);
         stateTitle  =(TextView)findViewById(R.id.stateTitle);
         stateTitle.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SystemUtil.getStatusHeight(this)));
         layout = (RelativeLayout)findViewById(R.id.layout);
         title01 = (TextView)findViewById(R.id.title01);
         title02 = (TextView)findViewById(R.id.title02);
+        line1 = (ImageView)findViewById(R.id.line1);
+        line2 = (ImageView)findViewById(R.id.line2);
         back = (TextView)findViewById(R.id.back);
         title = (TextView) findViewById(R.id.title);
         collection = (TextView)findViewById(R.id.collection);
@@ -170,10 +176,10 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                             titleName = bean.getUser_nick_name();
                             if (bean.isCollection()){
                                 isCollection = 1;
-                                collection.setBackgroundResource(R.mipmap.collection);
+                                collection.setBackgroundResource(R.mipmap.collection_white);
                             }else{
                                 isCollection = 2;
-                                collection.setBackgroundResource(R.mipmap.nocollection);
+                                collection.setBackgroundResource(R.mipmap.nocollection_white);
                             }
                             start.setRating((float)bean.getAverage_score());
                             if (!StringXutil.isEmpty(bean.getUser_birth_date())){
@@ -214,16 +220,8 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                                 TextView tv = new TextView(getApplicationContext());
                                 tv.setText(bean.getEscortLabels().get(i).getEscort_label_name());
                                 tv.setTextSize(10);
-                                if (i == 0) {
-                                    tv.setBackgroundResource(R.drawable.text_bg_yellow);
-                                    tv.setTextColor(getResources().getColor(R.color.white));
-                                } else if (i == 1) {
-                                    tv.setBackgroundResource(R.drawable.text_bg_ori);
-                                    tv.setTextColor(getResources().getColor(R.color.white));
-                                } else {
-                                    tv.setBackgroundResource(R.drawable.text_bg);
-                                    tv.setTextColor(getResources().getColor(R.color.white));
-                                }
+                                tv.setBackgroundResource(R.drawable.yuechat_lable_back);
+                                tv.setTextColor(getResources().getColor(R.color.white));
                                 FluidLayout.LayoutParams params = new FluidLayout.LayoutParams(
                                         ViewGroup.LayoutParams.WRAP_CONTENT,
                                         ViewGroup.LayoutParams.WRAP_CONTENT
@@ -240,6 +238,16 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                             maxPeople.setText("限"+bean.getRequirement_people_number()+"人以下");
                             list = bean.getPlaces();
                             url = bean.getEscort_details_url();
+                            StringBuilder builder = new StringBuilder();
+                            List<PlacesBean> place = bean.getPlaces();
+                            for (int i = 0;i<place.size();i++){
+                                if (i+1 == place.size()){
+                                    builder.append(place.get(i).getPlace_name());
+                                }else{
+                                    builder.append(place.get(i).getPlace_name()+">");
+                                }
+                            }
+                            line.setText(builder.toString());
                             show(0);
                             break;
                     }
@@ -292,7 +300,7 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                                 public void onResponse(Object response) {
                                     if ((int) response == 0){
                                         ToastXutil.show("取消收藏");
-                                        collection.setBackgroundResource(R.mipmap.nocollection);
+                                        collection.setBackgroundResource(R.mipmap.nocollection_white);
                                         isCollection = 2;
                                     }
                                 }
@@ -314,7 +322,7 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                                 public void onResponse(Object response) {
                                     if ((int) response == 0){
                                         ToastXutil.show("收藏成功");
-                                        collection.setBackgroundResource(R.mipmap.collection);
+                                        collection.setBackgroundResource(R.mipmap.collection_white);
                                         isCollection = 1;
                                     }
                                 }
@@ -348,7 +356,11 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                 }
                 break;
             case R.id.title04:
-                BuyYuaKaPopupWindow window = new BuyYuaKaPopupWindow(this,getWindow().getDecorView(),StringData,bean);
+                if (SharePreferenceXutil.isSuccess()){
+                    new BuyYuaKaPopupWindow(this,getWindow().getDecorView(),StringData,bean);
+                }else{
+                    ToastXutil.show("请先登录");
+                }
                 break;
         }
     }
@@ -365,11 +377,11 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                     fragmentTransaction.add(R.id.container, yueDetailsFragment);
                 }
                 fragmentTransaction.show(yueDetailsFragment);
-                title01.setTextColor(getResources().getColor(R.color.black));
-                title01.setBackgroundResource(R.color.white);
+                title01.setTextColor(getResources().getColor(R.color.ori));
+                line1.setVisibility(View.VISIBLE);
 
-                title02.setTextColor(getResources().getColor(R.color.white));
-                title02.setBackgroundResource(R.color.ori);
+                title02.setTextColor(getResources().getColor(R.color.grey));
+                line2.setVisibility(View.GONE);
 
                 break;
             case 1:
@@ -378,11 +390,11 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
                     fragmentTransaction.add(R.id.container, courseEscortFragment);
                 }
                 fragmentTransaction.show(courseEscortFragment);
-                title01.setTextColor(getResources().getColor(R.color.white));
-                title01.setBackgroundResource(R.color.ori);
+                title01.setTextColor(getResources().getColor(R.color.grey));
+                line1.setVisibility(View.GONE);
 
-                title02.setTextColor(getResources().getColor(R.color.black));
-                title02.setBackgroundResource(R.color.white);
+                title02.setTextColor(getResources().getColor(R.color.ori));
+                line2.setVisibility(View.VISIBLE);
                 break;
         }
         switch (currentIndex) {

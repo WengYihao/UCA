@@ -595,6 +595,7 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        File file = null;
         switch (requestCode){
             case 0:
                 if (data != null){
@@ -610,7 +611,8 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                 break;
             case Constant.PHOTO_REQUEST_GALLERY:
                 if (data.getData() != null) {
-                    setPicToView(new File(SystemUtil.getRealPathFromURI(data.getData(),this)));
+                    file = new File(SystemUtil.getRealPathFromURI(data.getData(),this));
+                    setPicToView(file);
                 }
                 break;
             case 3:

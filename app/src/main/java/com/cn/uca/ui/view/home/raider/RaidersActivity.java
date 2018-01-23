@@ -2,15 +2,11 @@ package com.cn.uca.ui.view.home.raider;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,12 +15,10 @@ import com.cn.uca.R;
 import com.cn.uca.adapter.LetterAdapter;
 import com.cn.uca.adapter.home.raiders.RaidersAdapter;
 import com.cn.uca.bean.home.raider.RaidersBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
-import com.cn.uca.impl.CallBackValue;
-import com.cn.uca.impl.datepicker.OnSureLisener;
-import com.cn.uca.impl.raider.SubmitClickListener;
 import com.cn.uca.impl.yueka.CollectionClickListener;
-import com.cn.uca.popupwindows.BuyRaiderPopupWindow;
+import com.cn.uca.loading.LoadingLayout;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
@@ -41,12 +35,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RaidersActivity extends BaseBackActivity implements View.OnClickListener,SubmitClickListener,CollectionClickListener{
+public class RaidersActivity extends BaseBackActivity implements View.OnClickListener,CollectionClickListener{
 
     private TextView back,collection;
     private ListView letter;
@@ -55,23 +48,26 @@ public class RaidersActivity extends BaseBackActivity implements View.OnClickLis
     private String [] data;
     private List<RaidersBean> list;
     private RaidersAdapter raidersAdapter;
+    private LoadingLayout loading;
     private RefreshLayout refreshLayout;
-    private int page = 1;
-    private int pageCount = 5;
-    private String name,order;
-    private double price;
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
+//    private int pageCount = 5;
+    private String cityStr = "";
+    private int type = 0;//刷新加载状态1：刷新2：加载3：搜索
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_raiders);
 
         initView();
-        cpyGetCityRaiders(page,pageCount,"");
+        cpyGetCityRaiders(page,pageCount,cityStr);
 
     }
 
     private void initView() {
         refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
+        loading = (LoadingLayout)findViewById(R.id.loading);
         back = (TextView)findViewById(R.id.back);
         collection = (TextView)findViewById(R.id.collection);
         back.setOnClickListener(this);
@@ -93,8 +89,12 @@ public class RaidersActivity extends BaseBackActivity implements View.OnClickLis
                 refreshlayout.getLayout().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        page ++ ;
-                        cpyGetCityRaiders(page,pageCount,"");
+                        type = 1;
+                        if (page*pageCount >= 30){
+                            cpyGetCityRaiders(1,30,cityStr);
+                        }else{
+                            cpyGetCityRaiders(1,pageCount*page,cityStr);
+                        }
                         refreshlayout.finishRefresh();
                         refreshlayout.setLoadmoreFinished(false);
                     }
@@ -107,9 +107,23 @@ public class RaidersActivity extends BaseBackActivity implements View.OnClickLis
                 refreshlayout.getLayout().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        type = 2;
+                        page ++ ;
+                        cpyGetCityRaiders(page,pageCount,cityStr);
                         refreshlayout.finishLoadmore();
                     }
                 }, 2000);
+            }
+        });
+
+        letter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                cityStr = data[position];
+                list.clear();
+                page = 1;
+                type = 3;
+                cpyGetCityRaiders(page,pageCount,cityStr);
             }
         });
 
@@ -123,7 +137,7 @@ public class RaidersActivity extends BaseBackActivity implements View.OnClickLis
                     intent.putExtra("cityName",list.get(i).getCity_name());
                     startActivity(intent);
                 }else{
-                    purchaseCityRaiders(list.get(i).getCity_raiders_id());
+//                    purchaseCityRaiders(list.get(i).getCity_raiders_id());
                 }
             }
         });
@@ -131,56 +145,56 @@ public class RaidersActivity extends BaseBackActivity implements View.OnClickLis
 
     /**
      * 创建订单
-     * @param id
      */
-    private  void purchaseCityRaiders(int id){
-        Map<String,Object> map = new HashMap<>();
-        String timr_temp = SystemUtil.getCurrentDate2();
-        map.put("time_stamp",timr_temp);
-        String token = SharePreferenceXutil.getAccountToken();
-        map.put("account_token", token);
-        map.put("city_raiders_id",id);
-        String sign = SignUtil.sign(map);
-        HomeHttp.purchaseCityRaiders(sign, timr_temp, token, id, new CallBack() {
-            @Override
-            public void onResponse(Object response) {
-                try{
-                    JSONObject jsonObject = new JSONObject(response.toString());
-                    int code = jsonObject.getInt("code");
-                    switch (code){
-                        case 0:
-                            name = jsonObject.getJSONObject("data").getString("city_name");
-                            order = jsonObject.getJSONObject("data").getString("order_number");
-                            price = jsonObject.getJSONObject("data").getDouble("payables");
-                            new BuyRaiderPopupWindow(RaidersActivity.this, getWindow().getDecorView(),
-                                    name, order, price, RaidersActivity.this);
-                            break;
-                        case 18:
-                            ToastXutil.show("登录已过期");
-                            break;
-                        case 20:
-                            ToastXutil.show("请先登录");
-                            break;
-                    }
-
-                }catch (Exception e){
-                    Log.i("123",e.getMessage());
-                }
-            }
-
-            @Override
-            public void onErrorMsg(String errorMsg) {
-
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-        });
-    }
+//    private  void purchaseCityRaiders(int id){
+//        Map<String,Object> map = new HashMap<>();
+//        String timr_temp = SystemUtil.getCurrentDate2();
+//        map.put("time_stamp",timr_temp);
+//        String token = SharePreferenceXutil.getAccountToken();
+//        map.put("account_token", token);
+//        map.put("city_raiders_id",id);
+//        String sign = SignUtil.sign(map);
+//        HomeHttp.purchaseCityRaiders(sign, timr_temp, token, id, new CallBack() {
+//            @Override
+//            public void onResponse(Object response) {
+//                try{
+//                    JSONObject jsonObject = new JSONObject(response.toString());
+//                    int code = jsonObject.getInt("code");
+//                    switch (code){
+//                        case 0:
+//                            name = jsonObject.getJSONObject("data").getString("city_name");
+//                            order = jsonObject.getJSONObject("data").getString("order_number");
+//                            price = jsonObject.getJSONObject("data").getDouble("payables");
+//                            new BuyRaiderPopupWindow(RaidersActivity.this, getWindow().getDecorView(),
+//                                    name, order, price, RaidersActivity.this);
+//                            break;
+//                        case 18:
+//                            ToastXutil.show("登录已过期");
+//                            break;
+//                        case 20:
+//                            ToastXutil.show("请先登录");
+//                            break;
+//                    }
+//
+//                }catch (Exception e){
+//                    Log.i("123",e.getMessage());
+//                }
+//            }
+//
+//            @Override
+//            public void onErrorMsg(String errorMsg) {
+//
+//            }
+//
+//            @Override
+//            public void onError(VolleyError error) {
+//
+//            }
+//        });
+//    }
 
     private void cpyGetCityRaiders(int page,int pageCount,String city_pinyin){
+        loading.setStatus(LoadingLayout.Loading);
         Map<String,Object> map = new HashMap<>();
         map.put("page",page);
         map.put("pageCount",pageCount);
@@ -193,6 +207,7 @@ public class RaidersActivity extends BaseBackActivity implements View.OnClickLis
         HomeHttp.cpyGetCityRaiders(page,pageCount, city_pinyin, sign, timr_temp, token, new CallBack() {
             @Override
             public void onResponse(Object response) {
+                loading.setStatus(LoadingLayout.Success);
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     int code = jsonObject.getInt("code");
@@ -202,16 +217,60 @@ public class RaidersActivity extends BaseBackActivity implements View.OnClickLis
                             Gson gson = new Gson();
                             List<RaidersBean> bean = gson.fromJson(array.toString(),new TypeToken<List<RaidersBean>>() {
                             }.getType());
-                            if (bean.size() > 0){
-                                list.clear();
-                                list.addAll(bean);
-                                raidersAdapter.setList(list);
-                            }else{
-                                if (list.size() != 0){
-                                    ToastXutil.show("没有更多数据了");
-                                }else{
-                                    raidersAdapter.setList(list);
-                                }
+                            switch (type){
+                                case 0:
+                                    if (bean.size() > 0){
+                                        list.addAll(bean);
+                                        loading.setStatus(LoadingLayout.Success);
+                                        raidersAdapter.setList(list);
+                                    }else{
+                                        loading.setStatus(LoadingLayout.Empty);
+                                    }
+                                    break;
+                                case 1:
+                                    if (bean.size() > 0){
+                                        list.clear();
+                                        list.addAll(bean);
+                                        Log.e("123",list.size()+"--"+list.toString());
+                                        loading.setStatus(LoadingLayout.Success);
+                                        raidersAdapter.setList(list);
+                                    }else{
+                                        if (list.size() > 0){
+                                            //没有数据
+                                        }else{
+                                            loading.setStatus(LoadingLayout.Empty);
+                                            raidersAdapter.setList(bean);
+                                        }
+                                    }
+                                    break;
+                                case 2:
+                                    if (bean.size() > 0){
+                                        list.addAll(bean);
+                                        loading.setStatus(LoadingLayout.Success);
+                                        raidersAdapter.setList(list);
+                                    }else{
+                                        if (list.size() > 0){
+                                            //没有数据
+                                        }else{
+                                            loading.setStatus(LoadingLayout.Empty);
+                                            raidersAdapter.setList(bean);
+                                        }
+                                    }
+                                    break;
+                                case 3:
+                                    if (bean.size() > 0){
+                                        list.addAll(bean);
+                                        loading.setStatus(LoadingLayout.Success);
+                                        raidersAdapter.setList(list);
+                                    }else{
+                                        if (list.size() > 0){
+                                            //没有数据
+                                        }else{
+                                            loading.setStatus(LoadingLayout.Empty);
+                                            raidersAdapter.setList(bean);
+                                        }
+                                    }
+                                    break;
                             }
                             break;
                     }
@@ -241,43 +300,6 @@ public class RaidersActivity extends BaseBackActivity implements View.OnClickLis
                 startActivity(new Intent(RaidersActivity.this,RaiderCollectionActivity.class));
                 break;
         }
-    }
-    @Override
-    public void clickCall(final PopupWindow window) {
-        Map<String,Object> map = new HashMap<>();
-        String timr_temp = SystemUtil.getCurrentDate2();
-        map.put("time_stamp",timr_temp);
-        String token = SharePreferenceXutil.getAccountToken();
-        map.put("account_token", token);
-        map.put("actual_payment",price);
-        map.put("order_number",order);
-        String sign = SignUtil.sign(map);
-        HomeHttp.orderPayment(token, price, 0, order, sign, timr_temp, new CallBack() {
-            @Override
-            public void onResponse(Object response) {
-                switch ((int)response){
-                    case 0:
-                        window.dismiss();
-                        ToastXutil.show("支付成功");
-                        cpyGetCityRaiders(page,pageCount,"");
-                        break;
-                    case 172:
-                        window.dismiss();
-                        ToastXutil.show("钱包余额不足");
-                        break;
-                }
-            }
-
-            @Override
-            public void onErrorMsg(String errorMsg) {
-
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-        });
     }
 
     @Override

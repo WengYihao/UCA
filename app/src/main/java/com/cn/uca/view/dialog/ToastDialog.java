@@ -32,9 +32,12 @@ public class ToastDialog {
                 SharePreferenceXutil.setSuccess(false);
                 SharePreferenceXutil.saveAccountToken("");
                 SharePreferenceXutil.saveAccessToken("");
+                SharePreferenceXutil.setEnter(false);
+                SharePreferenceXutil.setClock(false);
                 SharePreferenceXutil.setOpenYS(false);
                 SharePreferenceXutil.setAuthentication(false);
                 SharePreferenceXutil.saveRongToken("");
+                SharePreferenceXutil.savePhoneNumber("");
 //                RongIM.getInstance().logout();
 //                RongIM.getInstance().disconnect();
                 context.startActivity(new Intent(context, LoginActivity.class));

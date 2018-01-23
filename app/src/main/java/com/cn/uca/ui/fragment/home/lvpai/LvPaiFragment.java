@@ -16,6 +16,7 @@ import com.cn.uca.R;
 import com.cn.uca.adapter.home.lvpai.MerchantAdapter;
 import com.cn.uca.bean.home.lvpai.CommodityBean;
 import com.cn.uca.bean.home.lvpai.MerchantBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.home.lvpai.MerchantDetailActivity;
 import com.cn.uca.ui.view.home.lvpai.CommodityDetailActivity;
@@ -48,8 +49,8 @@ public class LvPaiFragment extends Fragment implements View.OnClickListener{
     private List<CommodityBean> listComment;
     private TextView type;
     private int id = 1;
-    private int page = 1;
-    private int pageCount = 5;
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
 
     @Nullable
     @Override

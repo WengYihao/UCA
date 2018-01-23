@@ -10,15 +10,25 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.impl.CallBack;
+import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.home.samecityka.CardManageActivity;
 import com.cn.uca.ui.view.home.samecityka.ExamineActivity;
 import com.cn.uca.ui.view.home.samecityka.MyActionActivity;
 import com.cn.uca.ui.view.home.samecityka.SettlementActivity;
+import com.cn.uca.ui.view.rongim.ChatListActivity;
 import com.cn.uca.util.SetLayoutParams;
+import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.SignUtil;
+import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.zxing.CaptureActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by asus on 2017/12/5.
@@ -68,7 +78,11 @@ public class InitiatorFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), MyActionActivity.class));
                 break;
             case R.id.layout2:
-//                startActivity(new Intent(getActivity(), MyNewActivity.class));
+                if (SharePreferenceXutil.isSuccess()){
+                    startActivity(new Intent(getActivity(), ChatListActivity.class));
+                }else{
+                    ToastXutil.show("请先登录");
+                }
                 break;
             case R.id.layout3:
                 Intent intent = new Intent(getActivity(), CaptureActivity.class);
@@ -91,7 +105,52 @@ public class InitiatorFragment extends Fragment implements View.OnClickListener{
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode== -1){
             String result = data.getStringExtra("result");
-            Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
+            checkTicket(result);
         }
+    }
+
+    private void checkTicket(String code){
+        Map<String,Object> map = new HashMap<>();
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token", account_token);
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        map.put("code",code);
+        String sign = SignUtil.sign(map);
+        HomeHttp.checkTicket(account_token, time_stamp, sign, code, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                switch ((int)response){
+                    case 0:
+                        ToastXutil.show("验票成功！");
+                        break;
+                    case 532:
+                        ToastXutil.show("改门票已过期");
+                        break;
+                    case 534:
+                        ToastXutil.show("票已使用");
+                        break;
+                    case 536:
+                        ToastXutil.show("停止验票");
+                        break;
+                    case 537:
+                        ToastXutil.show("活动当天开始验票");
+                        break;
+                    case 538:
+                        ToastXutil.show("活动已关闭验票");
+                        break;
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
     }
 }

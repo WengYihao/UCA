@@ -77,17 +77,7 @@ public class ListViewAdapter extends BaseAdapter{
         holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                ToastXutil.show(list.get(item).getBean().getViewBean().get(position).getDate());
-//                Log.e("456",item+"-"+position);
                 backDate.callBack(list.get(item).getBean().getViewBean().get(position).getDate());
-//                for (int i = 0;i<list.get(0).getBean().getSourceBeen().size();i++){
-//                    if (list.get(0).getBean().getSourceBeen().get(i).getDate().equals(list.get(item).getBean().getViewBean().get(position).getDate())){
-//                        ToastXutil.show("该日期不可选择");
-//                        break;
-//                    }else{
-//
-//                    }
-//                }
             }
         });
         return convertView;

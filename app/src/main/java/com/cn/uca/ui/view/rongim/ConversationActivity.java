@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.adapter.rongim.ConversationListAdapterEx;
+import com.cn.uca.config.MyApplication;
 import com.cn.uca.ui.fragment.rongim.ConversationFragmentEx;
 import com.cn.uca.ui.view.LoginActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
@@ -63,26 +64,17 @@ public class ConversationActivity extends BaseBackActivity {
                 ConversationActivity.this.finish();
             }
         });
-
-//        RongIM.getInstance().setMessageAttachedUserInfo(true);
         mTargetId = getIntent().getData().getQueryParameter("targetId");   // targetId:单聊即对方ID，群聊即群组ID
         title = getIntent().getData().getQueryParameter("title");    // 获取昵称
         mConversationType = Conversation.ConversationType.valueOf(getIntent().getData()
                 .getLastPathSegment().toUpperCase(Locale.US));
-//        mName.setText(title);
         UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(mTargetId);
         if (userInfo != null) {
-            Log.i("123","123");
             mName.setText(userInfo.getName());
         }else{
-            Log.i("123","456");
+            mName.setText(title);
         }
-//        if (!TextUtils.isEmpty(mTargetId)) {
-//            UserInfo userInfo = RongUserInfoManager.getInstance().getUserInfo(mTargetId);
-//            if (userInfo != null) {
-//                mName.setText(userInfo.getName());
-//            }
-//        }
+        MyApplication.getInfo(mTargetId);
         isPushMessage(getIntent());
         ActivityCollector.pushActivity(this);
     }

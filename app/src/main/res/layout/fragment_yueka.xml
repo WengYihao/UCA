@@ -50,8 +50,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_16"/>
+            android:textColor="@color/white"/>
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
@@ -65,8 +64,7 @@
             android:gravity="center"
             android:padding="@dimen/padding_5"
             android:text="@string/yuekaFragmeny_text1"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_16" />
+            android:textColor="@color/white"/>
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
@@ -80,9 +78,8 @@
             android:textColor="@color/white"
             android:layout_weight="2"
             android:gravity="center"
-            android:textSize="@dimen/text_16"
             android:padding="@dimen/padding_5"
-            android:drawableRight="@mipmap/down"/>
+            android:drawableRight="@mipmap/down_white"/>
     </LinearLayout>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout

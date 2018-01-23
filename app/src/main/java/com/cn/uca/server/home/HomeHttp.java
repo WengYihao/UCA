@@ -445,14 +445,14 @@ public class HomeHttp extends BaseServer {
      * @param city_raiders_id
      * @param callBack
      */
-    public static void purchaseCityRaiders(String sign,String time_stamp,String account_token,int city_raiders_id,CallBack callBack){
-        Map<String,String> map = new HashMap<>();
-        map.put("sign",sign);
-        map.put("time_stamp",time_stamp);
-        map.put("account_token",account_token);
-        map.put("city_raiders_id",city_raiders_id+"");
-        post5(MyConfig.purchaseCityRaiders,map,callBack);
-    }
+//    public static void purchaseCityRaiders(String sign,String time_stamp,String account_token,int city_raiders_id,CallBack callBack){
+//        Map<String,String> map = new HashMap<>();
+//        map.put("sign",sign);
+//        map.put("time_stamp",time_stamp);
+//        map.put("account_token",account_token);
+//        map.put("city_raiders_id",city_raiders_id+"");
+//        post5(MyConfig.purchaseCityRaiders,map,callBack);
+//    }
 
     /**
      * 支付订单
@@ -461,10 +461,11 @@ public class HomeHttp extends BaseServer {
      * @param user_coupon_id
      * @param order_number
      * @param sign
+     * @param pay_pwd
      * @param time_stamp
      * @param callBack
      */
-    public static void orderPayment(String account_token,double actual_payment,int user_coupon_id,String order_number,String sign,String time_stamp,CallBack callBack){
+    public static void orderPayment(String account_token,double actual_payment,int user_coupon_id,String order_number,String sign,String pay_pwd,String time_stamp,CallBack callBack){
         Map<String,String> map = new HashMap<>();
         map.put("account_token",account_token);
         map.put("actual_payment",actual_payment+"");
@@ -473,6 +474,7 @@ public class HomeHttp extends BaseServer {
        }
         map.put("order_number",order_number+"");
         map.put("sign",sign);
+        map.put("pay_pwd",pay_pwd);
         map.put("time_stamp",time_stamp);
         post4(MyConfig.orderPayment,map,callBack);
     }
@@ -976,6 +978,23 @@ public class HomeHttp extends BaseServer {
         map.put("city_cafe_id",city_cafe_id);
         get(MyConfig.getCafeUser,map,callBack);
     }
+
+    /**
+     * 发起者验票
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param code
+     * @param callBack
+     */
+    public static void checkTicket(String account_token,String time_stamp,String sign,String code,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("code",code);
+        post4(MyConfig.checkTicket,map,callBack);
+    }
     /**
      * 旅拍商家入驻
      * @param bean
@@ -1455,6 +1474,7 @@ public class HomeHttp extends BaseServer {
         map.put("page",page);
         map.put("pageCount",pageCount);
         map.put("trip_shoot_id",trip_shoot_id);
+        map.put("trip_shoot_state","orders");
         get(MyConfig.getTsOrders,map,callBack);
     }
 
@@ -1490,6 +1510,76 @@ public class HomeHttp extends BaseServer {
         map.put("sign",sign);
         map.put("trip_shoot_id",trip_shoot_id+"");
         post5(MyConfig.upLoShelves,map,callBack);
+    }
+
+    /**
+     * 获取旅拍商家所有订单
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param trip_shoot_state
+     * @param page
+     * @param pageCount
+     * @param callBack
+     */
+    public static void getTsOrder(String time_stamp,String sign,String account_token,String trip_shoot_state,int page,int pageCount,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("trip_shoot_state",trip_shoot_state);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.getTsOrder,map,callBack);
+    }
+
+    /**
+     * 商家增删改相册
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param type
+     * @param merchant_album_id
+     * @param album_name
+     * @param callBack
+     */
+    public static void updateMerchantAlbum(String time_stamp,String sign,String account_token,String type,int merchant_album_id,String album_name,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("type",type);
+        if (merchant_album_id != 0){
+            map.put("merchant_album_id",merchant_album_id+"");
+        }
+        if (album_name != null){
+            map.put("album_name",album_name);
+        }
+        post5(MyConfig.updateMerchantAlbum,map,callBack);
+    }
+
+    /**
+     * 添加照片
+     * @param time_stamp
+     * @param sign
+     * @param account_token
+     * @param merchant_album_id
+     * @param file
+     * @param handler
+     */
+    public static void addAlbumPicture(String time_stamp,String sign,String account_token,int merchant_album_id,File file,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("account_token",account_token);
+        params.put("sign",sign);
+        params.put("time_stamp",time_stamp);
+        params.put("merchant_album_id",merchant_album_id);
+        try{
+            params.put("picture",file);
+        }catch (Exception e){
+
+        }
+        client.post(MyConfig.addAlbumPicture,params,handler);
     }
 }
 

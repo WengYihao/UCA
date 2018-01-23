@@ -316,6 +316,7 @@ public class SendDetailActivity extends BaseBackActivity implements View.OnClick
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        File file = null;
         if (resultCode == RESULT_OK){
             switch (requestCode) {
                 case Constant.PHOTO_REQUEST_TAKEPHOTO:
@@ -325,7 +326,8 @@ public class SendDetailActivity extends BaseBackActivity implements View.OnClick
                     break;
                 case Constant.PHOTO_REQUEST_GALLERY:
                     if (data.getData() != null) {
-                        setPicToView(new File(SystemUtil.getRealPathFromURI(data.getData(),this)));
+                        file = new File(SystemUtil.getRealPathFromURI(data.getData(),this));
+                        setPicToView(file);
                     }
                     break;
             }

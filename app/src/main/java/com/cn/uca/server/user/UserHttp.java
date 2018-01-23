@@ -24,13 +24,17 @@ import java.util.Map;
 public class UserHttp extends BaseServer {
     /**
      * 上传用户头像
-     * @param inputStream
+     * @param file
      * @param handler
      */
-    public static void uploadPic(InputStream inputStream, AsyncHttpResponseHandler handler){
+    public static void uploadPic(File file, AsyncHttpResponseHandler handler){
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
-        params.put("user_head_portrait",inputStream);
+        try{
+            params.put("user_head_portrait",file);
+        }catch (Exception e){
+
+        }
         params.put("account_token", SharePreferenceXutil.getAccountToken());
         client.post(MyConfig.uplodePic,params,handler);
     }
@@ -189,6 +193,30 @@ public class UserHttp extends BaseServer {
     }
 
     /**
+     * 获取订单信息
+     * @param account_token
+     * @param sign
+     * @param time_stamp
+     * @param user_order_id
+     * @param order_number
+     * @param callBack
+     */
+    public static void getUserOrderInfo(String account_token,String sign,String time_stamp,int user_order_id,String order_number,CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        if (user_order_id != 0){
+            map.put("user_order_id",user_order_id);
+        }
+        if (order_number != null){
+            map.put("order_number",order_number);
+        }
+        get(MyConfig.getUserOrderInfo,map,callBack);
+    }
+
+
+    /**
      * 创建微信订单
      * @param sign
      * @param time_stamp
@@ -196,12 +224,21 @@ public class UserHttp extends BaseServer {
      * @param account_token
      * @param callBack
      */
-    public static void createWeiXinOrder(String sign,String time_stamp,String amount_money,String account_token,CallBack callBack){
+    public static void createWeiXinOrder(String sign,String time_stamp,String amount_money,String account_token,String pay_type,String order_number,int user_coupon_id,CallBack callBack){
         Map<String,String> map =new HashMap<>();
         map.put("sign",sign);
         map.put("time_stamp",time_stamp);
         map.put("amount_money",amount_money);
         map.put("account_token",account_token);
+        if (pay_type != null){
+            map.put("pay_type",pay_type);
+        }
+        if (order_number != null){
+            map.put("order_number",order_number);
+        }
+        if (user_coupon_id != 0){
+            map.put("user_coupon_id",user_coupon_id+"");
+        }
         post5(MyConfig.createWeiXinOrder,map,callBack);
     }
 
@@ -318,5 +355,112 @@ public class UserHttp extends BaseServer {
             map.put("id",id);
         }
         get(MyConfig.getShare,map,callBack);
+    }
+
+    /**
+     * 设置支付密码
+     * @param pay_pwd
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param callBack
+     */
+    public static void setPayPwd(String pay_pwd,String sign,String time_stamp,String account_token,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("pay_pwd",pay_pwd);
+        post5(MyConfig.setPayPwd,map,callBack);
+    }
+
+    /**
+     * 修改支付密码
+     * @param new_pay_pwd
+     * @param pay_pwd
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param callBack
+     */
+    public static void updatePayPwd(String new_pay_pwd,String pay_pwd,String sign,String time_stamp,String account_token,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("new_pay_pwd",new_pay_pwd);
+        map.put("pay_pwd",pay_pwd);
+        post5(MyConfig.updatePayPwd,map,callBack);
+    }
+
+    /**
+     * 绑定手机号
+     * @param phone_number
+     * @param code
+     * @param encryption_password
+     * @param callBack
+     */
+    public static void bindPhoneNumber(String phone_number,String code,String encryption_password,CallBack callBack){
+        Map<String,String> map =new HashMap<>();
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        map.put("phone_number",phone_number);
+        map.put("code",code);
+        map.put("encryption_password",encryption_password);
+        post4(MyConfig.bindPhoneNumber,map,callBack);
+    }
+
+
+    /**
+     * 绑定支付宝
+     * @param auth_code
+     * @param user_id
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param callBack
+     */
+    public static void bindZfb(String auth_code,String user_id,String sign,String time_stamp,String account_token,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("auth_code",auth_code);
+        map.put("user_id",user_id);
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        post5(MyConfig.bindZfb,map,callBack);
+    }
+
+    /**
+     * 绑定微信
+     * @param access_token
+     * @param openid
+     * @param callBack
+     */
+    public static void bindWeixin(String access_token,String openid,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("access_token",access_token);
+        map.put("openid",openid);
+        map.put("account_token",SharePreferenceXutil.getAccountToken());
+        post5(MyConfig.bindWeixin,map,callBack);
+    }
+
+    /**
+     * 获取用户推送消息
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param page
+     * @param pageCount
+     * @param push_type
+     * @param callBack
+     */
+    public static void getPushUser(String sign,String time_stamp,String account_token,int page,int pageCount,String push_type,CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("push_type",push_type);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.getPushUser,map,callBack);
     }
 }

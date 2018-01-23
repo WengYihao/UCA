@@ -62,7 +62,6 @@ import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient;
-import io.rong.imlib.model.UserInfo;
 
 /**
  * Created by asus on 2017/8/11.
@@ -75,8 +74,8 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
     private YueKaAdapter yueKaAdapter;
     private List<EscortRecordsBean> list;
     private TextView place,messageYue,orderYue,freeTime,all;
-    private int page = 1;
-    private int pageCount = 5;
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
     private RefreshLayout refreshLayout;
 
     //声明AMapLocationClient类对象，定位发起端
@@ -195,10 +194,14 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                 startActivityForResult(intent,0);
                 break;
             case R.id.messageYue:
-                connectRongServer(SharePreferenceXutil.getRongToken());
+                if (SharePreferenceXutil.isSuccess()){
+                    connectRongServer(SharePreferenceXutil.getRongToken());
+                }else{
+                    ToastXutil.show("请先登录");
+                }
                 break;
             case R.id.all:
-                YuekaSearchPopupWindow yuekaSearchPopupWindow = new YuekaSearchPopupWindow(getActivity(),all,this);
+                new YuekaSearchPopupWindow(getActivity(),all,this);
                 break;
             case R.id.orderYue:
                 if (SharePreferenceXutil.isAuthentication()){
@@ -217,7 +220,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
      * 验证融云token
      * @param token
      */
-    private void connectRongServer(String token) {
+    private void connectRongServer(final String token) {
         RongIM.connect(token, new RongIMClient.ConnectCallback() {
             @Override
             public void onSuccess(String userId) {
@@ -226,10 +229,14 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
 
             @Override
             public void onError(RongIMClient.ErrorCode errorCode) {
+                ToastXutil.show(errorCode+"-"+token);
+                Log.e("123",errorCode+"---报错"+token);
             }
 
             @Override
             public void onTokenIncorrect() {
+                ToastXutil.show("-"+token);
+                Log.e("123","---报错"+token);
             }
         });
     }

@@ -3,6 +3,7 @@ package com.cn.uca.ui.view.home.travel;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -76,6 +77,16 @@ public class SpotTicketActivity extends BaseBackActivity implements View.OnClick
         list = new ArrayList<>();
         adapter = new SpotTicketAdapter(list,getApplicationContext());
         ticket_listview.setAdapter(adapter);
+
+        ticket_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.setClass(SpotTicketActivity.this,TravelOrderActivity.class);
+//                intent.putExtra("id",list.get(position).getScenic_spot_id());
+                startActivity(intent);
+            }
+        });
 
     }
 

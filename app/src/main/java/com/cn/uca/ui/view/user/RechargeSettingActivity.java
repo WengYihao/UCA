@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
+import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 
 //支付设置
@@ -41,10 +42,19 @@ public class RechargeSettingActivity extends BaseBackActivity implements View.On
                 this.finish();
                 break;
             case R.id.layout1:
-                startActivity(new Intent(RechargeSettingActivity.this,WalletPasswordActivity.class));
+                Intent intent = new Intent();
+                intent.setClass(RechargeSettingActivity.this,WalletPasswordActivity.class);
+                intent.putExtra("type",1);//修改
+                startActivity(intent);
                 break;
             case R.id.layout2:
-
+//                Intent intent1 = new Intent();
+//                intent1.setClass(RechargeSettingActivity.this,WalletPasswordActivity.class);
+//                intent1.putExtra("type",2);//设置
+//                startActivity(intent1);
+//                Intent intent1 = new Intent();
+//                intent1.setClass(RechargeSettingActivity.this,WalletPasswordActivity.class);
+//                ShowPopupWindow.paymentWindow(this,1);
                 break;
         }
     }

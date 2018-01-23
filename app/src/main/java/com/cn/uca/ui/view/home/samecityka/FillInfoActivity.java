@@ -6,22 +6,22 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.samecityka.FillInfoAdapter;
-import com.cn.uca.bean.home.footprint.CityNameBean;
 import com.cn.uca.bean.home.samecityka.AddTicketBean;
 import com.cn.uca.bean.home.samecityka.FillInfoBean;
 import com.cn.uca.bean.home.samecityka.SameCityKaOrderBean;
 import com.cn.uca.bean.home.samecityka.SetInfoBean;
-import com.cn.uca.bean.home.samecityka.TicketBean;
 import com.cn.uca.impl.CallBack;
-import com.cn.uca.impl.raider.SubmitClickListener;
-import com.cn.uca.popupwindows.BuySameCityKaPopupWindow;
+import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.ui.view.home.lvpai.DateChoiceActivity;
+import com.cn.uca.ui.view.user.WalletPasswordActivity;
+import com.cn.uca.ui.view.user.order.ActionOrderDetailActivity;
+import com.cn.uca.ui.view.user.order.LvPaiOrderDetailActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -29,11 +29,9 @@ import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.NoScrollListView;
-import com.cn.uca.view.dialog.LoadDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -41,7 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FillInfoActivity extends BaseBackActivity implements View.OnClickListener,SubmitClickListener{
+public class FillInfoActivity extends BaseBackActivity implements View.OnClickListener{
 
     private TextView back,submit;
     private NoScrollListView listView;
@@ -50,7 +48,7 @@ public class FillInfoActivity extends BaseBackActivity implements View.OnClickLi
     private List<SetInfoBean> setInfoBeen;
     private FillInfoAdapter adapter;
     private int id;
-   private SameCityKaOrderBean bean;
+    private SameCityKaOrderBean bean;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,20 +87,24 @@ public class FillInfoActivity extends BaseBackActivity implements View.OnClickLi
                 this.finish();
                 break;
             case R.id.submit:
-                for (int i = 0; i < infoList.size();i++){
-                    LinearLayout layout = (LinearLayout)listView.getChildAt(i);// 获得子item的layout
-                    EditText editText = (EditText)layout.findViewById(R.id.info);
-                    if (StringXutil.isEmpty(editText.getText().toString())){
-                        ToastXutil.show(infoList.get(i).getInfo_name()+"不能为空！");
-                        break;
-                    }else{
-                        SetInfoBean bean = new SetInfoBean();
-                        bean.setCafe_fill_user_info_id(infoList.get(i).getCafe_fill_user_info_id());
-                        bean.setFill_info_content(editText.getText().toString());
-                        setInfoBeen.add(bean);
+                if (ticketList.size() == 0){
+                    ToastXutil.show("该活动无需报名");
+                }else{
+                    for (int i = 0; i < infoList.size();i++){
+                        LinearLayout layout = (LinearLayout)listView.getChildAt(i);// 获得子item的layout
+                        EditText editText = (EditText)layout.findViewById(R.id.info);
+                        if (StringXutil.isEmpty(editText.getText().toString())){
+                            ToastXutil.show(infoList.get(i).getInfo_name()+"不能为空！");
+                            break;
+                        }else{
+                            SetInfoBean bean = new SetInfoBean();
+                            bean.setCafe_fill_user_info_id(infoList.get(i).getCafe_fill_user_info_id());
+                            bean.setFill_info_content(editText.getText().toString());
+                            setInfoBeen.add(bean);
+                        }
                     }
+                    orderTicket(setInfoBeen,ticketList);
                 }
-                orderTicket(setInfoBeen,ticketList);
                 break;
         }
     }
@@ -121,7 +123,6 @@ public class FillInfoActivity extends BaseBackActivity implements View.OnClickLi
         HomeHttp.orderTicket(time_stamp, sign, account_token, id, gson.toJson(list2), gson.toJson(list), new CallBack() {
             @Override
             public void onResponse(Object response) {
-                Log.i("789",response.toString());
                 try{
                     JSONObject jsonObject = new JSONObject(response.toString());
                     int code = jsonObject.getInt("code");
@@ -131,55 +132,23 @@ public class FillInfoActivity extends BaseBackActivity implements View.OnClickLi
                             JSONObject array = jsonObject.optJSONObject("data");
                             bean = gson.fromJson(array.toString(),new TypeToken<SameCityKaOrderBean>() {
                             }.getType());
-                            BuySameCityKaPopupWindow window = new BuySameCityKaPopupWindow(FillInfoActivity.this,getWindow().getDecorView(),bean,FillInfoActivity.this);
+                            Intent intent = new Intent();
+                            intent.setClass(FillInfoActivity.this, ActionOrderDetailActivity.class);
+                            intent.putExtra("type","order");
+                            intent.putExtra("order",bean.getOrder_number());
+                            startActivity(intent);
+                            FillInfoActivity.this.finish();
+                            break;
+                        case 740:
+                            ToastXutil.show("请先设置支付密码");
+                            Intent intent2 = new Intent();
+                            intent2.setClass(FillInfoActivity.this, WalletPasswordActivity.class);
+                            intent2.putExtra("type",2);
+                            startActivity(intent2);
                             break;
                     }
                 }catch (Exception e){
                     Log.i("456",e.getMessage());
-                }
-            }
-
-            @Override
-            public void onErrorMsg(String errorMsg) {
-
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-        });
-    }
-
-    @Override
-    public void clickCall(final PopupWindow window) {
-        LoadDialog.show(this);
-        Map<String,Object> map = new HashMap<>();
-        String timr_temp = SystemUtil.getCurrentDate2();
-        map.put("time_stamp",timr_temp);
-        String token = SharePreferenceXutil.getAccountToken();
-        map.put("account_token", token);
-        map.put("actual_payment",bean.getPrice());
-        map.put("order_number",bean.getOrder_number());
-        String sign = SignUtil.sign(map);
-        HomeHttp.orderPayment(token, bean.getPrice(), 0, bean.getOrder_number(), sign, timr_temp, new CallBack() {
-            @Override
-            public void onResponse(Object response) {
-                switch ((int)response){
-                    case 0:
-                        LoadDialog.dismiss(FillInfoActivity.this);
-                        window.dismiss();
-                        ToastXutil.show("支付成功");
-                        break;
-                    case 172:
-                        LoadDialog.dismiss(FillInfoActivity.this);
-                        window.dismiss();
-                        ToastXutil.show("钱包余额不足");
-                        break;
-                    default:
-                        window.dismiss();
-                        LoadDialog.dismiss(FillInfoActivity.this);
-                        break;
                 }
             }
 

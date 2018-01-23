@@ -16,6 +16,7 @@ import com.cn.uca.adapter.FragmentAdapter;
 import com.cn.uca.ui.fragment.home.lvpai.CollectionFragment;
 import com.cn.uca.ui.fragment.home.lvpai.LvPaiFragment;
 import com.cn.uca.ui.view.util.BaseBackActivity;
+import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SystemUtil;
 
 import java.util.ArrayList;
@@ -75,7 +76,11 @@ public class LvPaiActivity extends BaseBackActivity implements View.OnClickListe
                 this.finish();
                 break;
             case R.id.merchant_entry://商家入驻
-                startActivity(new Intent(LvPaiActivity.this,MerchantEntryActivity.class));
+                if (SharePreferenceXutil.isEnter()){
+                    startActivity(new Intent(LvPaiActivity.this, MerchantManageActivity.class));
+                }else{
+                    startActivity(new Intent(LvPaiActivity.this,MerchantEntryActivity.class));
+                }
                 break;
         }
     }

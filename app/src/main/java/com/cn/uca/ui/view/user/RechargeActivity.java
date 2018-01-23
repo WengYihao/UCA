@@ -1,38 +1,17 @@
 package com.cn.uca.ui.view.user;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.android.volley.VolleyError;
 import com.cn.uca.R;
-import com.cn.uca.alipay.AliPayUtil;
-import com.cn.uca.bean.wechat.WeChatPayBean;
-import com.cn.uca.config.Constant;
-import com.cn.uca.config.wechat.WeChatManager;
-import com.cn.uca.impl.CallBack;
-import com.cn.uca.secretkey.Base64;
-import com.cn.uca.server.QueryHttp;
-import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.SharePreferenceXutil;
-import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StringXutil;
-import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.tencent.mm.opensdk.modelpay.PayReq;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.cn.uca.util.pay.PayUtil;
 
 public class RechargeActivity extends BaseBackActivity implements View.OnClickListener{
 
@@ -101,11 +80,10 @@ public class RechargeActivity extends BaseBackActivity implements View.OnClickLi
                 }
                 break;
             case R.id.wechatpay_layout:
-                wechatOrderCreate(getMoney());
+                PayUtil.weChatPay(null,getMoney(),null,0);
                 break;
             case R.id.alipay_layout:
-                Log.e("456",getMoney());
-                getOrder(getMoney());
+                PayUtil.aliPay(this,null,getMoney(),null,0);
                 break;
             case R.id.unionpay_layout:
                 ToastXutil.show("该功能暂不支持");
@@ -127,120 +105,5 @@ public class RechargeActivity extends BaseBackActivity implements View.OnClickLi
             }
         }
         return null;
-    }
-    private void wechatOrderCreate(String amount_money){
-        Map<String,Object> map = new HashMap<>();
-        String account_token = SharePreferenceXutil.getAccountToken();
-        map.put("account_token",account_token);
-        String time_stamp = SystemUtil.getCurrentDate2();
-        map.put("time_stamp",time_stamp);
-        map.put("amount_money",amount_money);
-        final String sign = SignUtil.sign(map);
-        UserHttp.createWeiXinOrder(sign, time_stamp, amount_money, account_token, new CallBack() {
-            @Override
-            public void onResponse(Object response) {
-                Log.i("123",response.toString()+"--");
-                try{
-                    JSONObject jsonObject = new JSONObject(response.toString());
-                    int code = jsonObject.getInt("code");
-                    switch (code){
-                        case 0:
-                            JSONObject object = jsonObject.getJSONObject("data");
-                            Map<String,Object> map = new HashMap<>();
-                            map.put("time_stamp",object.getString("time_stamp"));;
-                            map.put("wxPay",object.getString("wxPay"));
-                            map.put("order_no",object.getString("order_no"));
-                            String signStr = SignUtil.sign(map);
-                            if (signStr.equals(object.getString("sign"))){
-                                byte [] bytes = Base64.decode(object.getString("wxPay"));
-                                JSONObject object1 = new JSONObject(new String(bytes,"UTF-8"));
-                                Gson gson = new Gson();
-                                WeChatPayBean bean = gson.fromJson(object1.toString(),new TypeToken<WeChatPayBean>() {
-                                }.getType());
-                                wechatPay(bean);
-                            }else{
-                                ToastXutil.show("创建订单失败，请重试");
-                            }
-                            break;
-                    }
-                }catch (Exception e){
-                    Log.i("456",e.getMessage());
-                }
-            }
-
-            @Override
-            public void onErrorMsg(String errorMsg) {
-
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-        });
-    }
-    private void wechatPay(WeChatPayBean bean){
-        if (WeChatManager.instance().isWXAppInstalled()) {
-            PayReq payReq = new PayReq();
-            payReq.appId = Constant.WX_APP_ID;
-            payReq.partnerId = bean.getPartnerid();
-            payReq.prepayId = bean.getPrepayid();
-            payReq.packageValue = "Sign=WXPay";
-            payReq.nonceStr = bean.getNoncestr();
-            payReq.timeStamp = bean.getTimestamp();
-            payReq.sign = bean.getSign();
-            WeChatManager.instance().sendReq(payReq);
-        }else {
-            ToastXutil.show(R.string.wechat_not_installed);
-        }
-    }
-    public void getOrder(String amount_money){
-        Map<String,Object> map = new HashMap<>();
-        String account_token = SharePreferenceXutil.getAccountToken();
-        map.put("account_token",account_token);
-        map.put("amount_money",amount_money);
-        String time_stamp = SystemUtil.getCurrentDate2();
-        map.put("time_stamp",time_stamp);
-        final String sign = SignUtil.sign(map);
-        QueryHttp.createZfbOrder(account_token, sign, time_stamp, amount_money, new CallBack() {
-            @Override
-            public void onResponse(Object response) {
-                try{
-                    JSONObject jsonObject = new JSONObject(response.toString());
-                    int code = jsonObject.getInt("code");
-                    switch (code){
-                        case 0:
-                            JSONObject object = jsonObject.getJSONObject("data");
-                            Map<String,Object> map = new HashMap<>();
-                            map.put("time_stamp",object.getString("time_stamp"));;
-                            map.put("zfbPay",object.getString("zfbPay"));
-                            map.put("order_no",object.getString("order_no"));
-                            String signStr = SignUtil.sign(map);
-                            if (signStr.equals(object.getString("sign"))){
-                                byte [] bytes = Base64.decode(object.getString("zfbPay"));
-                                String str = new String(bytes,"UTF-8");
-                                AliPayUtil payUtil = new AliPayUtil();
-                                payUtil.toALiPay(RechargeActivity.this,str);
-
-                            }else{
-                                ToastXutil.show("创建订单失败，请重试");
-                            }
-                            break;
-                    }
-                }catch (Exception e){
-                    Log.e("456",e.getMessage());
-                }
-            }
-
-            @Override
-            public void onErrorMsg(String errorMsg) {
-
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-        });
     }
 }

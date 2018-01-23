@@ -3,11 +3,11 @@ package com.cn.uca.ui.fragment.user;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -37,16 +37,15 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.LoginActivity;
-import com.cn.uca.ui.view.user.AcceptOrderActivity;
 import com.cn.uca.ui.view.user.CollectionActivity;
 import com.cn.uca.ui.view.user.InformationActivity;
-import com.cn.uca.ui.view.user.MessageActivity;
+import com.cn.uca.ui.view.user.message.MessageActivity;
 import com.cn.uca.ui.view.user.OrderActivity;
 import com.cn.uca.ui.view.user.SettingActivity;
 import com.cn.uca.ui.view.user.WalletActivity;
 import com.cn.uca.util.AndroidClass;
 import com.cn.uca.util.GraphicsBitmapUtils;
-import com.cn.uca.util.OpenPhoto;
+import com.cn.uca.util.PhotoCompress;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusMargin;
@@ -88,13 +87,12 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private CircleImageView pic;
     private String[] arrayString = { "拍照", "相册" };
     private String title = "上传照片";
-
-    private byte[] photodata = null;
     private TextView setting,nickName,sex,state;
     private RelativeLayout head,noneLayout,userInfo,loginLayout;
     private LinearLayout llTitle,myOrder,myCollection;
     private RelativeLayout layout1,layout2,layout3;
     private String userName,userAge,userSex;
+    private Bitmap bais;
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
     private Uri imageUri;
     private DragPointView message_num;
@@ -312,7 +310,6 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
             @Override
             public void onError(VolleyError error) {
-//                Log.i("456",error.getMessage());
 
             }
         });
@@ -470,22 +467,24 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     }
 
     // 将进行剪裁后的图片显示到UI界面上
-    private void setPicToView(Intent picdata) {
-        Bundle bundle = picdata.getExtras();
-        if (bundle != null) {
-            final Bitmap photo = bundle.getParcelable("data");
-            new Thread() {
-                @Override
-                public void run() {
-                    if (photo != null) {
-                        handler.obtainMessage(0, photo).sendToTarget();
-                        //将bitmap转换成File类型
-                    }else {
-                        handler.obtainMessage(-1, null).sendToTarget();
+    private void setPicToView(File picdata) {
+        if (picdata != null){
+            try{
+             bais= BitmapFactory.decodeFile(picdata.toString());
+                new Thread() {
+                    @Override
+                    public void run() {
+                        if (bais != null) {
+                            handler.obtainMessage(0, bais).sendToTarget();
+                            //将bitmap转换成File类型
+                        } else {
+                            handler.obtainMessage(-1, null).sendToTarget();
+                        }
                     }
-                }
-            }.start();
+                }.start();
+            }catch (Exception e){
 
+            }
         }
     }
 
@@ -495,15 +494,15 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 if (msg.obj != null) {
                     Drawable drawable = new BitmapDrawable((Bitmap) msg.obj);
                     pic.setImageDrawable(drawable);
-                    photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj);
-                    ByteArrayInputStream bais = new ByteArrayInputStream(photodata);
                     LoadDialog.show(getActivity());
-                    UserHttp.uploadPic(bais, new AsyncHttpResponseHandler() {
+                    File file = PhotoCompress.comp(bais);
+                    UserHttp.uploadPic(file, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(int i, Header[] headers, byte[] bytes) {
                             if (i == 200){
                                 try {
                                     JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
+                                    Log.e("456",jsonObject.toString());
                                     int code = jsonObject.getInt("code");
                                     switch (code){
                                         case 0:
@@ -524,12 +523,14 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                         }
                         @Override
                         public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                            ToastXutil.show("上传失败");
+                            ToastXutil.show("上传失败--");
+                            LoadDialog.dismiss(getActivity());
                         }
                     });
                 }
             }catch (Exception e){
                 Log.e("789",e.getMessage());
+                LoadDialog.dismiss(getActivity());
             }
 
         };
@@ -593,52 +594,19 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, Constant.PHOTO_REQUEST_GALLERY);
     }
-
-    /**
-     * 剪裁图片
-     */
-    public  void cropImageUri(Uri orgUri,int size) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
-        intent.setDataAndType(orgUri, "image/*");
-        // crop为true是设置在开启的intent中设置显示的view可以剪裁
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-
-        // outputX,outputY 是剪裁图片的宽高
-
-        intent.putExtra("outputX", size);
-        intent.putExtra("outputY", size);
-        intent.putExtra("return-data", true);
-        intent.putExtra("uri",orgUri);
-
-        startActivityForResult(intent, Constant.PHOTO_REQUEST_CUT);
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        File file = null;
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case Constant.PHOTO_REQUEST_TAKEPHOTO:
-                    cropImageUri(imageUri, 480);
+                    setPicToView(fileUri);
                     break;
                 case Constant.PHOTO_REQUEST_GALLERY:
-                    if (SystemUtil.hasSDCard()) {
-                        Uri newUri = Uri.parse(OpenPhoto.getPath(getActivity(), data.getData()));
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                            newUri = FileProvider.getUriForFile(getActivity(), "com.cn.uca.fileprovider", new File(newUri.getPath()));
-                            cropImageUri( newUri,480);
-                    } else {
-                        ToastXutil.show("设备没有SD卡！");
-                    }
-                    break;
-                case Constant.PHOTO_REQUEST_CUT:
-                    if (data != null) {
-                        setPicToView(data);
+                    if (data.getData() != null) {
+                        file = new File(SystemUtil.getRealPathFromURI(data.getData(),getActivity()));
+                        setPicToView(file);
                     }
                     break;
                 case 0:

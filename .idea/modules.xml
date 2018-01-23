@@ -6,6 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/IMLib/IMLib.iml" filepath="$PROJECT_DIR$/IMLib/IMLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/UCA.iml" filepath="$PROJECT_DIR$/UCA.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/loading/loading.iml" filepath="$PROJECT_DIR$/loading/loading.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ownerview/ownerview.iml" filepath="$PROJECT_DIR$/ownerview/ownerview.iml" />
     </modules>
   </component>
 </project>
