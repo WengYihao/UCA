@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.bean.home.travel.TicketBean;
+import com.cn.uca.impl.travel.SpotTicketItem;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.SystemUtil;
@@ -22,11 +23,13 @@ import java.util.List;
 public class SpotTicketAdapter extends BaseAdapter{
 	private List<TicketBean> list;
 	private Context context;
+	private SpotTicketItem item;
 
 	public SpotTicketAdapter(){}
-	public SpotTicketAdapter(List<TicketBean> list, Context context) {
+	public SpotTicketAdapter(List<TicketBean> list, Context context,SpotTicketItem item) {
 		this.list = list;
 		this.context = context;
+		this.item = item;
 	}
 	public void setList(List<TicketBean> list) {
 		if (list != null) {
@@ -71,9 +74,23 @@ public class SpotTicketAdapter extends BaseAdapter{
 			holder.ll_item.measure(intw, inth);
 			int intwidth = holder.ll_item.getMeasuredWidth();
 			int intheight =  holder.ll_item.getMeasuredHeight();
-			SetLayoutParams.setLinearLayout(holder.layout,SystemUtil.dip2px(50),intheight);
-			SetLayoutParams.setRelativeLayout(holder.price,SystemUtil.dip2px(50),intheight*5/8);
-			StatusMargin.setTop(holder.reserve,intheight*5/8-SystemUtil.dip2px(25));
+			SetLayoutParams.setLinearLayout(holder.layout,SystemUtil.dip2px(40),intheight);
+			SetLayoutParams.setRelativeLayout(holder.price,SystemUtil.dip2px(40),intheight*5/8);
+			StatusMargin.setTop(holder.reserve,intheight*5/8-SystemUtil.dip2px(20));
+			holder.link.setTag(position);
+			holder.link.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					item.ReserveBack(v);
+				}
+			});
+			holder.reserve.setTag(position);
+			holder.reserve.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					item.OrderBack(v);
+				}
+			});
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();

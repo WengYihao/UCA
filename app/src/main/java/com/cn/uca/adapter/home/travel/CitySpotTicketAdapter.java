@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.bean.home.travel.CitySpotTicketBean;
+import com.cn.uca.config.MyConfig;
 import com.cn.uca.view.RatingStarView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -65,7 +66,7 @@ public class CitySpotTicketAdapter extends BaseAdapter{
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		Uri uri = Uri.parse(list.get(position).getPicture_url());
+		Uri uri = Uri.parse(MyConfig.photo+list.get(position).getPicture_url());
 		holder.pic.setImageURI(uri);
 		holder.name.setText(list.get(position).getScenic_spot_name());
 		holder.product_num.setText("共"+list.get(position).getProduct_quantity()+"个产品");

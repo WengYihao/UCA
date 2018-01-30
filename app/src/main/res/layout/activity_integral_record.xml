@@ -21,7 +21,7 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_30"
+        android:layout_height="@dimen/padding_40"
         android:background="@drawable/gradient">
         <TextView
             android:layout_width="wrap_content"
@@ -33,9 +33,8 @@
         <TextView
             android:id="@+id/aaa"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=">"
-            android:textSize="@dimen/text_18"
+            android:layout_height="10dp"
+            android:background="@mipmap/right_white"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/padding_15"
             android:textColor="@color/white"
@@ -60,7 +59,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="收入"
-            android:textColor="@color/gray2"
+            android:textColor="@color/ori2"
             android:textSize="@dimen/text_14" />
         <ImageView
             android:layout_width="1dp"

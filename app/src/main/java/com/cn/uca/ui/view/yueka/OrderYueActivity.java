@@ -15,7 +15,8 @@ import com.cn.uca.impl.CallBack;
  import com.cn.uca.impl.ServiceBack;
  import com.cn.uca.popupwindows.ShowPopupWindow;
  import com.cn.uca.server.yueka.YueKaHttp;
-import com.cn.uca.ui.view.user.AcceptOrderActivity;
+ import com.cn.uca.ui.view.rongim.ChatListActivity;
+ import com.cn.uca.ui.view.user.AcceptOrderActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SystemUtil;
@@ -29,7 +30,7 @@ import java.util.Date;
 
 public class OrderYueActivity extends BaseBackActivity implements View.OnClickListener,ServiceBack{
 
-    private TextView back,state,name,age,sex;
+    private TextView back,message,state,name,age,sex;
     private CircleImageView pic;
 //    private HorizontalListView orderCourse;
 //    private NoScrollListView comment;
@@ -50,6 +51,7 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
 
     private void initView() {
         back = (TextView)findViewById(R.id.back);
+        message = (TextView)findViewById(R.id.message);
         state = (TextView)findViewById(R.id.state);
         name = (TextView)findViewById(R.id.name);
         sex = (TextView)findViewById(R.id.sex);
@@ -67,6 +69,7 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
         layout9 = (RelativeLayout)findViewById(R.id.layout9);//领咖-设置背景图
 
         back.setOnClickListener(this);
+        message.setOnClickListener(this);
         layout1.setOnClickListener(this);
         layout2.setOnClickListener(this);
         layout3.setOnClickListener(this);
@@ -129,6 +132,9 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
         switch (view.getId()){
             case R.id.back:
                 this.finish();
+                break;
+            case R.id.message:
+                startActivity(new Intent(OrderYueActivity.this, ChatListActivity.class));
                 break;
             case R.id.layout1://游咖-我的收藏
 //                startActivity(new Intent(OrderYueActivity.this,PresetManagerActivity.class));

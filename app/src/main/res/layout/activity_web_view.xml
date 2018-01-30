@@ -1,63 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.yueka.DetailsWebActivity"
     android:orientation="vertical">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_40"
         android:background="@drawable/gradient" >
 
-    <TextView
-        android:id="@+id/back"
-        style="@style/style_back"/>
-
-    <TextView
-        android:id="@+id/title"
-        style="@style/style_title"
-        android:text="@string/webViewActivity_title_text"/>
         <TextView
-            android:id="@+id/finish"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/infoActivity_finish_text"
-            android:textColor="@color/white"
-            android:padding="@dimen/padding_8"
-            android:textSize="@dimen/text_16"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding_5"/>
+            android:id="@+id/back"
+            style="@style/style_back"/>
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"/>
     </RelativeLayout>
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
-        <LinearLayout
+        android:padding="3dp">
+        <WebView
+            android:id="@+id/webView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <LinearLayout
-                android:id="@+id/layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-            </LinearLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_40"
-                android:layout_marginBottom="@dimen/padding_40">
-                <TextView
-                    android:id="@+id/add"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@mipmap/add_back"
-                    android:layout_centerHorizontal="true"/>
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
-
+            android:overScrollMode="never">
+        </WebView>
+    </LinearLayout>
 </com.cn.uca.view.StatusView>

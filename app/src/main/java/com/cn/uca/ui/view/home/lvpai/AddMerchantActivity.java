@@ -173,9 +173,7 @@ public class AddMerchantActivity extends BaseBackActivity implements View.OnClic
                             JSONArray array = jsonObject.getJSONArray("data");
                             List<LableBean> bean = gson.fromJson(array.toString(),new TypeToken<List<LableBean>>() {
                             }.getType());
-                            Log.e("123",array.toString()+"----");
                             listLable = bean;
-                            Log.e("123",listLable.toString()+"----");
                             break;
                     }
                 }catch (Exception e){

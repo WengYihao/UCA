@@ -110,7 +110,8 @@ public class GridViewAdapter extends BaseAdapter {
                         holder.layout.setBackgroundResource(R.color.ori);
                         holder.day.setText(bean.getViewBean().get(position).getDay()+"日");
                         holder.day.setTextColor(context.getResources().getColor(R.color.white));
-                        holder.day.setBackgroundResource(R.drawable.circular_background);
+                        SetLayoutParams.setLinearLayout(holder.day,SystemUtil.dip2px(40),SystemUtil.dip2px(40));
+                        holder.day.setBackgroundResource(R.drawable.circular_background2);
                         break;
                     case "ob":
                         holder.layout.setBackgroundResource(R.color.ori2);

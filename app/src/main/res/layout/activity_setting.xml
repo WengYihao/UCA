@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -81,93 +81,93 @@
             android:scaleType="matrix"
             android:src="@color/grey2" />
 
-        <RelativeLayout
-            android:id="@+id/layout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="10dp">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/layout2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/white"-->
+            <!--android:padding="10dp">-->
 
 
-            <TextView
-                android:id="@+id/title_text2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_8"
-                android:text="@string/settingActivity_text3"
-                android:textSize="@dimen/text_16" />
+            <!--<TextView-->
+                <!--android:id="@+id/title_text2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="@dimen/padding_8"-->
+                <!--android:text="@string/settingActivity_text3"-->
+                <!--android:textSize="@dimen/text_16" />-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="@dimen/padding_8"
-                android:src="@mipmap/right_gray" />
-        </RelativeLayout>
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:layout_marginRight="@dimen/padding_8"-->
+                <!--android:src="@mipmap/right_gray" />-->
+        <!--</RelativeLayout>-->
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:scaleType="matrix"
-            android:src="@color/grey2" />
-        <RelativeLayout
-            android:id="@+id/layout3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="10dp">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/padding_8"
-                android:text="@string/settingActivity_text4"
-                android:textSize="@dimen/text_16" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/right_gray" />
-        </RelativeLayout>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:scaleType="matrix"
-            android:src="@color/grey2" />
-        <RelativeLayout
-            android:id="@+id/layout4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="10dp">
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:scaleType="matrix"-->
+            <!--android:src="@color/grey2" />-->
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/layout3"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/white"-->
+            <!--android:padding="10dp">-->
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="@string/settingActivity_text5"
-                android:textSize="@dimen/text_16" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="@dimen/padding_8"-->
+                <!--android:text="@string/settingActivity_text4"-->
+                <!--android:textSize="@dimen/text_16" />-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="10dp"
-                android:src="@mipmap/right_gray" />
-        </RelativeLayout>
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:src="@mipmap/right_gray" />-->
+        <!--</RelativeLayout>-->
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:scaleType="matrix"-->
+            <!--android:src="@color/grey2" />-->
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/layout4"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/white"-->
+            <!--android:padding="10dp">-->
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:scaleType="matrix"
-            android:src="@color/grey2" />
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:text="@string/settingActivity_text5"-->
+                <!--android:textSize="@dimen/text_16" />-->
+
+            <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:src="@mipmap/right_gray" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:scaleType="matrix"-->
+            <!--android:src="@color/grey2" />-->
         <RelativeLayout
             android:id="@+id/layout5"
             android:layout_width="match_parent"
@@ -179,7 +179,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="8dp"
                 android:text="@string/settingActivity_text7"
                 android:textSize="@dimen/text_16" />
 
@@ -207,4 +207,4 @@
             android:textSize="@dimen/text_18" />
     </LinearLayout>
 
-</com.cn.uca.view.StatusView>
+</LinearLayout>

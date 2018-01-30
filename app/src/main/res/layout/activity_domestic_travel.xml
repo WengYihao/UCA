@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,11 +29,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -63,12 +64,14 @@
                     android:text="@string/domesticTravelActivity_more_text"
                     android:textColor="@color/ori" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginTop="@dimen/padding_10"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -76,11 +79,13 @@
                     android:padding="@dimen/padding_10"
                     android:text="@string/domesticTravelActivity_listview_text"
                     android:textSize="@dimen/text_18" />
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:scaleType="matrix"
                     android:src="@color/gray" />
+
                 <com.cn.uca.view.NoScrollListView
                     android:id="@+id/listView"
                     android:layout_width="match_parent"
@@ -90,4 +95,4 @@
         </LinearLayout>
     </ScrollView>
 
-</com.cn.uca.view.StatusView>
+</LinearLayout>

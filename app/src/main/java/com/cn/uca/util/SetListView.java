@@ -55,7 +55,7 @@ public class SetListView {
 		// 设置高度
 		params.height = totalHeight;
 		// 设置margin
-		((ViewGroup.MarginLayoutParams) params).setMargins(10, 10, 10, 10);
+//		((ViewGroup.MarginLayoutParams) params).setMargins(10, 10, 10, 10);
 		// 设置参数
 		listView.setLayoutParams(params);
 	}

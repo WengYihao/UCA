@@ -76,7 +76,6 @@ dependencies {
     compile 'com.facebook.fresco:fresco:0.12.0'
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-    compile 'com.felipecsl.asymmetricgridview:library:2.0.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.2'
     compile 'me.leolin:ShortcutBadger:1.1.4@aar'
     testCompile 'junit:junit:4.12'

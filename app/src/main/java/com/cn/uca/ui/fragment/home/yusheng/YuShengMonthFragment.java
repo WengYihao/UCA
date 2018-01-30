@@ -1,5 +1,7 @@
 package com.cn.uca.ui.fragment.home.yusheng;
 
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -7,25 +9,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.yusheng.YuShengMonthAdapter;
 import com.cn.uca.bean.home.yusheng.LifeMonthsBean;
 import com.cn.uca.bean.home.yusheng.YuShengMonthDetailsBean;
+import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
-import com.cn.uca.impl.yusheng.EditItemClick;
-import com.cn.uca.impl.yusheng.YuShengMonthImpl;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.util.SetLayoutParams;
+import com.cn.uca.util.SetListView;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
-import com.cn.uca.util.yusheng.YuShengUtil;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
+import com.cn.uca.view.NoScrollGridView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -44,16 +46,16 @@ import java.util.Map;
  * Created by asus on 2017/10/25.
  */
 
-public class YuShengMonthFragment extends Fragment implements AsymmetricGridView.OnItemClickListener,View.OnClickListener,EditItemClick{
+public class YuShengMonthFragment extends Fragment implements View.OnClickListener{
     private View view;
+    private RelativeLayout layout;
+    private TextView month,add;
+    private NoScrollGridView pastMonth,futureMonth;
     private SmartRefreshLayout refreshLayout;
-    private AsymmetricGridView listView;
     private int loadPage = 1;
     private int refreshPage = 1;
-    private List<LifeMonthsBean> monthBean,setBean;
-    private YuShengMonthImpl adapter;
-    private YuShengUtil itemBeen;
-    private YuShengMonthDetailsBean monthDetailsBean;
+    private List<LifeMonthsBean> listPast,listPastMonth,listFuture,listFutureMonth;
+    private YuShengMonthAdapter adapterPast,adapterFuture;
     private int nowMonth;
 
     @Override
@@ -65,17 +67,22 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
 
     private void initView() {
         refreshLayout = (SmartRefreshLayout)view.findViewById(R.id.refreshLayout);
-        listView = (AsymmetricGridView)view.findViewById(R.id.listView);
-        monthDetailsBean = new YuShengMonthDetailsBean();
-        monthBean = new ArrayList<>();
-        setBean = new ArrayList<>();
-        itemBeen = new YuShengUtil();
-        adapter = new YuShengMonthAdapter(getActivity(),itemBeen.monthItems(monthBean.size(),monthDetailsBean),this);
-        listView.setRequestedColumnCount(6);
-        listView.setRequestedHorizontalSpacing(SystemUtil.dip2px(3));
-        listView.setAdapter(getNewAdapter());
-        listView.setDebugging(true);
-        listView.setOnItemClickListener(this);
+        layout = (RelativeLayout)view.findViewById(R.id.layout);//当前月
+        month = (TextView)view.findViewById(R.id.month);
+        add = (TextView)view.findViewById(R.id.add);
+        pastMonth = (NoScrollGridView)view.findViewById(R.id.pastMonth);//过去月份view
+        futureMonth = (NoScrollGridView)view.findViewById(R.id.futureMonth);//未来月份view
+
+        add.setOnClickListener(this);
+        listPast = new ArrayList<>();
+        listPastMonth = new ArrayList<>();
+        listFuture = new ArrayList<>();
+        listFutureMonth = new ArrayList<>();
+        adapterPast = new YuShengMonthAdapter(getActivity(),listPast,0);
+        adapterFuture = new YuShengMonthAdapter(getActivity(),listFuture,0);
+        pastMonth.setAdapter(adapterPast);
+        futureMonth.setAdapter(adapterFuture);
+        SetLayoutParams.setLinearLayout(layout, MyApplication.width,MyApplication.height*11/25);
         getLifeMonths(1);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -103,11 +110,15 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
                 }, 1000);
             }
         });
+
+        futureMonth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                ShowPopupWindow.dayPopupwindow(view,getActivity(),listFuture.get(position).getMonth(),"month");
+            }
+        });
     }
 
-    private AsymmetricGridViewAdapter getNewAdapter() {
-        return new AsymmetricGridViewAdapter(getActivity(), listView, (ListAdapter) adapter);
-    }
     private void getLifeMonths(int page){
         Map<String,Object> map = new HashMap<>();
         map.put("page",page);
@@ -126,61 +137,85 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
                     int code = jsonObject.getInt("code");
                     switch (code){
                         case 0:
-                            int fill = jsonObject.getJSONObject("data").getInt("fill");
                             Gson gson = new Gson();
                             YuShengMonthDetailsBean bean = gson.fromJson(jsonObject.getJSONObject("data").toString(),new TypeToken<YuShengMonthDetailsBean>() {
                             }.getType());
                             nowMonth = bean.getNow_month();
-                            monthBean.clear();
-                            monthBean = bean.getLifeMonthsRet();
-                            if (monthBean.size() > 0) {
-                                if (setBean.size() > 0){
+                            AssetManager mgr = getActivity().getAssets();//得到AssetManager
+                            Typeface tf=Typeface.createFromAsset(mgr, "fonts/ttf.ttf");//根据路径得到Typeface
+                            month.setText("余"+bean.getNow_month()+"月");
+                            month.setTypeface(tf);//设置字体
+                            int fill = bean.getFill();
+                            listPastMonth.clear();
+                            listPastMonth = bean.getLifeMonthsRet();
+                            if (listPastMonth.size() > 0) {
+                                if (listPast.size() > 0){
+                                    List<LifeMonthsBean> list = new ArrayList<>();
+                                    list.addAll(listPast);
+                                    listPast.clear();
                                     if (fill > 0){
+                                        LifeMonthsBean monthsBean = null;
                                         for (int a = 0;a<fill;a++){
-                                            LifeMonthsBean monthsBean = new LifeMonthsBean();
+                                            monthsBean = new LifeMonthsBean();
                                             monthsBean.setContent("");
                                             monthsBean.setDate("");
                                             monthsBean.setMonth(0);
                                             monthsBean.setMonth_event_count(0);
-                                            setBean.add(a,monthsBean);
+                                            listPast.add(a,monthsBean);
                                         }
-                                        for (int i = 0;i <monthBean.size();i++){
-                                            setBean.add(i+fill,monthBean.get(i));
+                                        for (int i = 0;i <listPastMonth.size();i++){
+                                            listPast.add(i+fill,listPastMonth.get(i));
                                         }
-                                        bean.setLifeMonthsRet(setBean);
-                                        Log.i("123",setBean.toString()+"---");
-                                        adapter.setItems(itemBeen.monthItems(setBean.size(),bean));
+                                        listPast.addAll(list);
+                                        adapterPast.setList(listPast,bean.getNow_month());
+                                        SetListView.setGridViewHeightBasedOnChildren(pastMonth);
                                     }else{
-                                        for (int i = 0;i <monthBean.size();i++){
-                                            setBean.add(i,monthBean.get(i));
+                                        for (int i = 0;i <listPastMonth.size();i++){
+                                            listPast.add(i,listPastMonth.get(i));
                                         }
-                                        bean.setLifeMonthsRet(setBean);
-                                        adapter.setItems(itemBeen.monthItems(setBean.size(),bean));
+                                        listPast.addAll(list);
+                                        adapterPast.setList(listPast,bean.getNow_month());
+                                        SetListView.setGridViewHeightBasedOnChildren(pastMonth);
                                     }
                                 }else{
                                     if (fill > 0){
+                                        LifeMonthsBean monthsBean = null;
                                         for (int a = 0;a<fill;a++){
-                                            LifeMonthsBean monthsBean = new LifeMonthsBean();
+                                            monthsBean = new LifeMonthsBean();
                                             monthsBean.setContent("");
                                             monthsBean.setDate("");
                                             monthsBean.setMonth(0);
                                             monthsBean.setMonth_event_count(0);
-                                            setBean.add(a,monthsBean);
+                                            listPast.add(a,monthsBean);
                                         }
-                                        for (int i = 0;i <monthBean.size();i++){
-                                            setBean.add(i+fill,monthBean.get(i));
+                                        for (int i = 0;i <listPast.size();i++){
+                                            if (listPastMonth.get(i).getMonth() > bean.getNow_month()){
+                                                listPast.add(i+fill,listPastMonth.get(i));
+                                            }else if(listPastMonth.get(i).getMonth() < bean.getNow_month()){
+                                                listFuture.add(listPastMonth.get(i));
+                                            }
                                         }
-                                        bean.setLifeMonthsRet(setBean);
-                                        adapter.setItems(itemBeen.monthItems(setBean.size(),bean));
+                                        adapterPast.setList(listPast,bean.getNow_month());
+                                        adapterFuture.setList(listFuture,bean.getNow_month());
+                                        SetListView.setGridViewHeightBasedOnChildren(pastMonth);
+                                        SetListView.setGridViewHeightBasedOnChildren(futureMonth);
                                     }else{
-                                        setBean.addAll(monthBean);
-                                        bean.setLifeMonthsRet(setBean);
-                                        adapter.setItems(itemBeen.monthItems(setBean.size(),bean));
+                                        for (int i = 0;i <listPastMonth.size();i++){
+                                            if (listPastMonth.get(i).getMonth() > bean.getNow_month()){
+                                                listPast.add(listPastMonth.get(i));
+                                            }else if(listPastMonth.get(i).getMonth() < bean.getNow_month()){
+                                                listFuture.add(listPastMonth.get(i));
+                                            }
+                                        }
+                                        adapterPast.setList(listPast,bean.getNow_month());
+                                        adapterFuture.setList(listFuture,bean.getNow_month());
+                                        SetListView.setGridViewHeightBasedOnChildren(pastMonth);
+                                        SetListView.setGridViewHeightBasedOnChildren(futureMonth);
                                     }
 
                                 }
                             } else {
-                                if (monthBean.size() != 0) {
+                                if (listPastMonth.size() != 0) {
                                     ToastXutil.show("没有更多数据了");
                                 } else {
                                     //
@@ -229,12 +264,11 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
                             Gson gson = new Gson();
                             YuShengMonthDetailsBean bean = gson.fromJson(jsonObject.getJSONObject("data").toString(),new TypeToken<YuShengMonthDetailsBean>() {
                             }.getType());
-                            monthBean.clear();
-                            monthBean = bean.getLifeMonthsRet();
-                            if (monthBean.size() > 0) {
-                                setBean.addAll(monthBean);
-                                bean.setLifeMonthsRet(setBean);
-                                adapter.setItems(itemBeen.monthItems(setBean.size(),bean));
+                            listFutureMonth.clear();
+                            listFutureMonth = bean.getLifeMonthsRet();
+                            if (listFutureMonth.size() > 0) {
+                                listFuture.addAll(listFutureMonth);
+                                adapterFuture.setList(listFuture,bean.getNow_month());
                             } else {
                                 ToastXutil.show("没有更多数据了");
                             }
@@ -258,28 +292,10 @@ public class YuShengMonthFragment extends Fragment implements AsymmetricGridView
     }
     @Override
     public void onClick(View view) {
-
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (setBean.get(i).getDate() != ""){
-            if (setBean.get(i).getMonth() > nowMonth){
-                ToastXutil.show("过去的月不能再编辑");
-            }else if (setBean.get(i).getMonth() == nowMonth){
-
-            }else {
-                ShowPopupWindow.dayPopupwindow(this.view,getActivity(),setBean.get(i).getMonth(),"month");
-            }
+        switch (view.getId()){
+            case R.id.add:
+                ShowPopupWindow.dayPopupwindow(this.view,getActivity(),nowMonth,"month");
+                break;
         }
-    }
-
-    /**
-     * 编辑月的事件
-     * @param view
-     */
-    @Override
-    public void click(View view) {
-        ShowPopupWindow.dayPopupwindow(this.view,getActivity(),setBean.get((int)view.getTag()).getMonth(),"month");
     }
 }

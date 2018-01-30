@@ -15,10 +15,12 @@ public class Constant {
 	final public static int PHOTO_REQUEST_TAKEPHOTO = 1;  // 拍照
 	final public static int PHOTO_REQUEST_GALLERY = 2;     // 从相册中选择
 	final public static int PHOTO_REQUEST_CUT = 3;        // 结果
-	public static final int CODE_GALLERY_REQUEST = 4;
-public static final int CAMERA_PERMISSIONS_REQUEST_CODE = 5;
-	public static final int STORAGE_PERMISSIONS_REQUEST_CODE = 6;
-
+	final public static int CODE_GALLERY_REQUEST = 4;
+	final public static int CAMERA_PERMISSIONS_REQUEST_CODE = 5;
+	final public static int STORAGE_PERMISSIONS_REQUEST_CODE = 6;
+	final public static int ROUTE_TYPE_BUS = 1;
+	final public static int ROUTE_TYPE_DRIVE = 2;
+	final public static int ROUTE_TYPE_WALK = 3;
 	final public static String WX_APP_ID = "wx350d62481e115db6";
 	// 微信开放平台appid
 	final public static String WeChat_APP_ID = "wx350d62481e115db6";

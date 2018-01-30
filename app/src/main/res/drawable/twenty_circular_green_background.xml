@@ -5,7 +5,7 @@
     <!-- 描边 -->
     <stroke
         android:width="1dp"
-        android:color="@color/gray" /> <!-- 定义描边的宽度和描边的颜色值 -->
+        android:color="#ee953e" /> <!-- 定义描边的宽度和描边的颜色值 -->
 
     <!-- 圆角 -->
     <corners
@@ -14,6 +14,6 @@
         android:topLeftRadius="20dp"
         android:topRightRadius="20dp" /> <!-- 设置四个角的半径 -->
 <solid
-        android:color="@color/green" />
+        android:color="#ee953e" />
 
 </shape>

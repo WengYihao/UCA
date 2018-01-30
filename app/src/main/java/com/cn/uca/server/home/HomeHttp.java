@@ -39,6 +39,20 @@ public class HomeHttp extends BaseServer {
     }
 
     /**
+     * 周边必玩
+     * @param sign
+     * @param time_stamp
+     * @param gaode_code
+     * @param callBack
+     */
+    public static void getMustPlayAround(String sign,String time_stamp,String gaode_code,CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("gaode_code",gaode_code);
+        get(MyConfig.getMustPlayAround,map,callBack);
+    }
+    /**
      * 获取周边游数据
      * @param page
      * @param pageCount
@@ -176,7 +190,7 @@ public class HomeHttp extends BaseServer {
      * @param account_token
      * @param callBack
      */
-    public static void cpyGetCityRaiders(int page,int pageCount,String city_pinyin,String sign,String time_stamp,String account_token,CallBack callBack){
+    public static void cpyGetCityRaiders(int page,int pageCount,String city_pinyin,int province_id,String sign,String time_stamp,String account_token,CallBack callBack){
         Map<String,Object> map = new HashMap<>();
         map.put("page",page);
         map.put("pageCount",pageCount);
@@ -184,9 +198,28 @@ public class HomeHttp extends BaseServer {
         map.put("sign",sign);
         map.put("time_stamp",time_stamp);
         map.put("account_token",account_token);
+        if (province_id != 0){
+            map.put("province_id",province_id);
+        }
         get(MyConfig.cpyGetCityRaiders,map,callBack);
     }
 
+    /**
+     * ssehngfen
+     * @param province_pinyin
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param callBack
+     */
+    public static void getProvinceRaiders(String province_pinyin,String sign,String time_stamp,String account_token,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("province_pinyin",province_pinyin);
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        get(MyConfig.getProvinceRaiders,map,callBack);
+    }
     /**
      * 城市攻略详情
      * @param account_token
@@ -314,6 +347,35 @@ public class HomeHttp extends BaseServer {
         map.put("content",content);
         map.put("month",month+"");
         post4(MyConfig.addLifeMonthEvent,map,callBack);
+    }
+
+    /**
+     * 购取景区门票
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param admission_ticket_id
+     * @param id_card
+     * @param mobile
+     * @param number
+     * @param play_date
+     * @param user_name
+     * @param callBack
+     */
+    public static void createTicketOrder(String sign,String time_stamp,String account_token,int admission_ticket_id,String
+            id_card,String mobile,String number,String play_date,String user_name,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("admission_ticket_id",admission_ticket_id+"");
+        map.put("id_card",id_card);
+        map.put("mobile",mobile);
+        map.put("number",number);
+        map.put("play_date",play_date);
+        map.put("user_name",user_name);
+        post5(MyConfig.createTicketOrder,map,callBack);
+
     }
 
     /**
@@ -445,14 +507,14 @@ public class HomeHttp extends BaseServer {
      * @param city_raiders_id
      * @param callBack
      */
-//    public static void purchaseCityRaiders(String sign,String time_stamp,String account_token,int city_raiders_id,CallBack callBack){
-//        Map<String,String> map = new HashMap<>();
-//        map.put("sign",sign);
-//        map.put("time_stamp",time_stamp);
-//        map.put("account_token",account_token);
-//        map.put("city_raiders_id",city_raiders_id+"");
-//        post5(MyConfig.purchaseCityRaiders,map,callBack);
-//    }
+    public static void purchaseCityRaiders(String sign,String time_stamp,String account_token,int city_raiders_id,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("city_raiders_id",city_raiders_id+"");
+        post5(MyConfig.purchaseCityRaiders,map,callBack);
+    }
 
     /**
      * 支付订单
@@ -508,6 +570,45 @@ public class HomeHttp extends BaseServer {
         get(MyConfig.getUserClock,map,callBack);
     }
 
+    /**
+     * 获取积分税换物品
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param page
+     * @param pageCount
+     * @param callBack
+     */
+    public static void getIntegralPool(String account_token,String time_stamp,String sign,int page,int pageCount,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.getIntegralPool,map,callBack);
+    }
+
+    /**
+     * 获取用户明细
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param gain_loss
+     * @param page
+     * @param pageCount
+     * @param callBack
+     */
+    public static void getIntegralDetailed(String account_token,String time_stamp,String sign,int gain_loss,int page,int pageCount,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("gain_loss",gain_loss);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.getIntegralDetailed,map,callBack);
+    }
     /**
      * 收藏/取消攻略
      * @param account_token

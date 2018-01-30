@@ -16,6 +16,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
@@ -31,6 +32,7 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.ItemClick;
 import com.cn.uca.impl.ServiceBack;
+import com.cn.uca.impl.raider.BuyRaiderImpl;
 import com.cn.uca.impl.user.PayBack;
 import com.cn.uca.receiver.UpdateService;
 import com.cn.uca.server.home.HomeHttp;
@@ -41,6 +43,7 @@ import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.PasswordInputView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.HashMap;
 import java.util.List;
@@ -229,6 +232,7 @@ public class ShowPopupWindow {
 								public void onResponse(Object response) {
 									switch ((int) response){
 										case 0:
+										    popupWindow.dismiss();
 											ToastXutil.show("添加成功");
 											break;
 									}
@@ -236,6 +240,7 @@ public class ShowPopupWindow {
 
 								@Override
 								public void onErrorMsg(String errorMsg) {
+                                    popupWindow.dismiss();
 									ToastXutil.show(errorMsg);
 								}
 
@@ -409,6 +414,32 @@ public class ShowPopupWindow {
 		WindowManager.LayoutParams params = dialogWindow.getAttributes();
 		params.width = MyApplication.width*2/3;
 		params.height = MyApplication.height*2/5;
+		dialog.show();//显示对话框
+	}
+
+	public static void raiderIntegral(View view, final  Context context,final int id,String url,String name, int integral, final BuyRaiderImpl buyRaider){
+		final Dialog dialog = new Dialog(context);
+		View raider = LayoutInflater.from(context).inflate(R.layout.raider_integral_dialog,null);
+		ImageView pic = (ImageView)raider.findViewById(R.id.pic);
+		TextView nameTv = (TextView)raider.findViewById(R.id.name);
+		TextView integralTv = (TextView)raider.findViewById(R.id.integral);
+		TextView buy = (TextView)raider.findViewById(R.id.buy);
+		ImageLoader.getInstance().displayImage(url,pic);
+		nameTv.setText("【"+name+"】");
+		integralTv.setText("当前积分:"+integral);
+		buy.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+				buyRaider.buyRaider(id);
+			}
+		});
+		dialog.setContentView(raider);
+		Window dialogWindow = dialog.getWindow();
+		dialogWindow.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams params = dialogWindow.getAttributes();
+		params.width = MyApplication.width-200;
+		params.height = MyApplication.height*5/16;
 		dialog.show();//显示对话框
 	}
 }

@@ -175,8 +175,8 @@
     <string name="yushengActivity_text2">大约只有三万多天</string>
     <string name="yushengActivity_text3">发呆、刷微博、打游戏。一转眼又是一天</string>
     <string name="yushengActivity_text4">等待、犹豫、拖延，一晃神又是一月</string>
-    <string name="yushengActivity_text5">你出生于</string>
-    <string name="yushengActivity_text6">你是一名</string>
+    <string name="yushengActivity_text5">出生日期</string>
+    <string name="yushengActivity_text6">性别</string>
     <string name="yushengActivity_text7">想做的事情是否还记得</string>
     <string name="yushengActivity_text8">定下的目标是否有实现</string>
     <string name="yushengActivity_text9">开启余生</string>
@@ -222,7 +222,6 @@
     <string name="acceptOrderActivity_text2">进行中</string>
     <string name="acceptOrderActivity_text3">已失效</string>
     <string name="raiderCollectionActivity_text1">全部收藏</string>
-    <string name="raiderCollectionActivity_text2">已购买</string>
     <string name="raiderCollectionActivity_text3">已下载</string>
     <string name="raiderCollectionActivity_text4">历史查看</string>
     <string name="orderBackActivity_title_text">退单</string>

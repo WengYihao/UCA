@@ -50,6 +50,7 @@
                 android:background="@mipmap/search_nav" />
         </LinearLayout>
         <TextView
+            android:id="@+id/more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@mipmap/more_option"

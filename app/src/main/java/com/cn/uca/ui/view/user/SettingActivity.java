@@ -24,8 +24,8 @@ import com.cn.uca.view.dialog.ToastDialog;
 import org.json.JSONObject;
 
 public class SettingActivity extends BaseBackActivity implements View.OnClickListener,CompoundButton.OnCheckedChangeListener{
-
-    private RelativeLayout layout1,layout2,layout3,layout4,layout5;
+    private RelativeLayout layout1,layout5;
+//    private RelativeLayout layout1,layout2,layout3,layout4,layout5;
     private Switch select;
     private TextView back,exit;
 
@@ -41,9 +41,9 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
     private void initView() {
         back = (TextView)findViewById(R.id.back);
         layout1 = (RelativeLayout)findViewById(R.id.layout1);
-        layout2 = (RelativeLayout)findViewById(R.id.layout2);
-        layout3 = (RelativeLayout)findViewById(R.id.layout3);
-        layout4 = (RelativeLayout)findViewById(R.id.layout4);
+//        layout2 = (RelativeLayout)findViewById(R.id.layout2);
+//        layout3 = (RelativeLayout)findViewById(R.id.layout3);
+//        layout4 = (RelativeLayout)findViewById(R.id.layout4);
         layout5 = (RelativeLayout)findViewById(R.id.layout5);
 
         select = (Switch)findViewById(R.id.select);
@@ -51,9 +51,9 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
 
         back.setOnClickListener(this);
         layout1.setOnClickListener(this);
-        layout2.setOnClickListener(this);
-        layout3.setOnClickListener(this);
-        layout4.setOnClickListener(this);
+//        layout2.setOnClickListener(this);
+//        layout3.setOnClickListener(this);
+//        layout4.setOnClickListener(this);
         layout5.setOnClickListener(this);
         exit.setOnClickListener(this);
         select.setOnCheckedChangeListener(this);
@@ -133,15 +133,15 @@ public class SettingActivity extends BaseBackActivity implements View.OnClickLis
             case R.id.layout1:
                 goToMarket(this,"com.cn.uca");
                 break;
-            case R.id.layout2:
-
-                break;
-            case R.id.layout3:
-
-                break;
-            case R.id.layout4:
-
-                break;
+//            case R.id.layout2:
+//
+//                break;
+//            case R.id.layout3:
+//
+//                break;
+//            case R.id.layout4:
+//
+//                break;
             case R.id.layout5:
                 startActivity(new Intent(this,FeedBackActivity.class));
                 break;

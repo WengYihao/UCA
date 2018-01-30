@@ -10,12 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.cn.uca.R;
 import com.cn.uca.bean.home.raider.RaidersFoodBean;
 import com.cn.uca.bean.home.raider.RaidersUtilBean;
 import com.cn.uca.bean.home.raider.RaidersSenicSpotBean;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.impl.raider.FindWayImpl;
 import com.cn.uca.ui.view.home.raider.SpotDetailActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SystemUtil;
@@ -32,8 +34,10 @@ import java.util.Locale;
 public class InfoWinAdapter implements AMap.InfoWindowAdapter{
     private Context context;
     TextToSpeech speech;
-    public InfoWinAdapter(Context context){
+    private FindWayImpl findWay;
+    public InfoWinAdapter(Context context,FindWayImpl findWay){
         this.context = context;
+        this.findWay = findWay;
     }
 
     @Override
@@ -65,7 +69,7 @@ public class InfoWinAdapter implements AMap.InfoWindowAdapter{
         return null;
     }
     //这个方法根据自己的实体信息来进行相应控件的赋值
-    private void setViewSpot(Marker marker,View view) {
+    private void setViewSpot(final Marker marker, View view) {
         RaidersUtilBean utilBean = (RaidersUtilBean) marker.getObject();
         TextView name = (TextView)view.findViewById(R.id.name);
         TextView daohang = (TextView)view.findViewById(R.id.daohang);
@@ -87,7 +91,8 @@ public class InfoWinAdapter implements AMap.InfoWindowAdapter{
         daohang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ToastXutil.show("待开发");
+
+                findWay.click(new LatLng(marker.getPosition().latitude,marker.getPosition().longitude));
             }
         });
         commentary.setOnClickListener(new View.OnClickListener() {

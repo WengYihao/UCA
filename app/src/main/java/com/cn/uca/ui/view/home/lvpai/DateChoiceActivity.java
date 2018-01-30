@@ -258,6 +258,9 @@ public class DateChoiceActivity extends BaseBackActivity implements View.OnClick
                                 String str = "http://www.szyouka.com:8080/youkatravel/agreement/tripShootUserProtocol.html";
                                 ShowPopupWindow.seviceWindow(getWindow().getDecorView(),DateChoiceActivity.this,str,DateChoiceActivity.this);
                                 break;
+                            case 20:
+                                ToastXutil.show("请先登录");
+                                break;
                             case 680:
                                 ToastXutil.show("行程必须大于今天");
                                 break;

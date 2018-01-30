@@ -35,7 +35,8 @@
                 android:layout_height="wrap_content"
                 android:background="@mipmap/down_load"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/size"
                 android:layout_width="wrap_content"
@@ -44,7 +45,7 @@
                 android:layout_toLeftOf="@id/down"
                 android:textColor="@color/white"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/padding_8"/>
+                android:layout_alignParentRight="true"/>
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:padding="@dimen/padding_15">
+       <ImageView
+           android:id="@+id/pic"
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:background="@color/aa"
+           android:scaleType="centerCrop"/>
+
+       <RelativeLayout
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:layout_marginLeft="@dimen/padding_8">
+
+           <TextView
+               android:id="@+id/name"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="@dimen/padding_8"
+               android:text="mingz"
+               android:textColor="@color/grey"
+               android:textSize="@dimen/text_14" />
+
+           <TextView
+               android:id="@+id/num"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentBottom="true"
+               android:layout_marginBottom="@dimen/padding_8"
+               android:text="mingz"
+               android:textColor="@color/ori"
+               android:textSize="@dimen/text_12" />
+
+           <LinearLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentBottom="true"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+               android:layout_marginBottom="@dimen/padding_8"
+               android:background="@drawable/twenty_circular_ori_background">
+
+               <TextView
+                   android:id="@+id/integral"
+                   android:layout_width="60dp"
+                   android:layout_height="30dp"
+                   android:layout_marginLeft="@dimen/padding_5"
+                   android:layout_marginRight="@dimen/padding_5"
+                   android:gravity="center"
+                   android:padding="@dimen/padding_5"
+                   android:text="兑换"
+                   android:textColor="@color/white"
+                   android:textSize="@dimen/text_12" />
+           </LinearLayout>
+       </RelativeLayout>
+   </LinearLayout>
+</LinearLayout>

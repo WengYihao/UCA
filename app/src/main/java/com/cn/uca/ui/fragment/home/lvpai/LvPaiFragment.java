@@ -12,11 +12,17 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.lvpai.MerchantAdapter;
 import com.cn.uca.bean.home.lvpai.CommodityBean;
+import com.cn.uca.bean.home.lvpai.LableBean;
 import com.cn.uca.bean.home.lvpai.MerchantBean;
 import com.cn.uca.config.Constant;
+import com.cn.uca.impl.CallBack;
+import com.cn.uca.impl.yueka.SearchCallBack;
+import com.cn.uca.popupwindows.LvpaiSearchPopupWindow;
+import com.cn.uca.popupwindows.LvpaiSearchPopupWindow2;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.home.lvpai.MerchantDetailActivity;
 import com.cn.uca.ui.view.home.lvpai.CommodityDetailActivity;
@@ -43,6 +49,7 @@ import java.util.Map;
 public class LvPaiFragment extends Fragment implements View.OnClickListener{
 
     private View view;
+    private TextView more;
     private ListView listView;
     private MerchantAdapter merchantAdapter;
     private List<MerchantBean> listMerchant;
@@ -51,23 +58,27 @@ public class LvPaiFragment extends Fragment implements View.OnClickListener{
     private int id = 1;
     private int page = Constant.PAGE;
     private int pageCount = Constant.PAGE_COUNT;
+    private List<LableBean> listLable = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_lvpai,null);
+        getStyleLable();
         initView();
         getMerchants("","","");
         return view;
     }
 
     private void initView() {
+        more = (TextView)view.findViewById(R.id.more);
         listMerchant = new ArrayList<>();
         listComment = new ArrayList<>();
         listView = (ListView)view.findViewById(R.id.listView);
         merchantAdapter = new MerchantAdapter(listMerchant,getActivity());
         listView.setAdapter(merchantAdapter);
         type = (TextView)view.findViewById(R.id.type);
+        more.setOnClickListener(this);
         type.setOnClickListener(this);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,6 +126,27 @@ public class LvPaiFragment extends Fragment implements View.OnClickListener{
                         break;
                 }
                 break;
+            case R.id.more:
+                switch (id){
+                    case 1:
+                        new LvpaiSearchPopupWindow(getActivity(), view, new SearchCallBack() {
+                            @Override
+                            public void onCallBack(int sexId, String begAge, String endAge, String lable) {
+
+                            }
+                        });
+                        break;
+                    case 2:
+                        new LvpaiSearchPopupWindow2(getActivity(), view, listLable,new SearchCallBack() {
+                            @Override
+                            public void onCallBack(int sexId, String begAge, String endAge, String lable) {
+
+                            }
+                        });
+                        break;
+                }
+
+                break;
             case R.id.layout:
                 startActivity(new Intent(getActivity(), MerchantDetailActivity.class));
                 break;
@@ -122,6 +154,45 @@ public class LvPaiFragment extends Fragment implements View.OnClickListener{
                 startActivity(new Intent(getActivity(), CommodityDetailActivity.class));
                 break;
         }
+    }
+
+
+    //获取标签
+    private void getStyleLable(){
+        Map<String,Object> map = new HashMap<>();
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        String sign = SignUtil.sign(map);
+        HomeHttp.getStyleLable(time_stamp, sign, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            Gson gson = new Gson();
+                            JSONArray array = jsonObject.getJSONArray("data");
+                            List<LableBean> bean = gson.fromJson(array.toString(),new TypeToken<List<LableBean>>() {
+                            }.getType());
+                            listLable = bean;
+                            break;
+                    }
+                }catch (Exception e){
+                    Log.e("456",e.getMessage()+"报错");
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
     }
 
     /**

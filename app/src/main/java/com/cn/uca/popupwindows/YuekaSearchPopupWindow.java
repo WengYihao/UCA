@@ -2,6 +2,7 @@ package com.cn.uca.popupwindows;
 
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -12,17 +13,19 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.yueka.SearchCallBack;
+import com.cn.uca.ui.view.MainActivity;
 import com.cn.uca.view.PickerScrollView;
 import com.cn.uca.view.PickerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Created by asus on 2017/11/13.
  */
 
-public class YuekaSearchPopupWindow implements View.OnClickListener{
+public class YuekaSearchPopupWindow{
     private PopupWindow popupWindow;
     private Context context;
     private View view;
@@ -77,7 +80,7 @@ public class YuekaSearchPopupWindow implements View.OnClickListener{
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int sexId = 0;
+                int sexId = 1;
                 String begAge,endAge,lable;
                 if (man.isChecked()){
                     sexId = 1;
@@ -87,10 +90,17 @@ public class YuekaSearchPopupWindow implements View.OnClickListener{
                 if (search.getText().toString() != null){
                     lable = search.getText().toString();
                 }else{
-                    lable = "-";
+                    lable = "";
                 }
                 begAge = minute_pv.getBegAge();
+                if (begAge == null){
+                    begAge = "18岁";
+                }
                 endAge = second_pv.getEndAge();
+                if (endAge == null){
+                    endAge = "55岁";
+                }
+                Log.e("456",sexId+"-"+begAge+"-"+endAge+"-"+lable);
                 searchCallBack.onCallBack(sexId,begAge,endAge,lable);
                 popupWindow.dismiss();
             }
@@ -114,14 +124,5 @@ public class YuekaSearchPopupWindow implements View.OnClickListener{
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable(null,""));
         popupWindow.showAsDropDown(view);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.submit:
-//                Observable.just(1).subscribe(MainActivity.action1);
-                break;
-        }
     }
 }

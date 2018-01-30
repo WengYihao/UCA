@@ -148,7 +148,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                     @Override
                     public void run() {
                         page++;
-                       getEscortRecords(getBean());
+                        getEscortRecords(getBean());
                         refreshlayout.finishLoadmore();
                     }
                 }, 2000);
@@ -195,7 +195,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                 break;
             case R.id.messageYue:
                 if (SharePreferenceXutil.isSuccess()){
-                    connectRongServer(SharePreferenceXutil.getRongToken());
+                    startActivity(new Intent(getActivity(), ChatListActivity.class));
                 }else{
                     ToastXutil.show("请先登录");
                 }
@@ -216,30 +216,6 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
         }
     }
 
-    /**
-     * 验证融云token
-     * @param token
-     */
-    private void connectRongServer(final String token) {
-        RongIM.connect(token, new RongIMClient.ConnectCallback() {
-            @Override
-            public void onSuccess(String userId) {
-                startActivity(new Intent(getActivity(), ChatListActivity.class));
-            }
-
-            @Override
-            public void onError(RongIMClient.ErrorCode errorCode) {
-                ToastXutil.show(errorCode+"-"+token);
-                Log.e("123",errorCode+"---报错"+token);
-            }
-
-            @Override
-            public void onTokenIncorrect() {
-                ToastXutil.show("-"+token);
-                Log.e("123","---报错"+token);
-            }
-        });
-    }
     private void getEscortRecords(GetEscortBean bean){
 
         YueKaHttp.getEscortRecords(bean, new AsyncHttpResponseHandler() {
@@ -248,7 +224,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                 if (i == 200){
                     try {
                         JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
-                        Log.i("123",jsonObject.toString());
+                        Log.e("456",jsonObject.toString());
                         int code  = jsonObject.getInt("code");
                         switch (code){
                             case 0:
@@ -270,7 +246,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
                                 break;
                         }
                     }catch (Exception e){
-                        Log.i("456",e.getMessage()+"====");
+                        Log.e("456",e.getMessage()+"====");
                     }
                 }
             }
@@ -279,7 +255,7 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
             public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
                 try {
                     JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
-                    Log.i("456",jsonObject.toString()+"====");
+                    Log.e("456",jsonObject.toString()+"====");
                 }catch (Exception e){
 
                 }

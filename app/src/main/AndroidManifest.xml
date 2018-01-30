@@ -256,7 +256,7 @@
             android:name=".ui.view.register.ForgetPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.view.yueka.DetailsWebActivity"
+            android:name=".ui.view.yueka.SendYueKaDetailctivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.view.yueka.YueChatActivity"
@@ -284,9 +284,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.view.yueka.OtherYueActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.view.register.RegisterWebActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.view.home.raider.RaidersDetailActivity"
@@ -551,7 +548,11 @@
         <activity android:name=".ui.view.user.DepositActivity" />
         <activity android:name=".ui.view.user.message.OrderMessageActivity" />
         <activity android:name=".ui.view.user.message.SystemMesaageActivity" />
-        <activity android:name=".ui.view.home.travel.TravelOrderActivity"></activity>
+        <activity android:name=".ui.view.home.travel.TravelOrderActivity" />
+        <activity android:name=".ui.view.user.order.SpotTicketOrderActivity" />
+        <activity android:name=".ui.view.WebViewActivity" />
+        <activity android:name=".ui.view.home.raider.ProvinceRaiderActivity" />
+        <activity android:name=".ui.view.home.raider.RouteActivity"></activity>
     </application>
 
 </manifest>

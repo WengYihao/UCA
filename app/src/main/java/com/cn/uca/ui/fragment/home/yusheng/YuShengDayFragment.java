@@ -1,5 +1,7 @@
 package com.cn.uca.ui.fragment.home.yusheng;
 
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -7,7 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
@@ -15,19 +18,18 @@ import com.cn.uca.adapter.home.yusheng.YuShengDayAdapter;
 import com.cn.uca.bean.home.yusheng.LifeDaysBean;
 import com.cn.uca.bean.home.yusheng.SystemEventsBean;
 import com.cn.uca.bean.home.yusheng.YuShengDayDetailsBean;
+import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
-import com.cn.uca.impl.yusheng.EditItemClick;
-import com.cn.uca.impl.yusheng.YuShengDayImpl;
 import com.cn.uca.popupwindows.LoadingPopupWindow;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.util.SetLayoutParams;
+import com.cn.uca.util.SetListView;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
-import com.cn.uca.util.yusheng.YuShengUtil;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
-import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridViewAdapter;
+import com.cn.uca.view.NoScrollGridView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -38,7 +40,6 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,16 +49,17 @@ import java.util.Map;
  * Created by asus on 2017/10/25.
  */
 
-public class YuShengDayFragment extends Fragment implements AsymmetricGridView.OnItemClickListener,View.OnClickListener,EditItemClick{
+public class YuShengDayFragment extends Fragment implements View.OnClickListener{
     private View view;
+    private RelativeLayout layout;
+    private TextView day,add;
     private SmartRefreshLayout refreshLayout;
-    private AsymmetricGridView listView;
+    private NoScrollGridView pastTime,futureTime;
+    private YuShengDayAdapter adapterPast,adapterFuture;
+    private List<LifeDaysBean> listPast,listPastDay,listFuture,listFutureDay;
     private int loadPage = 1;
     private int refreshPage = 1;
-    private List<LifeDaysBean> dayBean,setBean;
-    private YuShengDayImpl adapter;
-    private YuShengUtil itemBeen;
-    private YuShengDayDetailsBean yuShengDayBean;
+    private int nowDay;
     private LoadingPopupWindow popupWindow;
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
@@ -69,20 +71,22 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
 
     private void initView() {
         popupWindow = new LoadingPopupWindow(getActivity());
-        popupWindow.show();
         refreshLayout = (SmartRefreshLayout)view.findViewById(R.id.refreshLayout);
-        listView = (AsymmetricGridView)view.findViewById(R.id.listView);
-        yuShengDayBean = new YuShengDayDetailsBean();
-        dayBean = new ArrayList<>();
-        setBean = new ArrayList<>();
-        itemBeen = new YuShengUtil();
-        adapter = new YuShengDayAdapter(getActivity(),itemBeen.dayItems(dayBean.size(),yuShengDayBean),this);
-        listView.setRequestedColumnCount(7);
-        listView.setRequestedHorizontalSpacing(SystemUtil.dip2px(3));
-        listView.setAdapter(getNewAdapter());
-        listView.setDebugging(true);
-        listView.setOnItemClickListener(this);
-
+        layout = (RelativeLayout)view.findViewById(R.id.layout);
+        day = (TextView)view.findViewById(R.id.day);
+        add = (TextView)view.findViewById(R.id.add);
+        pastTime = (NoScrollGridView)view.findViewById(R.id.pastTime);
+        futureTime = (NoScrollGridView)view.findViewById(R.id.futureTime);
+        listPast = new ArrayList<>();
+        listPastDay = new ArrayList<>();
+        listFuture = new ArrayList<>();
+        listFutureDay = new ArrayList<>();
+        adapterPast = new YuShengDayAdapter(getActivity(),listPast,0);
+        adapterFuture = new YuShengDayAdapter(getActivity(),listFuture,0);
+        pastTime.setAdapter(adapterPast);
+        futureTime.setAdapter(adapterFuture);
+        add.setOnClickListener(this);
+        SetLayoutParams.setLinearLayout(layout, MyApplication.width,MyApplication.height*11/25);
         getLifeDays(1);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -111,12 +115,15 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
                 }, 1000);
             }
         });
-//        refreshLayout.autoRefresh();
+
+        futureTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                ShowPopupWindow.dayPopupwindow(view,getActivity(),listFuture.get(position).getDay(),"day");
+            }
+        });
     }
 
-    private AsymmetricGridViewAdapter getNewAdapter() {
-        return new AsymmetricGridViewAdapter(getActivity(), listView, (ListAdapter) adapter);
-    }
     private void getLifeDays(int page){
         Map<String,Object> map = new HashMap<>();
         map.put("page",page);
@@ -129,23 +136,31 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
         HomeHttp.getLifeDays(sign, time_stamp, account_token, page, "u", new CallBack() {
             @Override
             public void onResponse(Object response) {
-                Log.e("123",response.toString());
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     int code = jsonObject.getInt("code");
                     switch (code){
                         case 0:
-                            int fill = jsonObject.getJSONObject("data").getInt("fill");
                             Gson gson = new Gson();
                             YuShengDayDetailsBean bean = gson.fromJson(jsonObject.getJSONObject("data").toString(),new TypeToken<YuShengDayDetailsBean>() {
                             }.getType());
-                            dayBean.clear();
-                            dayBean = bean.getLifeDays();
-                            if (dayBean.size() > 0) {
-                                if (setBean.size() > 0){
+                            nowDay = bean.getNow_days();
+                            AssetManager mgr = getActivity().getAssets();//得到AssetManager
+                            Typeface tf=Typeface.createFromAsset(mgr, "fonts/ttf.ttf");//根据路径得到Typeface
+                            day.setText("余"+bean.getNow_days()+"天");
+                            day.setTypeface(tf);//设置字体
+                            int fill = bean.getFill();
+                            listPastDay.clear();
+                            listPastDay = bean.getLifeDays();
+                            if (listPastDay.size() > 0){
+                                if (listPast.size() > 0){
+                                    List<LifeDaysBean> list = new ArrayList<>();
+                                    list.addAll(listPast);
+                                    listPast.clear();
                                     if (fill > 0){
+                                        LifeDaysBean daysBean = null;
                                         for (int a = 0;a<fill;a++){
-                                            LifeDaysBean daysBean = new LifeDaysBean();
+                                            daysBean = new LifeDaysBean();
                                             daysBean.setDate("");
                                             daysBean.setDay(0);
                                             daysBean.setSystem_event_count(0);
@@ -153,26 +168,27 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
                                             daysBean.setSystemEvents(new ArrayList<SystemEventsBean>());
                                             daysBean.setUser_content("");
                                             daysBean.setUser_event_count(0);
-                                            setBean.add(a,daysBean);
+                                            listPast.add(a,daysBean);
                                         }
-                                        for (int i = 0;i <dayBean.size();i++){
-                                            setBean.add(i+fill,dayBean.get(i));
+                                        for (int i = 0;i <listPastDay.size();i++){
+                                            listPast.add(i+fill,listPastDay.get(i));
                                         }
-                                        bean.setLifeDays(setBean);
-                                        adapter.setItems(itemBeen.dayItems(setBean.size(),bean));
-                                        popupWindow.dismiss();
+                                        listPast.addAll(list);
+                                        adapterPast.setList(listPast,bean.getNow_days());
+                                        SetListView.setGridViewHeightBasedOnChildren(pastTime);
                                     }else{
-                                        for (int i = 0;i <dayBean.size();i++){
-                                            setBean.add(i,dayBean.get(i));
+                                        for (int i = 0;i <listPastDay.size();i++){
+                                            listPast.add(i,listPastDay.get(i));
                                         }
-                                        bean.setLifeDays(setBean);
-                                        adapter.setItems(itemBeen.dayItems(setBean.size(),bean));
-                                        popupWindow.dismiss();
+                                        listPast.addAll(list);
+                                        adapterPast.setList(listPast,bean.getNow_days());
+                                        SetListView.setGridViewHeightBasedOnChildren(pastTime);
                                     }
                                 }else{
                                     if (fill > 0){
+                                        LifeDaysBean daysBean = null;
                                         for (int a = 0;a<fill;a++){
-                                            LifeDaysBean daysBean = new LifeDaysBean();
+                                            daysBean = new LifeDaysBean();
                                             daysBean.setDate("");
                                             daysBean.setDay(0);
                                             daysBean.setSystem_event_count(0);
@@ -180,28 +196,38 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
                                             daysBean.setSystemEvents(new ArrayList<SystemEventsBean>());
                                             daysBean.setUser_content("");
                                             daysBean.setUser_event_count(0);
-                                            setBean.add(a,daysBean);
+                                            listPast.add(a,daysBean);
                                         }
-                                        for (int i = 0;i <dayBean.size();i++){
-                                            setBean.add(i+fill,dayBean.get(i));
+                                        for (int i = 0;i <listPastDay.size();i++){
+                                            if (listPastDay.get(i).getDay() > bean.getNow_days()){
+                                                listPast.add(i+fill,listPastDay.get(i));
+                                            }else if(listPastDay.get(i).getDay() < bean.getNow_days()){
+                                                listFuture.add(listPastDay.get(i));
+                                            }
                                         }
-                                        bean.setLifeDays(setBean);
-                                        adapter.setItems(itemBeen.dayItems(setBean.size(),bean));
+                                        adapterPast.setList(listPast,bean.getNow_days());
+                                        adapterFuture.setList(listFuture,bean.getNow_days());
+                                        SetListView.setGridViewHeightBasedOnChildren(pastTime);
+                                        SetListView.setGridViewHeightBasedOnChildren(futureTime);
                                         popupWindow.dismiss();
                                     }else{
-                                        setBean.addAll(dayBean);
-                                        bean.setLifeDays(setBean);
-                                        adapter.setItems(itemBeen.dayItems(setBean.size(),bean));
+                                        for (int i = 0;i <listPastDay.size();i++){
+                                            if (listPastDay.get(i).getDay() > bean.getNow_days()){
+                                                listPast.add(listPastDay.get(i));
+                                            }else if(listPastDay.get(i).getDay() < bean.getNow_days()){
+                                                listFuture.add(listPastDay.get(i));
+                                            }
+                                        }
+                                        adapterPast.setList(listPast,bean.getNow_days());
+                                        adapterFuture.setList(listFuture,bean.getNow_days());
+                                        SetListView.setGridViewHeightBasedOnChildren(pastTime);
+                                        SetListView.setGridViewHeightBasedOnChildren(futureTime);
                                         popupWindow.dismiss();
                                     }
                                 }
-                            } else {
-                                if (dayBean.size() != 0) {
-                                    ToastXutil.show("没有更多数据了");
-                                } else {
-                                    //
-                                    Log.i("123","456");
-                                }
+                            }else{
+                                popupWindow.dismiss();
+                                Log.e("456","----");
                             }
                             break;
                         case 321:
@@ -209,7 +235,7 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
                             break;
                     }
                 }catch (Exception e){
-
+                    Log.e("456",e.getMessage()+"----");
                 }
             }
 
@@ -225,7 +251,6 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
         });
     }
     private void loadLifeDays(int page){
-        popupWindow.show();
         Map<String,Object> map = new HashMap<>();
         map.put("page",page);
         String time_stamp = SystemUtil.getCurrentDate2();
@@ -237,7 +262,6 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
         HomeHttp.getLifeDays(sign, time_stamp, account_token, loadPage, "l", new CallBack() {
             @Override
             public void onResponse(Object response) {
-                Log.i("123",response.toString());
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     int code = jsonObject.getInt("code");
@@ -246,20 +270,18 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
                             Gson gson = new Gson();
                             YuShengDayDetailsBean bean = gson.fromJson(jsonObject.getJSONObject("data").toString(),new TypeToken<YuShengDayDetailsBean>() {
                             }.getType());
-                            dayBean.clear();
-                            dayBean = bean.getLifeDays();
-                            if (dayBean.size() > 0) {
-                                setBean.addAll(dayBean);
-                                bean.setLifeDays(setBean);
-                                adapter.setItems(itemBeen.dayItems(setBean.size(),bean));
-                                popupWindow.dismiss();
+                            listFutureDay.clear();
+                            listFutureDay = bean.getLifeDays();
+                            if (listFutureDay.size() > 0) {
+                                listFuture.addAll(listFutureDay);
+                                adapterFuture.setList(listFuture,bean.getNow_days());
                             } else {
                                 ToastXutil.show("没有更多数据了");
                             }
                             break;
                     }
                 }catch (Exception e){
-
+                    Log.e("456",e.getMessage());
                 }
             }
 
@@ -274,37 +296,13 @@ public class YuShengDayFragment extends Fragment implements AsymmetricGridView.O
             }
         });
     }
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (setBean.get(i).getDate() != ""){
-            try {
-                Date today = SystemUtil.StringToUtilDate(SystemUtil.getCurrentDateOnly());
-                Date getDate =  SystemUtil.StringToUtilDate(setBean.get(i).getDate());
-                if (!getDate.equals(today)){
-                    if (getDate.before(today)){
-                        ToastXutil.show("已过的天数不能编辑");
-                    }else{
-                        ShowPopupWindow.dayPopupwindow(view,getActivity(),setBean.get(i).getDay(),"day");
-                    }
-                }
-            }catch (Exception e){
-
-            }
-        }
-    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.add:
+                ShowPopupWindow.dayPopupwindow(this.view,getActivity(),nowDay,"day");
+                break;
         }
-    }
-
-    /**
-     * 今天的编辑事件
-     * @param view
-     */
-    @Override
-    public void click(View view) {
-        ShowPopupWindow.dayPopupwindow(this.view,getActivity(),setBean.get((int)view.getTag()).getDay(),"day");
     }
 }

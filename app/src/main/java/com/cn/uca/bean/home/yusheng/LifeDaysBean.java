@@ -69,4 +69,17 @@ public class LifeDaysBean {
     public void setDay(int day) {
         this.day = day;
     }
+
+    @Override
+    public String toString() {
+        return "LifeDaysBean{" +
+                "date='" + date + '\'' +
+                ", life_month_id=" + life_month_id +
+                ", system_event_count=" + system_event_count +
+                ", user_content='" + user_content + '\'' +
+                ", systemEvents=" + systemEvents +
+                ", user_event_count=" + user_event_count +
+                ", day=" + day +
+                '}';
+    }
 }

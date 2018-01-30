@@ -25,4 +25,14 @@ public class DayMonthsBean {
     public String getContent() {
         return content;
     }
+
+    @Override
+    public String toString() {
+        return "DayMonthsBean{" +
+                "life_month_id=" + life_month_id +
+                ", create_time='" + create_time + '\'' +
+                ", month=" + month +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

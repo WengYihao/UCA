@@ -14,6 +14,8 @@ public class RaidersSenicSpotBean {
     private double lat;
     private String scenic_spot_name;
     private int order;
+    private boolean isStart;
+    private boolean isEnd;
 
     public String getAddress() {
         return address;
@@ -45,5 +47,53 @@ public class RaidersSenicSpotBean {
 
     public int getOrder() {
         return order;
+    }
+
+    public boolean isStart() {
+        return isStart;
+    }
+
+    public boolean isEnd() {
+        return isEnd;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public void setPicture_url(String picture_url) {
+        this.picture_url = picture_url;
+    }
+
+    public void setIntroduce(String introduce) {
+        this.introduce = introduce;
+    }
+
+    public void setRaiders_scenic_spot_id(int raiders_scenic_spot_id) {
+        this.raiders_scenic_spot_id = raiders_scenic_spot_id;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public void setScenic_spot_name(String scenic_spot_name) {
+        this.scenic_spot_name = scenic_spot_name;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public void setStart(boolean start) {
+        isStart = start;
+    }
+
+    public void setEnd(boolean end) {
+        isEnd = end;
     }
 }

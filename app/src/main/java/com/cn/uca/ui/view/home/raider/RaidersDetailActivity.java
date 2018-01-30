@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.Poi;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
 import com.cn.uca.R;
@@ -38,12 +40,16 @@ import com.cn.uca.bean.home.raider.RaidersFoodBean;
 import com.cn.uca.bean.home.raider.RaidersTrainStationBean;
 import com.cn.uca.bean.home.raider.RaidersSenicSpotBean;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.gaodeutil.NavigationUtil;
+import com.cn.uca.impl.raider.FindWayImpl;
+import com.cn.uca.impl.raider.RouteImpl;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.MapUtil;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
+import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.google.gson.Gson;
@@ -58,7 +64,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RaidersDetailActivity extends BaseBackActivity implements View.OnClickListener,AMap.OnMarkerClickListener,AMap.OnMapClickListener{
+public class RaidersDetailActivity extends BaseBackActivity implements View.OnClickListener,AMap.OnMarkerClickListener,AMap.OnMapClickListener,RouteImpl,FindWayImpl{
 
     private AMap aMap;
     private MapView mapView;
@@ -67,7 +73,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     private int id;
     private String name;
     private List<RaidersAirportBean> airportList;
-    private List<RaidersSenicSpotBean> senicSpotList;
+    private List<RaidersSenicSpotBean> senicSpotList,list;
     private List<RaidersFoodBean> foodList;
     private List<RaidersTrainStationBean> trainStationList;
     private LatLng southwest,northeast;
@@ -80,6 +86,10 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     private PolylineOptions polt = new PolylineOptions();
     private Polyline polyline;
     private String url;
+    private SpotNameAdapter adapter;
+    private Dialog dialog;
+    private LinearLayout walk,driver,bus;
+    private TextView cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +135,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                                 northeast = new LatLng(bean.getUpper_right_lat(),bean.getUpper_right_lng());
                                 airportList = bean.getAirportRets();
                                 senicSpotList = bean.getScenicSpotRets();
+                                list = senicSpotList;
                                 foodList = bean.getFoodRets();
                                 trainStationList = bean.getTrainStationRets();
                                 url = bean.getIntroduce_url();
@@ -187,6 +198,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
         fankui.setOnClickListener(this);
         airportList = new ArrayList<>();
         senicSpotList = new ArrayList<>();
+        list = new ArrayList<>();
         foodList = new ArrayList<>();
         trainStationList = new ArrayList<>();
         foodMarker = new ArrayList<>();
@@ -199,7 +211,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
             aMap = mapView.getMap();
             aMap.setOnMarkerClickListener(this);
             aMap.setOnMapClickListener(this);
-            aMap.setInfoWindowAdapter(new InfoWinAdapter(RaidersDetailActivity.this));
+            aMap.setInfoWindowAdapter(new InfoWinAdapter(RaidersDetailActivity.this,this));
             uiSetting = aMap.getUiSettings();
             uiSetting.setZoomControlsEnabled(false);//隐藏放大缩小控件、不允许缩小、旋转
             uiSetting.setTiltGesturesEnabled(false);//是否倾斜
@@ -321,15 +333,27 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
         final Dialog dialog = new Dialog(this,R.style.dialog_style);
         final View inflate = LayoutInflater.from(this).inflate(R.layout.choose_spot_dialog, null);
         ListView listView = (ListView)inflate.findViewById(R.id.listView);
-        SpotNameAdapter adapter = new SpotNameAdapter(senicSpotList,this);
-        listView.setAdapter(adapter);
+        if (adapter != null){
+            listView.setAdapter(adapter);
+            adapter.setList(senicSpotList);
+        }else{
+            adapter = new SpotNameAdapter(senicSpotList,this,this);
+            listView.setAdapter(adapter);
+        }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent intent = new Intent();
+//                intent.setClass(RaidersDetailActivity.this,SpotDetailActivity.class);
+//                intent.putExtra("content",senicSpotList.get(i).getIntroduce());
+//                intent.putExtra("name",senicSpotList.get(i).getScenic_spot_name());
+//                startActivity(intent);
+//                dialog.dismiss();
+
                 Intent intent = new Intent();
-                intent.setClass(RaidersDetailActivity.this,SpotDetailActivity.class);
-                intent.putExtra("content",senicSpotList.get(i).getIntroduce());
-                intent.putExtra("name",senicSpotList.get(i).getScenic_spot_name());
+                intent.setClass(RaidersDetailActivity.this,RouteActivity.class);
+//                intent.putExtra("content",senicSpotList.get(i).getIntroduce());
+//                intent.putExtra("name",senicSpotList.get(i).getScenic_spot_name());
                 startActivity(intent);
                 dialog.dismiss();
             }
@@ -393,5 +417,78 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+    }
+
+    @Override
+    public void start(View v) {
+       if (list.get((int) v.getTag()).isEnd()){
+           ToastXutil.show("起点和终点不能是同一个地方");
+       }else{
+           for (RaidersSenicSpotBean bean : list){
+               bean.setStart(false);
+           }
+           list.get((int) v.getTag()).setStart(true);
+           adapter.setList(list);
+       }
+    }
+
+    @Override
+    public void end(View v) {
+        if (list.get((int) v.getTag()).isStart()){
+            ToastXutil.show("起点和终点不能是同一个地方");
+        }else{
+            for (RaidersSenicSpotBean bean : list){
+                bean.setEnd(false);
+            }
+            list.get((int) v.getTag()).setEnd(true);
+            adapter.setList(list);
+        }
+    }
+
+    private void show(LatLng latLng){
+       dialog = new Dialog(this,R.style.dialog_style);
+        //填充对话框的布局
+       View inflate = LayoutInflater.from(this).inflate(R.layout.navi_type_dialog, null);
+       LinearLayout walk = (LinearLayout)inflate.findViewById(R.id.walk);
+        LinearLayout driver = (LinearLayout)inflate.findViewById(R.id.driver);
+        LinearLayout bus = (LinearLayout)inflate.findViewById(R.id.bus);
+        walk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        driver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        bus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        //将布局设置给Dialog
+        dialog.setContentView(inflate);
+        //获取当前Activity所在的窗体
+        Window dialogWindow = dialog.getWindow();
+        WindowManager.LayoutParams params = dialogWindow.getAttributes();
+        params.width = MyApplication.width;
+        //设置Dialog从窗体底部弹出
+        dialogWindow.setGravity( Gravity.BOTTOM);
+        dialogWindow.setAttributes(params);
+        StatusMargin.setFrameLayoutBottom(RaidersDetailActivity.this,inflate,0);
+        dialog.show();//显示对话框
+    }
+    @Override
+    public void click(LatLng latLng) {
+        show(latLng);
+//        ToastXutil.show("待开发");
+//        NavigationUtil.driverNavi(latLng,this);
+//        NavigationUtil.walkNavi(new LatLng(22.12,114.23),new LatLng(22.24,114.56),this);
     }
 }

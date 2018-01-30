@@ -29,9 +29,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="@dimen/padding_8"
                 android:layout_toRightOf="@id/pic"
                 android:textColor="@color/ori"
+                android:textSize="@dimen/text_12"
                 android:text="酒店" />
 
             <TextView
@@ -42,6 +43,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:textColor="@color/ori"
+                android:textSize="@dimen/text_12"
                 android:text="订单取消" />
 
         </RelativeLayout>
@@ -52,7 +54,7 @@
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
             android:scaleType="matrix"
-            android:src="@color/grey2" />
+            android:src="@color/gray" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -66,17 +68,18 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:text="北京"
-                android:textSize="18sp" />
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_14"/>
 
             <TextView
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="11dp"
                 android:text="￥730"
-                android:textSize="18sp" />
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_14"
+                android:layout_alignParentRight="true"/>
         </RelativeLayout>
 
         <LinearLayout
@@ -95,7 +98,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2017-08-04 17:59:59"
-                    android:textColor="#dddddd"/>
+                    android:textColor="@color/milky"
+                    android:textSize="@dimen/text_10"/>
 
                 <TextView
                     android:id="@+id/place"
@@ -103,7 +107,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="南方航空"
-                    android:textColor="#dddddd"/>
+                    android:textSize="@dimen/text_10"
+                    android:textColor="@color/milky"/>
             </LinearLayout>
             <RelativeLayout
                 android:layout_width="0dp"

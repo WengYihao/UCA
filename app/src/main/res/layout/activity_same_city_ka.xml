@@ -33,7 +33,7 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center"
                 android:layout_marginLeft="@dimen/padding_5"
-                android:background="@drawable/circular_white_background"
+                android:background="@drawable/unsign_back"
                 android:textColor="@color/white"/>
             <TextView
                 android:id="@+id/city"

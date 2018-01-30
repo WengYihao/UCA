@@ -1,144 +1,94 @@
 package com.cn.uca.adapter.home.yusheng;
 
 import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.bean.home.yusheng.YuShengDayBean;
-import com.cn.uca.impl.yusheng.EditItemClick;
-import com.cn.uca.impl.yusheng.YuShengDayImpl;
+import com.cn.uca.bean.home.yusheng.LifeDaysBean;
+import com.cn.uca.config.MyApplication;
+import com.cn.uca.util.SetLayoutParams;
+
 import java.util.List;
 
 /**
  * 余生天数
  */
-public class YuShengDayAdapter extends ArrayAdapter<YuShengDayBean> implements YuShengDayImpl,View.OnClickListener,EditItemClick{
-	private LayoutInflater layoutInflater;
-	private int TypeOne = 0;// 注意这个不同布局的类型起始值必须从0开始
-	private int TypeTwo = 1;
-	private List<YuShengDayBean> items;
+public class YuShengDayAdapter extends BaseAdapter{
+	private int nowDay;
 	private Context context;
-	private EditItemClick editItemClick;
+	private List<LifeDaysBean> list;
 
-	public YuShengDayAdapter(Context context, List<YuShengDayBean> items,EditItemClick editItemClick) {
-		super(context, 0, items);
+	public YuShengDayAdapter(Context context, List<LifeDaysBean> list,int nowDay) {
 		this.context = context;
-		this.items = items;
-		this.editItemClick = editItemClick;
-		layoutInflater = LayoutInflater.from(context);
+		this.list = list;
+		this.nowDay = nowDay;
 	}
+
+	public void setList(List<LifeDaysBean> list,int nowDay) {
+		if (list != null) {
+			this.list =  list;
+			this.nowDay = nowDay;
+			this.notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	public int getCount() {
+		return list.size();
+	}
+
+	@Override
+	public Object getItem(int position) {
+		return list.get(position);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
+
 	@Override
 	public View getView(int position, View convertView,ViewGroup parent) {
 		ViewHolder holder = null;
-		ViewHolder2 holder2 = null;
-		YuShengDayBean item = getItem(position);
-		boolean isRegular = getItemViewType(position) == 0;
 		if (convertView == null) {
-			if (isRegular){
-				holder = new ViewHolder();
-				convertView = layoutInflater.inflate(R.layout.today_item, parent, false);
-				holder.add = (TextView)convertView.findViewById(R.id.add);
-				holder.day = (TextView)convertView.findViewById(R.id.day);
-				convertView.setTag(holder);
-			}else{
-				holder2 = new ViewHolder2();
-				convertView = layoutInflater.inflate(R.layout.otherday_item,parent,false);
-				holder2.layout = (RelativeLayout) convertView.findViewById(R.id.layout);
-				holder2.day = (TextView)convertView.findViewById(R.id.day);
-				holder2.text = (TextView)convertView.findViewById(R.id.text);
-				convertView.setTag(holder2);
-			}
+			holder = new ViewHolder();
+			convertView = LayoutInflater.from(context).inflate(R.layout.otherday_item,parent,false);
+			holder.layout = (RelativeLayout) convertView.findViewById(R.id.layout);
+			holder.day = (TextView)convertView.findViewById(R.id.day);
+			holder.text = (TextView)convertView.findViewById(R.id.text);
+			convertView.setTag(holder);
 		} else {
-			if (isRegular) {
-				holder = (ViewHolder) convertView.getTag();
+			holder = (ViewHolder) convertView.getTag();
+		}
+		if (list.get(position).getDay() == 0){
+			holder.day.setText("");
+			holder.layout.setBackgroundColor(context.getResources().getColor(R.color.white));
+		}else{
+			if (list.get(position).getDay() > nowDay){
+				//过去
+				holder.day.setText(list.get(position).getDay()+"");
+				holder.layout.setBackgroundColor(context.getResources().getColor(R.color.yusheng1));
+				holder.day.setTextColor(context.getResources().getColor(R.color.yusheng2));
+				holder.text.setTextColor(context.getResources().getColor(R.color.yusheng2));
 			}else{
-				holder2 = (ViewHolder2) convertView.getTag();
+				//未来
+				holder.day.setText(list.get(position).getDay()+"");
+				holder.layout.setBackgroundColor(context.getResources().getColor(R.color.yusheng3));
+				holder.day.setTextColor(context.getResources().getColor(R.color.yusheng4));
+				holder.text.setTextColor(context.getResources().getColor(R.color.yusheng4));
 			}
 		}
-		if (isRegular) {
-			AssetManager mgr = context.getAssets();//得到AssetManager
-			Typeface tf=Typeface.createFromAsset(mgr, "fonts/ttf.ttf");//根据路径得到Typeface
-			holder.day.setText("余"+item.getDayBean().getLifeDays().get(position).getDay()+"天");
-			holder.day.setTypeface(tf);//设置字体
-			holder.add.setOnClickListener(this);
-			holder.add.setTag(position);
-		} else {
-			if (item.getDayBean().getLifeDays().get(position).getDay() == 0){
-				holder2.day.setText("");
-				holder2.layout.setBackgroundColor(context.getResources().getColor(R.color.white));
-			}else{
-				if (item.getDayBean().getLifeDays().get(position).getDay() > item.getDayBean().getNow_days()){
-					holder2.day.setText(item.getDayBean().getLifeDays().get(position).getDay()+"");
-					holder2.layout.setBackgroundColor(context.getResources().getColor(R.color.yusheng1));
-					holder2.day.setTextColor(context.getResources().getColor(R.color.yusheng2));
-					holder2.text.setTextColor(context.getResources().getColor(R.color.yusheng2));
-				}else{
-					holder2.day.setText(item.getDayBean().getLifeDays().get(position).getDay()+"");
-					holder2.layout.setBackgroundColor(context.getResources().getColor(R.color.yusheng3));
-					holder2.day.setTextColor(context.getResources().getColor(R.color.yusheng4));
-					holder2.text.setTextColor(context.getResources().getColor(R.color.yusheng4));
-				}
-
-			}
-		}
+		SetLayoutParams.setAbsListView(holder.layout, (MyApplication.width-6)/7,MyApplication.width/7*27/20);
 		return convertView;
 	}
 
-	@Override
-	public void onClick(View view) {
-		switch (view.getId()){
-			case R.id.add:
-				editItemClick.click(view);
-				break;
-		}
-	}
-
-	@Override
-	public void click(View view) {
-
-	}
-
-	class ViewHolder {
-		TextView day,add;
-	}
-	class ViewHolder2{
+	class ViewHolder{
 		RelativeLayout layout;
 		TextView day,text;
-	}
-	@Override
-	public int getViewTypeCount() {
-		return 2;
-	}
-
-	@Override
-	public int getItemViewType(int position) {
-		for (int i = 0;i<items.size();i++){
-			if (items.get(i).getDayBean().getLifeDays().get(position).getDay() == items.get(i).getDayBean().getNow_days()){
-				return TypeOne;
-			}else{
-				return TypeTwo;
-			}
-		}
-		return 2;
-	}
-
-	@Override
-	public void appendItems(List<YuShengDayBean> newItems) {
-		addAll(newItems);
-		notifyDataSetChanged();
-	}
-
-	@Override
-	public void setItems(List<YuShengDayBean> moreItems) {
-		clear();
-		appendItems(moreItems);
-		notifyDataSetChanged();
 	}
 }

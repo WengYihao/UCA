@@ -95,7 +95,7 @@
                     android:layout_height="80dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/padding_10"
-                    android:src="@mipmap/user_pic"/>
+                    android:src="@mipmap/user_pic" />
 
                 <RelativeLayout
                     android:id="@+id/userInfo"
@@ -262,12 +262,12 @@
                 android:id="@+id/layout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/layout2"
                 android:layout_marginTop="8dp"
                 android:background="@color/white"
-                android:padding="@dimen/padding_10"
-                android:layout_below="@+id/layout2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:padding="@dimen/padding_10">
 
                 <ImageView
                     android:id="@+id/title_logo4"

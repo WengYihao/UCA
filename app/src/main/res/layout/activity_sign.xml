@@ -1,24 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.cn.uca.ui.view.home.sign.SignActivity">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_40"
-        android:background="@drawable/gradient">
-
-        <TextView
-            android:id="@+id/back"
-            style="@style/style_back" />
-
-        <TextView
-            android:id="@+id/title"
-            style="@style/style_title"
-            android:text="签到" />
-    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,25 +14,35 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white">
-
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/backlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
+                android:scaleType="fitXY"
                 android:src="@mipmap/sign_back" />
+            <RelativeLayout
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/padding_40"
+                android:layout_marginTop="@dimen/padding_20">
 
+                <TextView
+                    android:id="@+id/back"
+                    style="@style/style_back" />
+
+                <TextView
+                    style="@style/style_title"
+                    android:text="签到" />
+            </RelativeLayout>
             <LinearLayout
                 android:id="@+id/sign_btn"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/padding_50"
+                android:layout_below="@id/title"
+                android:layout_marginTop="@dimen/padding_30"
                 android:background="@mipmap/sign_btn_back"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -84,11 +80,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_10"
-                android:layout_marginTop="@dimen/padding_50"
+                android:layout_below="@id/title"
+                android:layout_marginTop="@dimen/padding_25"
                 android:layout_toRightOf="@id/sign_btn"
                 android:background="@drawable/twenty_circular_green_background"
                 android:padding="@dimen/padding_8"
-                android:text="连续签到14天" />
+                android:textSize="@dimen/text_12"
+                android:textColor="@color/white"/>
 
             <TextView
                 android:id="@+id/sign_jifen"
@@ -104,7 +102,7 @@
                 android:id="@+id/list"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="@dimen/padding_15"
                 android:layout_below="@+id/sign_jifen"
                 android:orientation="horizontal">
@@ -120,9 +118,10 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/circular_white_background"
+                        android:background="@drawable/unsign_back"
                         android:gravity="center"
                         android:text="1"
+                        android:textColor="@color/white"
                         android:textSize="8sp" />
 
                     <ImageView
@@ -142,10 +141,11 @@
                         android:id="@+id/day2"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/circular_white_background"
+                        android:background="@drawable/unsign_back"
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:text="1"
+                        android:textColor="@color/white"
                         android:textSize="8sp" />
 
                     <ImageView
@@ -164,10 +164,11 @@
                         android:id="@+id/day3"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/circular_white_background"
+                        android:background="@drawable/unsign_back"
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:text="1"
+                        android:textColor="@color/white"
                         android:textSize="8sp" />
 
                     <ImageView
@@ -178,18 +179,18 @@
                         android:src="@color/white" />
                 </LinearLayout>
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/day4"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/circular_white_background"
+                        android:background="@drawable/unsign_back"
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:text="1"
+                        android:textColor="@color/white"
                         android:textSize="8sp" />
 
                     <ImageView
@@ -208,10 +209,11 @@
                         android:id="@+id/day5"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/circular_white_background"
+                        android:background="@drawable/unsign_back"
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:text="1"
+                        android:textColor="@color/white"
                         android:textSize="8sp" />
 
                     <ImageView
@@ -230,10 +232,11 @@
                         android:id="@+id/day6"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:background="@drawable/circular_white_background"
+                        android:background="@drawable/unsign_back"
                         android:gravity="center"
                         android:layout_gravity="center"
                         android:text="1"
+                        android:textColor="@color/white"
                         android:textSize="8sp" />
 
                     <ImageView
@@ -247,24 +250,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
                     <LinearLayout
-                        android:layout_width="70dp"
-                        android:layout_height="48dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:background="@mipmap/un_seven_day_back"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/day7"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/padding_12"
-                            android:gravity="center"
+                            android:layout_marginLeft="@dimen/padding_15"
                             android:text="7"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_22" />
+                            android:textSize="@dimen/text_20" />
                     </LinearLayout>
+
                     <ImageView
                         android:id="@+id/line"
                         android:layout_width="25dp"
@@ -275,6 +279,8 @@
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
+
+
 
         <RelativeLayout
             android:id="@+id/sign_back"
@@ -320,16 +326,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_10"
-                android:padding="@dimen/padding_8"
+                android:padding="@dimen/padding_10"
                 android:text="积分兑换"
                 android:textColor="@color/ori"
-                android:textSize="@dimen/text_14" />
+                android:textSize="@dimen/text_12" />
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/listView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/b"></ListView>
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/padding_12"
+                android:layout_marginRight="@dimen/padding_12"
+                android:scaleType="matrix"
+                android:src="@color/gray" />
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/padding_12"
+                android:layout_marginRight="@dimen/padding_12"
+                android:divider="@color/gray"
+                android:dividerHeight="1dp"></ListView>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/padding_12"
+                android:layout_marginRight="@dimen/padding_12"
+                android:scaleType="matrix"
+                android:src="@color/gray" />
+        </LinearLayout>
+
     </LinearLayout>
-</com.cn.uca.view.StatusView>
+</LinearLayout>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,44 +19,55 @@
             style="@style/style_title"
             android:text="订单填写"/>
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/gray">
+        android:background="@color/gray"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:orientation="horizontal">
+
             <TextView
+                android:id="@+id/ticket_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:lines="1"
+                android:maxEms="23"
+                android:padding="@dimen/padding_15"
+                android:text="11111111111111111111111111111111111111111111111111"
+                android:textColor="@color/grey" />
+
+            <TextView
+                android:id="@+id/ticket_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="世界之窗普通票"
-                android:padding="@dimen/padding_15"
-                android:textColor="@color/grey"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="￥60/张"
-                android:textColor="@color/ori"
+                android:layout_marginRight="@dimen/padding_15"
                 android:gravity="right"
-                android:layout_marginRight="@dimen/padding_15"/>
+                android:text="￥60/张"
+                android:textColor="@color/ori" />
         </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/layout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/padding_10"
+            android:layout_marginTop="@dimen/padding_20"
             android:background="@color/white"
             android:padding="@dimen/padding_10">
+
             <TextView
-                android:id="@+id/title_text1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_5"
-                android:textColor="@color/grey"
-                android:text="出行日期"/>
+                android:text="出行日期"
+                android:textColor="@color/grey" />
 
             <ImageView
                 android:id="@+id/a"
@@ -71,148 +81,160 @@
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/a"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/padding_5"
+                android:layout_toLeftOf="@id/a"
                 android:text="选择日期"
-                android:textSize="@dimen/text_14"/>
+                android:textSize="@dimen/text_12" />
         </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/layout2"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:padding="@dimen/padding_10">
 
             <TextView
-                android:id="@+id/title_text2"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/padding_5"
                 android:text="数量"
-                android:textSize="@dimen/text_16"
-                android:textColor="@color/grey"/>
+                android:textColor="@color/grey" />
 
-            <ImageView
-                android:id="@+id/b"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:src="@mipmap/right_gray" />
+            <EditText
+                android:id="@+id/ticket_num"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_20"
+                android:background="@color/white"
+                android:gravity="right"
+                android:inputType="number"
+                android:hint="请填写票数"
+                android:textSize="12sp" />
+        </LinearLayout>
 
-            <TextView
-                android:id="@+id/sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/b"
-                android:layout_marginRight="@dimen/padding_5"
-                android:text="2"
-                android:textSize="@dimen/text_14" />
-        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_marginTop="@dimen/padding_10">
+            android:layout_marginTop="@dimen/padding_10"
+            android:background="@color/white">
+
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/padding_15"
                 android:text="出游人"
-                android:padding="@dimen/padding_15"
-                android:textColor="@color/grey"/>
+                android:textColor="@color/grey" />
+
             <EditText
+                android:id="@+id/people_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_20"
                 android:background="@color/white"
-                android:textSize="12sp"
                 android:hint="请填写出游人姓名"
-                android:layout_marginLeft="@dimen/padding_20"/>
+                android:textSize="12sp" />
         </LinearLayout>
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:scaleType="matrix"
             android:src="@color/gray" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white">
+
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/padding_15"
                 android:text="联系电话"
-                android:padding="@dimen/padding_15"
-                android:textColor="@color/grey"/>
+                android:textColor="@color/grey" />
+
             <EditText
+                android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_20"
                 android:background="@color/white"
-                android:textSize="12sp"
                 android:hint="用于接收确认短信"
-                android:layout_marginLeft="@dimen/padding_20"/>
+                android:textSize="12sp" />
         </LinearLayout>
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:scaleType="matrix"
             android:src="@color/gray" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white">
+
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="身份证"
                 android:padding="@dimen/padding_15"
-                android:textColor="@color/grey"/>
+                android:text="身份证"
+                android:textColor="@color/grey" />
+
             <EditText
+                android:id="@+id/identity"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/padding_20"
                 android:background="@color/white"
-                android:textSize="12sp"
                 android:hint="用于景区的入园凭证"
-                android:layout_marginLeft="@dimen/padding_20"/>
+                android:textSize="12sp" />
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_alignParentBottom="true">
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
                     android:layout_gravity="center_vertical"
-                    android:background="@color/white">
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_15"
                         android:text="订单总额" />
+
                     <TextView
+                        android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:text="￥120"
-                        android:textColor="@color/ori"
-                        android:layout_gravity="center_vertical"/>
+                        android:textColor="@color/ori" />
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/config"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="立即支付"
-                    android:gravity="center"
                     android:background="@color/ori"
-                    android:textColor="@color/white"
-                    android:padding="@dimen/padding_15"/>
+                    android:gravity="center"
+                    android:padding="@dimen/padding_15"
+                    android:text="立即支付"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
         </RelativeLayout>

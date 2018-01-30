@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="门票名称"
                 android:textColor="@color/grey"
-                android:textSize="@dimen/text_14" />
+                android:textSize="@dimen/text_12" />
 
             <TextView
                 android:id="@+id/time"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_15"
                 android:text="时间段"
-                android:textSize="@dimen/text_12"
+                android:textSize="@dimen/text_10"
                 android:textColor="@color/gray2" />
 
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_marginTop="@dimen/padding_15"
                 android:text="预定须知"
                 android:textColor="@color/ori"
-                android:textSize="@dimen/text_12" />
+                android:textSize="@dimen/text_10" />
         </LinearLayout>
         <RelativeLayout
             android:id="@+id/layout"
@@ -65,7 +65,7 @@
                     android:layout_marginTop="@dimen/padding_8"
                     android:text="￥60"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_14" />
+                    android:textSize="@dimen/text_12" />
 
                 <TextView
                     android:id="@+id/price_original"
@@ -75,19 +75,19 @@
                     android:layout_centerHorizontal="true"
                     android:text="￥60"
                     android:textColor="#eee"
-                    android:textSize="@dimen/text_12" />
+                    android:textSize="@dimen/text_10" />
             </RelativeLayout>
 
             <TextView
                 android:id="@+id/reserve"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/circular_ori_background"
                 android:gravity="center"
                 android:text="订"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_20"/>
+                android:textSize="@dimen/text_16"/>
         </RelativeLayout>
 
     </LinearLayout>

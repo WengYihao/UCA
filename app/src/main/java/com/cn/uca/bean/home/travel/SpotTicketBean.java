@@ -8,15 +8,20 @@ import java.util.List;
  */
 
 public class SpotTicketBean {
+   private String address;
     private int evaluation_quantity;
     private String introduce_url;
-    private double score;
-    private String address;
+    private double lat;
+    private double lng;
     private String picture_url;
-    private List<TicketBean> ticketRets;
     private int scenic_spot_id;
-    private List<SpotTicketCommentBean> scenicSpotComments;
     private String scenic_spot_name;
+    private double score;
+    private List<TicketBean> ticketRets;
+
+    public String getAddress() {
+        return address;
+    }
 
     public int getEvaluation_quantity() {
         return evaluation_quantity;
@@ -26,31 +31,31 @@ public class SpotTicketBean {
         return introduce_url;
     }
 
-    public double getScore() {
-        return score;
+    public double getLat() {
+        return lat;
     }
 
-    public String getAddress() {
-        return address;
+    public double getLng() {
+        return lng;
     }
 
     public String getPicture_url() {
         return picture_url;
     }
 
-    public List<TicketBean> getTicketRets() {
-        return ticketRets;
-    }
-
     public int getScenic_spot_id() {
         return scenic_spot_id;
     }
 
-    public List<SpotTicketCommentBean> getScenicSpotComments() {
-        return scenicSpotComments;
-    }
-
     public String getScenic_spot_name() {
         return scenic_spot_name;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public List<TicketBean> getTicketRets() {
+        return ticketRets;
     }
 }

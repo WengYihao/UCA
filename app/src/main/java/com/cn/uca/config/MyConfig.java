@@ -51,8 +51,10 @@ public class MyConfig {
 	public static final String getTicket = url+"travel/query/getTicket.do";//获取景区门票
 	public static final String getHotTicket = url+"travel/query/getHotTicket.do";//获取热门景区门票
 	public static final String getScenicSpotCity = url+"travel/query/getScenicSpotCity.do";//获取热门城市景区门票
-	public static final String getScenicSpot = url+"travel/query/getScenicSpot.do";//获取城市景区门票
+	public static final String getScenicSpot = url+"travel/query/getScenicSpot.do";//获取城市景区门票]
+	public static final String createTicketOrder = url + "travel/update/createTicketOrder.do";//购取景区门票票
 	public static final String cpyGetCityRaiders = url+"travel/query/cpyGetCityRaiders.do";//城市攻略
+	public static final String getProvinceRaiders = url + "travel/query/getProvinceRaiders.do";//获取攻略省份
 	public static final String getCityRaidersInfo = url+"travel/query/getCityRaidersInfo.do";//获取攻略详情
 	public static final String openLife = url + "life/update/openLife.do";//开启余生
 	public static final String getLifeDays = url +"life/query/getLifeDays.do";//获取余生天数的记录
@@ -72,13 +74,15 @@ public class MyConfig {
 	public static final String deleteCoverPicture = url+"escort/update/deleteCoverPicture.do";//删除用户图片
 	public static final String getIdCardUrl = url+"user/query/getIdCardUrl.do";//获取芝麻信用url
 	public static final String feedback = url+"home/query/feedback.do";//app反馈
-//	public static final String purchaseCityRaiders = url+"travel/update/purchaseCityRaiders.do";//购买一元攻略
+	public static final String purchaseCityRaiders = url+"travel/update/purchaseCityRaiders.do";//购买一元攻略
     public static final String orderPayment = url+"/user/update/orderPayment.do";//支付订单
 	public static final String getUserOrder = url +"user/query/getUserOrder.do";//获取用户订单
 	public static final String getUserOrderInfo = url + "user/query/getUserOrderInfo.do";//获取订单信息
     public static final String createWeiXinOrder = url+"user/update/createWeiXinOrder.do";//创建微信订单
 	public static final String queryWeiXinOrderState = url+"query/queryWeiXinOrderState.do";//验证微信支付是否成功
 	public static final String userClock = url+"user/update/userClock.do";//用户签到
+	public static final String getIntegralPool = url +"integral/query/getIntegralPool.do";//获取积分兑换物品
+    public static final String getIntegralDetailed = url +"integral/query/getIntegralDetailed.do";//获取用户明细
 	public static final String getPurseRecords = url + "user/query/getPurseRecords.do";//获取账号明细
 	public static final String getUserClock = url+"user/query/getUserClock.do";//加载用户签到信息
 	public static final String getConfirmCoffee = url+"escort/query/getConfirmCoffee.do";//伴游确认订单数据
@@ -117,8 +121,9 @@ public class MyConfig {
 	public static final String staSusCityCafe = url +"citycafe/update/staSusCityCafe.do";//开始或暂停同城咖售票
 	public static final String collectionCityCafe = url + "citycafe/update/collectionCityCafe.do";//收藏/取消收藏同城咖
 	public static final String getCafeUser = url + "citycafe/query/getCafeUser.do";//获取同城咖发布者卡票信息
-	public static final String checkTicket = url +"citycafe/update/checkTicket.do\n";//发起者验票
+	public static final String checkTicket = url +"citycafe/update/checkTicket.do";//发起者验票
 	public static final String getPushUser = url + "user/query/getPushUser.do";//获取用户推送
+	public static final String getMustPlayAround = url + "travel/query/getMustPlayAround.do";//获取周边必玩(旅游)
 	/**
 	 * 旅拍
 	 */

@@ -93,6 +93,10 @@ public class OrderAdapter extends BaseAdapter{
 				holder.pic.setBackgroundResource(R.mipmap.lvpai_state_back);
 				holder.type.setText("旅拍");
 				break;
+			case 8:
+				holder.pic.setBackgroundResource(R.mipmap.spot_ticket_state_back);
+				holder.type.setText("门票");
+				break;
         }
         switch (list.get(position).getUser_order_state_id()){
             case 1:
@@ -124,6 +128,31 @@ public class OrderAdapter extends BaseAdapter{
                 break;
             case 3:
                 holder.state.setText("已失效");
+				holder.type.setTextColor(context.getResources().getColor(R.color.milky));
+				holder.state.setTextColor(context.getResources().getColor(R.color.milky));
+				switch (list.get(position).getCommodity_id()){
+					case 1:
+						holder.pic.setBackgroundResource(R.mipmap.yueka_gray_state_back);
+						break;
+					case 2:
+						holder.pic.setBackgroundResource(R.mipmap.travel_gray_state_back);
+						break;
+					case 3:
+						holder.pic.setBackgroundResource(R.mipmap.hotel_gray_state_back);
+						break;
+					case 4:
+						holder.pic.setBackgroundResource(R.mipmap.plant_gray_state_back);
+						break;
+					case 6:
+						holder.pic.setBackgroundResource(R.mipmap.samecityka_gray_state_back);
+						break;
+					case 7:
+						holder.pic.setBackgroundResource(R.mipmap.lvpai_gray_state_back);
+						break;
+					case 8:
+						holder.pic.setBackgroundResource(R.mipmap.spot_ticket_gray_state_back);
+						break;
+				}
 				holder.back.setVisibility(View.GONE);
                 break;
             case 4:

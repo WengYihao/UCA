@@ -29,68 +29,12 @@
             android:id="@+id/layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/gradient">
-
-            <TextView
-                android:id="@+id/title01"
-                android:layout_width="0dp"
+            android:orientation="horizontal">
+            <com.cn.uca.view.HorizontalListView
+                android:id="@+id/typeName"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/orderActivity_title01_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_14" />
-
-            <TextView
-                android:id="@+id/title02"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/orderActivity_title02_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_14" />
-
-            <TextView
-                android:id="@+id/title03"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/orderActivity_title03_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_14" />
-
-            <TextView
-                android:id="@+id/title04"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/orderActivity_title04_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_14" />
-
-            <TextView
-                android:id="@+id/title05"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/orderActivity_title05_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_14" />
-
-            <TextView
-                android:id="@+id/title06"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/orderActivity_title06_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_14" />
+                android:background="@drawable/gradient"></com.cn.uca.view.HorizontalListView>
         </LinearLayout>
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
@@ -98,6 +42,5 @@
             android:layout_height="match_parent">
         </android.support.v4.view.ViewPager>
     </LinearLayout>
-
 
 </com.cn.uca.view.StatusView>

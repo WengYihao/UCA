@@ -40,7 +40,7 @@
                         android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/text_12"
+                        android:layout_marginLeft="@dimen/padding_8"
                         android:text="深圳海岸婚纱摄影"
                         android:textColor="@color/grey"
                         android:textSize="@dimen/text_16" />
@@ -74,14 +74,14 @@
                             android:layout_width="12dp"
                             android:layout_height="12dp"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/text_12"
+                            android:layout_marginLeft="@dimen/padding_8"
                             android:background="@mipmap/action_place" />
 
                         <TextView
                             android:id="@+id/place"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/padding_5"
+                            android:layout_marginLeft="@dimen/padding_2"
                             android:maxEms="15"
                             android:singleLine="true"
                             android:text="广东省深圳市罗湖区南湖街道123" />
@@ -97,14 +97,14 @@
                             android:layout_width="12dp"
                             android:layout_height="12dp"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="@dimen/text_12"
+                            android:layout_marginLeft="@dimen/padding_8"
                             android:background="@mipmap/action_time_item" />
 
                         <TextView
                             android:id="@+id/time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/padding_5"
+                            android:layout_marginLeft="@dimen/padding_2"
                             android:maxEms="15"
                             android:singleLine="true"
                             android:text="2018-01-04 18:26:00" />

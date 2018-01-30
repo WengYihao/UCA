@@ -8,10 +8,12 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.ui.view.WebViewActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.ActivityCollector;
 import com.cn.uca.util.StringXutil;
@@ -88,7 +90,12 @@ public class RegisterActivity extends BaseBackActivity implements View.OnClickLi
                 sendInfo();
                 break;
             case R.id.link:
-                startActivity(new Intent(RegisterActivity.this,RegisterWebActivity.class));
+//                startActivity(new Intent(RegisterActivity.this,RegisterWebActivity.class));
+                Intent intent = new Intent();
+                intent.setClass(RegisterActivity.this, WebViewActivity.class);
+                intent.putExtra("type","register");
+                intent.putExtra("url","http://www.szyouka.com:8080/youkatravel/agreement/appUseProtocol.html");
+                startActivity(intent);
                 break;
         }
     }

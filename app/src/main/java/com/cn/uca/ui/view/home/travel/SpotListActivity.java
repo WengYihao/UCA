@@ -14,6 +14,7 @@ import com.cn.uca.R;
 import com.cn.uca.adapter.LetterAdapter;
 import com.cn.uca.adapter.home.CityAdapter;
 import com.cn.uca.bean.home.CityBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
@@ -39,6 +40,8 @@ public class SpotListActivity extends BaseBackActivity implements View.OnClickLi
     private CityAdapter cityAdapter;
     private String [] data;
     private List<CityBean> list;
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +82,13 @@ public class SpotListActivity extends BaseBackActivity implements View.OnClickLi
 
     private void getScenicSpotCity(){
         Map<String,Object> map = new HashMap<>();
-        map.put("page",1);
-        map.put("pageCount",6);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
         String time_stamp = SystemUtil.getCurrentDate2();
         map.put("time_stamp",time_stamp);
-        map.put("city_pinyin","s");
+        map.put("city_pinyin","");
         String sign = SignUtil.sign(map);
-        HomeHttp.getScenicSpotCity(1, 6, sign, time_stamp, "s", new CallBack() {
+        HomeHttp.getScenicSpotCity(page,pageCount, sign, time_stamp, "", new CallBack() {
             @Override
             public void onResponse(Object response) {
                 try {
@@ -99,7 +102,6 @@ public class SpotListActivity extends BaseBackActivity implements View.OnClickLi
                             List<CityBean> bean = gson.fromJson(array.toString(),new TypeToken<List<CityBean>>() {
                             }.getType());
                             list.addAll(bean);
-                            Log.i("123",list.toString()+"***");
                             cityAdapter.setList(list);
                             break;
                     }

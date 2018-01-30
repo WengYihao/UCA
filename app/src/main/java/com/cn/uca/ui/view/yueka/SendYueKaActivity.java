@@ -31,7 +31,6 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.datepicker.OnDoubleSureLisener;
 import com.cn.uca.server.yueka.YueKaHttp;
-import com.cn.uca.ui.view.home.samecityka.SendDetailActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
@@ -290,7 +289,7 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
                 break;
             case R.id.supplement:
                 Intent intent = new Intent();
-                intent.setClass(SendYueKaActivity.this,DetailsWebActivity.class);
+                intent.setClass(SendYueKaActivity.this,SendYueKaDetailctivity.class);
                 startActivityForResult(intent,0);
                 break;
             case R.id.freeTime:

@@ -53,6 +53,7 @@ public class SameCityKaFragment extends Fragment implements View.OnClickListener
         view = inflater.inflate(R.layout.fragment_samecityka,null);
 
         initView();
+
         return view;
     }
     private void initView() {

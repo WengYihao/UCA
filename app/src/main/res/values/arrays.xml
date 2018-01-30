@@ -40,4 +40,13 @@
         <item>Y</item>
         <item>Z</item>
     </array>
+    <array name="order_type">
+        <item>机票</item>
+        <item>酒店</item>
+        <item>旅游</item>
+        <item>同城咖</item>
+        <item>约咖</item>
+        <item>旅拍</item>
+        <item>门票</item>
+    </array>
 </resources>

@@ -170,8 +170,19 @@ public class BaseServer {
 			@Override
 			public void onResponse(String response) {
 				if (response != null) {
-					Log.i("post5", response.toString());
-					callBack.onResponse(response);
+					Log.e("post5",response.toString());
+					try{
+						JSONObject jsonObject = new JSONObject(response);
+						int code = jsonObject.getInt("code");
+						if (code == 0){
+							callBack.onResponse(response);
+						}else{
+							callBack.onResponse(response);
+							callBack.onErrorMsg(jsonObject.getString("msg").toString());
+						}
+					}catch (Exception e){
+
+					}
 				}else{
 					callBack.onErrorMsg("访问出错");
 				}

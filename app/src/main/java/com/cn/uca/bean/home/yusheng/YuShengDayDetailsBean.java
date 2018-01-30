@@ -52,4 +52,15 @@ public class YuShengDayDetailsBean {
     public void setNow_days(int now_days) {
         this.now_days = now_days;
     }
+
+    @Override
+    public String toString() {
+        return "YuShengDayDetailsBean{" +
+                "lifeMonths=" + lifeMonths +
+                ", sum_days=" + sum_days +
+                ", lifeDays=" + lifeDays +
+                ", fill=" + fill +
+                ", now_days=" + now_days +
+                '}';
+    }
 }

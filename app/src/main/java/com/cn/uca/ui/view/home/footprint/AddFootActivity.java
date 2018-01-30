@@ -300,7 +300,10 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                     map.put("city_id",cityId);
                     map.put("travel_time",travelTime);
                     map.put("content",travelContent);
-                    File file = PhotoCompress.comp(bais);
+                    File file = null;
+                    if (bais != null){
+                        file = PhotoCompress.comp(bais);
+                    }
                     String sign = SignUtil.sign(map);
                     HomeHttp.addFootprintChina(sign, time_stamp, account_token, cityId, travelTime, travelContent, file, new AsyncHttpResponseHandler() {
                         @Override
@@ -357,7 +360,10 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                 map.put("travel_time",travelTime);
                 map.put("content",travelContent);
                 String sign = SignUtil.sign(map);
-                File file = PhotoCompress.comp(bais);
+                File file = null;
+                if (bais != null){
+                   file = PhotoCompress.comp(bais);
+                }
                 HomeHttp.addFootprintWorld(sign, time_stamp, account_token, codeCity, travelTime, travelContent, file, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int i, Header[] headers, byte[] bytes) {

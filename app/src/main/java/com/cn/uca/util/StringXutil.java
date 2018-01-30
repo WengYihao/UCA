@@ -5,6 +5,7 @@ import android.widget.EditText;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -46,6 +47,13 @@ public class StringXutil {
 		return builder.toString();
 	}
 
+	public static List<String> DateToDay(List<String> list){
+		List<String> list1 = new ArrayList<>();
+		for (int i = 0;i < list.size();i++){
+			list1.add(list.get(i).substring(8,10));
+		}
+		return list1;
+	}
 	/**
 	 * 正则表达式验证密码
 	 *

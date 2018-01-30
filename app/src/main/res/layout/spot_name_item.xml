@@ -2,20 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/white">
 
-    <TextView
-        android:layout_width="@dimen/padding_20"
-        android:layout_height="@dimen/padding_20"
-        android:background="@mipmap/spot_name_back"
-        android:gravity="center_vertical"
-        android:layout_marginLeft="@dimen/padding_15"/>
-    <TextView
-        android:id="@+id/item"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="@dimen/padding_10"
-        android:textColor="@color/ori"
-        android:textSize="@dimen/text_14" />
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="@dimen/padding_20"
+            android:layout_height="@dimen/padding_20"
+            android:background="@mipmap/spot_name_back"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/padding_15"/>
+        <TextView
+            android:id="@+id/item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="@dimen/padding_10"
+            android:textColor="@color/ori"
+            android:textSize="@dimen/text_14"
+            android:text="123456"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/start"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="设为起点"
+            android:gravity="center"
+            android:background="@drawable/text_lable_gray_bg"
+            android:padding="@dimen/padding_5"
+            android:textColor="@color/grey2"
+            android:textSize="@dimen/text_14"/>
+        <TextView
+            android:id="@+id/end"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="设为终点"
+            android:gravity="center"
+            android:background="@drawable/text_lable_gray_bg"
+            android:padding="@dimen/padding_5"
+            android:textColor="@color/grey2"
+            android:layout_marginLeft="@dimen/padding_10"
+            android:textSize="@dimen/text_14"/>
+    </LinearLayout>
 </LinearLayout>
