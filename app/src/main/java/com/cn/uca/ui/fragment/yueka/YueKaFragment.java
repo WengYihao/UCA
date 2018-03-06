@@ -180,7 +180,9 @@ public class YueKaFragment extends Fragment implements AMapLocationListener,View
 
     private void autoObtainLocationPermission() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constant.STORAGE_PERMISSIONS_REQUEST_CODE);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constant.WRITE_PERMISSIONS_REQUEST_CODE);
+        }else{
+
         }
     }
     @Override

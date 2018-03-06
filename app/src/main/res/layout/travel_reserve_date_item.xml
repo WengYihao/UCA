@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/white">
+        <TextView
+            android:id="@+id/surplus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="余8"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/ori"
+            android:textSize="@dimen/text_10"
+            android:layout_marginTop="@dimen/padding_5"/>
+        <TextView
+            android:id="@+id/day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11"
+            android:layout_centerInParent="true"
+            android:textColor="@color/grey"/>
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/padding_5"
+            android:layout_centerHorizontal="true"
+            android:text="￥1280"
+            android:textSize="@dimen/text_10"/>
+
+    </RelativeLayout>
+</LinearLayout>

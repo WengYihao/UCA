@@ -59,6 +59,7 @@ import com.cn.uca.view.dialog.LoadDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -80,10 +81,11 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
     private String[] arrayString = { "拍照", "相册" };
     private String title = "上传照片";
     private Bitmap bais;
-    private String codeCity,name;
+    private String codeCity,name,cityS,timeS,contentS,urlS;
     private int year_num,city_num;
     private List<CityNameBean> listCity;
     private int cityId = 0;
+    private int id = 0;
     private String travelTime,travelPlace,travelContent,type;
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
     private Uri imageUri;
@@ -101,19 +103,52 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
         if (intent != null){
             type = intent.getStringExtra("type");
             switch (type){
-                case "china":
+                case "chinaMap":
                     codeCity = intent.getStringExtra("code");
                     name = intent.getStringExtra("name");
                     year_num = intent.getIntExtra("yearNum",0);
                     city_num = intent.getIntExtra("cityNum",0);
-                    Log.i("123",codeCity+"--"+name);
+                    break;
+                case "chinaClick":
+                    codeCity = intent.getStringExtra("code");
+                    name = intent.getStringExtra("name");
+                    year_num = intent.getIntExtra("yearNum",0);
+                    city_num = intent.getIntExtra("cityNum",0);
+                    travelPlace = name;
+                    break;
+                case "updateChina":
+                    codeCity = intent.getIntExtra("code",0)+"";
+                    cityId = intent.getIntExtra("cityId",0);
+                    id = intent.getIntExtra("id",0);
+                    Log.e("456",id+"----");
+                    name = intent.getStringExtra("name");
+                    cityS = intent.getStringExtra("city");
+                    timeS = intent.getStringExtra("time");
+                    contentS = intent.getStringExtra("content");
+                    urlS = intent.getStringExtra("url");
+                    year_num = intent.getIntExtra("yearNum",0);
+                    city_num = intent.getIntExtra("cityNum",0);
+                    travelTime = timeS;
+                    travelContent = contentS;
+                    travelPlace = cityS;
                     break;
                 case "world":
                     codeCity = intent.getStringExtra("code");
                     name = intent.getStringExtra("name");
                     year_num = intent.getIntExtra("yearNum",0);
                     city_num = intent.getIntExtra("cityNum",0);
-                    Log.i("123",codeCity+"--"+name);
+                    break;
+                case "updateWorld":
+                    id = intent.getIntExtra("id",0);
+                    cityId = intent.getIntExtra("countryId",0);
+                    name = intent.getStringExtra("name");
+                    timeS = intent.getStringExtra("time");
+                    contentS = intent.getStringExtra("content");
+                    urlS = intent.getStringExtra("url");
+                    year_num = intent.getIntExtra("yearNum",0);
+                    city_num = intent.getIntExtra("cityNum",0);
+                    travelContent = contentS;
+                    travelTime = timeS;
                     break;
             }
 
@@ -147,11 +182,33 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
         listCity = new ArrayList<>();
 
         switch (type){
-            case "china":
+            case "chinaMap":
                 getCityName();
+                break;
+            case "chinaClick":
+                place.setVisibility(View.GONE);
+                break;
+            case "updateChina":
+                getCityName();
+                place.setText(cityS);
+                this.time.setText(timeS);
+                this.content.setText(contentS);
+                if (!StringXutil.isEmpty(urlS)){
+                    pic.setVisibility(View.VISIBLE);
+                    ImageLoader.getInstance().displayImage(urlS,pic);
+                }
                 break;
             case "world":
                 place.setVisibility(View.GONE);
+                break;
+            case "updateWorld":
+                place.setVisibility(View.GONE);
+                this.time.setText(timeS);
+                this.content.setText(contentS);
+                if (!StringXutil.isEmpty(urlS)){
+                    pic.setVisibility(View.VISIBLE);
+                    ImageLoader.getInstance().displayImage(urlS,pic);
+                }
                 break;
         }
     }
@@ -164,7 +221,6 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
         String time_stamp = SystemUtil.getCurrentDate2();
         map.put("time_stamp",time_stamp);
         final String sign = SignUtil.sign(map);
-
         HomeHttp.getCityName(sign, time_stamp, account_token, codeCity, new CallBack() {
             @Override
             public void onResponse(Object response) {
@@ -218,11 +274,20 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                 break;
             case R.id.finish:
                 switch (type){
-                    case "china":
+                    case "chinaMap":
                         addFootprintChina();
+                        break;
+                    case "chinaClick":
+                        addFootprintChina();
+                        break;
+                    case "updateChina":
+                        updateFootPrintChain();
                         break;
                     case "world":
                         addFootprintWorld();
+                        break;
+                    case "updateWorld":
+                        updateFootprintWorld();
                         break;
                 }
                 break;
@@ -297,51 +362,147 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                     map.put("account_token", account_token);
                     String time_stamp = SystemUtil.getCurrentDate2();
                     map.put("time_stamp",time_stamp);
-                    map.put("city_id",cityId);
                     map.put("travel_time",travelTime);
                     map.put("content",travelContent);
                     File file = null;
                     if (bais != null){
                         file = PhotoCompress.comp(bais);
                     }
-                    String sign = SignUtil.sign(map);
-                    HomeHttp.addFootprintChina(sign, time_stamp, account_token, cityId, travelTime, travelContent, file, new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                            if (i == 200){
-                                LoadDialog.dismiss(AddFootActivity.this);
-                                try {
-                                    JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
-                                    int code = jsonObject.getInt("code");
-                                    switch (code){
-                                        case 0:
-                                            ToastXutil.show("添加成功");
-                                            Intent intent = new Intent();
-                                            intent.putExtra("cityName",name);
-                                            setResult(0,intent);
-                                            AddFootActivity.this.finish();
-                                            break;
-                                        default:
-                                            ToastXutil.show("添加失败");
+                    String sign;
+                    switch (type){
+                        case "chinaMap":
+                            map.put("city_id",cityId);
+                           sign = SignUtil.sign(map);
+                            HomeHttp.addFootprintChina(sign, time_stamp, account_token, cityId,"", travelTime, travelContent, file, new AsyncHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                                    if (i == 200){
+                                        LoadDialog.dismiss(AddFootActivity.this);
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
+                                            int code = jsonObject.getInt("code");
+                                            switch (code){
+                                                case 0:
+                                                    ToastXutil.show("添加成功");
+                                                    Intent intent = new Intent();
+                                                    intent.putExtra("type","province");
+                                                    intent.putExtra("cityName",name);
+                                                    setResult(0,intent);
+                                                    AddFootActivity.this.finish();
+                                                    break;
+                                                default:
+                                                    ToastXutil.show("添加失败");
+                                                    LoadDialog.dismiss(AddFootActivity.this);
+                                                    break;
+                                            }
+                                        }catch (Exception e){
                                             LoadDialog.dismiss(AddFootActivity.this);
-                                            break;
+                                        }
                                     }
-                                }catch (Exception e){
+                                }
+
+                                @Override
+                                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
                                     LoadDialog.dismiss(AddFootActivity.this);
                                 }
-                            }
-                        }
+                            });
+                            break;
+                        case "chinaClick":
+                            map.put("gaode_code",codeCity);
+                            sign = SignUtil.sign(map);
+                            HomeHttp.addFootprintChina(sign, time_stamp, account_token, 0,codeCity,travelTime, travelContent, file, new AsyncHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                                    if (i == 200){
+                                        LoadDialog.dismiss(AddFootActivity.this);
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
+                                            int code = jsonObject.getInt("code");
+                                            switch (code){
+                                                case 0:
+                                                    ToastXutil.show("添加成功");
+                                                    Intent intent = new Intent();
+                                                    intent.putExtra("type","city");
+                                                    intent.putExtra("cityName",codeCity);
+                                                    setResult(0,intent);
+                                                    AddFootActivity.this.finish();
+                                                    break;
+                                                default:
+                                                    ToastXutil.show("添加失败");
+                                                    LoadDialog.dismiss(AddFootActivity.this);
+                                                    break;
+                                            }
+                                        }catch (Exception e){
+                                            LoadDialog.dismiss(AddFootActivity.this);
+                                        }
+                                    }
+                                }
 
-                        @Override
-                        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                            LoadDialog.dismiss(AddFootActivity.this);
-                        }
-                    });
+                                @Override
+                                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                                    LoadDialog.dismiss(AddFootActivity.this);
+                                }
+                            });
+                            break;
+                    }
+
                 }
             }
         }
     }
 
+    //修改中国足迹
+    private void updateFootPrintChain(){
+        LoadDialog.show(this);
+        travelContent = content.getText().toString();
+        Map<String,Object> map = new HashMap<>();
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token", account_token);
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        map.put("city_id",cityId);
+        map.put("travel_time",travelTime);
+        map.put("content",travelContent);
+        map.put("footprint_city_id",id);
+        File file = null;
+        if (bais != null){
+            file = PhotoCompress.comp(bais);
+        }
+        String sign = SignUtil.sign(map);
+        HomeHttp.updateFootprintChina(sign, time_stamp, account_token, cityId, travelTime, travelContent, id, file, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                if (i == 200){
+                    LoadDialog.dismiss(AddFootActivity.this);
+                    try {
+                        JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
+                        Log.e("456",jsonObject.toString()+"-");
+                        int code = jsonObject.getInt("code");
+                        switch (code) {
+                            case 0:
+                                LoadDialog.dismiss(AddFootActivity.this);
+                                ToastXutil.show("修改成功");
+                                Intent intent = new Intent();
+                                setResult(1,intent);
+                                AddFootActivity.this.finish();
+                                break;
+                            default:
+                                LoadDialog.dismiss(AddFootActivity.this);
+                                ToastXutil.show("修改失败");
+                                break;
+                        }
+                    }catch (Exception e){
+                        Log.e("456",e.getMessage()+"*");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
+    }
     //添加世界足迹
     private void addFootprintWorld(){
         if (StringXutil.isEmpty(travelTime)){
@@ -351,6 +512,7 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
             if (StringXutil.isEmpty(travelContent)){
                 ToastXutil.show("请编辑您的旅行回忆");
             }else{
+                LoadDialog.show(this);
                 Map<String,Object> map = new HashMap<>();
                 String account_token = SharePreferenceXutil.getAccountToken();
                 map.put("account_token", account_token);
@@ -367,6 +529,7 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                 HomeHttp.addFootprintWorld(sign, time_stamp, account_token, codeCity, travelTime, travelContent, file, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                        LoadDialog.dismiss(AddFootActivity.this);
                         if (i == 200){
                             try {
                                 JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
@@ -389,11 +552,63 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
 
                     @Override
                     public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-
+                        LoadDialog.dismiss(AddFootActivity.this);
                     }
                 });
             }
         }
+    }
+    //修改世界足迹
+    private void updateFootprintWorld(){
+        LoadDialog.show(this);
+        travelContent = content.getText().toString();
+        Map<String,Object> map = new HashMap<>();
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token", account_token);
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        map.put("footprint_country_id",id);
+        map.put("content",travelContent);
+        map.put("country_id",cityId);
+        map.put("travel_time",travelTime);
+        String sign = SignUtil.sign(map);
+        File file = null;
+        if (bais != null){
+            file = PhotoCompress.comp(bais);
+        }
+        HomeHttp.updateFootprintWorld(sign,time_stamp, account_token, id, travelContent, cityId, travelTime, file, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                if (i == 200){
+                    LoadDialog.dismiss(AddFootActivity.this);
+                    try {
+                        JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
+                        Log.e("456",jsonObject.toString()+"-");
+                        int code = jsonObject.getInt("code");
+                        switch (code) {
+                            case 0:
+                                LoadDialog.dismiss(AddFootActivity.this);
+                                ToastXutil.show("修改成功");
+                                Intent intent = new Intent();
+                                setResult(1,intent);
+                                AddFootActivity.this.finish();
+                                break;
+                            default:
+                                LoadDialog.dismiss(AddFootActivity.this);
+                                ToastXutil.show("修改失败");
+                                break;
+                        }
+                    }catch (Exception e){
+                        Log.e("456",e.getMessage()+"*");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+            }
+        });
     }
     // 对话框
     DialogInterface.OnClickListener onDialogClick = new DialogInterface.OnClickListener() {

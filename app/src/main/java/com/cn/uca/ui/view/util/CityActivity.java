@@ -152,6 +152,12 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
                         case "lvpai":
                             sendInfo(allCity_lists.get(position).getName(),2);
                             break;
+                        case "samecityka":
+                            sendInfo(allCity_lists.get(position).getName(),9);
+                            break;
+                        case "zuji":
+                            sendInfo(allCity_lists.get(position).getName(),8);
+                            break;
                     }
                 }
             }
@@ -173,6 +179,12 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
                         break;
                     case "lvpai":
                         sendInfo(city_result.get(position).getName(),2);
+                        break;
+                    case "samecityka":
+                        sendInfo(city_result.get(position).getName(),9);
+                        break;
+                    case "zuji":
+                        sendInfo(city_result.get(position).getName(),8);
                         break;
                 }
             }
@@ -331,6 +343,7 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
 
     private void sendInfo(String name,int resultCode){
         String code = getCodeByName(name);
+        Log.e("456",code);
         Intent intent = new Intent();
         intent.putExtra("city",name);
         intent.putExtra("code",code);
@@ -369,6 +382,11 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
                     break;
                 case "lvpai":
 
+                    break;
+                case "samecityka":
+                    city = intent.getStringExtra("city");
+                    city_history.add(city);
+                    adapter.notifyDataSetChanged();
                     break;
             }
         }
@@ -498,6 +516,12 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
                             case "lvpai":
                                 sendInfo(city_history.get(position),2);
                                 break;
+                            case "samecityka":
+                                sendInfo(city_history.get(position),9);
+                                break;
+                            case "zuji":
+                                sendInfo(city_history.get(position),8);
+                                break;
                         }
                     }
                 });
@@ -527,6 +551,12 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
                                 break;
                             case "lvpai":
                                 sendInfo(city_hot.get(position).getName(),2);
+                                break;
+                            case "samecityka":
+                                sendInfo(city_hot.get(position).getName(),9);
+                                break;
+                            case "zuji":
+                                sendInfo(city_hot.get(position).getName(),8);
                                 break;
                         }
                     }

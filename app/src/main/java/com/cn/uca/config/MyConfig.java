@@ -45,7 +45,7 @@ public class MyConfig {
 	public static final String photo = "http://www.szyouka.com:8080/youkatravel/api/util/pictureCompression.do?pictureUrl=";//图片压缩
 	public static final String getZhouBianTravel = url+"travel/query/getZhouBianTravel.do";//获取周边游
 	public static final String getJuiDian = url+"travel/query/getJuiDian.do";//获取周边游酒店
-	public static final String getGuoNeiYou = url+"travel/query/getGuoNeiYou.do";//获取国内游
+//	public static final String getGuoNeiYou = url+"travel/query/getGuoNeiYou.do";//获取国内游
 	public static final String getMiYeuYou = url+"travel/query/getMiYeuYou.do";//获取蜜月游
 	public static final String getChuJingYou = url+"travel/query/getChuJingYou.do";//获取出境游
 	public static final String getTicket = url+"travel/query/getTicket.do";//获取景区门票
@@ -155,4 +155,15 @@ public class MyConfig {
 	public static final String upLoShelves = url +"tripshoot/update/upLoShelves.do";//旅拍商品上架&&下架
 	public static final String updateMerchantAlbum = url +"tripshoot/update/updateMerchantAlbum.do";//增删改商家相册
 	public static final String addAlbumPicture = url + "tripshoot/update/addAlbumPicture.do";//添加照片
+	public static final String getProvince = url +"footprint/query/getProvince.do";//获取省份名称
+	public static final String deleteFootprintChina = url + "footprint/update/deleteFootprintChina.do";//删除中国足迹
+	public static final String updateFootprintChina = url + "footprint/update/updateFootprintChina.do";//修改足迹
+    public static final String deleteFootprintWorld = url +"footprint/update/deleteFootprintWorld.do";//删除世界足迹
+	public static final String updateFootprintWorld = url +"footprint/update/updateFootprintWorld.do";//修改世界足迹
+	public static final String deleteLife = url +"life/update/deleteLife.do";//删除余生记录
+	public static final String getReportType = url + "user/query/getReportType.do";//获取举报类型
+	public static final String getTourism = url +"travel/query/getTourism.do";//获取旅游
+	public static final String getRegion = url +"travel/query/getRegion.do";//获取旅游地域信息
+	public static final String getStyle = url + "travel/query/getStyle.do";//获取旅游风格信息
+	public static final String getTourismInfo = url + "travel/query/getTourismInfo.do";//获取旅游详细信息
  }

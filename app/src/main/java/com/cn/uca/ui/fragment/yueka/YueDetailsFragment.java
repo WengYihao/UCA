@@ -5,21 +5,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.adapter.yueka.LineAdapter;
 import com.cn.uca.bean.yueka.PlacesBean;
 import com.cn.uca.config.Constant;
-import com.cn.uca.util.SetListView;
 import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.SystemUtil;
 

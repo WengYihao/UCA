@@ -7,5 +7,5 @@ import android.view.View;
  */
 
 public interface BuyRaiderImpl {
-    void buyRaider(int id);
+    void buyRaider(int type,int id);//type1:兑换2:签到
 }

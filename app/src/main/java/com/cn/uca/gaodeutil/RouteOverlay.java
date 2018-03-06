@@ -83,17 +83,17 @@ public class RouteOverlay {
 	 * @return 更换的Marker图片。
 	 * @since V2.1.0
 	 */
-//	protected BitmapDescriptor getStartBitmapDescriptor() {
-//		return BitmapDescriptorFactory.fromResource(R.drawable.amap_start);
-//	}
+	protected BitmapDescriptor getStartBitmapDescriptor() {
+		return BitmapDescriptorFactory.fromResource(R.mipmap.start_back);
+	}
 	/**
 	 * 给终点Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
 	 * @return 更换的Marker图片。
 	 * @since V2.1.0
 	 */
-//	protected BitmapDescriptor getEndBitmapDescriptor() {
-//		return BitmapDescriptorFactory.fromResource(R.drawable.amap_end);
-//	}
+	protected BitmapDescriptor getEndBitmapDescriptor() {
+		return BitmapDescriptorFactory.fromResource(R.mipmap.end_back);
+	}
 	/**
 	 * 给公交Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
 	 * @return 更换的Marker图片。
@@ -116,15 +116,14 @@ public class RouteOverlay {
 	}
 
 	protected void addStartAndEndMarker() {
-//		startMarker = mAMap.addMarker((new MarkerOptions())
-//				.position(startPoint).icon(getStartBitmapDescriptor())
-//				.title("\u8D77\u70B9"));
-		// startMarker.showInfoWindow();
+		startMarker = mAMap.addMarker((new MarkerOptions())
+				.position(startPoint).icon(getStartBitmapDescriptor()));
+//		 startMarker.showInfoWindow();
 
-//		endMarker = mAMap.addMarker((new MarkerOptions()).position(endPoint)
-//				.icon(getEndBitmapDescriptor()).title("\u7EC8\u70B9"));
-		// mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPoint,
-		// getShowRouteZoom()));
+		endMarker = mAMap.addMarker((new MarkerOptions()).position(endPoint)
+				.icon(getEndBitmapDescriptor()).title("\u7EC8\u70B9"));
+		 mAMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startPoint,
+		 getShowRouteZoom()));
 	}
 	/**
 	 * 移动镜头到当前的视角。
@@ -210,7 +209,7 @@ public class RouteOverlay {
 		return Color.parseColor("#537edc");
 	}
 
-	// protected int getShowRouteZoom() {
-	// return 15;
-	// }
+	 protected int getShowRouteZoom() {
+	 return 15;
+	 }
 }

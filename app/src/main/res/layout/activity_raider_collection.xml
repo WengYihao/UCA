@@ -39,16 +39,6 @@
                 android:text="@string/raiderCollectionActivity_text1"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_12" />
-            <TextView
-                android:id="@+id/title03"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/padding_12"
-                android:text="@string/raiderCollectionActivity_text3"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_12" />
 
             <TextView
                 android:id="@+id/title04"

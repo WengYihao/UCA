@@ -15,19 +15,18 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.bean.home.samecityka.AddTicketBean;
 import com.cn.uca.bean.home.samecityka.SetTicketInfoBean;
-import com.cn.uca.bean.home.samecityka.TicketBean;
-import com.cn.uca.bean.home.samecityka.TicketsRets;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.yusheng.EditItemClick;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.AndroidBug5497Workaround;
+import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.FluidLayout;
 import com.cn.uca.view.MyEditText;
@@ -37,7 +36,8 @@ import java.util.List;
 
 public class EnListActivity extends BaseBackActivity implements View.OnClickListener,EditItemClick{
 
-    private TextView back,finish,online,unwanted;
+    private TextView back,finish,online,unwanted,notice,charge,free;
+    private CheckBox abroad;
     private FluidLayout recommendView;
     private List<String> recommendList;
     private ArrayList<String> selectList;
@@ -46,9 +46,10 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
     private MyEditText text;
     private TextView btn_cancel,addTicket;
     private ScrollView scrollView;
-    private LinearLayout layout;
+    private LinearLayout layout,layouy2;
     private List<SetTicketInfoBean> list;
     private int type = 1;
+    private int isCharge = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,15 +63,32 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
         finish = (TextView)findViewById(R.id.finish);
         online= (TextView)findViewById(R.id.online);
         unwanted = (TextView)findViewById(R.id.unwanted);
+        notice = (TextView)findViewById(R.id.notice);
+        abroad = (CheckBox)findViewById(R.id.abroad);
         addTicket = (TextView)findViewById(R.id.addTicket);
         scrollView = (ScrollView)findViewById(R.id.scrollView);
         layout = (LinearLayout)findViewById(R.id.layout);
+        layouy2 = (LinearLayout)findViewById(R.id.layout2);
+        charge = (TextView)findViewById(R.id.charge);//无需报名-收费
+        free = (TextView)findViewById(R.id.free);//无需报名-免费
         back.setOnClickListener(this);
         finish.setOnClickListener(this);
         online.setOnClickListener(this);
         unwanted.setOnClickListener(this);
+        notice.setOnClickListener(this);
         addTicket.setOnClickListener(this);
-
+        charge.setOnClickListener(this);
+        free.setOnClickListener(this);
+        abroad.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    abroad.setTextColor(getResources().getColor(R.color.ori));
+                }else{
+                    abroad.setTextColor(getResources().getColor(R.color.grey2));
+                }
+            }
+        });
         list = new ArrayList<>();
         recommendList = new ArrayList<>();
         selectList = new ArrayList<>();
@@ -93,7 +111,7 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
         genTag(recommendList,recommendView);
         selectList.add("姓名");
         selectList.add("电话");
-        addTicketItem();
+//        addTicketItem();
     }
 
     @Override
@@ -105,49 +123,67 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
             case R.id.finish:
                 switch (type){
                     case 1://在线报名
-                        for(int i = 0;i<layout.getChildCount();i++){
-                            SetTicketInfoBean bean = new SetTicketInfoBean();
-                            CheckBox checkPrice = (CheckBox)layout.getChildAt(i).findViewById(R.id.checkPrice);
-                            CheckBox checkSum = (CheckBox)layout.getChildAt(i).findViewById(R.id.checkSum);
-                            CheckBox checkMax = (CheckBox)layout.getChildAt(i).findViewById(R.id.checkMax);
-                            Switch examine = (Switch)layout.getChildAt(i).findViewById(R.id.examine) ;
-                            EditText price = (EditText)layout.getChildAt(i).findViewById(R.id.price);
-                            EditText sum = (EditText)layout.getChildAt(i).findViewById(R.id.sum);
-                            EditText maxNum = (EditText)layout.getChildAt(i).findViewById(R.id.maxNum);
-                            bean.setTicket_name("门票"+i);
-                            if (checkPrice.isChecked()){
-                                bean.setPrice(0);
-                            }else{
-                                bean.setPrice(Double.parseDouble(price.getText().toString()));
+                        if (abroad.isChecked()){
+                            for(int i = 0;i<layout.getChildCount();i++){
+                                SetTicketInfoBean bean = new SetTicketInfoBean();
+                                CheckBox checkPrice = (CheckBox)layout.getChildAt(i).findViewById(R.id.checkPrice);
+                                CheckBox checkSum = (CheckBox)layout.getChildAt(i).findViewById(R.id.checkSum);
+                                CheckBox checkMax = (CheckBox)layout.getChildAt(i).findViewById(R.id.checkMax);
+                                Switch examine = (Switch)layout.getChildAt(i).findViewById(R.id.examine) ;
+                                EditText price = (EditText)layout.getChildAt(i).findViewById(R.id.price);
+                                EditText sum = (EditText)layout.getChildAt(i).findViewById(R.id.sum);
+                                EditText maxNum = (EditText)layout.getChildAt(i).findViewById(R.id.maxNum);
+                                bean.setTicket_name("门票"+i);
+                                if (checkPrice.isChecked()){
+                                    bean.setPrice(0);
+                                }else{
+                                    if (StringXutil.isEmpty(price.getText().toString())){
+                                        ToastXutil.show("请填写票价");
+                                    }else{
+                                        bean.setPrice(Double.parseDouble(price.getText().toString()));
+                                    }
+                                }
+                                if (checkSum.isChecked()){
+                                    bean.setSum_ticket(-1);
+                                }else{
+                                    if (StringXutil.isEmpty(sum.getText().toString())){
+                                        ToastXutil.show("请填写票量");
+                                    }else{
+                                        bean.setSum_ticket(Integer.parseInt(sum.getText().toString()));
+                                    }
+                                }
+                                if (checkMax.isChecked()){
+                                    bean.setLimit_ticket(-1);
+                                }else{
+                                    if (StringXutil.isEmpty(maxNum.getText().toString())){
+                                        ToastXutil.show("请限购票量");
+                                    }else{
+                                        bean.setLimit_ticket(Integer.parseInt(maxNum.getText().toString()));
+                                    }
+                                }
+                                if (examine.isChecked()){
+                                    bean.setOpen_examine("true");
+                                }else{
+                                    bean.setOpen_examine("false");
+                                }
+                                list.add(bean);
                             }
-                            if (checkSum.isChecked()){
-                                bean.setSum_ticket(-1);
-                            }else{
-                                bean.setSum_ticket(Integer.parseInt(sum.getText().toString()));
-                            }
-                            if (checkMax.isChecked()){
-                                bean.setLimit_ticket(-1);
-                            }else{
-                                bean.setLimit_ticket(Integer.parseInt(maxNum.getText().toString()));
-                            }
-                            if (examine.isChecked()){
-                                bean.setOpen_examine("true");
-                            }else{
-                                bean.setOpen_examine("false");
-                            }
-                            list.add(bean);
+                            Intent intent = new Intent();
+                            intent.putParcelableArrayListExtra("ticketList",(ArrayList<? extends Parcelable>) list);//门票
+                            intent.putStringArrayListExtra("infoList",selectList);
+                            intent.putExtra("type",type);
+                            setResult(3,intent);
+                            EnListActivity.this.finish();
+                        }else{
+                            ToastXutil.show("在线报名需先阅读并接受发布须知");
                         }
-                        Log.e("456",list.toString()+"--");
-                        Log.e("456",selectList.toString()+"--");
-                        Intent intent = new Intent();
-                        intent.putParcelableArrayListExtra("ticketList",(ArrayList<? extends Parcelable>) list);//门票
-                        intent.putStringArrayListExtra("infoList",selectList);
-                        intent.putExtra("type",type);
-                        setResult(3,intent);
-                        EnListActivity.this.finish();
                         break;
                     case 2:
-
+                        Intent intent = new Intent();
+                        intent.putExtra("type",type);
+                        intent.putExtra("isCharge",isCharge);
+                        setResult(3,intent);
+                        EnListActivity.this.finish();
                         break;
                 }
                 break;
@@ -158,6 +194,7 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
                 unwanted.setTextColor(getResources().getColor(R.color.grey));
                 unwanted.setBackgroundResource(R.drawable.twenty_circular_white_background);
                 scrollView.setVisibility(View.VISIBLE);
+                layouy2.setVisibility(View.GONE);
                 break;
             case R.id.unwanted:
                 type = 2;
@@ -166,6 +203,10 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
                 online.setTextColor(getResources().getColor(R.color.grey));
                 online.setBackgroundResource(R.drawable.twenty_circular_white_background);
                 scrollView.setVisibility(View.GONE);
+                layouy2.setVisibility(View.VISIBLE);
+                break;
+            case R.id.notice://发布须知
+                ToastXutil.show("我知道了");
                 break;
             case R.id.addTicket:
                 addTicketItem();
@@ -178,6 +219,20 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
                 genTag(recommendList,recommendView);
                 dialog.dismiss();
                 break;
+            case R.id.charge://收费
+                charge.setBackgroundResource(R.drawable.twenty_circular_ori_background);
+                charge.setTextColor(getResources().getColor(R.color.white));
+                free.setBackgroundResource(0);
+                free.setTextColor(getResources().getColor(R.color.gray));
+                isCharge = 1;
+                break;
+            case R.id.free://免费
+                free.setBackgroundResource(R.drawable.twenty_circular_ori_background);
+                free.setTextColor(getResources().getColor(R.color.white));
+                charge.setBackgroundResource(0);
+                charge.setTextColor(getResources().getColor(R.color.gray));
+                isCharge = 0;
+                break;
         }
     }
     private void addTicketItem(){
@@ -185,8 +240,8 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
         layout.addView(itemview);
         final TextView delete = (TextView)itemview.findViewById(R.id.delete);
 
-        final TextView ha = (TextView)itemview.findViewById(R.id.ha);
-        final TextView icon = (TextView)itemview.findViewById(R.id.icon);
+//        final TextView ha = (TextView)itemview.findViewById(R.id.ha);
+//        final TextView icon = (TextView)itemview.findViewById(R.id.icon);
         final CheckBox checkPrice = (CheckBox)itemview.findViewById(R.id.checkPrice);
         final CheckBox checkSum = (CheckBox)itemview.findViewById(R.id.checkSum);
         final CheckBox checkMax = (CheckBox)itemview.findViewById(R.id.checkMax);
@@ -237,11 +292,9 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-                    icon.setBackgroundResource(R.mipmap.service_notice_ori);
-				    ha.setEnabled(true);
+                  //门票需要审核
                 }else {
-                    icon.setBackgroundResource(R.mipmap.service_notice_gray);
-                    ha.setEnabled(false);
+                   //门票不需要审核
                 }
             }
         });

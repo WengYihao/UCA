@@ -53,7 +53,7 @@ public class PeripheryFragment extends Fragment {
         adapter = new PeripheryTravelAdapter(list,getActivity());
         listView.setAdapter(adapter);
 
-        refreshLayout.setEnableAutoLoadmore(true);//开启自动加载功能（非必须）
+//        refreshLayout.setEnableAutoLoadmore(true);//开启自动加载功能（非必须）
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(final RefreshLayout refreshlayout) {
@@ -81,7 +81,7 @@ public class PeripheryFragment extends Fragment {
             }
         });
 
-        refreshLayout.autoRefresh();
+//        refreshLayout.autoRefresh();
     }
 
     private void getZhouBianTravel(int page,int pageCount){

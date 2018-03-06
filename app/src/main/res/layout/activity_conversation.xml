@@ -22,6 +22,15 @@
             android:layout_toRightOf="@id/back"
             android:textColor="@color/white"
             android:textSize="@dimen/text_20" />
+
+        <TextView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/lvpai_add_back"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_10"/>
     </RelativeLayout>
 
     <FrameLayout

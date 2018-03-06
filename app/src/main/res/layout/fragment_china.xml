@@ -3,19 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#b29b71">
-
+    android:orientation="vertical">
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:background="#b29b71">
+            android:background="@color/yellow2">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -61,13 +58,13 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
                                     android:layout_marginLeft="@dimen/padding_5"
                                     android:layout_toRightOf="@id/yearNum"
                                     android:ems="1"
                                     android:text="年旅程"
-                                    android:textSize="10sp"
-                                    android:layout_centerVertical="true"
-                                    android:textColor="@color/ori" />
+                                    android:textColor="@color/ori"
+                                    android:textSize="10sp" />
                             </RelativeLayout>
                         </RelativeLayout>
 
@@ -100,57 +97,65 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
                                     android:layout_marginLeft="@dimen/padding_5"
                                     android:layout_toRightOf="@id/cityNum"
                                     android:ems="1"
                                     android:text="个城市"
-                                    android:textSize="10sp"
-                                    android:layout_centerVertical="true"
-                                    android:textColor="@color/ori" />
+                                    android:textColor="@color/ori"
+                                    android:textSize="10sp" />
                             </RelativeLayout>
                         </RelativeLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_above="@id/btn"
-                        android:layout_marginBottom="@dimen/padding_15">
+                        android:layout_marginBottom="@dimen/padding_15"
+                        android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:background="@mipmap/edit_footprint_back"/>
+                                android:background="@mipmap/edit_footprint_back" />
+
                             <TextView
+                                android:id="@+id/light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/padding_8"
                                 android:text="@string/footPrintFragment_text1"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/text_18"
-                                android:layout_marginLeft="@dimen/padding_8"/>
-                            </LinearLayout>
+                                android:textSize="@dimen/text_18" />
+                        </LinearLayout>
+
                         <LinearLayout
-                                android:layout_width="match_parent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_15"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center"
-                                android:layout_marginTop="@dimen/padding_15">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:background="@mipmap/share_footprint_back"/>
-                                <TextView
-                                    android:id="@+id/share"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/footPrintFragment_text2"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/text_18"
-                                    android:layout_marginLeft="@dimen/padding_8"/>
+                                android:background="@mipmap/share_footprint_back" />
+
+                            <TextView
+                                android:id="@+id/share"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/padding_8"
+                                android:text="@string/footPrintFragment_text2"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_18" />
                         </LinearLayout>
                     </LinearLayout>
                 </RelativeLayout>
@@ -176,6 +181,7 @@
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             app:srlClassicsSpinnerStyle="Translate"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

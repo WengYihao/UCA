@@ -168,6 +168,7 @@ public class MerchantDetailActivity extends BaseBackActivity implements View.OnC
                 break;
             case R.id.all_commodity:
                 //全部商品
+                startActivity(new Intent(this,AllCommodityActivity.class));
                 break;
         }
     }

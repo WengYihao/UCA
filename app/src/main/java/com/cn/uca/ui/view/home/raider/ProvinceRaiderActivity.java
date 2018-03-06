@@ -25,6 +25,7 @@ import com.cn.uca.loading.LoadingLayout;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.fragment.home.raider.CityFragment;
+import com.cn.uca.ui.view.home.sign.SignActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -381,7 +382,14 @@ public class ProvinceRaiderActivity extends BaseBackActivity implements View.OnC
     }
 
     @Override
-    public void buyRaider(int id) {
-        purchaseCityRaiders(id);
+    public void buyRaider(int type, int id) {
+        switch (type){
+            case 1:
+                purchaseCityRaiders(id);
+                break;
+            case 2:
+                startActivity(new Intent(ProvinceRaiderActivity.this, SignActivity.class));
+                break;
+        }
     }
 }

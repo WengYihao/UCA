@@ -14,11 +14,37 @@
             android:id="@+id/back"
             style="@style/style_back" />
 
-        <TextView
-            style="@style/style_title"
-            android:text="@string/lineChoiceActivity_title_text" />
-    </RelativeLayout>
+        <com.cn.uca.view.MyEditText
+            android:id="@+id/search"
+            android:layout_width="250dp"
+            android:layout_height="30dp"
+            android:padding="@dimen/padding_8"
+            android:textCursorDrawable="@drawable/ori_cursor_color"
+            android:background="@drawable/twenty_circular_white_background"
+            android:hint="搜索具体位置"
+            android:textSize="12sp"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
 
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="@dimen/padding_8"
+            android:text="取消"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"></ListView>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -35,7 +61,6 @@
             android:gravity="center"
             android:padding="@dimen/padding_10"
             android:background="@color/ori"
-            android:textSize="@dimen/text_24"
             android:textColor="@color/white"/>
         <RelativeLayout
             android:id="@+id/addView"

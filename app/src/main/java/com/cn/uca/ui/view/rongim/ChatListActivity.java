@@ -18,6 +18,7 @@ import com.cn.uca.R;
 import com.cn.uca.adapter.rongim.ConversationListAdapterEx;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.ToastXutil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import io.rong.message.ContactNotificationMessage;
 
 public class ChatListActivity extends BaseBackActivity implements ViewPager.OnPageChangeListener{
 
-    private TextView back;
+    private TextView back,clear;
     public static ViewPager mViewPager;
     private List<Fragment> mFragment = new ArrayList<>();
     /**
@@ -56,7 +57,10 @@ public class ChatListActivity extends BaseBackActivity implements ViewPager.OnPa
                 ChatListActivity.this.finish();
             }
         });
+        clear = (TextView)findViewById(R.id.clear);
+
         Fragment conversationList = initConversationList();
+
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         mFragment.add(conversationList);
         FragmentPagerAdapter fragmentPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -72,6 +76,24 @@ public class ChatListActivity extends BaseBackActivity implements ViewPager.OnPa
         };
         mViewPager.setAdapter(fragmentPagerAdapter);
         mViewPager.setOnPageChangeListener(this);
+
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RongIM.getInstance().clearConversations(new RongIMClient.ResultCallback() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        ToastXutil.show("清空成功");
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode errorCode) {
+                        ToastXutil.show("清空失败,稍后再试");
+                    }
+                },mConversationsTypes);
+            }
+        });
+
         initData();
     }
     private Fragment initConversationList() {

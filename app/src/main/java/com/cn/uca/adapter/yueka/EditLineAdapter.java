@@ -70,7 +70,7 @@ public class EditLineAdapter extends BaseAdapter implements View.OnClickListener
 			holder.arrowView = (TextView) convertView.findViewById(R.id.arrowView);
 			holder.trueLine = (TextView) convertView.findViewById(R.id.trueLine);
 			holder.editLine = (TextView)convertView.findViewById(R.id.editLine);
-			holder.lineName = (MyEditText)convertView.findViewById(R.id.lineName);
+			holder.lineName = (TextView)convertView.findViewById(R.id.lineName);
 			holder.listView = (MyListView)convertView.findViewById(R.id.listView);
 			convertView.setTag(holder);
 		} else {
@@ -124,8 +124,7 @@ public class EditLineAdapter extends BaseAdapter implements View.OnClickListener
 	}
 
 	class ViewHolder {
-		MyEditText lineName;
-		TextView arrowView,trueLine,editLine;
+		TextView lineName,arrowView,trueLine,editLine;
 		MyListView listView;
 	}
 }

@@ -18,6 +18,7 @@ public class Constant {
 	final public static int CODE_GALLERY_REQUEST = 4;
 	final public static int CAMERA_PERMISSIONS_REQUEST_CODE = 5;
 	final public static int STORAGE_PERMISSIONS_REQUEST_CODE = 6;
+	final public static int WRITE_PERMISSIONS_REQUEST_CODE = 1;
 	final public static int ROUTE_TYPE_BUS = 1;
 	final public static int ROUTE_TYPE_DRIVE = 2;
 	final public static int ROUTE_TYPE_WALK = 3;

@@ -86,6 +86,7 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
     private LinearLayout layout1;
     private RelativeLayout layout2,layout3,layout4,layout5;
     private ImageView pic;
+    private TextView enlistType;
     private TextView startTime,endTime;
     private TextView addPic;//添加海报封面图片
     private TextView man;
@@ -111,6 +112,7 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
     private ArrayList<String> listInfo;
     private String position;
     private int enListtType;//是否需要报名
+    private int isCharge = 0;//是否收费
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,6 +139,7 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
         add_lable = (TextView) findViewById(R.id.add_lable);
         startTime = (TextView)findViewById(R.id.startTime);
         endTime = (TextView)findViewById(R.id.endTime);
+        enlistType = (TextView)findViewById(R.id.enlistType);
         send = (TextView)findViewById(R.id.send);
 
         back.setOnClickListener(this);
@@ -617,15 +620,29 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                 break;
             case 3:
                 if (data != null){
-                    listTicket = data.getParcelableArrayListExtra("ticketList");
-                    listInfo = data.getStringArrayListExtra("infoList");
                     enListtType = data.getIntExtra("type",0);
+                    switch (enListtType){
+                        case 1:
+                            //在线报名
+                            enlistType.setText("在线报名");
+                            listTicket = data.getParcelableArrayListExtra("ticketList");
+                            listInfo = data.getStringArrayListExtra("infoList");
+                            break;
+                        case 2 :
+                            //无需报名
+                            enlistType.setText("无需报名");
+                            isCharge = data.getIntExtra("isCharge",0);
+                            Log.e("456",isCharge+"/*/*");
+                            break;
+
+                    }
                 }
                 break;
             case 7:
                 if (data != null){
                     PositionBean positionBean = new PositionBean();
                     String address = data.getStringExtra("address");
+                    actionType.setText(address);
                     double lat = data.getDoubleExtra("lat",0);
                     double lng = data.getDoubleExtra("lng",0);
                     String code = data.getStringExtra("code");
@@ -634,7 +651,17 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                     positionBean.setLng(lng);
                     positionBean.setGaode_code(code);
                     positionBean.setRemarks("");
-                    position = positionBean.toString();
+                    try {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("lng",lng);
+                        jsonObject.put("lat",lat);
+                        jsonObject.put("gaode_code",code);
+                        jsonObject.put("address",address);
+                        jsonObject.put("remarks","");
+                        position = jsonObject.toString();
+                    }catch (Exception e){
+
+                    }
                 }
                 break;
 
@@ -679,88 +706,168 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                                 ToastXutil.show("结束时间不能为空");
                             }else{
                                 bean.setEnd_time(end_time);
-                                if (listTicket.size() != 0){
-                                    bean.setTickets(gson.toJson(listTicket));
-                                    for (int b = 0;b<listTicket.size();b++){
-                                        if (listTicket.get(b).getPrice() != 0){
-                                            bean.setCharge(true);
-                                            break;
-                                        }else {
-                                            bean.setCharge(false);
-                                        }
-                                    }
-                                    switch (enListtType){
-                                        case 1:
+                                switch (enListtType){
+                                    case 1:
+                                        if (listTicket.size() != 0){
+                                            bean.setTickets(gson.toJson(listTicket));
+                                            for (int b = 0;b<listTicket.size();b++){
+                                                if (listTicket.get(b).getPrice() != 0){
+                                                    bean.setCharge(true);
+                                                    break;
+                                                }else {
+                                                    bean.setCharge(false);
+                                                }
+                                            }
                                             bean.setPurchase_ticket(true);
-                                            break;
-                                        case 2:
-                                            bean.setPurchase_ticket(false);
-                                            break;
-                                    }
-                                    if (listInfo != null){
-                                        bean.setFill_infos(gson.toJson(listInfo));
-                                    }
-                                    if (selectList.size() != 0){
-                                        bean.setLabels(ListtoString(selectList));
-                                        if (!StringXutil.isEmpty(detail)){
-                                            LoadDialog.show(this);
-                                            bean.setDetails(detail);
-                                            Map<String,Object> map = new HashMap<>();
-                                            String account_token = SharePreferenceXutil.getAccountToken();
-                                            map.put("account_token", account_token);
-                                            String time_stamp = SystemUtil.getCurrentDate2();
-                                            map.put("time_stamp",time_stamp);
-                                            map.put("charge",bean.isCharge());
-                                            map.put("activity_type_id",bean.getActivity_type_id());
-                                            map.put("beg_time",bean.getBeg_time());
-                                            map.put("end_time",bean.getEnd_time());
-                                            map.put("labels",bean.getLabels());
-                                            map.put("purchase_ticket",bean.isPurchase_ticket());
-                                            map.put("title",bean.getTitle());
-                                            map.put("details",bean.getDetails());
-                                            map.put("user_card_id",bean.getUser_card_id());
-                                            map.put("position",bean.getPosition());
-                                            map.put("tickets",bean.getTickets());
-                                            map.put("fill_infos",bean.getFill_infos());
-                                            String sign = SignUtil.sign(map);
-                                            bean.setSign(sign);
-                                            bean.setAccount_token(account_token);
-                                            bean.setTime_stamp(time_stamp);
-                                            HomeHttp.releaseCityCafe(bean, listImg, new AsyncHttpResponseHandler() {
-                                                @Override
-                                                public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                                                    try {
-                                                        if (i == 200) {
-                                                            LoadDialog.dismiss(SendActionActivity.this);
-                                                            JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
-                                                            int code = jsonObject.getInt("code");
-                                                            switch (code){
-                                                                case 0:
-                                                                    ToastXutil.show("发布成功");
-                                                                    SendActionActivity.this.finish();
-                                                                    break;
+                                            if (listInfo != null){
+                                                bean.setFill_infos(gson.toJson(listInfo));
+                                            }
+                                            if (selectList.size() != 0){
+                                                bean.setLabels(ListtoString(selectList));
+                                                if (!StringXutil.isEmpty(detail)){
+                                                    LoadDialog.show(this);
+                                                    bean.setDetails(detail);
+                                                    Map<String,Object> map = new HashMap<>();
+                                                    String account_token = SharePreferenceXutil.getAccountToken();
+                                                    map.put("account_token", account_token);
+                                                    String time_stamp = SystemUtil.getCurrentDate2();
+                                                    map.put("time_stamp",time_stamp);
+                                                    map.put("charge",bean.isCharge());
+                                                    map.put("activity_type_id",bean.getActivity_type_id());
+                                                    map.put("beg_time",bean.getBeg_time());
+                                                    map.put("end_time",bean.getEnd_time());
+                                                    map.put("labels",bean.getLabels());
+                                                    map.put("purchase_ticket",bean.isPurchase_ticket());
+                                                    map.put("title",bean.getTitle());
+                                                    map.put("details",bean.getDetails());
+                                                    map.put("user_card_id",bean.getUser_card_id());
+                                                    map.put("position",bean.getPosition());
+                                                    map.put("tickets",bean.getTickets());
+                                                    map.put("fill_infos",bean.getFill_infos());
+                                                    String sign = SignUtil.sign(map);
+                                                    bean.setSign(sign);
+                                                    bean.setAccount_token(account_token);
+                                                    bean.setTime_stamp(time_stamp);
+                                                    HomeHttp.releaseCityCafe(bean, listImg, new AsyncHttpResponseHandler() {
+                                                        @Override
+                                                        public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                                                            try {
+                                                                if (i == 200) {
+                                                                    LoadDialog.dismiss(SendActionActivity.this);
+                                                                    JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
+                                                                    int code = jsonObject.getInt("code");
+                                                                    switch (code){
+                                                                        case 0:
+                                                                            ToastXutil.show("发布成功");
+                                                                            SendActionActivity.this.finish();
+                                                                            break;
+                                                                        case 485:
+                                                                            ToastXutil.show("发布的同城咖已上线(3条)");
+                                                                            break;
+                                                                        default:
+                                                                            ToastXutil.show("发布失败");
+                                                                            break;
+                                                                    }
+                                                                    Log.e("123", jsonObject.toString() + "--");
+                                                                }
+                                                            }catch (Exception e){
+                                                                Log.e("456",e.getMessage()+"报错");
                                                             }
-                                                            Log.e("123", jsonObject.toString() + "--");
+
                                                         }
-                                                    }catch (Exception e){
-                                                        Log.e("456",e.getMessage()+"报错");
+
+                                                        @Override
+                                                        public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                                                            LoadDialog.dismiss(SendActionActivity.this);
+                                                        }
+                                                    });
+                                                }else{
+                                                    ToastXutil.show("请添加活动详情");
+                                                }
+                                            }else{
+                                                ToastXutil.show("请选择活动标签");
+                                            }
+                                        }else{
+                                            ToastXutil.show("请添加线下活动信息");
+                                        }
+                                        break;
+                                    case 2:
+                                        bean.setPurchase_ticket(false);
+                                        switch (isCharge){
+                                            case 0:
+                                                bean.setCharge(false);
+                                                break;
+                                            case 1:
+                                                bean.setCharge(true);
+                                                break;
+                                        }
+                                        bean.setFill_infos("");
+                                        if (selectList.size() != 0){
+                                            bean.setLabels(ListtoString(selectList));
+                                            if (!StringXutil.isEmpty(detail)){
+                                                LoadDialog.show(this);
+                                                bean.setDetails(detail);
+                                                Map<String,Object> map = new HashMap<>();
+                                                String account_token = SharePreferenceXutil.getAccountToken();
+                                                map.put("account_token", account_token);
+                                                String time_stamp = SystemUtil.getCurrentDate2();
+                                                map.put("time_stamp",time_stamp);
+                                                map.put("charge",bean.isCharge());
+                                                map.put("activity_type_id",bean.getActivity_type_id());
+                                                map.put("beg_time",bean.getBeg_time());
+                                                map.put("end_time",bean.getEnd_time());
+                                                map.put("labels",bean.getLabels());
+                                                map.put("purchase_ticket",bean.isPurchase_ticket());
+                                                map.put("title",bean.getTitle());
+                                                map.put("details",bean.getDetails());
+                                                map.put("user_card_id",bean.getUser_card_id());
+                                                map.put("position",bean.getPosition());
+//                                                map.put("tickets",bean.getTickets());
+                                                map.put("fill_infos",bean.getFill_infos());
+                                                String sign = SignUtil.sign(map);
+                                                bean.setSign(sign);
+                                                bean.setAccount_token(account_token);
+                                                bean.setTime_stamp(time_stamp);
+                                                HomeHttp.releaseCityCafe(bean, listImg, new AsyncHttpResponseHandler() {
+                                                    @Override
+                                                    public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                                                        try {
+                                                            if (i == 200) {
+                                                                LoadDialog.dismiss(SendActionActivity.this);
+                                                                JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
+                                                                int code = jsonObject.getInt("code");
+                                                                switch (code){
+                                                                    case 0:
+                                                                        ToastXutil.show("发布成功");
+                                                                        SendActionActivity.this.finish();
+                                                                        break;
+                                                                    case 485:
+                                                                        ToastXutil.show("发布的同城咖已上线(3条)");
+                                                                        break;
+                                                                    default:
+                                                                        ToastXutil.show("发布失败");
+                                                                        break;
+                                                                }
+                                                                Log.e("123", jsonObject.toString() + "--");
+                                                            }
+                                                        }catch (Exception e){
+                                                            Log.e("456",e.getMessage()+"报错");
+                                                        }
+
                                                     }
 
-                                                }
-
-                                                @Override
-                                                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                                                    LoadDialog.dismiss(SendActionActivity.this);
-                                                }
-                                            });
+                                                    @Override
+                                                    public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+                                                        LoadDialog.dismiss(SendActionActivity.this);
+                                                    }
+                                                });
+                                            }else{
+                                                ToastXutil.show("请添加活动详情");
+                                            }
                                         }else{
-                                            ToastXutil.show("请添加活动详情");
+                                            ToastXutil.show("请选择活动标签");
                                         }
-                                    }else{
-                                        ToastXutil.show("请选择活动标签");
-                                    }
-                                }else{
-                                    ToastXutil.show("请添加线下活动信息");
+                                        break;
                                 }
                             }
                         }

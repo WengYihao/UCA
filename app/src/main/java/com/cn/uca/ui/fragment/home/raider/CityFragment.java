@@ -29,6 +29,7 @@ import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.home.raider.RaidersActivity;
 import com.cn.uca.ui.view.home.raider.RaidersDetailActivity;
+import com.cn.uca.ui.view.home.sign.SignActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
@@ -370,7 +371,14 @@ public class CityFragment extends Fragment implements CollectionClickListener,Bu
     }
 
     @Override
-    public void buyRaider(int id) {
-        purchaseCityRaiders(id);
+    public void buyRaider(int type, int id) {
+        switch (type){
+            case 1:
+                purchaseCityRaiders(id);
+                break;
+            case 2:
+                startActivity(new Intent(getActivity(), SignActivity.class));
+                break;
+        }
     }
 }

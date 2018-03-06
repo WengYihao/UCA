@@ -18,7 +18,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.UiSettings;
 import com.amap.api.maps.model.BitmapDescriptor;
@@ -27,9 +32,9 @@ import com.amap.api.maps.model.GroundOverlayOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
-import com.amap.api.maps.model.Poi;
 import com.amap.api.maps.model.Polyline;
 import com.amap.api.maps.model.PolylineOptions;
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.raiders.SpotNameAdapter;
 import com.cn.uca.adapter.infowindow.InfoWinAdapter;
@@ -40,10 +45,14 @@ import com.cn.uca.bean.home.raider.RaidersFoodBean;
 import com.cn.uca.bean.home.raider.RaidersTrainStationBean;
 import com.cn.uca.bean.home.raider.RaidersSenicSpotBean;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.gaodeutil.NavigationUtil;
+import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.raider.FindWayImpl;
 import com.cn.uca.impl.raider.RouteImpl;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.server.user.UserHttp;
+import com.cn.uca.ui.view.home.yusheng.YuShengDetailsActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.MapUtil;
@@ -64,12 +73,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RaidersDetailActivity extends BaseBackActivity implements View.OnClickListener,AMap.OnMarkerClickListener,AMap.OnMapClickListener,RouteImpl,FindWayImpl{
+public class RaidersDetailActivity extends BaseBackActivity implements LocationSource,AMapLocationListener,View.OnClickListener,AMap.OnMarkerClickListener,AMap.OnMapClickListener,RouteImpl,FindWayImpl {
 
     private AMap aMap;
     private MapView mapView;
     private UiSettings uiSetting;
-    private TextView back,food,line,spot,raider,lixian,fankui;
+    private TextView back,share,food,line,spot,raider,lixian,fankui;
     private int id;
     private String name;
     private List<RaidersAirportBean> airportList;
@@ -88,11 +97,13 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     private String url;
     private SpotNameAdapter adapter;
     private Dialog dialog;
-    private LinearLayout walk,driver,bus;
-    private TextView cancel;
-
+    private LocationSource.OnLocationChangedListener mListener;
+    private AMapLocationClient mlocationClient;
+    private AMapLocationClientOption mLocationOption;// 高德相关
+    private static double lat,lng;
+//    private PointBean pointBean,pointBean1;//弹窗
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_raiders_detail);
         mapView = (MapView) findViewById(R.id.map);
@@ -123,7 +134,6 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                 try {
                     if (i == 200) {
                         JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
-                        Log.i("123",jsonObject.toString());
                         int code = jsonObject.getInt("code");
                         switch (code){
                             case 0:
@@ -135,7 +145,6 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                                 northeast = new LatLng(bean.getUpper_right_lat(),bean.getUpper_right_lng());
                                 airportList = bean.getAirportRets();
                                 senicSpotList = bean.getScenicSpotRets();
-                                list = senicSpotList;
                                 foodList = bean.getFoodRets();
                                 trainStationList = bean.getTrainStationRets();
                                 url = bean.getIntroduce_url();
@@ -182,6 +191,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     }
     private void initView() {
         back = (TextView)findViewById(R.id.back);
+        share = (TextView)findViewById(R.id.share);
         food = (TextView)findViewById(R.id.food);
         spot = (TextView)findViewById(R.id.spot);
         line = (TextView)findViewById(R.id.line);
@@ -190,6 +200,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
         fankui = (TextView)findViewById(R.id.fankui);
 
         back.setOnClickListener(this);
+        share.setOnClickListener(this);
         food.setOnClickListener(this);
         spot.setOnClickListener(this);
         line.setOnClickListener(this);
@@ -197,8 +208,8 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
         lixian.setOnClickListener(this);
         fankui.setOnClickListener(this);
         airportList = new ArrayList<>();
-        senicSpotList = new ArrayList<>();
         list = new ArrayList<>();
+        senicSpotList = new ArrayList<>();
         foodList = new ArrayList<>();
         trainStationList = new ArrayList<>();
         foodMarker = new ArrayList<>();
@@ -209,6 +220,8 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     private void initMap(){
         if (aMap == null){
             aMap = mapView.getMap();
+            aMap.setLocationSource(this);
+            aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
             aMap.setOnMarkerClickListener(this);
             aMap.setOnMapClickListener(this);
             aMap.setInfoWindowAdapter(new InfoWinAdapter(RaidersDetailActivity.this,this));
@@ -256,20 +269,20 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
         }).start();
     }
 
-
-
     @Override
     public boolean onMarkerClick(Marker marker) {
         marker.showInfoWindow();
         curShowWindowMarker = marker;
         return false;
     }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.back:
                 this.finish();
+                break;
+            case R.id.share:
+                getShare();
                 break;
             case R.id.food:
                 if (isShowFood){
@@ -329,17 +342,67 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
                 break;
         }
     }
+
+
+    private void getShare(){
+        Map<String,Object> map = new HashMap<>();
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token",account_token);
+        map.put("shareType","GL");
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        map.put("id",id);
+        String sign = SignUtil.sign(map);
+        UserHttp.getShare(account_token, time_stamp, sign, "GL",id, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            String share_title = jsonObject.getJSONObject("data").getString("share_title");
+                            String web_url = jsonObject.getJSONObject("data").getString("web_url");
+                            WeChatManager.instance().sendWebPageToWX(RaidersDetailActivity.this,true,web_url,R.mipmap.logo,share_title,"快来围观一下我的余生呗！");
+                            break;
+                        default:
+                            ToastXutil.show("分享失败");
+                            break;
+                    }
+                }catch (Exception e){
+
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
+    Dialog dialog2;
+    View inflate;
+    ListView listView;
     private void showCityDialog(){
-        final Dialog dialog = new Dialog(this,R.style.dialog_style);
-        final View inflate = LayoutInflater.from(this).inflate(R.layout.choose_spot_dialog, null);
-        ListView listView = (ListView)inflate.findViewById(R.id.listView);
-        if (adapter != null){
-            listView.setAdapter(adapter);
-            adapter.setList(senicSpotList);
-        }else{
-            adapter = new SpotNameAdapter(senicSpotList,this,this);
-            listView.setAdapter(adapter);
+        startName = null;
+        endName = null;
+        if (list != null){
+            list.clear();
         }
+        list.addAll(senicSpotList);
+        for (RaidersSenicSpotBean bean :list){
+            bean.setState(0);
+        }
+        dialog2 = new Dialog(this,R.style.dialog_style);
+        inflate = LayoutInflater.from(this).inflate(R.layout.choose_spot_dialog, null);
+        listView = (ListView)inflate.findViewById(R.id.listView);
+        adapter = new SpotNameAdapter(senicSpotList,this,this);
+        listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -352,26 +415,25 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
 
                 Intent intent = new Intent();
                 intent.setClass(RaidersDetailActivity.this,RouteActivity.class);
-//                intent.putExtra("content",senicSpotList.get(i).getIntroduce());
-//                intent.putExtra("name",senicSpotList.get(i).getScenic_spot_name());
                 startActivity(intent);
-                dialog.dismiss();
+                dialog2.dismiss();
             }
         });
         //将布局设置给Dialog
-        dialog.setContentView(inflate);
+        dialog2.setContentView(inflate);
 //        dialog.setCanceledOnTouchOutside(true);
         //获取当前Activity所在的窗体
-        Window dialogWindow = dialog.getWindow();
+        Window dialogWindow = dialog2.getWindow();
         //设置Dialog从窗体底部弹出
         dialogWindow.setGravity(Gravity.BOTTOM);
         WindowManager.LayoutParams params = dialogWindow.getAttributes();
         params.dimAmount = 0f;
         params.width = MyApplication.width;
+//        params.height = MyApplication.height;
         params.height = MyApplication.height*5/9;
         params.x = 0;
         params.y = SystemUtil.dip2px(45);
-        dialog.show();//显示对话框
+        dialog2.show();//显示对话框
     }
     @Override
     public void onMapClick(LatLng latLng) {
@@ -381,18 +443,14 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
             }
         }
     }
-    /**
-     * 方法必须重写
-     */
+    //方法必须重写
     @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
     }
 
-    /**
-     * 方法必须重写
-     */
+    //方法必须重写
     @Override
     public void onPause() {
         super.onPause();
@@ -401,75 +459,102 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     }
 
 
-    /**
-     * 方法必须重写
-     */
+    //方法必须重写
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
     }
 
-    /**
-     * 方法必须重写
-     */
+    //方法必须重写
     @Override
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
     }
 
+    String startName = null;
+    String endName = null;
     @Override
     public void start(View v) {
-       if (list.get((int) v.getTag()).isEnd()){
-           ToastXutil.show("起点和终点不能是同一个地方");
-       }else{
-           for (RaidersSenicSpotBean bean : list){
-               bean.setStart(false);
-           }
-           list.get((int) v.getTag()).setStart(true);
-           adapter.setList(list);
-       }
-    }
-
-    @Override
-    public void end(View v) {
-        if (list.get((int) v.getTag()).isStart()){
-            ToastXutil.show("起点和终点不能是同一个地方");
-        }else{
+        Log.e("456",(int)v.getTag()+"--");
+        if (startName == null){
             for (RaidersSenicSpotBean bean : list){
-                bean.setEnd(false);
+                bean.setState(2);//选择了起点
             }
-            list.get((int) v.getTag()).setEnd(true);
+            list.get((int)v.getTag()).setState(1);//起点
+            startName = list.get((int)v.getTag()).getScenic_spot_name();
             adapter.setList(list);
+        }else{
+            //选择终点
+            list.get((int)v.getTag()).setState(3);//终点
+            adapter.setList(list);
+            endName = list.get((int)v.getTag()).getScenic_spot_name();
+            Log.e("456",startName+"--"+endName);
         }
-    }
 
-    private void show(LatLng latLng){
+//        if (startName == null){
+//            for (int i = 0;i<listView.getChildCount();i++){
+//                Log.e("789",i+"***");
+//                LinearLayout layout  = (LinearLayout) listView.getChildAt(i);
+//                TextView view = (TextView) layout.findViewById(R.id.start);
+//                view.setBackgroundResource(R.drawable.circular_white_background);
+//                view.setText("终");
+//                view.setTextColor(getResources().getColor(R.color.grey2));
+//            }
+//            LinearLayout layout = (LinearLayout) listView.getChildAt((int) v.getTag());
+//            TextView view = (TextView) layout.findViewById(R.id.start);
+//            view.setBackgroundResource(R.drawable.circular_ori_background);
+//            view.setText("起");
+//            view.setTextColor(getResources().getColor(R.color.white));
+//            startName = senicSpotList.get((int) v.getTag()).getScenic_spot_name();
+//        }else{
+//            if (endName == null){
+//                LinearLayout layout = (LinearLayout) listView.getChildAt((int) v.getTag());
+//                TextView view = (TextView) layout.findViewById(R.id.start);
+//                view.setBackgroundResource(R.drawable.circular_ori_background);
+//                view.setText("终");
+//                view.setTextColor(getResources().getColor(R.color.white));
+//                endName = senicSpotList.get((int) v.getTag()).getScenic_spot_name();
+//                ToastXutil.show("起点终点选择完毕");
+//            }
+//        }
+    }
+    private void show(final LatLng latLng){
        dialog = new Dialog(this,R.style.dialog_style);
         //填充对话框的布局
        View inflate = LayoutInflater.from(this).inflate(R.layout.navi_type_dialog, null);
        LinearLayout walk = (LinearLayout)inflate.findViewById(R.id.walk);
         LinearLayout driver = (LinearLayout)inflate.findViewById(R.id.driver);
         LinearLayout bus = (LinearLayout)inflate.findViewById(R.id.bus);
+        TextView cancel = (TextView)inflate.findViewById(R.id.cancel);
         walk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dialog.dismiss();
+                NavigationUtil.walkNavi(new LatLng(lat,lng),latLng,RaidersDetailActivity.this);
             }
         });
 
         driver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dialog.dismiss();
+               NavigationUtil.driverNavi(latLng,RaidersDetailActivity.this);
             }
         });
 
         bus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                dialog.dismiss();
+                NavigationUtil.busNavi(new LatLng(lat,lng),latLng,RaidersDetailActivity.this);
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
         //将布局设置给Dialog
@@ -487,8 +572,41 @@ public class RaidersDetailActivity extends BaseBackActivity implements View.OnCl
     @Override
     public void click(LatLng latLng) {
         show(latLng);
-//        ToastXutil.show("待开发");
-//        NavigationUtil.driverNavi(latLng,this);
-//        NavigationUtil.walkNavi(new LatLng(22.12,114.23),new LatLng(22.24,114.56),this);
     }
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        if (mListener != null && aMapLocation != null){
+            if (aMapLocation != null && aMapLocation.getErrorCode() == 0){
+                lat = aMapLocation.getLatitude();
+                lng = aMapLocation.getLongitude();
+                Log.i("TAG",lat+"---"+lng);
+            }else{
+                Log.i("TAG",aMapLocation.getErrorCode()+"错误码"+aMapLocation.getErrorInfo()+"错误信息");
+            }
+        }
+    }
+    @Override
+    public void activate(OnLocationChangedListener onLocationChangedListener) {
+        mListener = onLocationChangedListener;
+        if (mlocationClient == null){
+            mlocationClient = new AMapLocationClient(this);
+            mLocationOption = new AMapLocationClientOption();
+            mlocationClient.setLocationListener(this);// 设置定位监听
+            mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+            mlocationClient.setLocationOption(mLocationOption);// 设置为高精度定位模式
+            mLocationOption.setInterval(1000);
+            mlocationClient.startLocation();
+        }
+    }
+
+    @Override
+    public void deactivate() {
+        mListener = null;
+        if (mlocationClient != null) {
+            mlocationClient.stopLocation();
+            mlocationClient.onDestroy();
+        }
+        mlocationClient = null;
+    }
+
 }

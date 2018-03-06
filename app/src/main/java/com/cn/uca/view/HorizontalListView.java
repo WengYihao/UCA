@@ -12,9 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;  
 import android.widget.AdapterView;  
 import android.widget.ListAdapter;  
-import android.widget.Scroller;  
-  
-@SuppressLint("DrawAllocation")
+import android.widget.Scroller;
 /**
  * 横向滑动ListView
  */

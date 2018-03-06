@@ -13,7 +13,7 @@ import com.cn.uca.bean.user.order.OrderTypeBean;
 import java.util.List;
 
 /**
- * 名片管理
+ * 字母选择
  */
 public class LetterAdapter extends BaseAdapter{
 	private List<OrderTypeBean> list;

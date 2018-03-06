@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -61,6 +62,22 @@ public class CardManageActivity extends BaseBackActivity implements View.OnClick
         adapter = new CardManagerAdapter(list,this);
         listView.setAdapter(adapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.setClass(CardManageActivity.this,CardEditActivity.class);
+                intent.putExtra("type","edit");
+                intent.putExtra("name",list.get(position).getUser_card_type_name());
+                intent.putExtra("card_type",list.get(position).getUser_card_type_id());
+                intent.putExtra("url",list.get(position).getUser_head_portrait());
+                intent.putExtra("phone",list.get(position).getHand_phone());
+                intent.putExtra("introduce",list.get(position).getIntroduce());
+                startActivityForResult(intent,2);
+
+            }
+        });
+
     }
 
     @Override
@@ -72,7 +89,7 @@ public class CardManageActivity extends BaseBackActivity implements View.OnClick
             case R.id.addCard:
                 Intent intent = new Intent();
                 intent.setClass(CardManageActivity.this,CardEditActivity.class);
-                intent.putExtra("id",-1);
+//                intent.putExtra("id",-1);
                 intent.putExtra("type","add");
                 startActivityForResult(intent,0);
                 break;
@@ -121,4 +138,15 @@ public class CardManageActivity extends BaseBackActivity implements View.OnClick
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0){
+            if (data != null){
+                list.clear();
+                getUserCard();
+            }
+        }
+    }
+
 }

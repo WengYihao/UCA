@@ -17,6 +17,15 @@
             android:id="@+id/title"
             style="@style/style_title"
             android:text="会话列表"/>
+        <TextView
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清空"
+            android:textColor="@color/white"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/padding_10"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"

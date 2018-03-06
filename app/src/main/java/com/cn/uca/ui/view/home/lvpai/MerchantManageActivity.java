@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -37,7 +38,7 @@ import java.util.Map;
  */
 public class MerchantManageActivity extends BaseBackActivity implements View.OnClickListener {
 
-    private TextView back,message,prompt,close,edit,score,username,introduce,merchantname,merchantphone,merchantwechat;
+    private TextView back,message,prompt,close,edit,score,username,introduce,merchantname,merchantphone,merchantwechat,gotoMerchant;
     private LinearLayout layout;
     private CircleImageView user_pic;
     private RatingStarView star;
@@ -71,6 +72,7 @@ public class MerchantManageActivity extends BaseBackActivity implements View.OnC
         merchantphone = (TextView)findViewById(R.id.merchantphone);
         merchantwechat = (TextView)findViewById(R.id.merchantwechat);
         fluidLayout = (FluidLayout)findViewById(R.id.fluidLayout);
+        gotoMerchant = (TextView)findViewById(R.id.gotoMerchant);
         layout1 = (LinearLayout)findViewById(R.id.layout1);
         layout2 = (LinearLayout)findViewById(R.id.layout2);
         layout3 = (LinearLayout)findViewById(R.id.layout3);
@@ -78,6 +80,16 @@ public class MerchantManageActivity extends BaseBackActivity implements View.OnC
         layout5 = (LinearLayout)findViewById(R.id.layout5);
         layout6 = (LinearLayout)findViewById(R.id.layout6);
         personal_tailor = (Switch)findViewById(R.id.personal_tailor);
+        personal_tailor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+
+                }else {
+
+                }
+            }
+        });
         back.setOnClickListener(this);
         message.setOnClickListener(this);
         close.setOnClickListener(this);
@@ -88,6 +100,7 @@ public class MerchantManageActivity extends BaseBackActivity implements View.OnC
         layout4.setOnClickListener(this);
         layout5.setOnClickListener(this);
         layout6.setOnClickListener(this);
+        gotoMerchant.setOnClickListener(this);
     }
 
     @Override
@@ -129,6 +142,12 @@ public class MerchantManageActivity extends BaseBackActivity implements View.OnC
                 break;
             case R.id.layout6:
                 startActivity(new Intent(this, MerchantTeamActivity.class));
+                break;
+            case R.id.gotoMerchant:
+                Intent intent1 = new Intent();
+                intent1.setClass(this,MerchantDetailActivity.class);
+                intent1.putExtra("id",bean.getTrip_shoot_merchant_id());
+                startActivity(intent1);
                 break;
         }
     }

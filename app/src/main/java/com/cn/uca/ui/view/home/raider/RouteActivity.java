@@ -5,10 +5,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.route.BusRouteResult;
@@ -41,6 +44,8 @@ public class RouteActivity extends BaseBackActivity implements View.OnClickListe
     private LatLonPoint mStartPoint = new LatLonPoint(39.942295, 116.335891);//起点，116.335891,39.942295
     private LatLonPoint mEndPoint = new LatLonPoint(39.995576, 116.481288);//终点，116.481288,39.995576
     private String mCurrentCityName = "北京";
+    private RelativeLayout mBottomLayout;
+    private TextView mRotueTimeDes, mRouteDetailDes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class RouteActivity extends BaseBackActivity implements View.OnClickListe
         mapView.onCreate(savedInstanceState);// 此方法必须重写
         initView();
         init();
+        setfromandtoMarker();
         searchRouteResult(Constant.ROUTE_TYPE_WALK,RouteSearch.WALK_DEFAULT);
     }
 
@@ -63,7 +69,9 @@ public class RouteActivity extends BaseBackActivity implements View.OnClickListe
         line1 = (ImageView)findViewById(R.id.line1);
         line2 = (ImageView)findViewById(R.id.line2);
         line3 = (ImageView)findViewById(R.id.line3);
-
+        mBottomLayout = (RelativeLayout) findViewById(R.id.bottom_layout);
+        mRotueTimeDes = (TextView) findViewById(R.id.firstline);
+        mRouteDetailDes = (TextView) findViewById(R.id.secondline);
         listView = (ListView)findViewById(R.id.bus_result_list);
         back.setOnClickListener(this);
         walk.setOnClickListener(this);
@@ -87,6 +95,15 @@ public class RouteActivity extends BaseBackActivity implements View.OnClickListe
 //        mRouteDetailDes = (TextView) findViewById(R.id.secondline);
 
     }
+    private void setfromandtoMarker() {
+        aMap.addMarker(new MarkerOptions()
+                .position(AMapUtil.convertToLatLng(mStartPoint))
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.start_back)));
+        aMap.addMarker(new MarkerOptions()
+                .position(AMapUtil.convertToLatLng(mEndPoint))
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.end_back)));
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -108,6 +125,7 @@ public class RouteActivity extends BaseBackActivity implements View.OnClickListe
                 listView.setVisibility(View.GONE);
                 break;
             case R.id.transit:
+                mBottomLayout.setVisibility(View.GONE);
                 searchRouteResult(Constant.ROUTE_TYPE_BUS, RouteSearch.BusDefault);
                 walk.setTextColor(getResources().getColor(R.color.grey));
                 line1.setVisibility(View.GONE);
@@ -210,25 +228,20 @@ public class RouteActivity extends BaseBackActivity implements View.OnClickListe
                     drivingRouteOverlay.removeFromMap();
                     drivingRouteOverlay.addToMap();
                     drivingRouteOverlay.zoomToSpan();
-//                    mBottomLayout.setVisibility(View.VISIBLE);
+                    mBottomLayout.setVisibility(View.VISIBLE);
                     int dis = (int) drivePath.getDistance();
                     int dur = (int) drivePath.getDuration();
                     String des = AMapUtil.getFriendlyTime(dur)+"("+AMapUtil.getFriendlyLength(dis)+")";
-//                    mRotueTimeDes.setText(des);
-//                    mRouteDetailDes.setVisibility(View.VISIBLE);
+                    mRotueTimeDes.setText(des);
+                    mRouteDetailDes.setVisibility(View.VISIBLE);
                     int taxiCost = (int) mDriveRouteResult.getTaxiCost();
-//                    mRouteDetailDes.setText("打车约"+taxiCost+"元");
-//                    mBottomLayout.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Intent intent = new Intent(mContext,
-//                                    DriveRouteDetailActivity.class);
-//                            intent.putExtra("drive_path", drivePath);
-//                            intent.putExtra("drive_result",
-//                                    mDriveRouteResult);
-//                            startActivity(intent);
-//                        }
-//                    });
+                    mRouteDetailDes.setText("打车约"+taxiCost+"元");
+                    mBottomLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                           ToastXutil.show("驾车导航");
+                        }
+                    });
 
                 } else if (result != null && result.getPaths() == null) {
                     ToastXutil.show("暂无结果");
@@ -259,24 +272,19 @@ public class RouteActivity extends BaseBackActivity implements View.OnClickListe
                     walkRouteOverlay.removeFromMap();
                     walkRouteOverlay.addToMap();
                     walkRouteOverlay.zoomToSpan();
-//                    mBottomLayout.setVisibility(View.VISIBLE);
+                    mBottomLayout.setVisibility(View.VISIBLE);
                     int dis = (int) walkPath.getDistance();
                     int dur = (int) walkPath.getDuration();
                     String des = AMapUtil.getFriendlyTime(dur)+"("+AMapUtil.getFriendlyLength(dis)+")";
                     Log.e("456",des+"--------");
-//                    mRotueTimeDes.setText(des);
-//                    mRouteDetailDes.setVisibility(View.GONE);
-//                    mBottomLayout.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Intent intent = new Intent(mContext,
-//                                    WalkRouteDetailActivity.class);
-//                            intent.putExtra("walk_path", walkPath);
-//                            intent.putExtra("walk_result",
-//                                    mWalkRouteResult);
-//                            startActivity(intent);
-//                        }
-//                    });
+                    mRotueTimeDes.setText(des);
+                    mRouteDetailDes.setVisibility(View.GONE);
+                    mBottomLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                          ToastXutil.show("开始导航");
+                        }
+                    });
                 } else if (result != null && result.getPaths() == null) {
                     ToastXutil.show("暂无结果");
                 }

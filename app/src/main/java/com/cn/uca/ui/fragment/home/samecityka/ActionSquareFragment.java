@@ -9,25 +9,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.samecityka.SameCityKaAdapter;
 import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.bean.home.samecityka.LableBean;
 import com.cn.uca.bean.home.samecityka.SameCityKaBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.datepicker.OnDoubleSureLisener;
 import com.cn.uca.impl.yueka.SearchCallBack;
-import com.cn.uca.popupwindows.LoadingPopupWindow;
 import com.cn.uca.popupwindows.SameCityKaSearchPopupWindow;
 import com.cn.uca.popupwindows.SameCityKaSearchPopupWindow2;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.home.samecityka.ActionDetailActivity;
+import com.cn.uca.ui.view.home.samecityka.ActionSearchActivity;
+import com.cn.uca.ui.view.util.CityActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -54,35 +59,49 @@ import java.util.Map;
  * 活动广场
  */
 
-public class ActionSquareFragment extends Fragment implements View.OnClickListener,OnDoubleSureLisener{
+public class ActionSquareFragment extends Fragment implements AMapLocationListener,View.OnClickListener,OnDoubleSureLisener{
 
     private View view;
-    private TextView num1,num2,num3,num4,num5,num6,type,time,price;
+    private TextView back,place,search,num1,num2,num3,num4,num5,num6,type,time,price;
     private ObservableScrollView scrollView;
     private NoScrollListView listView;
-    private LinearLayout layout_1,layout_2;
+    private LinearLayout locationLayout,layout_1,layout_2;
     private RelativeLayout layout1,layout2,layout3,layout4,layout5,layout6;
-    private int page = 1;
-    private int pageCount = 5;
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
     private List<SameCityKaBean> list;
     private SameCityKaAdapter adapter;
     private List<String> listLable;
+    //声明AMapLocationClient类对象，定位发起端
+    private AMapLocationClient mLocationClient = null;
+    //声明mLocationOption对象，定位参数
+    public AMapLocationClientOption mLocationOption = null;
+    //声明mListener对象，定位监听器
+    //标识，用于判断是否只显示一次定位信息和用户重新定位
+    private boolean isFirstLoc = true;
+    public static String city,cityCode;
+    private int actionTypeId = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_action_square,null);
 
+        location();
         initView();
         getCafeLabel();
-        getCityCafe(2);
+
         return view;
     }
 
     private void initView() {
+        back = (TextView)view.findViewById(R.id.back);
+        place = (TextView)view.findViewById(R.id.place);
+        search = (TextView)view.findViewById(R.id.search);
         scrollView = (ObservableScrollView)view.findViewById(R.id.scrollView);
         type = (TextView)view.findViewById(R.id.type);
         time = (TextView)view.findViewById(R.id.time);
         price = (TextView)view.findViewById(R.id.price);
+        locationLayout = (LinearLayout)view.findViewById(R.id.locationLayout);
         layout_1 = (LinearLayout)view.findViewById(R.id.layout_1);
         layout_2 = (LinearLayout)view.findViewById(R.id.layout_2);
         layout1 = (RelativeLayout)view.findViewById(R.id.layout1);
@@ -99,6 +118,9 @@ public class ActionSquareFragment extends Fragment implements View.OnClickListen
         num6 = (TextView)view.findViewById(R.id.num6);
 
         listView = (NoScrollListView)view.findViewById(R.id.listView);
+        back.setOnClickListener(this);
+        search.setOnClickListener(this);
+        locationLayout.setOnClickListener(this);
         layout1.setOnClickListener(this);
         layout2.setOnClickListener(this);
         layout3.setOnClickListener(this);
@@ -151,6 +173,19 @@ public class ActionSquareFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.back:
+                getActivity().finish();
+                break;
+            case R.id.search:
+                startActivity(new Intent(getActivity(),ActionSearchActivity.class));
+                break;
+            case R.id.locationLayout:
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), CityActivity.class);
+                intent.putExtra("city",city);
+                intent.putExtra("type","samecityka");
+                startActivityForResult(intent,9);
+                break ;
             case R.id.type:
                 new SameCityKaSearchPopupWindow2(getActivity(), type, listLable, new SearchCallBack() {
                     @Override
@@ -171,7 +206,8 @@ public class ActionSquareFragment extends Fragment implements View.OnClickListen
                 });
                 break;
             case R.id.layout1:
-                getCityCafe(1);
+                actionTypeId = 1;
+                getCityCafe(actionTypeId,"","","","");
                 layout1.setVisibility(View.GONE);
                 layout2.setVisibility(View.VISIBLE);
                 layout3.setVisibility(View.VISIBLE);
@@ -180,7 +216,8 @@ public class ActionSquareFragment extends Fragment implements View.OnClickListen
                 layout6.setVisibility(View.GONE);
                 break;
             case R.id.layout2:
-                getCityCafe(2);
+                actionTypeId = 2;
+                getCityCafe(actionTypeId,"","","","");
                 layout1.setVisibility(View.VISIBLE);
                 layout2.setVisibility(View.GONE);
                 layout3.setVisibility(View.VISIBLE);
@@ -189,7 +226,8 @@ public class ActionSquareFragment extends Fragment implements View.OnClickListen
                 layout6.setVisibility(View.GONE);
                 break;
             case R.id.layout3:
-                getCityCafe(3);
+                actionTypeId = 3;
+                getCityCafe(actionTypeId,"","","","");
                 layout1.setVisibility(View.VISIBLE);
                 layout2.setVisibility(View.VISIBLE);
                 layout3.setVisibility(View.GONE);
@@ -197,27 +235,23 @@ public class ActionSquareFragment extends Fragment implements View.OnClickListen
                 layout5.setVisibility(View.GONE);
                 layout6.setVisibility(View.VISIBLE);
                 break;
-//            case R.id.la
-//            case R.id.action:
-//                startActivity(new Intent(getActivity(), ActionDetailActivity.class));
-//                return;
         }
     }
 
-    private void getCityCafe(int id){
+    private void getCityCafe(int id,String beg_time,String end_time,String charge,String lable){
         Map<String,Object> map = new HashMap<>();
         map.put("user_card_type_id",id);
         String time_stamp = SystemUtil.getCurrentDate2();
         map.put("time_stamp",time_stamp);
         map.put("page",page);
         map.put("pageCount",pageCount);
-        map.put("city_id",2);
-        map.put("beg_time","");
-        map.put("end_time","");
-        map.put("charge","");
-        map.put("label_id","");
+        map.put("gaode_code",cityCode);
+        map.put("beg_time",beg_time);
+        map.put("end_time",end_time);
+        map.put("charge",charge);
+        map.put("label_id",lable);
         String sign = SignUtil.sign(map);
-        HomeHttp.getCityCafe(time_stamp, id, sign, page, pageCount, 2, "", "", "", "", new CallBack() {
+        HomeHttp.getCityCafe(time_stamp, id, sign, page, pageCount,cityCode, beg_time, end_time, charge, lable, new CallBack() {
             @Override
             public void onResponse(Object response) {
                 try{
@@ -333,5 +367,65 @@ public class ActionSquareFragment extends Fragment implements View.OnClickListen
     @Override
     public void onSure(Date dateStart, Date dateEnd) {
 
+    }
+
+    private  void location() {
+        //初始化定位
+        mLocationClient = new AMapLocationClient(getActivity());
+        //设置定位回调监听
+        mLocationClient.setLocationListener(this);
+        //初始化定位参数
+        mLocationOption = new AMapLocationClientOption();
+        //设置定位模式为Hight_Accuracy高精度模式，Battery_Saving为低功耗模式，Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        //设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setNeedAddress(true);
+        //设置是否只定位一次,默认为false
+        mLocationOption.setOnceLocation(false);
+        //设置是否强制刷新WIFI，默认为强制刷新
+        mLocationOption.setWifiActiveScan(true);
+        //设置是否允许模拟位置,默认为false，不允许模拟位置
+        mLocationOption.setMockEnable(false);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setInterval(200);
+        //给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+        //启动定位
+        mLocationClient.startLocation();
+    }
+
+    @Override
+    public void onLocationChanged(AMapLocation aMapLocation) {
+        if (aMapLocation != null) {
+            if (aMapLocation.getErrorCode() == 0) {
+                //定位成功回调信息，设置相关消息
+                double la= aMapLocation.getLatitude();//获取纬度
+                double lo= aMapLocation.getLongitude();//获取经度
+                // 如果不设置标志位，此时再拖动地图时，它会不断将地图移动到当前的位置
+                if (isFirstLoc){
+                    city = aMapLocation.getCity().substring(0,aMapLocation.getCity().indexOf("市"));
+                    cityCode = aMapLocation.getCityCode();
+                    getCityCafe(2,"","","","");
+                    place.setText(city);
+                    isFirstLoc = false;
+                }
+            } else {
+                //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                Log.i("AmapError", "location Error, ErrCode:"
+                        + aMapLocation.getErrorCode() + ", errInfo:"
+                        + aMapLocation.getErrorInfo());
+            }
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 9){
+            if (data != null){
+                cityCode = data.getStringExtra("code");
+                getCityCafe(actionTypeId,"","","","");
+                place.setText(data.getStringExtra("city"));
+            }
+        }
     }
 }

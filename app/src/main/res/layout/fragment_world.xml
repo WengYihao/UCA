@@ -7,23 +7,20 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="match_parent">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
-            android:background="#b29b71">
+            android:background="@color/yellow2">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="#b29b71">
+                android:orientation="vertical">
                 <RelativeLayout
                     android:id="@+id/addLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#b29b71"
                     android:descendantFocusability="blocksDescendants">
 
                     <LinearLayout
@@ -123,6 +120,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@mipmap/edit_footprint_back"/>
                             <TextView
+                                android:id="@+id/light"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/footPrintFragment_text1"
@@ -156,7 +154,7 @@
                         android:layout_height="match_parent"
                         android:overScrollMode="never"
                         android:scrollbars="none"
-                        android:background="#b29b71"
+                        android:background="@color/yellow2"
                         android:layout_above="@id/link">
                     </com.cn.uca.view.TouchWebView>
                 </RelativeLayout>
@@ -181,7 +179,8 @@
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srlClassicsSpinnerStyle="Translate"/>
+            app:srlClassicsSpinnerStyle="Translate"
+            android:background="@color/white"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 

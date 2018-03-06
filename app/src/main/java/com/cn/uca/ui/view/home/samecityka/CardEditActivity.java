@@ -50,6 +50,7 @@ import com.cn.uca.view.CircleImageView;
 import com.cn.uca.view.MyEditText;
 import com.cn.uca.view.dialog.LoadDialog;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -69,7 +70,7 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
     private EditText nameet,phoneet,typenameet,introduction;
     private CircleImageView pic;
     private RelativeLayout layout;
-    private int id;
+//    private int id;
     private String mold;
     private  List<String> list;
     private String[] arrayString = { "拍照", "相册" };
@@ -78,7 +79,7 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
     private Uri imageUri;
     private byte[] photodata = null;
     private ByteArrayInputStream bais;
-    private String cardName,companyName,cardContent,phoneNumber;
+    private String cardName,companyName,cardUrl,cardContent,phoneNumber;
     private int cardType = 1;
 
     @Override
@@ -94,8 +95,16 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
     private void getInfo(){
         Intent intent = getIntent();
         if (intent != null){
-            id = intent.getIntExtra("id",0);
             mold = intent.getStringExtra("type");
+            switch (mold){
+                case "edit":
+                    cardName = intent.getStringExtra("name");
+                    cardType = intent.getIntExtra("card_type",0);
+                    cardUrl = intent.getStringExtra("url");
+                    phoneNumber = intent.getStringExtra("phone");
+                    cardContent = intent.getStringExtra("introduce");
+                    break;
+            }
         }
     }
     private void initView() {
@@ -124,7 +133,35 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
                 typename.setVisibility(View.GONE);
                 break;
             case "edit":
-
+                name.setText(cardName);
+                ImageLoader.getInstance().displayImage(cardUrl,pic);
+                phone.setText(phoneNumber);
+                introduction.setText(cardContent);
+                switch (cardType){
+                    case 1:
+                        type.setBackgroundResource(R.mipmap.personal_type);
+                        type_name.setText("个人");
+                        typeLayout.setVisibility(View.GONE);
+                        break;
+                    case 2:
+                        type.setBackgroundResource(R.mipmap.college_type);
+                        type_name.setText("学校");
+                        typeLayout.setVisibility(View.VISIBLE);
+                        name_type.setText("学校名称");
+                        break;
+                    case 3:
+                        type.setBackgroundResource(R.mipmap.enterprise_type);
+                        type_name.setText("企业");
+                        typeLayout.setVisibility(View.VISIBLE);
+                        name_type.setText("企业名称");
+                        break;
+                }
+                break;
+            case "choice":
+                delete.setVisibility(View.GONE);
+                name.setVisibility(View.GONE);
+                phone.setVisibility(View.GONE);
+                typename.setVisibility(View.GONE);
                 break;
         }
         back.setOnClickListener(this);
@@ -137,12 +174,6 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
         AbsoluteSizeSpan ass = new AbsoluteSizeSpan(12,true);//设置字体大小 true表示单位是sp
         ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         introduction.setHint(new SpannedString(ss));
-
-        if (id == 0){
-            delete.setVisibility(View.GONE);
-            name.setVisibility(View.GONE);
-            phone.setVisibility(View.GONE);
-        }
 
         list = new ArrayList<>();
         list.add("个人");
@@ -316,6 +347,25 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
                         switch (code){
                             case 0:
                                 ToastXutil.show("添加成功");
+                                Intent intent = new Intent();
+                                switch (mold){
+                                    case "add":
+                                        intent.putExtra("id",1);
+                                        setResult(0,intent);
+                                        CardEditActivity.this.finish();
+                                        break;
+                                    case "":
+
+                                        break;
+                                    case "choice":
+                                        intent.putExtra("id",2);
+                                        setResult(0,intent);
+                                        CardEditActivity.this.finish();
+                                        break;
+                                }
+                                break;
+                            case 441:
+                                ToastXutil.show("名片不能超过5张");
                                 break;
                         }
                     }

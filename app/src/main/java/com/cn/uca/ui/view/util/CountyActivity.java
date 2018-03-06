@@ -61,18 +61,35 @@ public class CountyActivity extends BaseBackActivity implements AbsListView.OnSc
     private DatabaseHelper helper;
     private TextView stateTitle,back;
     private String city;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_county);
 
+        getInfo();
         initView();
         initOverlay();
         cityInit();
         hotCityInit();
         hisCityInit();
         setAdapter(allCity_lists, city_hot, city_history);
+    }
+
+    private void getInfo(){
+        Intent intent = getIntent();
+        if (intent != null){
+            type = intent.getStringExtra("type");
+//            switch (type){
+//                case "lvpai":
+//
+//                    break;
+//                case "zuji":
+//
+//                    break;
+//            }
+        }
     }
 
     private void cityInit() {
@@ -96,7 +113,6 @@ public class CountyActivity extends BaseBackActivity implements AbsListView.OnSc
             dbHelper.createDataBase();
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             Cursor cursor = db.rawQuery("select * from country", null);
-            Log.e("456",cursor.getCount()+"----");
             City city;
             while (cursor.moveToNext()) {
                 city = new City(cursor.getString(1), cursor.getString(3));
@@ -177,7 +193,14 @@ public class CountyActivity extends BaseBackActivity implements AbsListView.OnSc
                     city_history.add(allCity_lists.get(position).getName());
                     InsertCity(allCity_lists.get(position).getName());
                     adapter.notifyDataSetChanged();
-                    sendInfo(allCity_lists.get(position).getName());
+                    switch (type){
+                        case "lvpai":
+                            sendInfo(allCity_lists.get(position).getName(),3);
+                            break;
+                        case "zuji":
+                            sendInfo(allCity_lists.get(position).getName(),2);
+                            break;
+                    }
                 }
             }
         });
@@ -192,7 +215,14 @@ public class CountyActivity extends BaseBackActivity implements AbsListView.OnSc
                 InsertCity(city_result.get(position).getName());
                 city_history.add(city_result.get(position).getName());
                 adapter.notifyDataSetChanged();
-                sendInfo(city_result.get(position).getName());
+                switch (type){
+                    case "lvpai":
+                        sendInfo(city_result.get(position).getName(),3);
+                        break;
+                    case "zuji":
+                        sendInfo(city_result.get(position).getName(),2);
+                        break;
+                }
             }
         });
     }
@@ -239,11 +269,13 @@ public class CountyActivity extends BaseBackActivity implements AbsListView.OnSc
         cursor.close();
         db.close();
     }
-    private void sendInfo(String name){
+    private void sendInfo(String name,int resultCode){
         int code = getIdByName(name);
+        Log.e("456",code+"---");
         Intent intent = new Intent();
-        intent.putExtra("id",code);
-        setResult(3,intent);
+        intent.putExtra("name",name);
+        intent.putExtra("code",code+"");
+        setResult(resultCode,intent);
         this.finish();
     }
     private int getIdByName(String aa) {
@@ -341,7 +373,14 @@ public class CountyActivity extends BaseBackActivity implements AbsListView.OnSc
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
-                        sendInfo(city_history.get(position));
+                        switch (type){
+                            case "lvpai":
+                                sendInfo(city_history.get(position),3);
+                                break;
+                            case "zuji":
+                                sendInfo(city_history.get(position),2);
+                                break;
+                        }
                     }
                 });
                 TextView recentHint = (TextView) convertView
@@ -359,7 +398,15 @@ public class CountyActivity extends BaseBackActivity implements AbsListView.OnSc
                         InsertCity(city_hot.get(position).getName());
                         city_history.add(city_hot.get(position).getName());
                         adapter.notifyDataSetChanged();
-                        sendInfo(city_hot.get(position).getName());
+                        switch (type){
+                            case "lvpai":
+                                sendInfo(city_hot.get(position).getName(),3);
+                                break;
+                            case "zuji":
+                                sendInfo(city_hot.get(position).getName(),2);
+                                break;
+                        }
+
                     }
                 });
                 hotCity.setAdapter(new HotCityAdapter(context, this.hotList));

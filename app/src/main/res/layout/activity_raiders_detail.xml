@@ -26,16 +26,39 @@
             style="@style/style_title"
             android:text="@string/raiderDetailActivity_title_text"/>
 
+        <TextView
+            android:id="@+id/share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/share_footprint_back"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/padding_10"/>
+
     </RelativeLayout>
-    <TextView
-        android:id="@+id/food"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@mipmap/food_normal"
+        android:orientation="vertical"
         android:layout_below="@id/title"
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/padding_20"
-        android:layout_marginRight="@dimen/padding_20"/>
+        android:layout_marginRight="@dimen/padding_20">
+        <TextView
+            android:id="@+id/food"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@mipmap/food_normal"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="美食"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_10"
+            android:layout_marginTop="3dp"/>
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/layout3"
         android:layout_width="match_parent"
@@ -43,15 +66,16 @@
         android:orientation="horizontal"
         android:background="@color/white"
         android:layout_alignParentBottom="true">
-
         <TextView
-            android:id="@+id/line"
+            android:id="@+id/raiders"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:text="@string/raiderDetailActivity_radier_text"
             android:gravity="center"
-            android:padding="@dimen/padding_12"
-            android:text="@string/raiderDetailActivity_line_text" />
+            android:textColor="@color/gray2"
+            android:padding="@dimen/padding_12"/>
+
 
         <ImageView
             android:layout_width="1dp"
@@ -62,13 +86,14 @@
             android:src="@color/gray" />
 
         <TextView
-            android:id="@+id/raiders"
+            android:id="@+id/line"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/raiderDetailActivity_radier_text"
             android:gravity="center"
-            android:padding="@dimen/padding_12"/>
+            android:textColor="@color/gray2"
+            android:padding="@dimen/padding_12"
+            android:text="@string/raiderDetailActivity_line_text" />
         <ImageView
             android:layout_width="1dp"
             android:layout_height="match_parent"
@@ -93,9 +118,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="@dimen/padding_12"
-        android:layout_marginLeft="@dimen/padding_12">
+        android:layout_marginLeft="@dimen/padding_12"
+        android:visibility="gone">
         <LinearLayout
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">

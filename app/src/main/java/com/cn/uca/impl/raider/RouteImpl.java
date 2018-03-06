@@ -8,5 +8,4 @@ import android.view.View;
 
 public interface RouteImpl {
     void start(View v);
-    void end(View v);
 }

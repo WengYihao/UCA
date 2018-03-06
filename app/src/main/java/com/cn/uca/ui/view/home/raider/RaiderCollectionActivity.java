@@ -35,7 +35,7 @@ public class RaiderCollectionActivity extends BaseBackActivity implements View.O
 
     private TextView back;
     private GridView gridView;
-    private TextView title01,title03,title04;
+    private TextView title01,title04;
     private int page = Constant.PAGE;
     private int pageCount = Constant.PAGE_COUNT;
     private List<RaidersBean> list;
@@ -52,7 +52,6 @@ public class RaiderCollectionActivity extends BaseBackActivity implements View.O
     private void initView() {
         back = (TextView)findViewById(R.id.back);
         title01 = (TextView)findViewById(R.id.title01);
-        title03 = (TextView)findViewById(R.id.title03);
         title04 = (TextView)findViewById(R.id.title04);
 
         gridView = (GridView)findViewById(R.id.gridView);
@@ -61,7 +60,6 @@ public class RaiderCollectionActivity extends BaseBackActivity implements View.O
         gridView.setAdapter(adapter);
         back.setOnClickListener(this);
         title01.setOnClickListener(this);
-        title03.setOnClickListener(this);
         title04.setOnClickListener(this);
 
         show(0);
@@ -86,9 +84,6 @@ public class RaiderCollectionActivity extends BaseBackActivity implements View.O
             case R.id.title01:
                 show(0);
                 break;
-            case R.id.title03:
-                show(2);
-                break;
             case R.id.title04:
                 show(3);
                 break;
@@ -101,38 +96,17 @@ public class RaiderCollectionActivity extends BaseBackActivity implements View.O
                 title01.setTextColor(getResources().getColor(R.color.ori));
                 title01.setBackgroundResource(R.color.white);
 
-                title03.setTextColor(getResources().getColor(R.color.gray2));
-                title03.setBackgroundResource(R.color.gray);
-
                 title04.setTextColor(getResources().getColor(R.color.gray2));
                 title04.setBackgroundResource(R.color.gray);
                 getMyRaider(1);
-                break;
-            case 2:
-                title01.setTextColor(getResources().getColor(R.color.gray2));
-                title01.setBackgroundResource(R.color.gray);
-
-                title03.setTextColor(getResources().getColor(R.color.ori));
-                title03.setBackgroundResource(R.color.white);
-
-                title04.setTextColor(getResources().getColor(R.color.gray2));
-                title04.setBackgroundResource(R.color.gray);
-                list.clear();
-                adapter.setList(list);
-                ToastXutil.show("暂无数据");
                 break;
             case 3:
                 title01.setTextColor(getResources().getColor(R.color.gray2));
                 title01.setBackgroundResource(R.color.gray);
 
-                title03.setTextColor(getResources().getColor(R.color.gray2));
-                title03.setBackgroundResource(R.color.gray);
-
                 title04.setTextColor(getResources().getColor(R.color.ori));
                 title04.setBackgroundResource(R.color.white);
-                list.clear();
-                adapter.setList(list);
-                ToastXutil.show("暂无数据");
+                getMyRaider(1);
                 break;
         }
     }

@@ -1,5 +1,7 @@
 package com.cn.uca.bean.home.raider;
 
+import android.util.Log;
+
 /**
  * Created by asus on 2017/10/17.
  * 攻略-景点
@@ -14,8 +16,7 @@ public class RaidersSenicSpotBean {
     private double lat;
     private String scenic_spot_name;
     private int order;
-    private boolean isStart;
-    private boolean isEnd;
+    private int state;//起点终点状态
 
     public String getAddress() {
         return address;
@@ -47,14 +48,6 @@ public class RaidersSenicSpotBean {
 
     public int getOrder() {
         return order;
-    }
-
-    public boolean isStart() {
-        return isStart;
-    }
-
-    public boolean isEnd() {
-        return isEnd;
     }
 
     public void setAddress(String address) {
@@ -89,11 +82,13 @@ public class RaidersSenicSpotBean {
         this.order = order;
     }
 
-    public void setStart(boolean start) {
-        isStart = start;
+    public int getState() {
+        return state;
     }
 
-    public void setEnd(boolean end) {
-        isEnd = end;
+    public void setState(int state) {
+        this.state = state;
     }
+
+
 }

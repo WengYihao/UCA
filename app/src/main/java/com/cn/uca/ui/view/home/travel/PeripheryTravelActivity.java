@@ -1,8 +1,10 @@
 package com.cn.uca.ui.view.home.travel;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -11,13 +13,17 @@ import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.travel.AroundPlayAdapter;
 import com.cn.uca.bean.home.travel.AroundPlayBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.fragment.home.PeripheryFragment;
 import com.cn.uca.ui.fragment.home.PeripheryHotelFragment;
 import com.cn.uca.ui.view.util.BaseBackActivity;
+import com.cn.uca.util.SetListView;
+import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
+import com.cn.uca.view.NoScrollGridView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,16 +40,19 @@ import java.util.Map;
  */
 public class PeripheryTravelActivity extends BaseBackActivity implements View.OnClickListener{
 
-    private TextView back;
-    private GridView gridView;
+    private TextView back,more;
+    private NoScrollGridView gridView;
     private List<AroundPlayBean> list;
     private AroundPlayAdapter adapter;
-    private RadioButton hot,hotel;
-    private PeripheryFragment peripheryFragment;
-    private PeripheryHotelFragment peripheryHotelFragment;
-    private FragmentTransaction fragmentTransaction;
-    private int currentIndex = -1;
+//    private RadioButton hot,hotel;
+//    private PeripheryFragment peripheryFragment;
+//    private PeripheryHotelFragment peripheryHotelFragment;
+//    private FragmentTransaction fragmentTransaction;
+//    private int currentIndex = -1;
+
     private String code = "";
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
 
 
     @Override
@@ -53,64 +62,62 @@ public class PeripheryTravelActivity extends BaseBackActivity implements View.On
 
         initView();
         getMustPlayAround(code);
+//        getTravel();
     }
 
+
+    private void getTravel(String type,int regionId,String py,int styleId,String sort){
+        Map<String,Object> map = new HashMap<>();
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token",account_token);
+        map.put("gaode_code",code);
+        map.put("tourismType",type);
+        map.put("region_id",regionId);
+        map.put("city_pinyin",py);
+        map.put("tourism_style_id",styleId);
+        map.put("sort",sort);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        String sign = SignUtil.sign(map);
+        HomeHttp.getTourism(sign, time_stamp, account_token,code,type,regionId,py,styleId,sort,page,pageCount,new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
     private void initView() {
         back = (TextView)findViewById(R.id.back);
-        gridView = (GridView)findViewById(R.id.gridView);
-        hot = (RadioButton) findViewById(R.id.hot);
-        hotel = (RadioButton)findViewById(R.id.hotel);
+        more = (TextView)findViewById(R.id.more);
+        gridView = (NoScrollGridView)findViewById(R.id.gridView);
 
         back.setOnClickListener(this);
-        hot.setOnClickListener(this);
-        hotel.setOnClickListener(this);
+        more.setOnClickListener(this);
 
         list = new ArrayList<>();
         adapter = new AroundPlayAdapter(list,this);
         gridView.setAdapter(adapter);
-        hot.setChecked(true);
-        show(0);
-    }
-    private void show(int index) {
-        if (currentIndex == index) {
-            return;
-        }
-        fragmentTransaction = getSupportFragmentManager()
-                .beginTransaction();
-        switch (index) {
-            case 0:
-                if (peripheryFragment == null) {
-                    peripheryFragment = new PeripheryFragment();
-                    fragmentTransaction.add(R.id.container, peripheryFragment);
-                }
-                fragmentTransaction.show(peripheryFragment);
-                hot.setBackgroundResource(R.color.white);
-                hot.setTextColor(getResources().getColor(R.color.ori));
-                hotel.setBackgroundResource(R.color.ori);
-                hotel.setTextColor(getResources().getColor(R.color.white));
-                break;
-            case 1:
-                if (peripheryHotelFragment == null) {
-                    peripheryHotelFragment = new PeripheryHotelFragment();
-                    fragmentTransaction.add(R.id.container, peripheryHotelFragment);
-                }
-                fragmentTransaction.show(peripheryHotelFragment);
-                hot.setBackgroundResource(R.color.ori);
-                hot.setTextColor(getResources().getColor(R.color.white));
-                hotel.setBackgroundResource(R.color.white);
-                hotel.setTextColor(getResources().getColor(R.color.ori));
-                break;
-        }
-        switch (currentIndex) {
-            case 0:
-                fragmentTransaction.hide(peripheryFragment);
-                break;
-            case 1:
-                fragmentTransaction.hide(peripheryHotelFragment);
-                break;
-        }
-        fragmentTransaction.commit();
-        currentIndex = index;
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.setClass(PeripheryTravelActivity.this,SpotTicketActivity.class);
+                intent.putExtra("id",list.get(position).getScenic_spot_id());
+                startActivity(intent);
+            }
+        });
     }
     @Override
     public void onClick(View view) {
@@ -118,11 +125,9 @@ public class PeripheryTravelActivity extends BaseBackActivity implements View.On
             case R.id.back:
                 this.finish();
                 break;
-            case R.id.hot:
-                show(0);
-                break;
-            case R.id.hotel:
-                show(1);
+            case R.id.more:
+                list.clear();
+                getMustPlayAround(code);
                 break;
         }
     }

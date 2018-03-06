@@ -11,12 +11,15 @@
         android:text="世界黄金"
         android:textColor="@color/grey"
         android:padding="@dimen/padding_10"/>
+
     <TextView
         android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="贝丽南路和家居5楼"
-        android:textSize="@dimen/text_12"
+        android:layout_marginBottom="@dimen/padding_10"
         android:layout_marginLeft="@dimen/padding_10"
-        android:layout_marginBottom="@dimen/padding_10"/>
+        android:text="贝丽南路和家居5楼"
+        android:lines="1"
+        android:ellipsize="end"
+        android:textSize="@dimen/text_12" />
 </LinearLayout>

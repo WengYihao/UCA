@@ -33,7 +33,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private HomeFragment homeFragment;
     private YueKaFragment yueKaFragment;
     private UserFragment userFragment;
-    private ViewPager mPager;
+    public static ViewPager mPager;
     private ArrayList<Fragment> fragmentList;
     private View homeLayout;
     private View yuekaLayout;
@@ -90,10 +90,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mUnreadNumView.setDragListencer(this);
 
         mPager = (ViewPager) findViewById(R.id.content);
-        mPager .setOffscreenPageLimit(3);//viewpager缓存的界面数
-        homeLayout.setOnClickListener(this);
-        yuekaLayout.setOnClickListener(this);
-        userLayout.setOnClickListener(this);
+        mPager.setOffscreenPageLimit(3);//viewpager缓存的界面数
+        homeLayout.setOnClickListener(new MyOnClickListener(0));
+        yuekaLayout.setOnClickListener(new MyOnClickListener(1));
+        userLayout.setOnClickListener(new MyOnClickListener(2));
 
         fragmentList = new ArrayList<>();
         setTabSelection(0);//设置默认显示的界面
@@ -170,7 +170,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     }
 
-    public class MyOnClickListener implements View.OnClickListener{
+    public static class MyOnClickListener implements View.OnClickListener{
         private int index = 0;
         public MyOnClickListener(int i) {
             index = i;
@@ -198,7 +198,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     };
 
-    private void setTabSelection(int index) {
+    public void setTabSelection(int index) {
         // 每次选中之前先清楚掉上次的选中状态
         clearSelection();
         switch (index) {

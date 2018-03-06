@@ -137,10 +137,10 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
                 startActivity(new Intent(OrderYueActivity.this, ChatListActivity.class));
                 break;
             case R.id.layout1://游咖-我的收藏
-//                startActivity(new Intent(OrderYueActivity.this,PresetManagerActivity.class));
+                startActivity(new Intent(OrderYueActivity.this,PresetManagerActivity.class));
                 break;
             case R.id.layout2://游咖-我的约单
-//                startActivity(new Intent(OrderYueActivity.this,SendYueKaActivity.class));
+                startActivity(new Intent(OrderYueActivity.this,YueKaYueActivity.class));
                 break;
             case R.id.layout3://领咖-发布约咖
                 String str = "http://www.szyouka.com:8080/youkatravel/agreement/escortProtocol.html";
@@ -148,11 +148,6 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
                 break;
             case R.id.layout4://领咖-我的发布
                 startActivity(new Intent(OrderYueActivity.this,SendListActivity.class));
-//                if (SharePreferenceXutil.isCollar()){
-//
-//                }else{
-//                    ToastXutil.show("请先成为大咖");
-//                }
                 break;
             case R.id.layout5://领咖-我的接单
                 startActivity(new Intent(OrderYueActivity.this,AcceptOrderActivity.class));

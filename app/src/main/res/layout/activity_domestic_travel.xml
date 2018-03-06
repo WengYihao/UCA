@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,8 +18,17 @@
         <TextView
             style="@style/style_title"
             android:text="@string/domesticTravelActivity_title_text" />
+        <TextView
+            android:id="@+id/choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择城市"
+            android:textColor="@color/white"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/padding_10"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/padding_12"/>
     </RelativeLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,16 +49,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="@dimen/padding_10"
-                    android:text="@string/domesticTravelActivity_gridView_text"
-                    android:textSize="@dimen/text_18" />
+                    android:padding="@dimen/padding_2"
+                    android:layout_marginTop="@dimen/padding_10"
+                    android:text="@string/domesticTravelActivity_gridView_text" />
 
-                <GridView
-                    android:id="@+id/gridView"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:numColumns="3"
-                    android:verticalSpacing="@dimen/padding_10"></GridView>
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_10">
+
+                    <GridView
+                        android:id="@+id/gridView"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:horizontalSpacing="@dimen/padding_10"
+                        android:numColumns="3"
+                        android:verticalSpacing="@dimen/padding_10"></GridView>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/more"
@@ -77,8 +93,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="@dimen/padding_10"
-                    android:text="@string/domesticTravelActivity_listview_text"
-                    android:textSize="@dimen/text_18" />
+                    android:text="@string/domesticTravelActivity_listview_text" />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -94,5 +109,4 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-</LinearLayout>
+</com.cn.uca.view.StatusView>

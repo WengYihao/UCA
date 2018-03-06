@@ -1,11 +1,15 @@
 package com.cn.uca.popupwindows;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,6 +32,7 @@ import com.cn.uca.R;
 import com.cn.uca.adapter.ShowAdapter;
 import com.cn.uca.adapter.home.lvpai.PopupWindowAddressAdapter;
 import com.cn.uca.bean.home.lvpai.setAddressBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.ItemClick;
@@ -126,7 +131,6 @@ public class ShowPopupWindow {
 			}
 		});
 	}
-
 	/**
 	 * 服务须知
 	 * @param view
@@ -174,11 +178,35 @@ public class ShowPopupWindow {
 			}
 		});
 	}
-	public static void dayPopupwindow(View view, Context context, final int day, final String type){
+	public static void dayPopupwindow(View view, Context context, final int day, final String type, final int id, String str){
 		View dayPopupwindow = LayoutInflater.from(context).inflate(R.layout.day_popupwindow,null);
 		TextView num = (TextView)dayPopupwindow.findViewById(R.id.num);
 		TextView close = (TextView)dayPopupwindow.findViewById(R.id.close);
 		final EditText content = (EditText)dayPopupwindow.findViewById(R.id.content);
+		switch (type){
+			case "day":
+				num.setText("余"+day+"天");
+				content.setHint("今天有什么计划呢？");
+				break;
+			case "month":
+				num.setText("余"+day+"月");
+				content.setHint("今月有什么计划呢？");
+				break;
+		}
+		switch (id){
+			case 1:
+				//添加
+				break;
+			case 2:
+				//修改
+				content.setText(str);
+				break;
+			case 3:
+				//查看
+				content.setText(str);
+				content.setEnabled(false);
+				break;
+		}
 		TextView save = (TextView)dayPopupwindow.findViewById(R.id.save);
 
 		final PopupWindow popupWindow = new PopupWindow(dayPopupwindow,MyApplication.width*6/7,MyApplication.height*3/4);
@@ -191,24 +219,12 @@ public class ShowPopupWindow {
 		AssetManager mgr = context.getAssets();//得到AssetManager
 		Typeface tf=Typeface.createFromAsset(mgr, "fonts/ttf.ttf");//根据路径得到Typeface
 		num.setTypeface(tf);//设置字体
-		switch (type){
-			case "day":
-				num.setText("余"+day+"天");
-				content.setHint("今天有什么计划呢？");
-				break;
-			case "month":
-				num.setText("余"+day+"月");
-				content.setHint("今月有什么计划呢？");
-				break;
-		}
-
 		close.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				popupWindow.dismiss();
 			}
 		});
-
 		save.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -233,7 +249,14 @@ public class ShowPopupWindow {
 									switch ((int) response){
 										case 0:
 										    popupWindow.dismiss();
-											ToastXutil.show("添加成功");
+											switch (id){
+												case 1:
+													ToastXutil.show("添加成功");
+													break;
+												case 2:
+													ToastXutil.show("修改成功");
+													break;
+											}
 											break;
 									}
 								}
@@ -261,7 +284,15 @@ public class ShowPopupWindow {
 								public void onResponse(Object response) {
 									switch ((int) response){
 										case 0:
-											ToastXutil.show("添加成功");
+											popupWindow.dismiss();
+											switch (id){
+												case 1:
+													ToastXutil.show("添加成功");
+													break;
+												case 2:
+													ToastXutil.show("修改成功");
+													break;
+											}
 											break;
 									}
 								}
@@ -417,13 +448,18 @@ public class ShowPopupWindow {
 		dialog.show();//显示对话框
 	}
 
-	public static void raiderIntegral(View view, final  Context context,final int id,String url,String name, int integral, final BuyRaiderImpl buyRaider){
+	public static void raiderIntegral(View view, final  Context context, final int id, String url, String name, final int integral, final BuyRaiderImpl buyRaider){
 		final Dialog dialog = new Dialog(context);
 		View raider = LayoutInflater.from(context).inflate(R.layout.raider_integral_dialog,null);
 		ImageView pic = (ImageView)raider.findViewById(R.id.pic);
 		TextView nameTv = (TextView)raider.findViewById(R.id.name);
 		TextView integralTv = (TextView)raider.findViewById(R.id.integral);
 		TextView buy = (TextView)raider.findViewById(R.id.buy);
+		if (integral < 50){
+			buy.setText("获取积分");
+		}else{
+			buy.setText("立即解锁");
+		}
 		ImageLoader.getInstance().displayImage(url,pic);
 		nameTv.setText("【"+name+"】");
 		integralTv.setText("当前积分:"+integral);
@@ -431,7 +467,12 @@ public class ShowPopupWindow {
 			@Override
 			public void onClick(View v) {
 				dialog.dismiss();
-				buyRaider.buyRaider(id);
+				if (integral < 50){
+					buyRaider.buyRaider(2,id);//签到
+				}else{
+					buyRaider.buyRaider(1,id);//兑换
+				}
+
 			}
 		});
 		dialog.setContentView(raider);

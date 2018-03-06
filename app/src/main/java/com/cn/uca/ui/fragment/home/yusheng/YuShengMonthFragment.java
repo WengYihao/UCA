@@ -114,7 +114,7 @@ public class YuShengMonthFragment extends Fragment implements View.OnClickListen
         futureMonth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                ShowPopupWindow.dayPopupwindow(view,getActivity(),listFuture.get(position).getMonth(),"month");
+                ShowPopupWindow.dayPopupwindow(view,getActivity(),listFuture.get(position).getMonth(),"month",1,"");
             }
         });
     }
@@ -294,7 +294,7 @@ public class YuShengMonthFragment extends Fragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.add:
-                ShowPopupWindow.dayPopupwindow(this.view,getActivity(),nowMonth,"month");
+                ShowPopupWindow.dayPopupwindow(this.view,getActivity(),nowMonth,"month",1,"");
                 break;
         }
     }

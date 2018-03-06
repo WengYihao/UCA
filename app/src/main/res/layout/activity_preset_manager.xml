@@ -31,6 +31,8 @@
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:divider="@color/gray"
+                android:dividerHeight="@dimen/padding_8"
                 android:descendantFocusability="afterDescendants">
             </com.cn.uca.view.RdListView>
 
@@ -53,7 +55,7 @@
                     android:gravity="center"
                     android:text="@string/presetManagerActivity_add_line"
                     android:textColor="@color/ori"
-                    android:textSize="@dimen/text_22"
+                    android:textSize="@dimen/text_16"
                     android:layout_marginLeft="@dimen/padding_8"/>
             </LinearLayout>
 

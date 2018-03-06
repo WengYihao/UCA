@@ -18,7 +18,7 @@ import com.cn.uca.R;
 public class MyActionFragment extends Fragment implements View.OnClickListener{
 
     private View view;
-    private TextView participant,initiator,name;
+    private TextView back, participant,initiator,name;
     private ParticipantFragment participantFragment;
     private InitiatorFragment initiatorFragment;
     private FragmentTransaction fragmentTransaction;
@@ -32,10 +32,12 @@ public class MyActionFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initView() {
+        back = (TextView)view.findViewById(R.id.back);
         participant = (TextView)view.findViewById(R.id.participant);
         initiator = (TextView)view.findViewById(R.id.initiator);
         name = (TextView)view.findViewById(R.id.name);
 
+        back.setOnClickListener(this);
         participant.setOnClickListener(this);
         initiator.setOnClickListener(this);
         show(0);
@@ -44,6 +46,9 @@ public class MyActionFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.back:
+                getActivity().finish();
+                break;
             case R.id.participant://参与者
                 show(0);
                 initiator.setBackgroundResource(R.mipmap.initiator_normal);

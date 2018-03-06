@@ -88,6 +88,7 @@ public class YuShengDayFragment extends Fragment implements View.OnClickListener
         add.setOnClickListener(this);
         SetLayoutParams.setLinearLayout(layout, MyApplication.width,MyApplication.height*11/25);
         getLifeDays(1);
+//        refreshLayout.autoRefresh();
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(final RefreshLayout refreshlayout) {
@@ -119,12 +120,13 @@ public class YuShengDayFragment extends Fragment implements View.OnClickListener
         futureTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                ShowPopupWindow.dayPopupwindow(view,getActivity(),listFuture.get(position).getDay(),"day");
+                ShowPopupWindow.dayPopupwindow(view,getActivity(),listFuture.get(position).getDay(),"day",1,"");
             }
         });
     }
 
     private void getLifeDays(int page){
+//        popupWindow.show();
         Map<String,Object> map = new HashMap<>();
         map.put("page",page);
         String time_stamp = SystemUtil.getCurrentDate2();
@@ -176,6 +178,7 @@ public class YuShengDayFragment extends Fragment implements View.OnClickListener
                                         listPast.addAll(list);
                                         adapterPast.setList(listPast,bean.getNow_days());
                                         SetListView.setGridViewHeightBasedOnChildren(pastTime);
+                                        popupWindow.dismiss();
                                     }else{
                                         for (int i = 0;i <listPastDay.size();i++){
                                             listPast.add(i,listPastDay.get(i));
@@ -183,6 +186,7 @@ public class YuShengDayFragment extends Fragment implements View.OnClickListener
                                         listPast.addAll(list);
                                         adapterPast.setList(listPast,bean.getNow_days());
                                         SetListView.setGridViewHeightBasedOnChildren(pastTime);
+                                        popupWindow.dismiss();
                                     }
                                 }else{
                                     if (fill > 0){
@@ -241,12 +245,13 @@ public class YuShengDayFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onErrorMsg(String errorMsg) {
-
+                popupWindow.dismiss();
+                ToastXutil.show(errorMsg);
             }
 
             @Override
             public void onError(VolleyError error) {
-
+                popupWindow.dismiss();
             }
         });
     }
@@ -296,12 +301,11 @@ public class YuShengDayFragment extends Fragment implements View.OnClickListener
             }
         });
     }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.add:
-                ShowPopupWindow.dayPopupwindow(this.view,getActivity(),nowDay,"day");
+                ShowPopupWindow.dayPopupwindow(this.view,getActivity(),nowDay,"day",1,"");
                 break;
         }
     }

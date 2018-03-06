@@ -437,11 +437,9 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
-                ToastXutil.show("您已经拒绝过一次");
+                UserFragment.this.requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.CAMERA_PERMISSIONS_REQUEST_CODE);
             }
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.CAMERA_PERMISSIONS_REQUEST_CODE);
         } else {//有权限直接调用系统相机拍照
             if (SystemUtil.hasSDCard()) {
                 imageUri = Uri.fromFile(fileUri);
@@ -460,7 +458,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
     private void autoObtainStoragePermission() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.STORAGE_PERMISSIONS_REQUEST_CODE);
+            UserFragment.this.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.STORAGE_PERMISSIONS_REQUEST_CODE);
         } else {
             openPic();
         }
@@ -554,7 +552,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                             imageUri = FileProvider.getUriForFile(getActivity(), "com.cn.uca.fileprovider", fileUri);//通过FileProvider创建一个content类型的Uri
                             takePicture();
                     } else {
-                        ToastXutil.show("设备没有SD卡！");
+                        ToastXutil.show("设备没有SD卡 ");
                     }
                 } else {
                     ToastXutil.show("请允许打开相机！！");
@@ -605,8 +603,12 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                     break;
                 case Constant.PHOTO_REQUEST_GALLERY:
                     if (data.getData() != null) {
-                        file = new File(SystemUtil.getRealPathFromURI(data.getData(),getActivity()));
-                        setPicToView(file);
+                        try{
+                            file = new File(SystemUtil.getRealPathFromURI(data.getData(),getActivity()));
+                            setPicToView(file);
+                        }catch (Exception e){
+                            ToastXutil.show("无法获取照片");
+                        }
                     }
                     break;
                 case 0:

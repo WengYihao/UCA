@@ -3,11 +3,11 @@
 
     <!-- 圆角 -->
     <corners
-        android:bottomLeftRadius="15dp"
         android:bottomRightRadius="15dp"
+        android:topRightRadius="15dp"
         android:topLeftRadius="15dp"
-        android:topRightRadius="15dp" /> <!-- 设置四个角的半径 -->
-    <solid
-        android:color="@color/ori" />
+        android:bottomLeftRadius="@dimen/padding_15"/> <!-- 设置四个角的半径 -->
+<solid
+        android:color="#ffd0e4" />
 
 </shape>

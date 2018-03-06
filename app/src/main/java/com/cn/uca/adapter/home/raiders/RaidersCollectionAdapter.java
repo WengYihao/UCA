@@ -59,7 +59,6 @@ public class RaidersCollectionAdapter extends BaseAdapter{
 			holder.layout = (RelativeLayout)convertView.findViewById(R.id.layout);
 			holder.pic = (SimpleDraweeView)convertView.findViewById(R.id.pic);
 			holder.name = (TextView)convertView.findViewById(R.id.name);
-			holder.size = (TextView)convertView.findViewById(R.id.size);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -71,12 +70,12 @@ public class RaidersCollectionAdapter extends BaseAdapter{
 		float a = (float)list.get(position).getFile_resources_size()/1024/1024;
 		int index = (a+"").indexOf(".");
 		Log.i("123",a+"---");
-		holder.size.setText((a+"").substring(0,index+2)+"m");
+//		holder.size.setText((a+"").substring(0,index+2)+"m");
 		return convertView;
 	}
 	class ViewHolder {
 		RelativeLayout layout;
 		SimpleDraweeView pic;
-		TextView name,size;
+		TextView name,collection;
 	}
 }

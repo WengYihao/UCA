@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.cn.uca.ui.view.home.travel.TravelOrderActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_40"
@@ -12,12 +13,12 @@
 
         <TextView
             android:id="@+id/back"
-            style="@style/style_back"/>
+            style="@style/style_back" />
 
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="订单填写"/>
+            android:text="订单填写" />
     </RelativeLayout>
 
     <LinearLayout

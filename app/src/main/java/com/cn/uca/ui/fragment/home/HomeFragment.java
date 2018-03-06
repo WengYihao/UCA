@@ -1,12 +1,16 @@
 package com.cn.uca.ui.fragment.home;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +26,7 @@ import com.cn.uca.alipay.AliPayUtil;
 import com.cn.uca.animate.ScaleInOutTransformer;
 import com.cn.uca.bean.home.CarouselFiguresBean;
 import com.cn.uca.config.BannerConfig;
+import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.banner.OnBannerListener;
@@ -30,6 +35,7 @@ import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.secretkey.Base64;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.home.HomeHttp;
+import com.cn.uca.ui.view.MainActivity;
 import com.cn.uca.ui.view.home.hotel.HotleActivity;
 import com.cn.uca.ui.view.home.lvpai.LvPaiActivity;
 import com.cn.uca.ui.view.home.lvpai.MerchantManageActivity;
@@ -161,6 +167,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         });
     }
     private void initView(){
+//        version = "1.1.0";
         version = getVersion();
         listPic = new ArrayList<>();
         stickyScrollView = (StickyScrollView) view.findViewById(R.id.scrollView);
@@ -231,12 +238,48 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0:
-                    ShowPopupWindow.updateWindow(view,getActivity(),linkUrl,loadUrl);
+                    verifyStoragePermissions();
                     break;
             }
         }
     };
 
+    public void verifyStoragePermissions() {
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(getActivity(),
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                HomeFragment.this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},Constant.WRITE_PERMISSIONS_REQUEST_CODE);
+            }else{
+                    ShowPopupWindow.updateWindow(view,getActivity(),linkUrl,loadUrl);
+                }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 权限回调
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.e("456","--------"+requestCode);
+        switch (requestCode) {
+            case Constant.WRITE_PERMISSIONS_REQUEST_CODE: {
+                Log.e("456","--------");
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    ShowPopupWindow.updateWindow(view,getActivity(),linkUrl,loadUrl);
+                }
+                break;
+            }
+        }
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -331,7 +374,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                                     .setOnBannerListener(new OnBannerListener() {
                                         @Override
                                         public void OnBannerClick(int position) {
-
+                                            if (position == 0){
+                                                MainActivity.mPager.setCurrentItem(1);
+                                            }
                                         }
                                     })
                                     .setBannerAnimation(ScaleInOutTransformer.class)//翻转动画

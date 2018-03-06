@@ -351,7 +351,7 @@ public class UserHttp extends BaseServer {
         map.put("time_stamp",time_stamp);
         map.put("sign",sign);
         map.put("shareType",shareType);
-        if (shareType != "ZUJI"){
+        if (id != 0){
             map.put("id",id);
         }
         get(MyConfig.getShare,map,callBack);
@@ -464,4 +464,19 @@ public class UserHttp extends BaseServer {
         get(MyConfig.getPushUser,map,callBack);
     }
 
+
+    /**
+     * 获取举报类型
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param callBack
+     */
+    public static void getReportType(String sign,String time_stamp,String account_token,CallBack callBack){
+        Map<String,Object> map =new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        get(MyConfig.getReportType,map,callBack);
+    }
 }

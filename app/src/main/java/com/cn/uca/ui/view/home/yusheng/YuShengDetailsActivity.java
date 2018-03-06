@@ -1,38 +1,49 @@
 package com.cn.uca.ui.view.home.yusheng;
 
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.FragmentAdapter;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.config.wechat.WeChatManager;
+import com.cn.uca.impl.CallBack;
+import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.fragment.home.yusheng.YuShengDayFragment;
 import com.cn.uca.ui.fragment.home.yusheng.YuShengMarkFragment;
 import com.cn.uca.ui.fragment.home.yusheng.YuShengMonthFragment;
 import com.cn.uca.ui.view.util.BaseBackActivity;
+import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
+import com.cn.uca.util.ToastXutil;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class YuShengDetailsActivity extends BaseBackActivity implements View.OnClickListener{
 
-    private TextView back,day,month,mark;
-    private TextView label;
+    private TextView back,share,day,month,mark;
     private YuShengDayFragment dayFragment;
     private YuShengMonthFragment monthFragment;
     private YuShengMarkFragment markFragment;
     private int lastIndex = 0;//声明蓝线滑动的距离
-    private int position_one;
-    private int position_two;
     private ViewPager mPager;
     private List<Fragment> fragmentList;
+    private RelativeLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,21 +52,22 @@ public class YuShengDetailsActivity extends BaseBackActivity implements View.OnC
 
         initView();
         initFragment();
-        initWidth();
     }
 
 
 
     private void initView() {
+        layout = (RelativeLayout)findViewById(R.id.layout);
         back = (TextView)findViewById(R.id.back);
+        share = (TextView)findViewById(R.id.share);
         day = (TextView)findViewById(R.id.day);
         month = (TextView)findViewById(R.id.month);
         mark = (TextView)findViewById(R.id.mark);
-        label = (TextView)findViewById(R.id.lable);
 
         mPager = (ViewPager) findViewById(R.id.container);
-
+        mPager.setOffscreenPageLimit(3);//viewpager缓存的界面数
         back.setOnClickListener(this);
+        share.setOnClickListener(this);
         day.setOnClickListener(this);
         month.setOnClickListener(this);
         mark.setOnClickListener(this);
@@ -78,23 +90,57 @@ public class YuShengDetailsActivity extends BaseBackActivity implements View.OnC
         mPager.setCurrentItem(0);
         mPager.setOnPageChangeListener(onPageChangeListener);
     }
-    private void initWidth() {
-        position_one = (MyApplication.width- SystemUtil.dip2px(10)) / 3;// 设置 横线 滑动 一个距离
-        position_two = position_one * 2;// 滑动2个距离
-        ViewGroup.LayoutParams para = label.getLayoutParams();// 得到一个组件 的属性 对象
-        para.width = position_one;// 为这个组件设置宽度
-        para.height = SystemUtil.dip2px(40);// 为这个组件设置高度
-        label.setLayoutParams(para);
-    }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.back:
                 this.finish();
                 break;
+            case R.id.share:
+                getShare();
+                break;
         }
     }
+    private void getShare(){
+        Map<String,Object> map = new HashMap<>();
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token",account_token);
+        map.put("shareType","YS");
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        String sign = SignUtil.sign(map);
+        UserHttp.getShare(account_token, time_stamp, sign, "YS",0, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            String share_title = jsonObject.getJSONObject("data").getString("share_title");
+                            String web_url = jsonObject.getJSONObject("data").getString("web_url");
+                            WeChatManager.instance().sendWebPageToWX(YuShengDetailsActivity.this,true,web_url,R.mipmap.logo,share_title,"");
+                            break;
+                        default:
+                            ToastXutil.show("分享失败");
+                            break;
+                    }
+                }catch (Exception e){
 
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
     public class MyOnClickListener implements View.OnClickListener{
         private int index = 0;
         public MyOnClickListener(int i) {
@@ -110,55 +156,42 @@ public class YuShengDetailsActivity extends BaseBackActivity implements View.OnC
     ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageSelected(int position) {
-            Animation animation = null;
             switch (position) {
                 case 0:
                     if (lastIndex == 1) {
-                        animation = new TranslateAnimation(position_one, 0, 0, 0);
-                        month.setTextColor(getResources().getColor(R.color.ori));
-                        month.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        month.setTextColor(getResources().getColor(R.color.white));
+                        month.setBackgroundResource(0);
                     } else if (lastIndex == 2) {
-                        animation = new TranslateAnimation(position_two, 0, 0, 0);
-                        mark.setTextColor(getResources().getColor(R.color.ori));
-                        mark.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        mark.setTextColor(getResources().getColor(R.color.white));
+                        mark.setBackgroundResource(0);
                     }
-                    day.setTextColor(getResources().getColor(R.color.white));
-                    day.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    label.setText("天");
+                    day.setTextColor(getResources().getColor(R.color.ori));
+                    day.setBackgroundResource(R.drawable.twenty_circular_white_background);
                     break;
                 case 1:
                     if (lastIndex == 0) {
-                        animation = new TranslateAnimation(0, position_one, 0, 0);
-                        day.setTextColor(getResources().getColor(R.color.ori));
-                        day.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        day.setTextColor(getResources().getColor(R.color.white));
+                        day.setBackgroundResource(0);
                     } else if (lastIndex == 2) {
-                        animation = new TranslateAnimation(position_two, position_one, 0, 0);
-                        mark.setTextColor(getResources().getColor(R.color.ori));
-                        mark.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        mark.setTextColor(getResources().getColor(R.color.white));
+                        mark.setBackgroundResource(0);
                     }
-                    month.setTextColor(getResources().getColor(R.color.white));
-                    month.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    label.setText("月");
+                    month.setTextColor(getResources().getColor(R.color.ori));
+                    month.setBackgroundResource(R.drawable.twenty_circular_white_background);
                     break;
                 case 2:
                     if (lastIndex == 0) {
-                        animation = new TranslateAnimation(0, position_two, 0, 0);
-                        day.setTextColor(getResources().getColor(R.color.ori));
-                        day.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        day.setTextColor(getResources().getColor(R.color.white));
+                        day.setBackgroundResource(0);
                     } else if (lastIndex == 1) {
-                        animation = new TranslateAnimation(position_one, position_two, 0, 0);
-                        month.setTextColor(getResources().getColor(R.color.ori));
-                        month.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                        month.setTextColor(getResources().getColor(R.color.white));
+                        month.setBackgroundResource(0);
                     }
-                    mark.setTextColor(getResources().getColor(R.color.white));
-                    mark.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                    label.setText("痕迹");
+                    mark.setTextColor(getResources().getColor(R.color.ori));
+                    mark.setBackgroundResource(R.drawable.twenty_circular_white_background);
                     break;
             }
             lastIndex = position;
-            animation.setFillAfter(true);// 让绑定动画效果的组件 停留在 动画结束的位置
-            animation.setDuration(200);
-            label.startAnimation(animation);// 为组件绑定动画效果
         }
 
         @Override

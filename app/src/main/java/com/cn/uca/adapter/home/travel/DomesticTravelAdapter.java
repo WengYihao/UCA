@@ -9,31 +9,24 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.bean.home.travel.DomesticTravelBean;
+import com.cn.uca.bean.home.travel.TravelBean;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 
 
 public class DomesticTravelAdapter extends BaseAdapter{
-	private List<DomesticTravelBean> list;
+	private List<TravelBean> list;
 	private Context context;
-	private int height,width;
 
 	public DomesticTravelAdapter(){}
-	public DomesticTravelAdapter(List<DomesticTravelBean> list, Context context) {
+	public DomesticTravelAdapter(List<TravelBean> list, Context context) {
 		this.list = list;
 		this.context = context;
 	}
-	public DomesticTravelAdapter(List<DomesticTravelBean> list, Context context, int height, int width) {
-		this.list = list;
-		this.context = context;
-		this.height = height;
-		this.width = width;
-	}
-	public void setList(List<DomesticTravelBean> list) {
+	public void setList(List<TravelBean> list) {
 		if (list != null) {
-			this.list = (List<DomesticTravelBean>) list;
+			this.list = list;
 			this.notifyDataSetChanged();
 		}
 	}
@@ -68,11 +61,11 @@ public class DomesticTravelAdapter extends BaseAdapter{
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		Uri uri = Uri.parse(list.get(position).getPicture_url());
+		Uri uri = Uri.parse(list.get(position).getCompress_picture());
 		holder.pic.setImageURI(uri);
-		holder.name.setText(list.get(position).getTitle());
-		holder.rule.setText(list.get(position).getRule());
-		holder.price.setText("￥"+list.get(position).getPrice());
+		holder.name.setText(list.get(position).getProduct_name());
+		holder.rule.setText(list.get(position).getJourney_days()+"天"+list.get(position).getCheck_in_days()+"晚");
+		holder.price.setText("￥"+(int)list.get(position).getMin_price());
 		holder.score.setText(list.get(position).getScore()+"分");
 		return convertView;
 	}

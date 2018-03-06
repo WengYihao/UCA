@@ -40,7 +40,7 @@ public class SignActivity extends BaseBackActivity implements View.OnClickListen
 
     private TextView back,sign_icon,sign_mark,sign_state,sign_jifen,sign_day;
     private TextView day1,day2,day3,day4,day5,day6,day7;
-    private LinearLayout sign_btn;
+    private LinearLayout sign_btn,layout7;
     private ImageView backlayout;
     private ListView listView;
     private List<IntegralPoolBean> list;
@@ -74,6 +74,7 @@ public class SignActivity extends BaseBackActivity implements View.OnClickListen
         day5 = (TextView)findViewById(R.id.day5);
         day6 = (TextView)findViewById(R.id.day6);
         day7 = (TextView)findViewById(R.id.day7);
+        layout7 = (LinearLayout)findViewById(R.id.layout7);
         SetLayoutParams.setRelativeLayout(backlayout, MyApplication.width,MyApplication.height*4/7);
 
         listView = (ListView)findViewById(R.id.listView);
@@ -179,6 +180,8 @@ public class SignActivity extends BaseBackActivity implements View.OnClickListen
                                         sign_mark.setVisibility(View.VISIBLE);
                                         sign_icon.setBackgroundResource(R.mipmap.success_sign);
                                     }
+                                }
+                                if (list.get(i).isClock()){
                                     switch (i){
                                         case 0:
                                             day1.setBackgroundResource(R.drawable.sign_back);
@@ -199,7 +202,7 @@ public class SignActivity extends BaseBackActivity implements View.OnClickListen
                                             day6.setBackgroundResource(R.drawable.sign_back);
                                             break;
                                         case 6:
-                                            day7.setBackgroundResource(R.drawable.sign_back);
+                                            layout7.setBackgroundResource(R.mipmap.seven_day_back);
                                             break;
                                     }
                                 }

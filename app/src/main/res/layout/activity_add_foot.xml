@@ -7,9 +7,11 @@
     tools:context="com.cn.uca.ui.view.home.footprint.AddFootActivity"
     android:background="@color/yellow2"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <RelativeLayout
             android:id="@+id/llTitle"
             android:layout_width="match_parent"
@@ -24,33 +26,37 @@
                 style="@style/style_title"
                 android:text="@string/addFootPrintActivity_title_text" />
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ten_circular_white_background"
-            android:orientation="vertical"
             android:layout_centerInParent="true"
             android:layout_marginLeft="@dimen/padding_15"
-            android:layout_marginRight="@dimen/padding_15">
+            android:layout_marginRight="@dimen/padding_15"
+            android:background="@drawable/ten_circular_white_background"
+            android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_10">
+
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:textColor="@color/gray2"
-                    android:textSize="@dimen/text_22"/>
+                    android:textSize="@dimen/text_22" />
+
                 <TextView
                     android:id="@+id/close"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/close_back"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/padding_5"/>
+                    android:layout_marginRight="@dimen/padding_5"
+                    android:background="@mipmap/close_back" />
             </RelativeLayout>
 
             <LinearLayout
@@ -77,11 +83,12 @@
                         android:textSize="@dimen/text_18" />
 
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/gray"
-                    android:layout_marginTop="@dimen/padding_8">
+                    android:layout_marginTop="@dimen/padding_8"
+                    android:background="@color/gray">
 
                     <TextView
                         android:id="@+id/place"
@@ -94,6 +101,7 @@
                         android:textSize="@dimen/text_18" />
 
                 </RelativeLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
@@ -107,15 +115,16 @@
                         android:layout_weight="2"
                         android:background="@color/gray"
                         android:gravity="top"
-                        android:textColor="@color/ori"
-                        android:textColorHint="@color/gray2"
                         android:hint="@string/addFootPrintActivity_edittext_text"
-                        android:padding="@dimen/padding_5" />
+                        android:padding="@dimen/padding_5"
+                        android:textColor="@color/ori"
+                        android:textColorHint="@color/gray2" />
 
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
+
                         <TextView
                             android:id="@+id/choose"
                             android:layout_width="match_parent"
@@ -125,12 +134,13 @@
                             android:gravity="center"
                             android:text="@string/addFootPrintActivity_choose_photo_text"
                             android:textColor="@color/white" />
+
                         <ImageView
                             android:id="@+id/pic"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:visibility="gone"
-                            android:scaleType="centerCrop"/>
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -139,23 +149,26 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/finish"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/infoActivity_finish_text"
+                    android:layout_marginTop="@dimen/padding_15"
                     android:gravity="center"
-                    android:textColor="@color/ori"
-                    android:textSize="@dimen/text_22"
                     android:padding="@dimen/padding_8"
-                    android:layout_marginTop="@dimen/padding_15"/>
+                    android:text="@string/infoActivity_finish_text"
+                    android:textColor="@color/ori"
+                    android:textSize="@dimen/text_22" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="40dp">
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -166,29 +179,33 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true">
+
                     <TextView
                         android:id="@+id/yearNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
                         android:textColor="@color/ori"
-                        android:textSize="40sp"/>
+                        android:textSize="40sp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="1"
-                        android:textColor="@color/ori"
-                        android:text="@string/addFootPrintActivity_yearNum_text"
                         android:layout_marginLeft="@dimen/padding_5"
-                        android:layout_toRightOf="@id/yearNum"/>
+                        android:layout_toRightOf="@id/yearNum"
+                        android:ems="1"
+                        android:text="@string/addFootPrintActivity_yearNum_text"
+                        android:textColor="@color/ori" />
                 </RelativeLayout>
             </RelativeLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
             </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -199,21 +216,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true">
+
                     <TextView
                         android:id="@+id/cityNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
                         android:textColor="@color/ori"
-                        android:textSize="40sp"/>
+                        android:textSize="40sp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ems="1"
-                        android:textColor="@color/ori"
-                        android:text="@string/addFootPrintActivity_cityNum_text"
                         android:layout_marginLeft="@dimen/padding_5"
-                        android:layout_toRightOf="@id/cityNum"/>
+                        android:layout_toRightOf="@id/cityNum"
+                        android:ems="1"
+                        android:text="@string/addFootPrintActivity_cityNum_text"
+                        android:textColor="@color/ori" />
                 </RelativeLayout>
             </RelativeLayout>
         </LinearLayout>

@@ -15,9 +15,8 @@ import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.BottomBar;
 
-public class SameCityKaActivity extends BaseBackActivity implements View.OnClickListener,ServiceBack{
+public class SameCityKaActivity extends BaseBackActivity implements ServiceBack{
 
-    private TextView back,search;
     private ActionSquareFragment squareFragment;
     private MyActionFragment actionFragment;
     private BottomBar mBottomBar;
@@ -33,11 +32,6 @@ public class SameCityKaActivity extends BaseBackActivity implements View.OnClick
     }
 
     private void initView() {
-        back = (TextView)findViewById(R.id.back);
-        search = (TextView)findViewById(R.id.search);
-
-        back.setOnClickListener(this);
-        search.setOnClickListener(this);
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
         mBottomBar.setOnBottombarOnclick(new BottomBar.OnBottonbarClick() {
             @Override
@@ -93,18 +87,6 @@ public class SameCityKaActivity extends BaseBackActivity implements View.OnClick
         }
         fragmentTransaction.commit();
         currentIndex = index;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.back:
-                this.finish();
-                break;
-            case R.id.search:
-                startActivity(new Intent(SameCityKaActivity.this,ActionSearchActivity.class));
-                break;
-        }
     }
 
     @Override

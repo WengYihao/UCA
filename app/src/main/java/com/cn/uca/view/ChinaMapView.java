@@ -167,7 +167,7 @@ public class ChinaMapView extends View implements View.OnTouchListener{
     }
 
     public interface OnProvinceSelectedListener {
-        public void onprovinceSelected(Area pArea);
+        void onprovinceSelected(Area pArea);
     }
 
     private OnProvinceSelectedListener xOnProvinceSelectedListener;

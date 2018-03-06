@@ -29,6 +29,8 @@ import com.cn.uca.view.dialog.LoadDialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.rong.imageloader.utils.L;
+
 public class SearchResultActivity extends BaseBackActivity implements View.OnClickListener,PoiSearch.OnPoiSearchListener {
 
     private TextView back;
@@ -126,9 +128,10 @@ public class SearchResultActivity extends BaseBackActivity implements View.OnCli
                 list.clear();
                 list = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
                 if (list.size() > 0){
+                    Log.e("456","list大于0");
                     adapter.setList(list);
                     for (int i = 0;i<= list.size();i++){
-                        Log.i("123",list.get(i).getTitle()+"-"+list.get(i).getSnippet()+"-"+list.get(i).getLatLonPoint().getLatitude()+"-"+list.get(i).getLatLonPoint().getLongitude());
+                        Log.e("456",list.get(i).getTitle()+"-"+list.get(i).getSnippet()+"-"+list.get(i).getLatLonPoint().getLatitude()+"-"+list.get(i).getLatLonPoint().getLongitude());
                     }
                 }else{
                     doSearchQuery(city);

@@ -1,7 +1,9 @@
 package com.cn.uca.ui.view.rongim;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,58 +12,105 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.rongim.ConversationListAdapterEx;
+import com.cn.uca.adapter.rongim.ReportTypeAdapter;
+import com.cn.uca.bean.rongim.ReportTypeBean;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.impl.CallBack;
+import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.fragment.rongim.ConversationFragmentEx;
 import com.cn.uca.ui.view.LoginActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.ActivityCollector;
 import com.cn.uca.util.AndroidBug5497Workaround;
 import com.cn.uca.util.AndroidWorkaround;
+import com.cn.uca.util.SetListView;
 import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusBarUtil;
+import com.cn.uca.util.StatusMargin;
+import com.cn.uca.util.SystemUtil;
+import com.cn.uca.util.ToastXutil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import io.rong.imkit.RongContext;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationListFragment;
 import io.rong.imkit.manager.IUnReadMessageObserver;
 import io.rong.imkit.userInfoCache.RongUserInfoManager;
+import io.rong.imkit.utilities.PromptPopupDialog;
 import io.rong.imlib.RongIMClient;
 import io.rong.imlib.model.Conversation;
 import io.rong.imlib.model.UserInfo;
 import io.rong.message.ContactNotificationMessage;
 
 public class ConversationActivity extends BaseBackActivity {
-    private TextView mName,back;
+    private TextView mName,back,more;
+    private TextView blacklist,chat_setting,report;//举报与投诉
     //对方id
     private String mTargetId;
     //会话类型
     private Conversation.ConversationType mConversationType;
    //title
     private String title;
+    private View inflate;
+    private ListView listView;
+    private TextView btn_cancel;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
         AndroidBug5497Workaround.assistActivity(this);
+        more = (TextView)findViewById(R.id.more);
         mName = (TextView) findViewById(R.id.name);
         back = (TextView)findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ConversationActivity.this.finish();
+            }
+        });
+        more.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RongIM.getInstance().getBlacklistStatus(mTargetId, new RongIMClient.ResultCallback<RongIMClient.BlacklistStatus>() {
+                    @Override
+                    public void onSuccess(RongIMClient.BlacklistStatus blacklistStatus) {
+                        show(blacklistStatus);
+                    }
+
+                    @Override
+                    public void onError(RongIMClient.ErrorCode e) {
+
+                    }
+                });
             }
         });
         mTargetId = getIntent().getData().getQueryParameter("targetId");   // targetId:单聊即对方ID，群聊即群组ID
@@ -77,6 +126,143 @@ public class ConversationActivity extends BaseBackActivity {
         MyApplication.getInfo(mTargetId);
         isPushMessage(getIntent());
         ActivityCollector.pushActivity(this);
+    }
+    private void show(final RongIMClient.BlacklistStatus blacklistStatus){
+        View show = LayoutInflater.from(this).inflate(R.layout.chat_more_dialog, null);
+        blacklist = (TextView)show.findViewById(R.id.blacklist);//加入黑名单
+        chat_setting = (TextView)show.findViewById(R.id.chat_setting);//会话设置
+        report = (TextView)show.findViewById(R.id.report);//举报与投诉
+        if (blacklistStatus == RongIMClient.BlacklistStatus.IN_BLACK_LIST) {
+            blacklist.setText("移除黑名单");
+        } else {
+            blacklist.setText("加入黑名单");
+        }
+        final PopupWindow popupWindow = new PopupWindow(show, MyApplication.width/4,
+                LinearLayoutCompat.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.RIGHT|Gravity.TOP,20,50);
+        blacklist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (blacklistStatus == RongIMClient.BlacklistStatus.IN_BLACK_LIST) {
+                   RongIM.getInstance().removeFromBlacklist(mTargetId, new RongIMClient.OperationCallback() {
+                       @Override
+                       public void onSuccess() {
+                           ToastXutil.show("移除黑名单成功");
+                       }
+                       @Override
+                       public void onError(RongIMClient.ErrorCode errorCode) {
+                           ToastXutil.show("移除黑名单失败");
+                       }
+                   });
+                } else {
+                    PromptPopupDialog.newInstance(ConversationActivity.this, "加入黑名单",
+                            "你将不再收到对方的消息").setPromptButtonClickedListener(new PromptPopupDialog.OnPromptButtonClickedListener() {
+                        @Override
+                        public void onPositiveButtonClicked() {
+                            RongIM.getInstance().addToBlacklist(mTargetId, new RongIMClient.OperationCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    ToastXutil.show("加入黑名单成功");
+                                }
+                                @Override
+                                public void onError(RongIMClient.ErrorCode errorCode) {
+                                    ToastXutil.show("加入黑名单失败");
+                                }
+                            });
+                        }
+                    }).show();
+                }
+                popupWindow.dismiss();
+            }
+        });
+        chat_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ConversationActivity.this,ChatSettingActivity.class));
+            }
+        });
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getReportType();
+                popupWindow.dismiss();
+            }
+        });
+
+    }
+
+    private void getReportType(){
+        Map<String,Object> map = new HashMap<>();
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token",account_token);
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        String sign = SignUtil.sign(map);
+        UserHttp.getReportType(sign, time_stamp, account_token, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            Gson gson = new Gson();
+                            List<ReportTypeBean> bean = gson.fromJson(jsonObject.getJSONArray("data").toString(),new TypeToken<List<ReportTypeBean>>() {
+                            }.getType());
+                            show(bean);
+                            break;
+                    }
+                }catch (Exception e){
+
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
+    private void show(List<ReportTypeBean> list){
+        dialog = new Dialog(this,R.style.dialog_style);
+        //填充对话框的布局
+        inflate = LayoutInflater.from(this).inflate(R.layout.chat_report_dialog, null);
+        listView = (ListView)inflate.findViewById(R.id.listView);
+        ReportTypeAdapter adapter = new ReportTypeAdapter(list,this);
+        listView.setAdapter(adapter);
+        SetListView.setListViewHeightBasedOnChildren(listView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+        btn_cancel = (TextView)inflate.findViewById(R.id.btn_cancel);
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //将布局设置给Dialog
+        dialog.setContentView(inflate);
+        //获取当前Activity所在的窗体
+        Window dialogWindow = dialog.getWindow();
+        WindowManager.LayoutParams params = dialogWindow.getAttributes();
+        params.width = MyApplication.width;
+        //设置Dialog从窗体底部弹出
+        dialogWindow.setGravity( Gravity.BOTTOM);
+        dialogWindow.setAttributes(params);
+        StatusMargin.setFrameLayoutBottom(this,inflate,0);
+        dialog.show();//显示对话框
     }
     private void reconnect(String token) {
         RongIM.connect(token, new RongIMClient.ConnectCallback() {

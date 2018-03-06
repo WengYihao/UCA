@@ -1,8 +1,10 @@
 package com.cn.uca.ui.view.home.travel;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -10,14 +12,16 @@ import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.travel.DomesticTravelAdapter;
 import com.cn.uca.adapter.home.travel.DomesticTravelPlaceAdapter;
-import com.cn.uca.bean.home.travel.DomesticTravelBean;
-import com.cn.uca.bean.home.travel.DomesticTravelPlaceBean;
+import com.cn.uca.bean.home.travel.TravelBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SetListView;
+import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.view.NoScrollListView;
 import com.google.gson.Gson;
@@ -27,7 +31,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 国内游
@@ -36,11 +42,13 @@ public class DomesticTravelActivity extends BaseBackActivity  implements View.On
 
     private GridView gridView;
     private NoScrollListView listView;
-    private List<DomesticTravelPlaceBean> list;
-    private List<DomesticTravelBean> list2;
+    private List<TravelBean> list,list2;
     private DomesticTravelPlaceAdapter travelPlaceAdapter;
     private DomesticTravelAdapter travelAdapter;
-    private TextView back;
+    private TextView back,more;
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
+    private String code = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +56,20 @@ public class DomesticTravelActivity extends BaseBackActivity  implements View.On
         setContentView(R.layout.activity_domestic_travel);
 
         initView();
-        getGuoNeiYou();
+        getTravel("domestic",0,"",0,"");
+        getTravel("domestic",0,"",0,"hot");
     }
 
     private void initView() {
         back = (TextView)findViewById(R.id.back);
+        more = (TextView)findViewById(R.id.more);
         gridView = (GridView)findViewById(R.id.gridView);
         listView = (NoScrollListView)findViewById(R.id.listView);
 
         list = new ArrayList<>();
         travelPlaceAdapter = new DomesticTravelPlaceAdapter(list,getApplicationContext());
         gridView.setAdapter(travelPlaceAdapter);
-        SetLayoutParams.setLinearLayout(gridView,MyApplication.width,((MyApplication.width- SystemUtil.dip2px(40))/3)*2+SystemUtil.dip2px(10));
+        SetLayoutParams.setLinearLayout(gridView,MyApplication.width-20,((MyApplication.width-SystemUtil.dip2px(40))/3)*2+10);
 
         list2 = new ArrayList<>();
         travelAdapter = new DomesticTravelAdapter(list2,getApplicationContext());
@@ -67,33 +77,56 @@ public class DomesticTravelActivity extends BaseBackActivity  implements View.On
         SetListView.setListViewHeightBasedOnChildren(listView);
 
         back.setOnClickListener(this);
+        more.setOnClickListener(this);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent();
+                intent.setClass(DomesticTravelActivity.this,TravelDetailActivity.class);
+                intent.putExtra("id",list.get(position).getTourism_id());
+                startActivity(intent);
+            }
+        });
     }
 
-    private void getGuoNeiYou(){
-        HomeHttp.getGuoNeiYou(1, 5, new CallBack() {
+    private void getTravel(String type, int regionId, String py, int styleId, final String sort){
+        Map<String,Object> map = new HashMap<>();
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token",account_token);
+        map.put("gaode_code",code);
+        map.put("tourismType",type);
+        map.put("city_pinyin",py);
+        map.put("sort",sort);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        String sign = SignUtil.sign(map);
+        HomeHttp.getTourism(sign, time_stamp, account_token,code,type,regionId,py,styleId,sort,page,pageCount,new CallBack() {
             @Override
             public void onResponse(Object response) {
-                try {
+                try{
                     JSONObject jsonObject = new JSONObject(response.toString());
-                    int code  = jsonObject.getInt("code");
+                    int code = jsonObject.getInt("code");
                     switch (code){
                         case 0:
-                            JSONArray array = jsonObject.getJSONObject("data").getJSONArray("recommendedCities");
-                            JSONArray array1 = jsonObject.getJSONObject("data").getJSONArray("guoNeiYouRets");
                             Gson gson = new Gson();
-                            List<DomesticTravelPlaceBean> bean = gson.fromJson(array.toString(),new TypeToken<List<DomesticTravelPlaceBean>>() {
+                            List<TravelBean> bean = gson.fromJson(jsonObject.getJSONObject("data").getJSONArray("tourisms").toString(),new TypeToken<List<TravelBean>>() {
                             }.getType());
-                            list.addAll(bean);
-                            travelPlaceAdapter.setList(list);
-                            Log.i("123",list.toString()+"--");
-
-                            List<DomesticTravelBean> bean1 = gson.fromJson(array1.toString(),new TypeToken<List<DomesticTravelBean>>() {
-                            }.getType());
-                            list2.addAll(bean1);
-                            travelAdapter.setList(list2);
+                            if (bean.size()>0){
+                                if(sort != ""){
+                                    list2.addAll(bean);
+                                    travelAdapter.setList(list2);
+                                }else{
+                                    list.addAll(bean);
+                                    travelPlaceAdapter.setList(list);
+                                }
+                            }
                             break;
                     }
                 }catch (Exception e){
+                    Log.e("456",e.getMessage()+"---");
                 }
             }
 
@@ -114,6 +147,9 @@ public class DomesticTravelActivity extends BaseBackActivity  implements View.On
         switch (view.getId()){
             case R.id.back:
                 this.finish();
+                break;
+            case R.id.more:
+                startActivity(new Intent(this,MoreTravelActivity.class));
                 break;
         }
     }

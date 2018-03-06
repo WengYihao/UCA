@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.cn.uca.ui.view.home.travel.MoreTravelActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_40"
+        android:background="@drawable/gradient">
+
+        <TextView
+            android:id="@+id/back"
+            style="@style/style_back" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/style_title"
+            android:text="国内" />
+        <TextView
+            android:id="@+id/choice"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="出境"
+            android:textColor="@color/ori"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/padding_5"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/padding_15"
+            android:background="@drawable/twenty_circular_white_background"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/padding_12"/>
+    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+</com.cn.uca.view.StatusView>

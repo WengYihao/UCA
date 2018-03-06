@@ -78,18 +78,18 @@ public class HomeHttp extends BaseServer {
         get(MyConfig.getJuiDian,map,callBack);
     }
 
-    /**
-     * 获取国内游
-     * @param page
-     * @param pageCount
-     * @param callBack
-     */
-    public static void getGuoNeiYou(int page,int pageCount,CallBack callBack){
-        Map<String,Object> map = new HashMap<>();
-        map.put("page",page);
-        map.put("pageCount",pageCount);
-        get(MyConfig.getGuoNeiYou,map,callBack);
-    }
+//    /**
+//     * 获取国内游
+//     * @param page
+//     * @param pageCount
+//     * @param callBack
+//     */
+//    public static void getGuoNeiYou(int page,int pageCount,CallBack callBack){
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("page",page);
+//        map.put("pageCount",pageCount);
+//        get(MyConfig.getGuoNeiYou,map,callBack);
+//    }
     /**
      * 获取蜜月游
      * @param page
@@ -423,13 +423,17 @@ public class HomeHttp extends BaseServer {
      * @param file
      * @param handler
      */
-    public static void addFootprintChina(String sign, String time_stamp, String account_token, int city_id, String travel_time, String content, File file, AsyncHttpResponseHandler handler){
+    public static void addFootprintChina(String sign, String time_stamp, String account_token, int city_id,String gaode_code, String travel_time, String content, File file, AsyncHttpResponseHandler handler){
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("sign",sign);
         params.put("time_stamp", time_stamp);
         params.put("account_token",account_token);
-        params.put("city_id", city_id);
+        if (city_id == 0){
+            params.put("gaode_code", gaode_code);
+        }else{
+            params.put("city_id", city_id);
+        }
         params.put("travel_time",travel_time);
         params.put("content", content);
         try {
@@ -710,20 +714,20 @@ public class HomeHttp extends BaseServer {
      * @param sign
      * @param page
      * @param pageCount
-     * @param city_id
+     * @param gaode_code
      * @param beg_time
      * @param end_time
      * @param charge
      * @param label_id
      * @param callBack
      */
-    public static void getCityCafe(String time_stamp,int user_card_type_id,String sign,int page,int pageCount,int city_id,String beg_time,String end_time,String charge,String label_id,CallBack callBack){
+    public static void getCityCafe(String time_stamp,int user_card_type_id,String sign,int page,int pageCount,String gaode_code,String beg_time,String end_time,String charge,String label_id,CallBack callBack){
         Map<String,Object> map = new HashMap<>();
         map.put("time_stamp",time_stamp);
         map.put("user_card_type_id",user_card_type_id);
         map.put("page",page);
         map.put("pageCount",pageCount);
-        map.put("city_id",city_id);
+        map.put("gaode_code",gaode_code);
         map.put("beg_time",beg_time);
         map.put("end_time",end_time);
         map.put("charge",charge);
@@ -1681,6 +1685,219 @@ public class HomeHttp extends BaseServer {
 
         }
         client.post(MyConfig.addAlbumPicture,params,handler);
+    }
+
+    /**
+     * 获取省份
+     * @param sign
+     * @param time_stamp
+     * @param gaode_code
+     * @param callBack
+     */
+    public static void getProvince(String sign,String time_stamp,String gaode_code,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("gaode_code",gaode_code);
+        get(MyConfig.getProvince,map,callBack);
+    }
+
+    /**
+     * 删除中国足迹
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param footprint_city_id
+     * @param callBack
+     */
+    public static void deleteFootprintChina(String sign,String time_stamp,String account_token,int footprint_city_id,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("footprint_city_id",footprint_city_id+"");
+        post4(MyConfig.deleteFootprintChina,map,callBack);
+    }
+
+    /**
+     * 删除余生记录
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param historical_id
+     * @param type
+     * @param callBack
+     */
+    public static void deleteLife(String sign,String time_stamp,String account_token,int historical_id,String type,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("historical_id",historical_id+"");
+        map.put("type",type);
+        post4(MyConfig.deleteLife,map,callBack);
+    }
+    /**
+     * 修改中国足迹
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param city_id
+     * @param travel_time
+     * @param content
+     * @param footprint_city_id
+     * @param file
+     * @param handler
+     */
+    public static void updateFootprintChina(String sign,String time_stamp,String account_token,int city_id,String travel_time,String content,int footprint_city_id,File file,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sign",sign);
+        params.put("time_stamp", time_stamp);
+        params.put("account_token",account_token);
+        params.put("city_id",city_id);
+        params.put("travel_time",travel_time);
+        params.put("content", content);
+        params.put("footprint_city_id",footprint_city_id);
+        try {
+            if (file != null){
+                params.put("file", file);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        client.post(MyConfig.updateFootprintChina,params,handler);
+    }
+
+
+    /**
+     * 删除世界足迹
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param footprint_country_id
+     * @param callBack
+     */
+    public static void deleteFootprintWorld(String sign,String time_stamp,String account_token,int footprint_country_id,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("footprint_country_id",footprint_country_id+"");
+        post4(MyConfig.deleteFootprintWorld,map,callBack);
+    }
+
+    /**
+     * 修改世界足迹
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param footprint_country_id
+     * @param content
+     * @param country_id
+     * @param travel_time
+     * @param file
+     * @param handler
+     */
+    public static void updateFootprintWorld(String sign,String time_stamp,String account_token,int footprint_country_id,String content,int country_id,String travel_time,File file,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sign",sign);
+        params.put("time_stamp", time_stamp);
+        params.put("account_token",account_token);
+        params.put("footprint_country_id",footprint_country_id);
+        params.put("content", content);
+        params.put("country_id",country_id);
+        params.put("travel_time",travel_time);
+        try {
+            if (file != null){
+                params.put("file", file);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        client.post(MyConfig.updateFootprintWorld,params,handler);
+    }
+
+    /**
+     * 获取旅游
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param gaode_code
+     * @param tourismType
+     * @param region_id
+     * @param city_pinyin
+     * @param tourism_style_id
+     * @param sort
+     * @param page
+     * @param pageCount
+     * @param callBack
+     */
+    public static void getTourism(String sign,String time_stamp,String account_token,String gaode_code,String tourismType,int region_id,String city_pinyin,int tourism_style_id,String sort,int page,int pageCount,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("gaode_code",gaode_code);
+        map.put("tourismType",tourismType);
+        if (region_id != 0){
+            map.put("region_id",region_id);
+        }
+        map.put("city_pinyin",city_pinyin);
+        if (tourism_style_id != 0){
+            map.put("tourism_style_id",tourism_style_id);
+        }
+        map.put("sort",sort);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.getTourism,map,callBack);
+    }
+
+    /**
+     * 获取旅游地域信息
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param callBack
+     */
+    public static void getRegion(String sign,String time_stamp,String account_token,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        get(MyConfig.getRegion,map,callBack);
+    }
+    /**
+     * 获取旅游风格信息
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param callBack
+     */
+    public static void getStyle(String sign,String time_stamp,String account_token,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        get(MyConfig.getStyle,map,callBack);
+    }
+
+    /**
+     * 获取旅游详细信息
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param tourism_id
+     * @param callBack
+     */
+    public static void getTourismInfo(String sign,String time_stamp,String account_token,int tourism_id,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        map.put("tourism_id",tourism_id);
+        get(MyConfig.getTourismInfo,map,callBack);
     }
 }
 
