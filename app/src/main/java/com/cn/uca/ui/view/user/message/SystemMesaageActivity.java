@@ -55,9 +55,10 @@ public class SystemMesaageActivity extends BaseBackActivity implements View.OnCl
 
     private void initView() {
         back = (TextView)findViewById(R.id.back);
-        refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
+
         listView = (ListView)findViewById(R.id.listView);
 
+        refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
         layout = (LinearLayout)findViewById(R.id.layout);
         no_layout = (RelativeLayout)findViewById(R.id.no_layout);
         back.setOnClickListener(this);

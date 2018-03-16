@@ -34,9 +34,8 @@
             android:id="@+id/pic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:layout_centerInParent="true" />
-
         <TextView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
@@ -48,6 +47,13 @@
             android:text="景点图片"
             android:textColor="@color/white"
             android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/delete_ori_back"
+            android:layout_alignParentRight="true"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"

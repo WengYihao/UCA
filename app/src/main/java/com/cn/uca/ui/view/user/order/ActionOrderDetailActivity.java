@@ -329,4 +329,10 @@ public class ActionOrderDetailActivity extends BaseBackActivity implements View.
                 break;
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserOrderInfo();
+    }
 }

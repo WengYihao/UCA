@@ -6,31 +6,70 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.cn.uca.ui.view.home.lvpai.AllCommodityActivity">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_40"
-        android:background="@drawable/gradient">
-
-        <TextView
-            android:id="@+id/back"
-            style="@style/style_back"/>
-
-        <TextView
-            android:id="@+id/title"
-            style="@style/style_title"
-            android:text="全部商品" />
-
-    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/padding_10">
-        <ListView
-            android:id="@+id/listView"
+        android:background="@drawable/gradient2">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dividerHeight="@dimen/padding_10"
-            android:divider="@color/transparent"></ListView>
+            android:layout_height="@dimen/padding_40"
+            android:background="@drawable/gradient">
+
+            <TextView
+                android:id="@+id/back"
+                style="@style/style_back"/>
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/style_title"
+                android:text="全部商品" />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <com.scwang.smartrefresh.layout.SmartRefreshLayout
+                    android:id="@+id/refreshLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ListView
+                        android:id="@+id/listView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@color/transparent"
+                        android:padding="@dimen/padding_8"
+                        android:dividerHeight="@dimen/padding_10">
+                    </ListView>
+                    <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:srlClassicsSpinnerStyle="Translate"/>
+                </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/no_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+                <ImageView
+                    android:id="@+id/pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/no_data_pic"
+                    android:layout_centerInParent="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="暂无数据"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/pic"/>
+            </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
+
 </com.cn.uca.view.StatusView>

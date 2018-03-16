@@ -23,6 +23,7 @@ import com.cn.uca.ui.view.home.raider.SpotDetailActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
+import com.cn.uca.util.voice.VoiceUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.Locale;
@@ -34,7 +35,6 @@ import java.util.Locale;
  */
 public class InfoWinAdapter implements AMap.InfoWindowAdapter{
     private Context context;
-    TextToSpeech speech;
     private FindWayImpl findWay;
     public InfoWinAdapter(Context context,FindWayImpl findWay){
         this.context = context;
@@ -78,10 +78,8 @@ public class InfoWinAdapter implements AMap.InfoWindowAdapter{
         TextView details = (TextView)view.findViewById(R.id.detail);
         TextView commentary = (TextView)view.findViewById(R.id.commentary);
         ImageView pic = (ImageView) view.findViewById(R.id.pic);
-
         //实例
         final RaidersSenicSpotBean bean = (RaidersSenicSpotBean) utilBean.getObject();
-        speech = new TextToSpeech(context,new MyOnInitialListener());
         name.setText(bean.getScenic_spot_name());
         content.setText(bean.getIntroduce());
         ImageLoader.getInstance().displayImage(bean.getPicture_url(),pic);
@@ -92,36 +90,23 @@ public class InfoWinAdapter implements AMap.InfoWindowAdapter{
         daohang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 findWay.click(new LatLng(marker.getPosition().latitude,marker.getPosition().longitude));
             }
         });
         commentary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                speech.speak(bean.getIntroduce().toString(),TextToSpeech.QUEUE_FLUSH, null);
+                VoiceUtils.getInstance().initmTts(context,bean.getIntroduce());
             }
         });
         details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                ToastXutil.show("请求集合"+bean.getOrder());
-//                Intent intent = new Intent();
-//                intent.setClass(context, SpotDetailActivity.class);
-//                intent.putExtra("content",bean.getIntroduce());
-//                Log.i("123",bean.getIntroduce());
-//                intent.putExtra("name",bean.getScenic_spot_name());
-//                context.startActivity(intent);
                 ShowPopupWindow.spotDetail(context,bean.getIntroduce());
             }
         });
     }
-    class MyOnInitialListener implements TextToSpeech.OnInitListener{
-        @Override
-        public void onInit(int status) {
-            speech.setLanguage(Locale.CHINESE);
-        }
-    }
+
 
     private void setViewFood(Marker marker,View view){
         RaidersUtilBean utilBean = (RaidersUtilBean) marker.getObject();

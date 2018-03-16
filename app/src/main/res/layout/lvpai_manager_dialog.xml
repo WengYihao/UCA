@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_12">
         <LinearLayout
             android:id="@+id/layout1"
             android:layout_width="0dp"
@@ -22,14 +23,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@mipmap/lvpai_order_back" />
+                android:background="@mipmap/lvpai_edit_ori_back" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_10"
                 android:gravity="center"
-                android:text="订单"
+                android:text="编辑"
                 android:textColor="@color/grey" />
         </LinearLayout>
         <LinearLayout
@@ -55,41 +56,8 @@
                 android:text="推荐"
                 android:textColor="@color/grey" />
         </LinearLayout>
-    </LinearLayout>
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:scaleType="matrix"
-        android:src="@color/gray" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
         <LinearLayout
             android:id="@+id/layout3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@mipmap/lvpai_edit_ori_back" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_10"
-                android:gravity="center"
-                android:text="编辑"
-                android:textColor="@color/grey" />
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/layout4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

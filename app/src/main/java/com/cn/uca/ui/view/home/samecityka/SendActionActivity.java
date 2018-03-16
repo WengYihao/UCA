@@ -762,10 +762,9 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                                                                             ToastXutil.show("发布的同城咖已上线(3条)");
                                                                             break;
                                                                         default:
-                                                                            ToastXutil.show("发布失败");
+                                                                            ToastXutil.show(jsonObject.getString("msg"));
                                                                             break;
                                                                     }
-                                                                    Log.e("123", jsonObject.toString() + "--");
                                                                 }
                                                             }catch (Exception e){
                                                                 Log.e("456",e.getMessage()+"报错");

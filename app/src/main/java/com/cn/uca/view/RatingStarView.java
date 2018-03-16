@@ -26,9 +26,9 @@ public class RatingStarView extends View implements View.OnClickListener {
     private static final String TAG = "RatingStarView";
     private static final int DEFAULT_STAR_HEIGHT = 10;
     private float cornerRadius = 2f;
-    private int starForegroundColor =  R.color.ori;//实心颜色
-    private int strokeColor = R.color.ori;//空白边色
-    private int starBackgroundColor = R.color.white;//空白背景色
+    private int starForegroundColor =  Color.parseColor("#ee953e");;//实心颜色
+    private int strokeColor = Color.parseColor("#ee953e");//空白边色
+    private int starBackgroundColor = Color.parseColor("#ffffff");//空白背景色
     /** used to make round smooth star horn */
     private CornerPathEffect pathEffect;
     private ArrayList<StarModel> starList;

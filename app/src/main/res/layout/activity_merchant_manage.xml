@@ -200,6 +200,7 @@
                         android:layout_height="15dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/padding_20"
+                        android:visibility="gone"
                         android:background="@mipmap/lvpai_wechat_back" />
 
                     <TextView

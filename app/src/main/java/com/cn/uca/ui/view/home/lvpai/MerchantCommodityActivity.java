@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -23,6 +24,7 @@ import com.cn.uca.R;
 import com.cn.uca.adapter.home.lvpai.CommodityAdapter;
 import com.cn.uca.adapter.home.raiders.SpotNameAdapter;
 import com.cn.uca.bean.home.lvpai.MerchantCommodityBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.ServiceBack;
@@ -50,21 +52,24 @@ import java.util.Map;
 
 public class MerchantCommodityActivity extends BaseBackActivity implements View.OnClickListener,ServiceBack{
 
-    private TextView title01,title02,back,more,add_new_commodity,more_operation,isHotspot;
-    private LinearLayout layout1,layout2,layout3,layout4,layout5,layout6,layout7,layout8;
-    private PopupWindow popupWindow;
+    private TextView title01,title02,back,more,isHotspot;
+    private LinearLayout layout1,layout2,layout3,layout4,layout5,layout6;
     private Dialog dialog,dialog2;
     private ListView listView;
     private CommodityAdapter adapter;
-    private RefreshLayout refreshLayout;
     private List<MerchantCommodityBean> list;
-    private int pageSale = 1;
-    private int pageCountSale = 5;
-    private int pageUp = 1;
-    private int pageCountUp = 5;
+    private int pageSale = Constant.PAGE;
+    private int pageCountSale = Constant.PAGE_COUNT;
+    private int pageUp = Constant.PAGE;
+    private int pageCountUp = Constant.PAGE_COUNT;
     private int type = 1;
     private int shoodId;
     private boolean hotspot = false;
+    private int countS = 0;
+    private int countX = 0;
+    private RefreshLayout refreshLayout;
+    private LinearLayout layout;
+    private RelativeLayout no_layout;//没有数据布局
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +77,13 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
         setContentView(R.layout.activity_merchant_commodity);
 
         initView();
-        getMyTs("sale",pageSale,pageCountSale);
     }
 
     private void initView() {
         refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
+        layout = (LinearLayout)findViewById(R.id.layout);
+        no_layout = (RelativeLayout)findViewById(R.id.no_layout);
+
         back = (TextView)findViewById(R.id.back);
         title01 = (TextView)findViewById(R.id.title01);
         title02 = (TextView)findViewById(R.id.title02);
@@ -96,21 +103,23 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
                 refreshlayout.getLayout().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        countS = 0;
+                        countX = 0;
                         switch (type){
                             case 1:
-                                getMyTs("sale",pageSale,pageCountSale);
+                                getMyTs(1,"sale",pageSale,pageCountSale);
                                 refreshlayout.finishRefresh();
                                 refreshlayout.setLoadmoreFinished(false);
                                 break;
                             case 2:
-                                getMyTs("unsold",pageUp,pageCountUp);
+                                getMyTs(1,"unsold",pageUp,pageCountUp);
                                 refreshlayout.finishRefresh();
                                 refreshlayout.setLoadmoreFinished(false);
                                 break;
                         }
 
                     }
-                }, 2000);
+                }, 200);
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -121,23 +130,24 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
                     public void run() {
                         switch (type){
                             case 1:
-                                pageSale ++ ;
-                                getMyTs("sale",pageSale,pageCountSale);
+                                countS ++ ;
+                                getMyTs(2,"sale",countS+pageSale,pageCountSale);
                                 refreshlayout.finishRefresh();
                                 refreshlayout.setLoadmoreFinished(false);
                                 break;
                             case 2:
-                                pageUp ++;
-                                getMyTs("unsold",pageUp,pageCountUp);
+                                countX ++;
+                                getMyTs(2,"unsold",countX+pageUp,pageCountUp);
                                 refreshlayout.finishRefresh();
                                 refreshlayout.setLoadmoreFinished(false);
                                 break;
                         }
                         refreshlayout.finishLoadmore();
                     }
-                }, 2000);
+                }, 200);
             }
         });
+        refreshLayout.autoRefresh();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -164,66 +174,50 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
                 this.finish();
                 break;
             case R.id.more:
-                show();
+                String str = "http://www.szyouka.com:8080/youkatravel/agreement/tripShootMerchantProtocol.html";
+                ShowPopupWindow.seviceWindow(getWindow().getDecorView(),MerchantCommodityActivity.this,str,MerchantCommodityActivity.this);
                 break;
             case R.id.title01:
+                layout.setVisibility(View.VISIBLE);
+                no_layout.setVisibility(View.GONE);
                 type = 1;
                 title01.setTextColor(getResources().getColor(R.color.ori));
                 title02.setTextColor(getResources().getColor(R.color.black));
                 list.clear();
-                getMyTs("sale",1,pageCountSale*pageSale);
+                refreshLayout.autoRefresh();
                 break;
             case R.id.title02:
+                layout.setVisibility(View.VISIBLE);
+                no_layout.setVisibility(View.GONE);
                 type = 2;
                 title01.setTextColor(getResources().getColor(R.color.black));
                 title02.setTextColor(getResources().getColor(R.color.ori));
                 list.clear();
-                getMyTs("unsold",1,pageCountUp*pageUp);
-                break;
-            case R.id.add_new_commodity:
-                popupWindow.dismiss();
-                String str = "http://www.szyouka.com:8080/youkatravel/agreement/tripShootMerchantProtocol.html";
-                ShowPopupWindow.seviceWindow(getWindow().getDecorView(),MerchantCommodityActivity.this,str,MerchantCommodityActivity.this);
-                break;
-            case R.id.more_operation:
-                popupWindow.dismiss();
-                ToastXutil.show("还有啥骚操作？");
+                refreshLayout.autoRefresh();
                 break;
             case R.id.layout1:
-                Intent intent = new Intent();
-                intent.setClass(MerchantCommodityActivity.this,MerchantOrderActivity.class);
-                intent.putExtra("id",shoodId);
-                startActivity(intent);
+                ToastXutil.show("编辑");
                 dialog.dismiss();
                 break;
             case R.id.layout2:
                 hotspot();
                 dialog.dismiss();
                 break;
-            case R.id.layout3:
-                ToastXutil.show("编辑");
+            case R.id.layout3://下架
+                upLoShelves();
                 dialog.dismiss();
                 break;
             case R.id.layout4:
-                upLoShelves();
-                dialog.dismiss();
-                break;
-            case R.id.layout5:
-                ToastXutil.show("下架的订单");
+                //编辑
                 dialog2.dismiss();
                 break;
-            case R.id.layout6:
+            case R.id.layout5:
                 ToastXutil.show("删除");
                 dialog2.dismiss();
                 break;
-            case R.id.layout7:
-                ToastXutil.show("编辑");
-                dialog2.dismiss();
-                break;
-            case R.id.layout8:
-                ToastXutil.show("重新上架");
-                dialog2.dismiss();
+            case R.id.layout6:
                 upLoShelves();
+                dialog2.dismiss();
                 break;
         }
     }
@@ -242,8 +236,6 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
         layout2.setOnClickListener(this);
         layout3 = (LinearLayout)inflate.findViewById(R.id.layout3);
         layout3.setOnClickListener(this);
-        layout4 = (LinearLayout)inflate.findViewById(R.id.layout4);
-        layout4.setOnClickListener(this);
         //将布局设置给Dialog
         dialog.setContentView(inflate);
         //获取当前Activity所在的窗体
@@ -253,20 +245,18 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
         WindowManager.LayoutParams params = dialogWindow.getAttributes();
 //        params.dimAmount = 0f;
         params.width = MyApplication.width;
-        params.height = MyApplication.width/2;
+//        params.height = MyApplication.width/2;
         dialog.show();//显示对话框
     }
     private void showUpsold(){
         dialog2 = new Dialog(this,R.style.dialog_style);
         View inflate = LayoutInflater.from(this).inflate(R.layout.lvpai_manager_dialog2, null);
+        layout4 = (LinearLayout)inflate.findViewById(R.id.layout4);
+        layout4.setOnClickListener(this);
         layout5 = (LinearLayout)inflate.findViewById(R.id.layout5);
         layout5.setOnClickListener(this);
         layout6 = (LinearLayout)inflate.findViewById(R.id.layout6);
         layout6.setOnClickListener(this);
-        layout7 = (LinearLayout)inflate.findViewById(R.id.layout7);
-        layout7.setOnClickListener(this);
-        layout8 = (LinearLayout)inflate.findViewById(R.id.layout8);
-        layout8.setOnClickListener(this);
         //将布局设置给Dialog
         dialog2.setContentView(inflate);
         //获取当前Activity所在的窗体
@@ -275,23 +265,10 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
         dialogWindow.setGravity(Gravity.BOTTOM);
         WindowManager.LayoutParams params = dialogWindow.getAttributes();
         params.width = MyApplication.width;
-        params.height = MyApplication.width/2;
+//        params.height = MyApplication.width/2;
         dialog2.show();//显示对话框
     }
-    private void show(){
-		View show = LayoutInflater.from(this).inflate(R.layout.lvpai_commodity_dialog, null);
-        add_new_commodity = (TextView)show.findViewById(R.id.add_new_commodity);//添加新品
-        more_operation = (TextView)show.findViewById(R.id.more_operation);//批量操作
-        add_new_commodity.setOnClickListener(this);
-        more_operation.setOnClickListener(this);
-		popupWindow = new PopupWindow(show, MyApplication.width/3,
-				LinearLayoutCompat.LayoutParams.WRAP_CONTENT, true);
-		popupWindow.setTouchable(true);
-		popupWindow.setOutsideTouchable(true);
-		popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
-        popupWindow.showAtLocation(getWindow().getDecorView(),Gravity.RIGHT|Gravity.TOP,20,50);
-	}
-	private void getMyTs(String state,int page,int pageCount){
+	private void getMyTs(final int type,String state,int page,int pageCount){
         Map<String,Object> map = new HashMap<>();
         String account_token = SharePreferenceXutil.getAccountToken();
         map.put("account_token",account_token);
@@ -312,16 +289,25 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
                             Gson gson = new Gson();
                             List<MerchantCommodityBean> bean = gson.fromJson(jsonObject.getJSONObject("data").getJSONArray("tripShoot").toString(),new TypeToken<List<MerchantCommodityBean>>() {
                             }.getType());
-                            if (bean.size() > 0){
-                                list.clear();
-                                list.addAll(bean);
-                                adapter.setList(list);
-                            }else{
-                                if (list.size() != 0){
-                                    ToastXutil.show("没有更多数据了");
-                                }else{
-                                    adapter.setList(list);
-                                }
+                            switch (type){
+                                case 1://刷新
+                                    if (bean.size() > 0){
+                                        layout.setVisibility(View.VISIBLE);
+                                        no_layout.setVisibility(View.GONE);
+                                        list.clear();
+                                        list.addAll(bean);
+                                        adapter.setList(list);
+                                    }else{
+                                        layout.setVisibility(View.GONE);
+                                        no_layout.setVisibility(View.VISIBLE);
+                                    }
+                                    break;
+                                case 2://加载
+                                    if (bean.size() > 0){
+                                        list.addAll(bean);
+                                        adapter.setList(list);
+                                    }
+                                    break;
                             }
                             break;
                     }
@@ -401,7 +387,6 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
             }
         });
     }
-
     /**
      * 上/下架
      */
@@ -421,17 +406,15 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
                     int code = jsonObject.getInt("code");
                     switch (code){
                         case 0:
+                            refreshLayout.autoRefresh();
                             switch (type){
                                 case 1:
                                     ToastXutil.show("下架成功");
-                                    getMyTs("sale",1,pageCountSale*pageCountSale);
                                     break;
                                 case 2:
                                     ToastXutil.show("上架成功");
-                                    getMyTs("unsold",1,pageCountUp*pageUp);
                                     break;
                             }
-
                             break;
                     }
                 }catch (Exception e){
@@ -450,7 +433,6 @@ public class MerchantCommodityActivity extends BaseBackActivity implements View.
             }
         });
     }
-
     @Override
     public void sure() {
         startActivity(new Intent(MerchantCommodityActivity.this,AddMerchantActivity.class));

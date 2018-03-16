@@ -104,7 +104,6 @@ public class LineChoiceActivity extends BaseBackActivity implements AMap.OnMarke
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_choice);
-        com.amap.api.maps.MapsInitializer.loadWorldGridMap(true);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
 

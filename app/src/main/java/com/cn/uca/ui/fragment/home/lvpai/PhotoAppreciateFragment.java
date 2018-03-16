@@ -23,12 +23,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
@@ -44,10 +46,12 @@ import com.cn.uca.util.PhotoCompress;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,6 +73,9 @@ public class PhotoAppreciateFragment extends Fragment implements View.OnClickLis
     private ArrayList<Object> list;//图文混合
     private Map<Integer,String> listImgNAME;//图片名
     private ArrayList<SendImgFileBean> listImg;//图片file
+    private int type = 0;
+    private int Tag = 0;
+    private List<ImageView> imageViewList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -104,12 +111,14 @@ public class PhotoAppreciateFragment extends Fragment implements View.OnClickLis
                 activity.setBack(1);
                 break;
             case R.id.add:
-                addPicItem();
+                addPicItem("");
                 break;
             case R.id.next:
                 for (int i = 0;i<layout.getChildCount();i++){
+                    RelativeLayout layoutItem = (RelativeLayout) layout.getChildAt(i);// 获得子item的layout
                     SendImgBean bean = new SendImgBean();
-                    bean.setImg_url(listImgNAME.get(i+1));
+                    ImageView view = (ImageView)layoutItem.findViewById(R.id.pic);
+                    bean.setImg_url(listImgNAME.get(view.getTag()));
                     bean.setParagraph_type("img");
                     list.add(bean);
                 }
@@ -135,16 +144,35 @@ public class PhotoAppreciateFragment extends Fragment implements View.OnClickLis
                 break;
         }
     }
-    private void addPicItem(){
-       final View itemPIc = View.inflate(getActivity(), R.layout.action_detail_pic_item,null);
-        layout.addView(itemPIc);
-        LinearLayout addLayout = (LinearLayout)itemPIc.findViewById(R.id.addLayout);
-        addLayout.setOnClickListener(new View.OnClickListener() {
+    View itemPic = null;
+    private void addPicItem(final String url){
+        type = 0;
+        itemPic = View.inflate(getActivity(), R.layout.action_detail_pic_item,null);
+        final View view = itemPic;
+        imageView = (ImageView) itemPic.findViewById(R.id.pic);
+        imageView.setTag(imageViewList.size()+1);
+        final TextView delete = (TextView)view.findViewById(R.id.delete);
+        if (url != ""){
+            layout.addView(itemPic);
+            ImageLoader.getInstance().displayImage(url,imageView);
+            imageViewList.add(imageView);
+        }else{
+            AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(getActivity(), arrayString, title, onDialogClick);
+            dialog.show();
+        }
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView = (ImageView) itemPIc.findViewById(R.id.pic);
+                type = 1;
+                Tag = (int)v.getTag();
                 AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(getActivity(), arrayString, title, onDialogClick);
                 dialog.show();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.removeView(view);
             }
         });
     }
@@ -300,14 +328,33 @@ public class PhotoAppreciateFragment extends Fragment implements View.OnClickLis
             if (msg.obj != null) {
                 File file = PhotoCompress.comp((Bitmap) msg.obj);
                 Bitmap bitmap= BitmapFactory.decodeFile(file.toString());
-                Drawable drawable = new BitmapDrawable(bitmap);
-                imageView.setImageDrawable(drawable);
-                String a = "图片_"+System.currentTimeMillis();
-                listImgNAME.put(layout.getChildCount(),a);
-                SendImgFileBean bean = new SendImgFileBean();
-                bean.setImgName(a);
-                bean.setFile((Bitmap)msg.obj);
-                listImg.add(bean);
+                SendImgFileBean bean = null;
+                switch (type){
+                    case 0:
+                        layout.addView(itemPic);
+                        imageView.setImageBitmap(bitmap);
+                        imageViewList.add(imageView);
+                        String name1  = "图片_"+System.currentTimeMillis();
+                        listImgNAME.put((int) imageView.getTag(),name1);
+                        bean = new SendImgFileBean();
+                        bean.setImgName(name1);
+                        bean.setFile(bitmap);
+                        listImg.add(bean);
+                        break;
+                    case 1:
+                        for (ImageView view : imageViewList){
+                            if ((int)view.getTag() == Tag){
+                                view.setImageBitmap(bitmap);
+                                String name2  = "图片_"+System.currentTimeMillis();
+                                listImgNAME.put(Tag,name2);
+                                bean = new SendImgFileBean();
+                                bean.setImgName(name2);
+                                bean.setFile(bitmap);
+                                listImg.add(bean);
+                            }
+                        }
+                        break;
+                }
             }
         };
     };

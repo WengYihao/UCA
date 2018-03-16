@@ -59,6 +59,7 @@
                         android:background="@drawable/five_circular_white_background"
                         android:hint="填写旅拍标题"
                         android:padding="@dimen/padding_5"
+                        android:textSize="@dimen/text_12"
                         android:textColorHint="@color/grey2" />
 
                     <ImageView
@@ -88,6 +89,7 @@
                             android:background="@color/white"
                             android:hint="设置旅拍价格"
                             android:padding="@dimen/padding_5"
+                            android:textSize="@dimen/text_12"
                             android:textColorHint="@color/grey2" />
                     </LinearLayout>
                 </LinearLayout>

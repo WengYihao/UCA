@@ -22,6 +22,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,6 +71,9 @@ public class RecommendedTravelFragment extends Fragment implements View.OnClickL
     private ArrayList<Object> list;//图文混合
     private Map<Integer,String> listImgNAME;//图片名
     private ArrayList<SendImgFileBean> listImg;//图片file
+//    private int type = 0;
+    private int Tag = 0;
+    private List<ImageView> imageViewList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
@@ -114,7 +119,8 @@ public class RecommendedTravelFragment extends Fragment implements View.OnClickL
                     bean.setParagraph_type("p");
                     list.add(bean);
                     SendImgBean bean2 = new SendImgBean();
-                    bean2.setImg_url(listImgNAME.get(i+1));
+                    ImageView view = (ImageView)layoutItem.findViewById(R.id.pic);
+                    bean2.setImg_url(listImgNAME.get(view.getTag()));
                     bean2.setParagraph_type("img");
                     list.add(bean2);
                 }
@@ -141,15 +147,25 @@ public class RecommendedTravelFragment extends Fragment implements View.OnClickL
         }
     }
     private void addItem(){
-       final View item = View.inflate(getActivity(), R.layout.lvpai_recommened_travel_item,null);
+        final View item = View.inflate(getActivity(), R.layout.lvpai_recommened_travel_item,null);
         layout.addView(item);
         LinearLayout addLayout = (LinearLayout)item.findViewById(R.id.addLayout);
+        TextView delete = (TextView)item.findViewById(R.id.delete);
         addLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageView = (ImageView) item.findViewById(R.id.pic);
+                imageView.setTag(imageViewList.size()+1);
+                imageViewList.add(imageView);
+                Tag = (int)imageView.getTag();
                 AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(getActivity(), arrayString, title, onDialogClick);
                 dialog.show();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.removeView(item);
             }
         });
     }
@@ -305,14 +321,32 @@ public class RecommendedTravelFragment extends Fragment implements View.OnClickL
             if (msg.obj != null) {
                 File file = PhotoCompress.comp((Bitmap) msg.obj);
                 Bitmap bitmap= BitmapFactory.decodeFile(file.toString());
-                Drawable drawable = new BitmapDrawable(bitmap);
-                imageView.setImageDrawable(drawable);
-                String a = "图片_"+System.currentTimeMillis();
-                listImgNAME.put(layout.getChildCount(),a);
-                SendImgFileBean bean = new SendImgFileBean();
-                bean.setImgName(a);
-                bean.setFile((Bitmap)msg.obj);
-                listImg.add(bean);
+                SendImgFileBean bean = null;
+                Log.e("456",Tag+"---");
+                for (ImageView view : imageViewList){
+                    Log.e("456",(int)view.getTag()+"*****");
+                    if ((int)view.getTag() == Tag){
+                        view.setImageBitmap(bitmap);
+                        String name2  = "图片_"+System.currentTimeMillis();
+                        listImgNAME.put(Tag,name2);
+                        bean = new SendImgFileBean();
+                        bean.setImgName(name2);
+                        bean.setFile(bitmap);
+                        listImg.add(bean);
+                    }else{
+                        Log.e("456","不相等");
+                    }
+                }
+//                File file = PhotoCompress.comp((Bitmap) msg.obj);
+//                Bitmap bitmap= BitmapFactory.decodeFile(file.toString());
+//                Drawable drawable = new BitmapDrawable(bitmap);
+//                imageView.setImageDrawable(drawable);
+//                String a = "图片_"+System.currentTimeMillis();
+//                listImgNAME.put(layout.getChildCount(),a);
+//                SendImgFileBean bean = new SendImgFileBean();
+//                bean.setImgName(a);
+//                bean.setFile((Bitmap)msg.obj);
+//                listImg.add(bean);
             }
         };
     };

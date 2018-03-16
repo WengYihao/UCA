@@ -13,8 +13,8 @@ import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.datechoice.views.DatePicker;
-import com.google.gson.Gson;
 
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,7 +40,10 @@ public class DatePickerActivity extends BaseBackActivity implements View.OnClick
         sure.setOnClickListener(this);
         picker = (DatePicker) findViewById(R.id.date);
         picker.setFestivalDisplay(false);
-        picker.setDate(2017, 12);
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int mon = calendar.get(Calendar.MONTH)+1;
+        picker.setDate(year,mon);
         picker.setOnDateSelectedListener(new DatePicker.OnDateSelectedListener() {
             @Override
             public void onDateSelected(List<String> date) {
@@ -73,7 +76,6 @@ public class DatePickerActivity extends BaseBackActivity implements View.OnClick
                     if (StringXutil.isEmpty(picker.getDate().toString())){
                         ToastXutil.show("请选择忙碌时间");
                     }else{
-                        Gson gson = new Gson();
                         int dayNum = Integer.parseInt(day.getText().toString());
                         Intent intent = new Intent();
                         intent.putExtra("day",dayNum);

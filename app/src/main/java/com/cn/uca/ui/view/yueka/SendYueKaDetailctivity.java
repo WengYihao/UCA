@@ -245,7 +245,6 @@ public class SendYueKaDetailctivity extends BaseBackActivity implements View.OnC
             layout.addView(itemPic);
             ImageLoader.getInstance().displayImage(url,imageView);
             imageViewList.add(imageView);
-            Log.e("456",(int)imageView.getTag()+"-");
         }else{
             AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(SendYueKaDetailctivity.this, arrayString, title, onDialogClick);
             dialog.show();

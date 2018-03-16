@@ -407,4 +407,22 @@ public class SharePreferenceXutil {
     }
 
 
+	/**
+	 * 设置是否入驻
+	 * @param isSettled ：true
+	 */
+	public static void setSettled(boolean isSettled) {
+		getSp().edit().putBoolean("isSettled", isSettled).commit();
+	}
+
+	/**
+	 * 获取是否入驻
+	 * @return
+	 */
+	public static boolean isSettled() {
+		boolean isSettled = getSp().getBoolean("isSettled", false);
+		return isSettled;
+	}
+
+
 }

@@ -362,7 +362,6 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
             if (msg.obj != null) {
                 Drawable drawable = new BitmapDrawable((Bitmap) msg.obj);
                 pic.setImageDrawable(drawable);
-                LoadDialog.show(MerchantEntryActivity.this);
             }
         }
     };

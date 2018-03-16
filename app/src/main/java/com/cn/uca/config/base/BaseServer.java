@@ -100,7 +100,6 @@ public class BaseServer {
 							callBack.onResponse(jsonObject.getJSONObject("data").toString());
 						}else{
 							callBack.onErrorMsg(jsonObject.getString("msg").toString());
-							ToastXutil.show(jsonObject.getString("msg").toString());
 						}
 					}catch (Exception e){
 						Log.i("post3 erroe",e.getMessage()+"封装报错");
@@ -239,14 +238,6 @@ public class BaseServer {
 		StringRequest request = new StringRequest(url, new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-//				try {
-
-//					if (response != null) {
-//						callback.onResponse(response);
-//					}
-//				} catch (Exception e) {
-//
-//				}
 				try{
 					Log.e("volley get response", response);
 					JSONObject jsonObject = new JSONObject(response);
@@ -256,7 +247,7 @@ public class BaseServer {
 					}else{
 						callback.onResponse(response);
 						callback.onErrorMsg(jsonObject.getString("msg").toString());
-						ToastXutil.show(jsonObject.getString("msg").toString());
+//						ToastXutil.show(jsonObject.getString("msg").toString());
 					}
 				}catch (Exception e){
 					Log.e("volley getlll", e.toString());

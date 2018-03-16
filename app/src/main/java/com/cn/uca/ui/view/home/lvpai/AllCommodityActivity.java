@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
@@ -21,6 +23,9 @@ import com.cn.uca.util.SystemUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -36,17 +41,21 @@ public class AllCommodityActivity extends BaseBackActivity implements View.OnCli
 
     private TextView back;
     private ListView listView;
-    private int pageCount = Constant.PAGE_COUNT;
-    private int page = Constant.PAGE;
     private List<CommodityBean> listComment;
     private MerchantAdapter merchantAdapter;
+    private int count = 0;
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
+    private RefreshLayout refreshLayout;
+    private LinearLayout layout;
+    private RelativeLayout no_layout;//没有数据布局
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_commodity);
 
         initView();
-        getCommodity("","","","","",0);
+
     }
 
     private void initView() {
@@ -57,6 +66,39 @@ public class AllCommodityActivity extends BaseBackActivity implements View.OnCli
         listComment = new ArrayList<>();
         merchantAdapter = new MerchantAdapter(listComment,this);
         listView.setAdapter(merchantAdapter);
+
+        refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
+        layout = (LinearLayout)findViewById(R.id.layout);
+        no_layout = (RelativeLayout)findViewById(R.id.no_layout);
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(final RefreshLayout refreshlayout) {
+                refreshlayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        count = 0;
+                        getCommodity(1,page,pageCount,"","","","","",0);
+                        refreshlayout.finishRefresh();
+                        refreshlayout.setLoadmoreFinished(false);
+                    }
+                }, 200);
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(final RefreshLayout refreshlayout) {
+                refreshlayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        count++;
+                        getCommodity(2,count+page,pageCount,"","","","","",0);
+                        refreshlayout.finishLoadmore();
+                    }
+                }, 200);
+            }
+        });
+        refreshLayout.autoRefresh();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -79,7 +121,7 @@ public class AllCommodityActivity extends BaseBackActivity implements View.OnCli
         }
     }
 
-    private void getCommodity(String labels,String type,String sortType,String sortMode,String keyword,int id){
+    private void getCommodity(final int typeNum,int page,int pageCount,String labels,String type,String sortType,String sortMode,String keyword,int id){
         Map<String,Object> map = new HashMap<>();
         String account_token = SharePreferenceXutil.getAccountToken();
         map.put("account_token",account_token);
@@ -110,9 +152,25 @@ public class AllCommodityActivity extends BaseBackActivity implements View.OnCli
                                 JSONArray array = jsonObject.getJSONObject("data").getJSONArray("tripShoots");
                                 List<CommodityBean> bean = gson.fromJson(array.toString(), new TypeToken<List<CommodityBean>>() {
                                 }.getType());
-                                if (bean.size() > 0) {
-                                    listComment.addAll(bean);
-                                    merchantAdapter.setList(listComment);
+                                switch (typeNum){
+                                    case 1://刷新
+                                        if (bean.size() > 0){
+                                            layout.setVisibility(View.VISIBLE);
+                                            no_layout.setVisibility(View.GONE);
+                                            listComment.clear();
+                                            listComment.addAll(bean);
+                                            merchantAdapter.setList(listComment);
+                                        }else{
+                                            layout.setVisibility(View.GONE);
+                                            no_layout.setVisibility(View.VISIBLE);
+                                        }
+                                        break;
+                                    case 2://加载
+                                        if (bean.size() > 0){
+                                            listComment.addAll(bean);
+                                            merchantAdapter.setList(listComment);
+                                        }
+                                        break;
                                 }
                                 break;
                         }

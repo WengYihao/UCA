@@ -299,4 +299,10 @@ public class LvPaiOrderDetailActivity extends BaseBackActivity implements View.O
                 break;
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserOrderInfo();
+    }
 }

@@ -62,6 +62,7 @@ import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
+import com.cn.uca.util.voice.VoiceUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -437,6 +438,7 @@ public class RaidersDetailActivity extends BaseBackActivity implements LocationS
         if (aMap != null && curShowWindowMarker != null) {
             if (curShowWindowMarker.isInfoWindowShown()){
                 curShowWindowMarker.hideInfoWindow();
+                VoiceUtils.getInstance().stopSpeak();
             }
         }
     }

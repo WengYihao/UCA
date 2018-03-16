@@ -101,4 +101,10 @@ public class VoiceUtils {
             mTts.startSpeaking(msg,mSynthesizerListener);
         }
     }
+
+    public void stopSpeak(){
+        if (mTts != null){
+            mTts.stopSpeaking();
+        }
+    }
 }

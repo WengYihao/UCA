@@ -101,6 +101,11 @@ public class MerchantManageActivity extends BaseBackActivity implements View.OnC
         layout5.setOnClickListener(this);
         layout6.setOnClickListener(this);
         gotoMerchant.setOnClickListener(this);
+        if (SharePreferenceXutil.isSettled()){
+            layout.setVisibility(View.GONE);
+        }
+        SharePreferenceXutil.setSettled(true);
+
     }
 
     @Override

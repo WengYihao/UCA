@@ -4,15 +4,12 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +31,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
@@ -55,6 +53,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -79,6 +78,9 @@ public class ServiceOverviewFragment extends Fragment implements View.OnClickLis
     private ArrayList<Object> list;//图文混合
     private Map<Integer,String> listImgNAME;//图片名
     private ArrayList<SendImgFileBean> listImg;//图片file
+    private int type = 0;
+    private int Tag = 0;
+    private List<ImageView> imageViewList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -144,14 +146,16 @@ public class ServiceOverviewFragment extends Fragment implements View.OnClickLis
         switch (v.getId()){
             case R.id.next:
                 for (int i = 0;i<layout.getChildCount();i++){
-                    LinearLayout layoutItem = (LinearLayout)layout.getChildAt(i);// 获得子item的layout
+                    RelativeLayout layoutItem = (RelativeLayout) layout.getChildAt(i);// 获得子item的layout
                     EditText editText = (EditText)layoutItem.findViewById(R.id.content) ;
                     if (editText == null ){//图片
                         SendImgBean bean = new SendImgBean();
-                        bean.setImg_url(listImgNAME.get(i+1));
+                        ImageView view = (ImageView)layoutItem.findViewById(R.id.pic);
+                        bean.setImg_url(listImgNAME.get(view.getTag()));
                         bean.setParagraph_type("img");
                         list.add(bean);
                     }else{//文字
+                        Log.e("456",i+"********");
                         SendContentbean bean = new SendContentbean();
                         bean.setContent(editText.getText().toString());
                         bean.setParagraph_type("p");
@@ -174,29 +178,60 @@ public class ServiceOverviewFragment extends Fragment implements View.OnClickLis
                 showDialog();
                 break;
             case R.id.content:
-                addContentItem();
+                addContentItem("");
                 dialog.dismiss();
                 break;
             case R.id.pic:
-                addPicItem();
+                addPicItem("");
                 dialog.dismiss();
                 break;
         }
     }
-    private void addContentItem(){
-        View itemContent = View.inflate(getActivity(), R.layout.action_detail_content_item,null);
-        layout.addView(itemContent);
-    }
-    private void addPicItem(){
-        final View itemPic = View.inflate(getActivity(), R.layout.action_detail_pic_item,null);
-        layout.addView(itemPic);
-        LinearLayout addLayout = (LinearLayout)itemPic.findViewById(R.id.addLayout);
-        addLayout.setOnClickListener(new View.OnClickListener() {
+    private void addContentItem(String text){
+        final View itemContent = View.inflate(getActivity(), R.layout.action_detail_content_item,null);
+        final TextView delete = (TextView)itemContent.findViewById(R.id.delete);
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView = (ImageView) itemPic.findViewById(R.id.pic);
+                layout.removeView(itemContent);
+            }
+        });
+        if (text != ""){
+            EditText content = (EditText) itemContent.findViewById(R.id.content);
+            content.setText(text);
+        }
+        layout.addView(itemContent);
+    }
+    View itemPic = null;
+    private void addPicItem(final String url){
+        type = 0;
+        itemPic = View.inflate(getActivity(), R.layout.action_detail_pic_item,null);
+        final View view = itemPic;
+        imageView = (ImageView) itemPic.findViewById(R.id.pic);
+        imageView.setTag(imageViewList.size()+1);
+        final TextView delete = (TextView)view.findViewById(R.id.delete);
+        if (url != ""){
+            layout.addView(itemPic);
+            ImageLoader.getInstance().displayImage(url,imageView);
+            imageViewList.add(imageView);
+        }else{
+            AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(getActivity(), arrayString, title, onDialogClick);
+            dialog.show();
+        }
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type = 1;
+                Tag = (int)v.getTag();
+                Log.e("456",Tag+"**");
                 AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(getActivity(), arrayString, title, onDialogClick);
                 dialog.show();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.removeView(view);
             }
         });
     }
@@ -333,14 +368,33 @@ public class ServiceOverviewFragment extends Fragment implements View.OnClickLis
             if (msg.obj != null) {
                 File file = PhotoCompress.comp((Bitmap) msg.obj);
                 Bitmap bitmap= BitmapFactory.decodeFile(file.toString());
-                Drawable drawable = new BitmapDrawable(bitmap);
-                imageView.setImageDrawable(drawable);
-                String a = "图片_"+System.currentTimeMillis();
-                listImgNAME.put(layout.getChildCount(),a);
-                SendImgFileBean bean = new SendImgFileBean();
-                bean.setImgName(a);
-                bean.setFile(bitmap);
-                listImg.add(bean);
+                SendImgFileBean bean = null;
+                switch (type){
+                    case 0:
+                        layout.addView(itemPic);
+                        imageView.setImageBitmap(bitmap);
+                        imageViewList.add(imageView);
+                        String name1  = "图片_"+System.currentTimeMillis();
+                        listImgNAME.put((int) imageView.getTag(),name1);
+                        bean = new SendImgFileBean();
+                        bean.setImgName(name1);
+                        bean.setFile(bitmap);
+                        listImg.add(bean);
+                        break;
+                    case 1:
+                        for (ImageView view : imageViewList){
+                            if ((int)view.getTag() == Tag){
+                                view.setImageBitmap(bitmap);
+                                String name2  = "图片_"+System.currentTimeMillis();
+                                listImgNAME.put(Tag,name2);
+                                bean = new SendImgFileBean();
+                                bean.setImgName(name2);
+                                bean.setFile(bitmap);
+                                listImg.add(bean);
+                            }
+                        }
+                        break;
+                }
             }
         };
     };

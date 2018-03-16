@@ -308,4 +308,10 @@ public class SpotTicketOrderActivity extends BaseBackActivity implements View.On
                 break;
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserOrderInfo();
+    }
 }

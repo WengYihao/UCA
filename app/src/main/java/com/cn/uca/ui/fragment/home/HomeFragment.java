@@ -155,7 +155,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
             @Override
             public void onErrorMsg(String errorMsg) {
-                Log.i("789",errorMsg.toString()+"--");
             }
 
             @Override
