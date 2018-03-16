@@ -13,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.samecityka.CollectionAdapter;
 import com.cn.uca.bean.home.samecityka.CollectionBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.home.samecityka.ActionDetailActivity;
@@ -43,8 +44,8 @@ public class ActionFragment extends Fragment {
     private ListView listView;
     private CollectionAdapter adapter;
     private List<CollectionBean> list;
-    private int page = 1;
-    private int pageCount = 5 ;
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {

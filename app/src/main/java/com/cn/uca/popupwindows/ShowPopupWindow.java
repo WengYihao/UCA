@@ -27,6 +27,7 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.idst.nls.internal.protocol.Content;
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.ShowAdapter;
@@ -44,6 +45,7 @@ import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
+import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
@@ -55,28 +57,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ShowPopupWindow {
-
-	public static void show(Context context, List<String> list, View view,final ItemClick click){
-		View show = LayoutInflater.from(context).inflate(R.layout.show_list, null);
-		ListView listView = (ListView)show.findViewById(R.id.list);
-		ShowAdapter showAdapter = new ShowAdapter(list,context);
-		listView.setAdapter(showAdapter);
-
-		final PopupWindow popupWindow = new PopupWindow(show, MyApplication.width/4,
-				LinearLayoutCompat.LayoutParams.WRAP_CONTENT, true);
-		popupWindow.setTouchable(true);
-		popupWindow.setOutsideTouchable(true);
-		popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
-		popupWindow.showAsDropDown(view);
-
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				click.click(i);
-				popupWindow.dismiss();
-			}
-		});
-	}
 
 	/**
 	 * 升级提示
@@ -177,6 +157,21 @@ public class ShowPopupWindow {
 				dialog.dismiss();
 			}
 		});
+	}
+
+	public static void spotDetail(final Context context,final String content){
+		final Dialog dialog = new Dialog(context,R.style.dialog_style);
+		View view = LayoutInflater.from(context).inflate(R.layout.spot_detail_dialog,null);
+		TextView con = (TextView)view.findViewById(R.id.content);
+		con.setText(content);
+
+		dialog.setContentView(view);
+		Window dialogWindow = dialog.getWindow();
+		dialogWindow.setGravity(Gravity.CENTER);
+		WindowManager.LayoutParams params = dialogWindow.getAttributes();
+		params.width = MyApplication.width-SystemUtil.dip2px(36);
+		params.height = MyApplication.height*5/7  ;
+		dialog.show();//显示对话框
 	}
 	public static void dayPopupwindow(View view, Context context, final int day, final String type, final int id, String str){
 		View dayPopupwindow = LayoutInflater.from(context).inflate(R.layout.day_popupwindow,null);

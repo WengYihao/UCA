@@ -1,26 +1,44 @@
 package com.cn.uca.ui.view;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.FragmentAdapter;
+import com.cn.uca.bean.MessageNumBean;
+import com.cn.uca.config.Constant;
+import com.cn.uca.impl.CallBack;
+import com.cn.uca.server.user.UserHttp;
+import com.cn.uca.singleton.MessageNum;
 import com.cn.uca.ui.fragment.home.HomeFragment;
 import com.cn.uca.ui.fragment.user.UserFragment;
-import com.cn.uca.ui.fragment.yueka.YueKaFragment;
 import com.cn.uca.util.ActivityCollector;
 import com.cn.uca.util.AndroidWorkaround;
+import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusBarUtil;
+import com.cn.uca.util.SystemUtil;
 import com.cn.uca.view.DragPointView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.manager.IUnReadMessageObserver;
@@ -31,21 +49,17 @@ import me.leolin.shortcutbadger.ShortcutBadger;
 public class MainActivity extends FragmentActivity implements View.OnClickListener,IUnReadMessageObserver,DragPointView.OnDragListencer{
 
     private HomeFragment homeFragment;
-    private YueKaFragment yueKaFragment;
     private UserFragment userFragment;
-    public static ViewPager mPager;
+    private ViewPager mPager;
     private ArrayList<Fragment> fragmentList;
     private View homeLayout;
-    private View yuekaLayout;
     private View userLayout;
 
 
     private ImageView homeImage;
-    private ImageView yuekaImage;
     private ImageView userImage;
 
     private TextView homeText;
-    private TextView yuekaText;
     private TextView userText;
     private DragPointView mUnreadNumView;
     final Conversation.ConversationType[] conversationTypes = {
@@ -57,6 +71,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtil.immersive(this);
+
         if (AndroidWorkaround.checkDeviceHasNavigationBar(this)) {
             AndroidWorkaround.assistActivity(findViewById(android.R.id.content));
         }
@@ -66,23 +81,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         initFragment();
 
         RongIM.getInstance().addUnReadMessageCountChangedObserver(this, conversationTypes);//未读消息
-
     }
 
     /**
      * 初始化控件
      */
     private void initView() {
+        autoPermission();
         homeLayout = findViewById(R.id.home_layout);
-        yuekaLayout = findViewById(R.id.yueka_layout);
         userLayout = findViewById(R.id.user_layout);
 
         homeImage = (ImageView) findViewById(R.id.home_image);
-        yuekaImage = (ImageView)findViewById(R.id.yueka_image);
         userImage = (ImageView) findViewById(R.id.user_image);
 
         homeText = (TextView) findViewById(R.id.home_text);
-        yuekaText = (TextView)findViewById(R.id.yueka_text);
         userText = (TextView) findViewById(R.id.user_text);
 
         mUnreadNumView = (DragPointView)findViewById(R.id.seal_num) ;
@@ -90,10 +102,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         mUnreadNumView.setDragListencer(this);
 
         mPager = (ViewPager) findViewById(R.id.content);
-        mPager.setOffscreenPageLimit(3);//viewpager缓存的界面数
+        mPager.setOffscreenPageLimit(2);//viewpager缓存的界面数
         homeLayout.setOnClickListener(new MyOnClickListener(0));
-        yuekaLayout.setOnClickListener(new MyOnClickListener(1));
-        userLayout.setOnClickListener(new MyOnClickListener(2));
+        userLayout.setOnClickListener(new MyOnClickListener(1));
 
         fragmentList = new ArrayList<>();
         setTabSelection(0);//设置默认显示的界面
@@ -104,13 +115,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
      */
     private void initFragment() {
         homeFragment = new HomeFragment();
-        yueKaFragment = new YueKaFragment();
         userFragment = new UserFragment();
         fragmentList.add(homeFragment);
-        fragmentList.add(yueKaFragment);
         fragmentList.add(userFragment);
 
-        mPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(), fragmentList));
+        mPager.setAdapter(new FragmentAdapter(getSupportFragmentManager(),fragmentList));
         mPager.setCurrentItem(0);
         mPager.setOnPageChangeListener(onPageChangeListener);
 
@@ -123,13 +132,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 setTabSelection(0);
                 mPager.setCurrentItem(0);
                 break;
-            case R.id.yueka_layout:
+            case R.id.user_layout:
                 setTabSelection(1);
                 mPager.setCurrentItem(1);
-                break;
-            case R.id.user_layout:
-                setTabSelection(2);
-                mPager.setCurrentItem(2);
                 break;
         }
     }
@@ -170,7 +175,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     }
 
-    public static class MyOnClickListener implements View.OnClickListener{
+    private class MyOnClickListener implements View.OnClickListener{
         private int index = 0;
         public MyOnClickListener(int i) {
             index = i;
@@ -208,11 +213,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 homeText.setTextColor(getResources().getColor(R.color.ori));
                 break;
             case 1:
-                // 当点击了语言设置tab时，改变控件的图片和文字颜色
-                yuekaImage.setImageResource(R.mipmap.yueka_select);
-                yuekaText.setTextColor(getResources().getColor(R.color.ori));
-                break;
-            case 2:
                 userImage.setImageResource(R.mipmap.user_select);
                 userText.setTextColor(getResources().getColor(R.color.ori));
                 break;
@@ -225,9 +225,34 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private void clearSelection() {
         homeImage.setImageResource(R.mipmap.home_normal);
         homeText.setTextColor(getResources().getColor(R.color.gray2));
-        yuekaImage.setImageResource(R.mipmap.yueka_normal);
-        yuekaText.setTextColor(getResources().getColor(R.color.gray2));
         userImage.setImageResource(R.mipmap.user_normal);
         userText.setTextColor(getResources().getColor(R.color.gray2));
     }
+
+    //自动权限
+    private void autoPermission() {
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(this,
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},Constant.WRITE_PERMISSIONS_REQUEST_CODE);
+            }
+            //相机
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                    ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.CAMERA_PERMISSIONS_REQUEST_CODE);
+                }
+            }
+            //定位
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constant.WRITE_PERMISSIONS_REQUEST_CODE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

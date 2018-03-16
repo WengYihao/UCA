@@ -9,21 +9,18 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
-import com.cn.uca.alipay.AliPayUtil;
 import com.cn.uca.animate.ScaleInOutTransformer;
+import com.cn.uca.bean.MessageNumBean;
 import com.cn.uca.bean.home.CarouselFiguresBean;
 import com.cn.uca.config.BannerConfig;
 import com.cn.uca.config.Constant;
@@ -32,23 +29,23 @@ import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
 import com.cn.uca.popupwindows.ShowPopupWindow;
-import com.cn.uca.secretkey.Base64;
 import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.home.HomeHttp;
-import com.cn.uca.ui.view.MainActivity;
-import com.cn.uca.ui.view.home.hotel.HotleActivity;
+import com.cn.uca.ui.view.LocationActivity;
+import com.cn.uca.ui.view.TestActivity;
+import com.cn.uca.ui.view.home.MoreActivity;
 import com.cn.uca.ui.view.home.lvpai.LvPaiActivity;
-import com.cn.uca.ui.view.home.lvpai.MerchantManageActivity;
+import com.cn.uca.ui.view.home.samecityka.MapChoiceActivity;
 import com.cn.uca.ui.view.home.samecityka.SameCityKaActivity;
 import com.cn.uca.ui.view.home.sign.SignActivity;
-import com.cn.uca.ui.view.home.footprint.FootPrintActivity;
 import com.cn.uca.ui.view.home.planeticket.PlaneTicketActivity;
 import com.cn.uca.ui.view.home.raider.RaidersActivity;
 import com.cn.uca.ui.view.home.SearchActivity;
 import com.cn.uca.ui.view.home.travel.TourismActivity;
 import com.cn.uca.ui.view.home.yusheng.YuShengActivity;
 import com.cn.uca.ui.view.home.yusheng.YuShengDetailsActivity;
-import com.cn.uca.ui.view.util.CountyActivity;
+import com.cn.uca.ui.view.yueka.LineChoiceActivity;
+import com.cn.uca.ui.view.yueka.YuekaActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
@@ -72,7 +69,7 @@ import java.util.Map;
  * Created by asus on 2017/8/2.
  */
 
-public class HomeFragment extends Fragment implements View.OnClickListener{
+public class HomeFragment extends BaseFragment implements View.OnClickListener{
 
     private View view;
     private StickyScrollView stickyScrollView;//滑动界面
@@ -81,11 +78,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     private List<String> images=new ArrayList<>();//图片地址集合
     private int height; //透明内容高度
     private TextView backlayout,sign;
-    private LinearLayout planeTicket,hotel,tourism,oneRaiders,yusheng,footprint,samecityka,lvpai;//机票、酒店、旅游、一元攻略、余生、足迹
+    private RelativeLayout samecityka,yueka,yusheng,oneRaiders,chuxing,travel,lvpai,more;
     private TextView search_et;
     private List<CarouselFiguresBean> listPic;
     private String version,new_version;
     private String loadUrl,linkUrl;
+    private TextView home_samecityka_num,home_yueka_num,getGift;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, null);
@@ -94,9 +92,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         initView();
         getCarouselFigures();
         initListeners();
-
         return view;
     }
+
     private void  getUserState(){
         QueryHttp.getUserState(new CallBack() {
             @Override
@@ -167,40 +165,43 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
         });
     }
     private void initView(){
-//        version = "1.1.0";
         version = getVersion();
         listPic = new ArrayList<>();
         stickyScrollView = (StickyScrollView) view.findViewById(R.id.scrollView);
         banner = (Banner)view.findViewById(R.id.banner);
         llTitle = (RelativeLayout) view.findViewById(R.id.ll_good_detail);
         seachLayout = (RelativeLayout)view.findViewById(R.id.seachLayout);
-        planeTicket = (LinearLayout) view.findViewById(R.id.planeTicket);
-        hotel = (LinearLayout)view.findViewById(R.id.hotel);
-        tourism = (LinearLayout)view.findViewById(R.id.tourism);
-        samecityka = (LinearLayout)view.findViewById(R.id.samecityka);
-        lvpai = (LinearLayout)view.findViewById(R.id.lvpai);
-        oneRaiders = (LinearLayout)view.findViewById(R.id.oneRaiders);
-        yusheng = (LinearLayout)view.findViewById(R.id.yusheng);
-        footprint = (LinearLayout)view.findViewById(R.id.footprint);
+        samecityka = (RelativeLayout)view.findViewById(R.id.samecityka);
+        yueka = (RelativeLayout)view.findViewById(R.id.yueka);
+        yusheng = (RelativeLayout)view.findViewById(R.id.yusheng);
+        oneRaiders = (RelativeLayout)view.findViewById(R.id.oneRaiders);
+        chuxing = (RelativeLayout)view.findViewById(R.id.chuxing);
+        travel = (RelativeLayout)view.findViewById(R.id.travel);
+        lvpai = (RelativeLayout)view.findViewById(R.id.lvpai);
+        more = (RelativeLayout)view.findViewById(R.id.more);
+
         search_et = (TextView) view.findViewById(R.id.search_et);
         backlayout = (TextView)view.findViewById(R.id.backlayout);
         sign = (TextView)view.findViewById(R.id.sign);
-
-        planeTicket.setOnClickListener(this);
-        hotel.setOnClickListener(this);
-        tourism.setOnClickListener(this);
         samecityka.setOnClickListener(this);
-        lvpai.setOnClickListener(this);
-        oneRaiders.setOnClickListener(this);
+        yueka.setOnClickListener(this);
         yusheng.setOnClickListener(this);
-        footprint.setOnClickListener(this);
+        oneRaiders.setOnClickListener(this);
+        chuxing.setOnClickListener(this);
+        travel.setOnClickListener(this);
+        lvpai.setOnClickListener(this);
+        more.setOnClickListener(this);
         search_et.setOnClickListener(this);
         sign.setOnClickListener(this);
 
+        home_yueka_num = (TextView)view.findViewById(R.id.home_yueka_num);
+        home_samecityka_num = (TextView)view.findViewById(R.id.home_samecityka_num);
+        getGift = (TextView)view.findViewById(R.id.getGift);
+        getGift.setOnClickListener(this);
         SetLayoutParams.setRelativeLayout(banner,MyApplication.width,MyApplication.height/3);
         //简单使用
         StatusMargin.setRelativeLayout(getActivity(),llTitle);
-        StatusMargin.setRelativeLayoutTop(getActivity(),backlayout,MyApplication.height/3);
+        StatusMargin.setRelativeLayoutTop(getActivity(),backlayout,MyApplication.height/3+SystemUtil.dip2px(12));
         SetLayoutParams.setRelativeLayout(seachLayout,MyApplication.width/2,SystemUtil.dip2px(35));
     }
 
@@ -243,7 +244,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             }
         }
     };
-
     public void verifyStoragePermissions() {
         try {
             //检测是否有写的权限
@@ -259,7 +259,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             e.printStackTrace();
         }
     }
-
     /**
      * 权限回调
      * @param requestCode
@@ -269,10 +268,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.e("456","--------"+requestCode);
         switch (requestCode) {
             case Constant.WRITE_PERMISSIONS_REQUEST_CODE: {
-                Log.e("456","--------");
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     ShowPopupWindow.updateWindow(view,getActivity(),linkUrl,loadUrl);
                 }
@@ -286,40 +283,48 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
             case R.id.sign:
                 startActivity(new Intent(getActivity(), SignActivity.class));
                 break;
-            case R.id.planeTicket:
-                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
-                break;
-            case R.id.hotel:
-                startActivity(new Intent(getActivity(), HotleActivity.class));
-                break;
-            case R.id.tourism:
-                startActivity(new Intent(getActivity(), TourismActivity.class));
-                break;
-            case R.id.samecityka:
+            case R.id.samecityka://同城咖
+//                startActivity(new Intent(getActivity(), LocationActivity.class));
                  startActivity(new Intent(getActivity(), SameCityKaActivity.class));
+//                startActivity(new Intent(getActivity(), TestActivity.class));
                 break;
-            case R.id.lvpai:
-                startActivity(new Intent(getActivity(), LvPaiActivity.class));
+            case R.id.yueka://约咖
+//                startActivity(new Intent(getActivity(), LineChoiceActivity.class));
+                startActivity(new Intent(getActivity(), YuekaActivity.class));
                 break;
-            case R.id.oneRaiders:
-                startActivity(new Intent(getActivity(), RaidersActivity.class));
-                break;
-            case R.id.yusheng:
+            case R.id.yusheng://余生
+//                startActivity(new Intent(getActivity(), MapChoiceActivity.class));
                 if (SharePreferenceXutil.isOpenYS()){
                     startActivity(new Intent(getActivity(), YuShengDetailsActivity.class));
                 }else{
                     startActivity(new Intent(getActivity(),YuShengActivity.class));
                 }
                 break;
-            case R.id.footprint:
+            case R.id.oneRaiders://攻略
+                startActivity(new Intent(getActivity(), RaidersActivity.class));
+                break;
+            case R.id.chuxing://出行
+                startActivity(new Intent(getActivity(), PlaneTicketActivity.class));
+                break;
+            case R.id.travel://旅游
+                startActivity(new Intent(getActivity(), TourismActivity.class));
+                break;
+            case R.id.lvpai://旅拍
+                startActivity(new Intent(getActivity(), LvPaiActivity.class));
+                break;
+            case R.id.more://更多
                 if(SharePreferenceXutil.isSuccess()){
-                    startActivity(new Intent(getActivity(), FootPrintActivity.class));
+                    startActivity(new Intent(getActivity(), MoreActivity.class));
                 }else{
                     ToastXutil.show("请先登录");
                 }
                 break;
             case R.id.search_et:
                 startActivity(new Intent(getActivity(),SearchActivity.class));
+                break;
+            case R.id.getGift:
+                //领取礼物
+                firstRegisterGift();
                 break;
         }
     }
@@ -342,8 +347,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
      * 获取当前版本号
      * @return
      */
-    private String getVersion()
-    {
+    private String getVersion(){
         try {
             PackageManager packageManager = getActivity().getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(getActivity().getPackageName(), 0);
@@ -369,19 +373,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                             for (int i = 0;i<listPic.size();i++){
                                 images.add(listPic.get(i).getPicture_url());
                             }
-                            banner.setImages(images)
-                                    .setImageLoader(new GlideImageLoader())
-                                    .setOnBannerListener(new OnBannerListener() {
-                                        @Override
-                                        public void OnBannerClick(int position) {
-                                            if (position == 0){
-                                                MainActivity.mPager.setCurrentItem(1);
+                            try{
+                                banner.setImages(images)
+                                        .setImageLoader(new GlideImageLoader())
+                                        .setOnBannerListener(new OnBannerListener() {
+                                            @Override
+                                            public void OnBannerClick(int position) {
+                                                try{
+                                                    JSONObject jsonObject1 = new JSONObject(listPic.get(position).getFunction());
+                                                    switch (jsonObject1.getString("appPageType")){
+                                                        case "YUEKA":
+                                                            startActivity(new Intent(getActivity(),YuekaActivity.class));
+                                                            break;
+                                                    }
+                                                }catch (Exception e){
+                                                    Log.e("456",e.getMessage());
+                                                }
+
                                             }
-                                        }
-                                    })
-                                    .setBannerAnimation(ScaleInOutTransformer.class)//翻转动画
-                                    .start();
-                            banner.updateBannerStyle(BannerConfig.NOT_INDICATOR);
+                                        })
+                                        .setBannerAnimation(ScaleInOutTransformer.class)//翻转动画
+                                        .start();
+                                banner.updateBannerStyle(BannerConfig.NOT_INDICATOR);
+                            }catch (Exception e){
+
+                            }
+
                             break;
                     }
                 }catch (Exception e){
@@ -424,6 +441,77 @@ public class HomeFragment extends Fragment implements View.OnClickListener{
                 //注意要移除
                 llTitle.getViewTreeObserver()
                         .removeGlobalOnLayoutListener(this);
+            }
+        });
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            if (view != null){
+                setPoint();
+            }
+        }
+    }
+
+
+    private void setPoint(){
+        Log.e("456",SystemUtil.getCurrentDate()+"-----");
+        Log.e("456",MessageNumBean.getInstens().toString()+"-----");
+        if (MessageNumBean.getInstens().getE_purchase() != 0 ||
+                MessageNumBean.getInstens().getE_payment() != 0||
+                MessageNumBean.getInstens().getE_agree_back() != 0 ||
+                MessageNumBean.getInstens().getE_disagree_back() != 0 ||
+                MessageNumBean.getInstens().getE_back_request() != 0 ||
+                MessageNumBean.getInstens().getE_settlement() != 0 ||
+                MessageNumBean.getInstens().getEu_agree_back() != 0 ||
+                MessageNumBean.getInstens().getEu_agree_purchase() != 0 ||
+                MessageNumBean.getInstens().getEu_disagree_back() != 0 ||
+                MessageNumBean.getInstens().getEu_disagree_purchase() != 0 ||
+                MessageNumBean.getInstens().getEu_back_request() != 0){
+            home_yueka_num.setVisibility(View.VISIBLE);
+        }else{
+            home_yueka_num.setVisibility(View.GONE);
+        }
+        if (MessageNumBean.getInstens().getCc_refund_ticket_examine() != 0 ||
+                MessageNumBean.getInstens().getCc_settlement() != 0 ||
+                MessageNumBean.getInstens().getCc_sign_examine() != 0){
+            home_samecityka_num.setVisibility(View.VISIBLE);
+        }else{
+            home_samecityka_num.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setPoint();
+    }
+
+    private void firstRegisterGift(){
+        Map<String,Object> map = new HashMap<>();
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token",account_token);
+        String sign = SignUtil.sign(map);
+        HomeHttp.firstRegisterGift(sign, time_stamp, account_token, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                if ((int) response == 0){
+                    ToastXutil.show("领取成功");
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+                ToastXutil.show(errorMsg);
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
             }
         });
     }

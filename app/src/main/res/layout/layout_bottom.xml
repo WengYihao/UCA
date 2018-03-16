@@ -51,6 +51,13 @@
                 android:text="我的活动"
                 android:textColor="@color/grey3"
                 android:textSize="@dimen/text_14"/>
+            <TextView
+                android:id="@+id/home_samecityka_num"
+                android:layout_width="@dimen/padding_8"
+                android:layout_height="@dimen/padding_8"
+                android:background="@drawable/circular_red_background"
+                android:layout_toRightOf="@id/tab_text2"
+                android:layout_marginTop="@dimen/padding_10"/>
         </RelativeLayout>
     </LinearLayout>
 

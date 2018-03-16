@@ -12,7 +12,6 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
 /**
  *         用法： DBHelper dbHelper = new DBHelper(this);
  *         dbHelper.createDataBase(); SQLiteDatabase db =

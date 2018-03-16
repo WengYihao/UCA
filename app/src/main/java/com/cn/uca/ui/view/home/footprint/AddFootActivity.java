@@ -381,6 +381,7 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                                         try {
                                             JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
                                             int code = jsonObject.getInt("code");
+                                            Log.e("456",jsonObject.toString());
                                             switch (code){
                                                 case 0:
                                                     ToastXutil.show("添加成功");
@@ -526,6 +527,7 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                 if (bais != null){
                    file = PhotoCompress.comp(bais);
                 }
+
                 HomeHttp.addFootprintWorld(sign, time_stamp, account_token, codeCity, travelTime, travelContent, file, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int i, Header[] headers, byte[] bytes) {
@@ -533,7 +535,7 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                         if (i == 200){
                             try {
                                 JSONObject jsonObject = new JSONObject(new String(bytes,"UTF-8"));
-                                Log.i("123",jsonObject.toString());
+                                Log.e("456",jsonObject.toString());
                                 int code = jsonObject.getInt("code");
                                 switch (code){
                                     case 0:
@@ -542,6 +544,9 @@ public class AddFootActivity extends BaseHideActivity implements View.OnClickLis
                                         intent.putExtra("code",codeCity);
                                         setResult(0,intent);
                                         AddFootActivity.this.finish();
+                                        break;
+                                    default:
+                                        ToastXutil.show("添加失败");
                                         break;
                                 }
                             }catch (Exception e){

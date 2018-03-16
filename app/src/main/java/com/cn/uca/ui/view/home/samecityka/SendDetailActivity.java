@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
@@ -101,7 +102,7 @@ public class SendDetailActivity extends BaseBackActivity implements View.OnClick
                break;
            case R.id.finish:
                for (int i = 0;i<layout.getChildCount();i++){
-                   LinearLayout layoutItem = (LinearLayout)layout.getChildAt(i);// 获得子item的layout
+                   RelativeLayout layoutItem = (RelativeLayout) layout.getChildAt(i);// 获得子item的layout
                    EditText editText = (EditText)layoutItem.findViewById(R.id.content) ;
                    if (editText == null ){
                        SendImgBean bean = new SendImgBean();
@@ -303,7 +304,7 @@ public class SendDetailActivity extends BaseBackActivity implements View.OnClick
                 Bitmap bitmap= BitmapFactory.decodeFile(file.toString());
                 Drawable drawable = new BitmapDrawable(bitmap);
                 imageView.setImageDrawable(drawable);
-                String a = "图片_"+System.currentTimeMillis();
+                String a  = "图片_"+System.currentTimeMillis();
                 listImgNAME.put(layout.getChildCount(),a);
                 SendImgFileBean bean = new SendImgFileBean();
                 bean.setImgName(a);

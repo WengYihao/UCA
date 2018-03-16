@@ -65,7 +65,7 @@ public class PhotoItemAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Uri uri = Uri.parse(MyConfig.photo+list.get(position).getPicture_url());
+        Uri uri = Uri.parse(list.get(position).getPicture_url()+MyConfig.corpPhoto);
         holder.pic.setImageURI(uri);
         SetLayoutParams.setLinearLayout(holder.pic, (MyApplication.width- SystemUtil.dip2px(26))/3,(MyApplication.width- SystemUtil.dip2px(26))/3);
         return convertView;

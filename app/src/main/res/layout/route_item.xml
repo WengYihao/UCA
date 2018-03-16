@@ -28,15 +28,7 @@
             android:text="我"
             android:textColor="@color/grey"
             android:gravity="center"/>
-        <TextView
-            android:id="@+id/trueLine"
-            android:layout_width="@dimen/padding_20"
-            android:layout_height="@dimen/padding_20"
-            android:layout_toRightOf="@id/lineName"
-            android:layout_centerVertical="true"
-            android:background="@mipmap/commit_back"
-            android:layout_marginLeft="@dimen/padding_15"
-            android:visibility="gone"/>
+
         <TextView
             android:id="@+id/editLine"
             android:layout_width="wrap_content"
@@ -48,13 +40,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.cn.uca.view.MyListView
+        <com.cn.uca.view.NoScrollListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/padding_10"
             android:layout_marginLeft="@dimen/padding_10"
             android:layout_marginRight="@dimen/padding_10">
-        </com.cn.uca.view.MyListView>
+        </com.cn.uca.view.NoScrollListView>
     </LinearLayout>
 </LinearLayout>

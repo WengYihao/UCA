@@ -18,6 +18,7 @@ import com.cn.uca.bean.home.raider.RaidersUtilBean;
 import com.cn.uca.bean.home.raider.RaidersSenicSpotBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.raider.FindWayImpl;
+import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.ui.view.home.raider.SpotDetailActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SystemUtil;
@@ -105,12 +106,13 @@ public class InfoWinAdapter implements AMap.InfoWindowAdapter{
             @Override
             public void onClick(View view) {
 //                ToastXutil.show("请求集合"+bean.getOrder());
-                Intent intent = new Intent();
-                intent.setClass(context, SpotDetailActivity.class);
-                intent.putExtra("content",bean.getIntroduce());
-                Log.i("123",bean.getIntroduce());
-                intent.putExtra("name",bean.getScenic_spot_name());
-                context.startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.setClass(context, SpotDetailActivity.class);
+//                intent.putExtra("content",bean.getIntroduce());
+//                Log.i("123",bean.getIntroduce());
+//                intent.putExtra("name",bean.getScenic_spot_name());
+//                context.startActivity(intent);
+                ShowPopupWindow.spotDetail(context,bean.getIntroduce());
             }
         });
     }

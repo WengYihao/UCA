@@ -1,22 +1,26 @@
 package com.cn.uca.ui.view.user;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.user.WalletDetailAdapter;
 import com.cn.uca.bean.user.WalletDetailBean;
+import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
-import com.cn.uca.util.ToastXutil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -28,10 +32,14 @@ public class WalletDetailActivity extends BaseBackActivity implements View.OnCli
 
     private TextView back;
     private ListView listView;
-    private int page = 1;
-    private int pageCount = 10;
+    private int count = 0;
+    private int page = Constant.PAGE;
+    private int pageCount = Constant.PAGE_COUNT;
     private List<WalletDetailBean> list;
     private WalletDetailAdapter adapter;
+    private RefreshLayout refreshLayout;
+    private LinearLayout layout;
+    private RelativeLayout no_layout;//没有数据布局
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +47,49 @@ public class WalletDetailActivity extends BaseBackActivity implements View.OnCli
         setContentView(R.layout.activity_wallet_detail);
 
         initView();
-        getPusrsRecord();
     }
 
     private void initView() {
         list = new ArrayList<>();
+        refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
         back = (TextView)findViewById(R.id.back);
         listView = (ListView)findViewById(R.id.listView);
+        layout = (LinearLayout)findViewById(R.id.layout);
+        no_layout = (RelativeLayout)findViewById(R.id.no_layout);
+        back.setOnClickListener(this);
         back.setOnClickListener(this);
 
         adapter = new WalletDetailAdapter(list,this);
         listView.setAdapter(adapter);
+
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(final RefreshLayout refreshlayout) {
+                refreshlayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        count = 0;
+                        getPusrsRecord(1,page,pageCount);
+                        refreshlayout.finishRefresh();
+                        refreshlayout.setLoadmoreFinished(false);
+                    }
+                }, 200);
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(final RefreshLayout refreshlayout) {
+                refreshlayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        count++;
+                        getPusrsRecord(2,count+page,pageCount);
+                        refreshlayout.finishLoadmore();
+                    }
+                }, 200);
+            }
+        });
+        refreshLayout.autoRefresh();
     }
 
     @Override
@@ -61,7 +101,7 @@ public class WalletDetailActivity extends BaseBackActivity implements View.OnCli
         }
     }
 
-    private void getPusrsRecord(){
+    private void getPusrsRecord(final int type,int page,int pageCount){
         String token = SharePreferenceXutil.getAccountToken();
         UserHttp.getPurseRecords(token, page, pageCount, "", new CallBack() {
             @Override
@@ -73,18 +113,27 @@ public class WalletDetailActivity extends BaseBackActivity implements View.OnCli
                         case 0:
                             Gson gson = new Gson();
                             JSONArray array = jsonObject.getJSONObject("data").getJSONArray("purseRecordDatas");
-                            List<WalletDetailBean> been  = gson.fromJson(array.toString(),new TypeToken<List<WalletDetailBean>>(){
+                            List<WalletDetailBean> bean  = gson.fromJson(array.toString(),new TypeToken<List<WalletDetailBean>>(){
                             }.getType());
-                            if (been.size() > 0){
-                                list.clear();
-                                list.addAll(been);
-                                adapter.setList(list);
-                            }else{
-                                if (list.size() != 0){
-                                    ToastXutil.show("没有更多数据了");
-                                }else{
-                                    adapter.setList(list);
-                                }
+                            switch (type){
+                                case 1://刷新
+                                    if (bean.size() > 0){
+                                        layout.setVisibility(View.VISIBLE);
+                                        no_layout.setVisibility(View.GONE);
+                                        list.clear();
+                                        list.addAll(bean);
+                                        adapter.setList(list);
+                                    }else{
+                                        layout.setVisibility(View.GONE);
+                                        no_layout.setVisibility(View.VISIBLE);
+                                    }
+                                    break;
+                                case 2://加载
+                                    if (bean.size() > 0){
+                                        list.addAll(bean);
+                                        adapter.setList(list);
+                                    }
+                                    break;
                             }
                             break;
                     }

@@ -35,7 +35,9 @@ import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.server.QueryHttp;
 import com.cn.uca.server.user.UserHttp;
+import com.cn.uca.ui.fragment.home.BaseFragment;
 import com.cn.uca.ui.view.LoginActivity;
 import com.cn.uca.ui.view.user.CollectionActivity;
 import com.cn.uca.ui.view.user.InformationActivity;
@@ -81,7 +83,7 @@ import io.rong.imlib.model.Conversation;
  * Created by asus on 2017/8/2.
  */
 
-public class UserFragment extends Fragment implements View.OnClickListener{
+public class UserFragment extends BaseFragment implements View.OnClickListener{
 
     private View view;
     private CircleImageView pic;
@@ -100,9 +102,11 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             Conversation.ConversationType.PRIVATE,
             Conversation.ConversationType.SYSTEM,
     };
+
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_user, null);
+
         initView();
         getUserInfo();
         return view;
@@ -419,17 +423,82 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            //刷新数据
-//            if (!SharePreferenceXutil.isSuccess()){
-//                loginLayout.setVisibility(View.VISIBLE);
-//                userInfo.setVisibility(View.GONE);
-//            }else{
-//                loginLayout.setVisibility(View.GONE);
-//                userInfo.setVisibility(View.VISIBLE);
-//            }
+            getUserState();
+            initView();
         }
     }
+    private void  getUserState(){
+        QueryHttp.getUserState(new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            JSONObject object = jsonObject.getJSONObject("data");
+                            int bind_identity_state_id = object.getInt("bind_identity_state_id");
+                            if (bind_identity_state_id == 1){
+                                SharePreferenceXutil.setAuthentication(true);
+                            }else{
+                                SharePreferenceXutil.setAuthentication(false);
+                            }
+                            int open_life_id = object.getInt("open_life_id");
+                            if (open_life_id == 1){
+                                SharePreferenceXutil.setOpenYS(true);
+                            }else{
+                                SharePreferenceXutil.setOpenYS(false);
+                            }
+                            int orders_state_id = object.getInt("open_orders_state_id");
+                            if (orders_state_id == 1){
+                                SharePreferenceXutil.setLingKa(true);
+                            }else{
+                                SharePreferenceXutil.setLingKa(false);
+                            }
+                            SharePreferenceXutil.setClock(object.getBoolean("clock"));
+                            SharePreferenceXutil.setEnter(object.getBoolean("owners"));
+                            int weixin_state_id = object.getInt("bind_weixin_state_id");
+                            if (weixin_state_id == 1){
+                                SharePreferenceXutil.setBindWeCaht(true);
+                            }else{
+                                SharePreferenceXutil.setBindWeCaht(false);
+                            }
+                            int zhifubao_state_id = object.getInt("bind_zhifubao_state_id");
+                            if (zhifubao_state_id == 1){
+                                SharePreferenceXutil.setBindPay(true);
+                            }else{
+                                SharePreferenceXutil.setBindPay(false);
+                            }
+                            break;
+                        case 17:
+                            ToastXutil.show("登录已过期，请重新登录！");
+                            SharePreferenceXutil.setExit(true);
+                            SharePreferenceXutil.setSuccess(false);
+                            SharePreferenceXutil.saveAccountToken("");
+                            SharePreferenceXutil.saveAccessToken("");
+                            SharePreferenceXutil.setOpenYS(false);
+                            SharePreferenceXutil.setAuthentication(false);
+                            pic.setImageResource(R.mipmap.user_pic);
+                            loginLayout.setVisibility(View.VISIBLE);
+                            userInfo.setVisibility(View.GONE);
+                            break;
+                    }
+                }catch (Exception e){
+                    Log.i("123",e.getMessage());
+                }
+            }
 
+            @Override
+            public void onErrorMsg(String errorMsg) {
+                Log.i("789",errorMsg.toString()+"--");
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
     /**
      * 自动获取相机权限
      */

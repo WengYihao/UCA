@@ -1,14 +1,21 @@
 package com.cn.uca.server;
 
 import android.telecom.Call;
+import android.util.Log;
 
+import com.android.volley.VolleyError;
 import com.cn.uca.bean.user.RegisterBean;
 import com.cn.uca.bean.wechat.WeChatLogin;
 import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.config.base.BaseServer;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.server.user.UserHttp;
+import com.cn.uca.server.yueka.YueKaHttp;
 import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.SignUtil;
+import com.cn.uca.util.SystemUtil;
+import com.cn.uca.util.ToastXutil;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -188,6 +195,5 @@ public class QueryHttp extends BaseServer{
         map.put("time_stamp",time_stamp);
         post5(MyConfig.userLogin,map,callBack);
     }
-
 
 }

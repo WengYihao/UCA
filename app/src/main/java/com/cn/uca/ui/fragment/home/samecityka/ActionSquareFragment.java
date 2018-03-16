@@ -1,8 +1,13 @@
 package com.cn.uca.ui.fragment.home.samecityka;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +48,9 @@ import com.cn.uca.view.ObservableScrollView;
 import com.cn.uca.view.datepicker.DoubleDatePickDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -62,7 +70,7 @@ import java.util.Map;
 public class ActionSquareFragment extends Fragment implements AMapLocationListener,View.OnClickListener,OnDoubleSureLisener{
 
     private View view;
-    private TextView back,place,search,num1,num2,num3,num4,num5,num6,type,time,price;
+    private TextView back,place,search,num1,num2,num3,num4,num5,num6,type,time,price,type1,time1,price1;
     private ObservableScrollView scrollView;
     private NoScrollListView listView;
     private LinearLayout locationLayout,layout_1,layout_2;
@@ -79,21 +87,24 @@ public class ActionSquareFragment extends Fragment implements AMapLocationListen
     //声明mListener对象，定位监听器
     //标识，用于判断是否只显示一次定位信息和用户重新定位
     private boolean isFirstLoc = true;
-    public static String city,cityCode;
+    public static String city;
+    public static String cityCode = "";
     private int actionTypeId = 2;
+    private RefreshLayout refreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_action_square,null);
 
-        location();
         initView();
+        autoObtainLocationPermission();
         getCafeLabel();
 
         return view;
     }
 
     private void initView() {
+        refreshLayout = (RefreshLayout)view.findViewById(R.id.refreshLayout);
         back = (TextView)view.findViewById(R.id.back);
         place = (TextView)view.findViewById(R.id.place);
         search = (TextView)view.findViewById(R.id.search);
@@ -101,6 +112,9 @@ public class ActionSquareFragment extends Fragment implements AMapLocationListen
         type = (TextView)view.findViewById(R.id.type);
         time = (TextView)view.findViewById(R.id.time);
         price = (TextView)view.findViewById(R.id.price);
+        type1 = (TextView)view.findViewById(R.id.type1);
+        time1 = (TextView)view.findViewById(R.id.time1);
+        price1 = (TextView)view.findViewById(R.id.price1);
         locationLayout = (LinearLayout)view.findViewById(R.id.locationLayout);
         layout_1 = (LinearLayout)view.findViewById(R.id.layout_1);
         layout_2 = (LinearLayout)view.findViewById(R.id.layout_2);
@@ -168,6 +182,34 @@ public class ActionSquareFragment extends Fragment implements AMapLocationListen
                 startActivity(intent);
             }
         });
+
+        refreshLayout.setEnableAutoLoadmore(true);//开启自动加载功能（非必须）
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(final RefreshLayout refreshlayout) {
+                refreshlayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getCityCafe(actionTypeId,"","","","");
+                        refreshlayout.finishRefresh();
+                        refreshlayout.setLoadmoreFinished(false);
+                    }
+                }, 2000);
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(final RefreshLayout refreshlayout) {
+                refreshlayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshlayout.finishLoadmore();
+                    }
+                }, 2000);
+            }
+        });
+        //触发自动刷新
+        refreshLayout.autoRefresh();
     }
 
     @Override
@@ -198,6 +240,25 @@ public class ActionSquareFragment extends Fragment implements AMapLocationListen
                 showDatePickDialog(DateType.TYPE_YMD);
                 break;
             case R.id.price:
+                new SameCityKaSearchPopupWindow(getActivity(), price, new SearchCallBack() {
+                    @Override
+                    public void onCallBack(int sexId, String begAge, String endAge, String lable) {
+
+                    }
+                });
+                break;
+            case R.id.type1:
+                new SameCityKaSearchPopupWindow2(getActivity(), type, listLable, new SearchCallBack() {
+                    @Override
+                    public void onCallBack(int sexId, String begAge, String endAge, String lable) {
+
+                    }
+                });
+                break;
+            case R.id.time1:
+                showDatePickDialog(DateType.TYPE_YMD);
+                break;
+            case R.id.price1:
                 new SameCityKaSearchPopupWindow(getActivity(), price, new SearchCallBack() {
                     @Override
                     public void onCallBack(int sexId, String begAge, String endAge, String lable) {
@@ -369,6 +430,15 @@ public class ActionSquareFragment extends Fragment implements AMapLocationListen
 
     }
 
+    //自动获取定位权限
+    private void autoObtainLocationPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActionSquareFragment.this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constant.WRITE_PERMISSIONS_REQUEST_CODE);
+            place.setText("暂无定位");
+        }else{
+            location();
+        }
+    }
     private  void location() {
         //初始化定位
         mLocationClient = new AMapLocationClient(getActivity());
@@ -405,7 +475,6 @@ public class ActionSquareFragment extends Fragment implements AMapLocationListen
                 if (isFirstLoc){
                     city = aMapLocation.getCity().substring(0,aMapLocation.getCity().indexOf("市"));
                     cityCode = aMapLocation.getCityCode();
-                    getCityCafe(2,"","","","");
                     place.setText(city);
                     isFirstLoc = false;
                 }
@@ -425,6 +494,22 @@ public class ActionSquareFragment extends Fragment implements AMapLocationListen
                 cityCode = data.getStringExtra("code");
                 getCityCafe(actionTypeId,"","","","");
                 place.setText(data.getStringExtra("city"));
+            }
+        }
+    }
+    /**
+     * 权限回调
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case Constant.WRITE_PERMISSIONS_REQUEST_CODE: {//定位权限回调
+                location();
+                break;
             }
         }
     }

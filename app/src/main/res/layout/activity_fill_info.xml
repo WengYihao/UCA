@@ -27,16 +27,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/gray">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/gray">
+                android:orientation="vertical">
                 <com.cn.uca.view.NoScrollListView
                     android:id="@+id/listView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></com.cn.uca.view.NoScrollListView>
+                    android:layout_height="wrap_content"
+                    android:divider="@color/transparent"></com.cn.uca.view.NoScrollListView>
                 <TextView
                     android:id="@+id/submit"
                     android:layout_width="match_parent"

@@ -20,16 +20,6 @@
             android:id="@+id/title"
             style="@style/style_title"
             android:text="@string/my_collection"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/my_collection_btn_text"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_16"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding_10"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -49,19 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="@dimen/padding_15"
+                android:padding="@dimen/padding_12"
                 android:text="@string/my_collection_title01_text"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_16" />
-
-            <TextView
-                android:id="@+id/title02"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="@dimen/padding_15"
-                android:text="@string/my_collection_title02_text"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16" />
 
@@ -71,15 +50,32 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="@dimen/padding_15"
+                android:padding="@dimen/padding_12"
                 android:text="@string/my_collection_title03_text"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16" />
         </LinearLayout>
     </LinearLayout>
-    <ListView
-        android:id="@+id/listView"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </ListView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/no_data_pic"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="暂无数据"
+                android:layout_below="@id/pic"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/padding_10"/>
+        </RelativeLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </com.cn.uca.view.StatusView>

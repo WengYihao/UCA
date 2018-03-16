@@ -62,6 +62,22 @@ public class SpotNameAdapter extends BaseAdapter {
         holder = new ViewHolder();
         holder.item = (TextView) convertView.findViewById(R.id.item);
         holder.start = (TextView) convertView.findViewById(R.id.start);
+        switch (list.get(position).getState()){
+            case 1:
+                holder.start.setBackgroundResource(R.drawable.circular_ori_background);
+                holder.start.setTextColor(context.getResources().getColor(R.color.white));
+                break;
+            case 2:
+                holder.start.setText("终");
+                holder.start.setBackgroundResource(R.drawable.circular_white_background);
+                holder.start.setTextColor(context.getResources().getColor(R.color.grey2));
+                break;
+            case 3:
+                holder.start.setText("终");
+                holder.start.setBackgroundResource(R.drawable.circular_ori_background);
+                holder.start.setTextColor(context.getResources().getColor(R.color.white));
+                break;
+        }
         holder.start.setTag(position);
         holder.start.setOnClickListener(new View.OnClickListener() {
             @Override

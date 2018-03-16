@@ -3,6 +3,8 @@
 
     <!-- 圆角 -->
     <corners
+        android:topLeftRadius="@dimen/padding_10"
+        android:topRightRadius="@dimen/padding_10"
         android:bottomLeftRadius="10dp"
         android:bottomRightRadius="10dp"/> <!-- 设置四个角的半径 -->
     <solid

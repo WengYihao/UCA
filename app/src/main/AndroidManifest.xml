@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cn.uca">
 
-    <!-- Required -->
-    <permission
-        android:name="com.cn.uca.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature" />
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="23" />
     <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -17,27 +16,19 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <!-- Required -->
     <uses-permission android:name="com.cn.uca.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
-    <!-- Optional. Required for location feature -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_LOGS" />
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -50,7 +41,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon, android:theme">
+        tools:replace="android:icon, android:theme,android:allowBackup">
+
+        <!-- 6.0以上的调用相机 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.cn.uca.fileprovider"
@@ -63,116 +56,11 @@
         <!-- 高德 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="89b9110c5c5aed54d4994691d3ed0d4b" />
+            android:value="dd4e0ab8726f63845467a961c53a5095" />
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
-
-        <!-- 极光推送 -->
-        <!-- Rich push 核心功能 since 2.0.6 -->
-        <activity
-            android:name="cn.jpush.android.ui.PopWinActivity"
-            android:exported="false"
-            android:theme="@style/MyDialogStyle" />
-
-        <!-- Required SDK核心功能 -->
-        <activity
-            android:name="cn.jpush.android.ui.PushActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:exported="false"
-            android:theme="@android:style/Theme.NoTitleBar">
-            <intent-filter>
-                <action android:name="cn.jpush.android.ui.PushActivity" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="com.cn.uca" />
-            </intent-filter>
-        </activity>
-        <!-- Required  SDK核心功能 -->
-        <service
-            android:name="cn.jpush.android.service.DownloadService"
-            android:enabled="true"
-            android:exported="false" />
-
-        <!-- Required SDK 核心功能 -->
-        <!-- 可配置android:process参数将PushService放在其他进程中 -->
-        <service
-            android:name="cn.jpush.android.service.PushService"
-            android:process=":mult">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTER" />
-                <action android:name="cn.jpush.android.intent.REPORT" />
-                <action android:name="cn.jpush.android.intent.PushService" />
-                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
-            </intent-filter>
-        </service>
-
-        <!-- since 1.8.0 option 可选项。用于同一设备中不同应用的JPush服务相互拉起的功能。 -->
-        <!-- 若不启用该功能可删除该组件，将不拉起其他应用也不能被其他应用拉起 -->
-        <service
-            android:name="cn.jpush.android.service.DaemonService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.DaemonService" />
-
-                <category android:name="com.cn.uca" />
-            </intent-filter>
-        </service>
-        <!-- Required SDK核心功能 -->
-        <receiver
-            android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true">
-            <intent-filter android:priority="1000">
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
-                <!-- Required  显示通知栏 -->
-                <category android:name="com.cn.uca" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-            <!-- Optional -->
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
-
-        <!-- Required SDK核心功能 -->
-        <receiver
-            android:name="cn.jpush.android.service.AlarmReceiver"
-            android:exported="false" />
-
-        <!-- User defined.  For test only  用户自定义的广播接收器 -->
-        <receiver
-            android:name=".jpush.MyReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="cn.jpush.android.intent.REGISTRATION" />
-                <!-- Required  用户注册SDK的intent -->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
-                <!-- Required  用户接收SDK消息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
-                <!-- Required  用户接收SDK通知栏信息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
-                <!-- Required  用户打开自定义通知栏的intent -->
-                <action android:name="cn.jpush.android.intent.CONNECTION" />
-                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="com.cn.uca" />
-            </intent-filter>
-        </receiver>
-        <!-- Required  . Enable it you can get statistics data with channel -->
+        <!-- 更新下载 -->
         <service android:name=".receiver.UpdateService" />
-
-        <meta-data
-            android:name="JPUSH_CHANNEL"
-            android:value="developer-default" />
-        <meta-data
-            android:name="JPUSH_APPKEY"
-            android:value="541edc96fd6fdb5066972eb3" />
 
         <activity
             android:name=".ui.view.MainActivity"
@@ -280,7 +168,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.view.yueka.SendYueKaActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".ui.view.yueka.OtherYueActivity"
             android:screenOrientation="portrait" />
@@ -342,20 +231,43 @@
         <activity
             android:name=".ui.view.home.travel.ParentingActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.view.home.raider.SpotDetailActivity" />
-        <activity android:name=".ui.view.home.raider.CityRaiderDetailActivity" />
-        <activity android:name=".ui.view.home.sign.SignActivity" />
-        <activity android:name=".ui.view.user.WalletDetailActivity" />
-        <activity android:name=".ui.view.home.sign.IntegralRecordActivity" />
-        <activity android:name=".ui.view.home.sign.IntegralExchangeActivity" />
-        <activity android:name=".ui.view.user.BackOrderActivity" />
-        <activity android:name=".ui.view.yueka.ConfirmOrderActivity" />
-        <activity android:name=".ui.view.home.raider.RaiderCollectionActivity" />
-        <activity android:name=".ui.view.user.BackOrderApplyActivity" />
-        <activity android:name=".ui.view.user.message.MessageActivity" />
+        <activity
+            android:name=".ui.view.home.raider.SpotDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.raider.CityRaiderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.sign.SignActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.WalletDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.sign.IntegralRecordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.sign.IntegralExchangeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.BackOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.yueka.ConfirmOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.raider.RaiderCollectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.BackOrderApplyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.message.MessageActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.view.rongim.ConversationActivity"
             android:fitsSystemWindows="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
@@ -382,7 +294,7 @@
 
                 <data
                     android:host="com.cn.uca"
-                    android:pathPrefix="/push_message"
+                    android:path="/conversationlist"
                     android:scheme="rong" />
             </intent-filter>
         </activity>
@@ -474,51 +386,132 @@
         <activity
             android:name=".ui.view.home.samecityka.SendActionActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".ui.view.home.samecityka.ActionSearchActivity" />
-        <activity android:name=".ui.view.home.samecityka.ActionDetailActivity" />
-        <activity android:name=".ui.view.home.samecityka.InitiatorInfoActivity" />
-        <activity android:name=".ui.view.home.samecityka.CardManageActivity" />
-        <activity android:name=".ui.view.home.samecityka.CardEditActivity" />
-        <activity android:name=".ui.view.home.samecityka.MyTicketActivity" />
-        <activity android:name=".ui.view.home.samecityka.MyFollowActivity" />
-        <activity android:name=".ui.view.home.samecityka.MyActionActivity" />
-        <activity android:name=".ui.view.home.samecityka.ExamineActivity" />
-        <activity android:name=".ui.view.home.samecityka.SettlementActivity" />
-        <activity android:name=".ui.view.home.samecityka.MapChoiceActivity" />
-        <activity android:name=".ui.view.home.samecityka.SearchResultActivity" />
-        <activity android:name=".ui.view.home.samecityka.CardChoiceActivity" />
+        <activity
+            android:name=".ui.view.home.samecityka.ActionSearchActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.view.home.samecityka.ActionDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.InitiatorInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.CardManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.CardEditActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.MyTicketActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.MyFollowActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.MyActionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.ExamineActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.SettlementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.MapChoiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.SearchResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.CardChoiceActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.view.home.samecityka.EnListActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".ui.view.home.samecityka.SendDetailActivity" />
-        <activity android:name=".ui.view.home.samecityka.FillInfoActivity" />
-        <activity android:name=".ui.view.home.samecityka.TicketCodeActivity" />
-        <activity android:name=".ui.view.home.lvpai.LvPaiActivity" />
-        <activity android:name=".ui.view.home.lvpai.MerchantDetailActivity" />
-        <activity android:name=".ui.view.home.lvpai.CommodityDetailActivity" />
-        <activity android:name=".ui.view.home.lvpai.MerchantEntryActivity" />
-        <activity android:name=".ui.view.home.lvpai.MerchantInfoActivity" />
-        <activity android:name=".ui.view.home.lvpai.MerchantManageActivity" />
-        <activity android:name=".ui.view.home.lvpai.MerchantAlbumActivity" />
-        <activity android:name=".ui.view.home.lvpai.MerchantAddressActivity" />
-        <activity android:name=".ui.view.home.lvpai.MerchantCommodityActivity" />
-        <activity android:name=".ui.view.home.lvpai.MerchantTeamActivity" />
-        <activity android:name=".ui.view.home.lvpai.MerchantOrderActivity" />
-        <activity android:name=".ui.view.home.lvpai.AddMerchantActivity" />
-        <activity android:name=".ui.view.home.lvpai.DatePickerActivity" />
-        <activity android:name=".ui.view.home.lvpai.LvPaiDetailActivity" />
-        <activity android:name=".ui.view.util.CountyActivity" />
-        <activity android:name=".ui.view.util.PhotoPickerActivity" />
-        <activity android:name=".ui.view.util.PreviewPhotoActivity" />
-        <activity android:name=".ui.view.home.lvpai.LookPhotoActivity" />
-        <activity android:name=".ui.view.home.lvpai.DateChoiceActivity" />
-        <activity android:name=".ui.view.home.lvpai.AddTeamActivity" />
-        <activity android:name=".ui.view.home.lvpai.PhotoManageActivity" />
+        <activity
+            android:name=".ui.view.home.samecityka.SendDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.FillInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.TicketCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.LvPaiActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.view.home.lvpai.MerchantDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.CommodityDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.MerchantEntryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.MerchantInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.MerchantManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.MerchantAlbumActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.MerchantAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.MerchantCommodityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.MerchantTeamActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.MerchantOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.AddMerchantActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.DatePickerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.LvPaiDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.util.CountyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.util.PhotoPickerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.util.PreviewPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.LookPhotoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.DateChoiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.AddTeamActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.PhotoManageActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".zxing.CaptureActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.view.home.samecityka.ActionManageActivity" />
-        <activity android:name=".ui.view.home.samecityka.TicketManageActivity" />
+        <activity
+            android:name=".ui.view.home.samecityka.ActionManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.samecityka.TicketManageActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
@@ -536,33 +529,101 @@
             android:name=".ui.view.user.WalletPasswordActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name=".ui.view.home.lvpai.OrderManageActivity" />
-        <activity android:name=".ui.view.user.AccountAssociationActivity" />
-        <activity android:name=".ui.view.user.order.YueKaOrderDetailActivity" />
-        <activity android:name=".ui.view.user.order.LvPaiOrderDetailActivity" />
-        <activity android:name=".ui.view.user.order.HotelOrderDetailActivity" />
-        <activity android:name=".ui.view.user.order.TravelOrderDetailActivity" />
-        <activity android:name=".ui.view.user.order.ActionOrderDetailActivity" />
-        <activity android:name=".ui.view.user.order.TicketOrderDetailActivity" />
-        <activity android:name=".ui.view.user.DepositActivity" />
-        <activity android:name=".ui.view.user.message.OrderMessageActivity" />
-        <activity android:name=".ui.view.user.message.SystemMesaageActivity" />
-        <activity android:name=".ui.view.home.travel.TravelOrderActivity" />
-        <activity android:name=".ui.view.user.order.SpotTicketOrderActivity" />
-        <activity android:name=".ui.view.WebViewActivity" />
-        <activity android:name=".ui.view.home.raider.ProvinceRaiderActivity" />
-        <activity android:name=".ui.view.home.raider.RouteActivity" />
+        <activity
+            android:name=".ui.view.home.lvpai.OrderManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.AccountAssociationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.order.YueKaOrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.order.LvPaiOrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.order.HotelOrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.order.TravelOrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.order.ActionOrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.order.TicketOrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.DepositActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.message.OrderMessageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.message.SystemMesaageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.travel.TravelOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.order.SpotTicketOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.raider.ProvinceRaiderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.raider.RouteActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.amap.api.navi.AmapRouteActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@android:style/Theme.NoTitleBar" />
-        <activity android:name=".ui.view.rongim.ChatSettingActivity" />
-        <activity android:name=".ui.view.home.lvpai.AllCommodityActivity" />
-        <activity android:name=".ui.view.home.travel.TravelTypeActivity" />
-        <activity android:name=".ui.view.home.travel.MoreTravelActivity" />
-        <activity android:name=".ui.view.home.travel.TravelDetailActivity" />
-        <activity android:name=".ui.view.home.travel.ReserveTravelActivity" />
-        <activity android:name=".ui.view.yueka.YueKaYueActivity"></activity>
+        <activity
+            android:name=".ui.view.rongim.ChatSettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.lvpai.AllCommodityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.travel.TravelTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.travel.MoreTravelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.travel.TravelDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.travel.ReserveTravelActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.yueka.YueKaYueActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.yueka.YueKaCollectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.yueka.YuekaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.MoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.yueka.YuekaCommentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.raider.RaiderCityActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.home.translate.TranslateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.view.user.CouponActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.view.TestActivity"></activity>
     </application>
 
 </manifest>

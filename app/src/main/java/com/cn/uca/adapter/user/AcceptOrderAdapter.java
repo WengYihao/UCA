@@ -8,12 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.bean.user.OrderBean;
 import com.cn.uca.bean.yueka.AcceptOrderBean;
 import com.cn.uca.impl.yueka.BackOrderCallBack;
-import com.cn.uca.impl.yueka.TypeClickCallBack;
 import com.cn.uca.util.SystemUtil;
-import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 

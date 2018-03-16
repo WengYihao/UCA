@@ -283,17 +283,17 @@ public class UserHttp extends BaseServer {
      * @param pageCount
      * @param sign
      * @param time_stamp
-     * @param escort_record_state_id
+     * @param escort_record_state
      * @param callBack
      */
-    public static void getMyEscortOrder(String account_token,int page, int pageCount,String sign,String time_stamp,String escort_record_state_id,CallBack callBack){
+    public static void getMyEscortOrder(String account_token,int page, int pageCount,String sign,String time_stamp,String escort_record_state,CallBack callBack){
         Map<String,Object> map =new HashMap<>();
         map.put("page",page);
         map.put("pageCount",pageCount);
         map.put("account_token",account_token);
         map.put("sign",sign);
         map.put("time_stamp",time_stamp);
-        map.put("escort_record_state_id",escort_record_state_id);
+        map.put("escort_record_state",escort_record_state);
         get(MyConfig.getMyEscortOrder,map,callBack);
     }
 
@@ -478,5 +478,52 @@ public class UserHttp extends BaseServer {
         map.put("time_stamp",time_stamp);
         map.put("sign",sign);
         get(MyConfig.getReportType,map,callBack);
+    }
+
+    /**
+     * 删除订单
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param user_order_id
+     * @param callBack
+     */
+    public static void deleteOrder(String account_token,String time_stamp,String sign,int user_order_id,CallBack callBack){
+        Map<String ,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("user_order_id",user_order_id+"");
+        post4(MyConfig.deleteOrder,map,callBack);
+    }
+
+    /**
+     * 获取用户标记红点
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param callBack
+     */
+    public static void msgReminding(String account_token,String time_stamp,String sign,CallBack callBack){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        get(MyConfig.msgReminding,map,callBack);
+    }
+
+    /**
+     * 获取优惠券
+     * @param account_token
+     * @param page
+     * @param pageCount
+     * @param callBack
+     */
+    public static void queryUserCoupon(String account_token,int page,int pageCount,CallBack callBack){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.queryUserCoupon,map,callBack);
     }
 }

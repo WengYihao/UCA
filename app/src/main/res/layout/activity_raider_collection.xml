@@ -17,6 +17,18 @@
             android:id="@+id/title"
             style="@style/style_title"
             android:text="@string/raiderActivity_title_text"/>
+
+        <TextView
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="编辑"
+            android:textSize="@dimen/text_12"
+            android:textColor="@color/white"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/padding_10"
+            android:layout_centerVertical="true"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -37,11 +49,12 @@
                 android:gravity="center"
                 android:padding="@dimen/padding_12"
                 android:text="@string/raiderCollectionActivity_text1"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_12" />
+                android:textColor="@color/ori"
+                android:textSize="@dimen/text_12"
+                android:background="@color/white"/>
 
             <TextView
-                android:id="@+id/title04"
+                android:id="@+id/title02"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -51,13 +64,11 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_12" />
         </LinearLayout>
-        <GridView
-            android:id="@+id/gridView"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/padding_10"
-            android:verticalSpacing="@dimen/padding_10"
-            android:horizontalSpacing="@dimen/padding_10"
-            android:numColumns="2"></GridView>
+            android:layout_height="0dp"
+            android:layout_weight="1">
+        </android.support.v4.view.ViewPager>
     </LinearLayout>
 </com.cn.uca.view.StatusView>

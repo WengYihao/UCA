@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
+import com.cn.uca.bean.MessageNumBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.home.HomeHttp;
@@ -38,7 +41,9 @@ import java.util.Map;
 public class InitiatorFragment extends Fragment implements View.OnClickListener{
 
     private View view;
-    private LinearLayout layout1,layout2,layout3,layout4,layout5,layout6;
+    private LinearLayout layout1,layout2,layout3,layout6;
+    private RelativeLayout layout4,layout5;
+    private TextView examine_num,settlement_num;
 
     @Nullable
     @Override
@@ -53,10 +58,12 @@ public class InitiatorFragment extends Fragment implements View.OnClickListener{
         layout1 = (LinearLayout)view.findViewById(R.id.layout1);
         layout2 = (LinearLayout)view.findViewById(R.id.layout2);
         layout3 = (LinearLayout)view.findViewById(R.id.layout3);
-        layout4 = (LinearLayout)view.findViewById(R.id.layout4);
-        layout5 = (LinearLayout)view.findViewById(R.id.layout5);
+        layout4 = (RelativeLayout) view.findViewById(R.id.layout4);
+        layout5 = (RelativeLayout) view.findViewById(R.id.layout5);
         layout6 = (LinearLayout)view.findViewById(R.id.layout6);
 
+        examine_num = (TextView)view.findViewById(R.id.examine_num);
+        settlement_num = (TextView)view.findViewById(R.id.settlement_num);
         layout1.setOnClickListener(this);
         layout2.setOnClickListener(this);
         layout3.setOnClickListener(this);
@@ -69,6 +76,8 @@ public class InitiatorFragment extends Fragment implements View.OnClickListener{
         SetLayoutParams.setLinearLayout(layout4, MyApplication.width/2,MyApplication.width*3/8);
         SetLayoutParams.setLinearLayout(layout5, MyApplication.width/2,MyApplication.width*3/8);
         SetLayoutParams.setLinearLayout(layout6, MyApplication.width/2,MyApplication.width*3/8);
+
+        setPoint();
     }
 
     @Override
@@ -152,5 +161,29 @@ public class InitiatorFragment extends Fragment implements View.OnClickListener{
 
             }
         });
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            if (view != null){
+                setPoint();
+            }
+        }
+    }
+
+    private void setPoint(){
+        if (MessageNumBean.getInstens().getCc_refund_ticket_examine() != 0 ||
+                MessageNumBean.getInstens().getCc_sign_examine() != 0){
+            examine_num.setVisibility(View.VISIBLE);
+        }else{
+            examine_num.setVisibility(View.GONE);
+        }
+        if ( MessageNumBean.getInstens().getCc_settlement() != 0){
+            settlement_num.setVisibility(View.VISIBLE);
+        }else{
+            settlement_num.setVisibility(View.VISIBLE);
+        }
     }
 }

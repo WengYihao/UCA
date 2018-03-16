@@ -22,6 +22,7 @@ public class BottomBar extends LinearLayout {
     private FrameLayout mCenter_bottom;
     private TextView tab_text1,tab_text2;
     private OnBottonbarClick mOnBottonbarClick;
+    private TextView home_samecityka_num;
 
     public BottomBar(Context context) {
         super(context);
@@ -45,16 +46,23 @@ public class BottomBar extends LinearLayout {
 
 
     private void initId() {
-
         mFirst_bottom = (RelativeLayout) findViewById(R.id.first);
         mSecond_bottom = (RelativeLayout) findViewById(R.id.second);
         mCenter_bottom = (FrameLayout) findViewById(R.id.center);
 
         tab_text1 = (TextView)findViewById(R.id.tab_text1);
         tab_text2 = (TextView)findViewById(R.id.tab_text2);
+        home_samecityka_num = (TextView)findViewById(R.id.home_samecityka_num);
 
     }
 
+    public void setPoint(int i){
+        if (i > 0){
+            home_samecityka_num.setVisibility(VISIBLE);
+        }else{
+            home_samecityka_num.setVisibility(GONE);
+        }
+    }
     /**
      * 底部按钮点击监听器
      */

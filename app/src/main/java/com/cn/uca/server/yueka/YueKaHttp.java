@@ -52,6 +52,12 @@ public class YueKaHttp extends BaseServer{
         params.put("pageCount",bean.getPageCount());
         params.put("beg_time",bean.getBeg_time());
         params.put("end_time",bean.getEnd_time());
+        if (bean.getSex_id() != 0){
+            params.put("sex_id",bean.getSex_id());
+        }
+        params.put("beg_age",bean.getBeg_age());
+        params.put("end_age",bean.getEnd_age());
+        params.put("label",bean.getLabel());
         client.get(MyConfig.getEscortRecords,params,handler);
     }
 
@@ -92,13 +98,14 @@ public class YueKaHttp extends BaseServer{
 
     /**
      * 添加路线
+     * @param name
      * @param callBack
      */
-    public static void addLine(CallBack callBack){
+    public static void addLine(String name,CallBack callBack){
         Map<String,String> map =new HashMap<>();
         map.put("account_token",SharePreferenceXutil.getAccountToken());
-        map.put("route_name","自定义路线");
-        post3(MyConfig.addLine,map,callBack);
+        map.put("route_name",name);
+        post5(MyConfig.addLine,map,callBack);
     }
 
     /**
@@ -372,5 +379,127 @@ public class YueKaHttp extends BaseServer{
             }
         }
         client.post(MyConfig.saveDetails,params,handler);
+    }
+
+    /**
+     * 获取游咖收藏
+     * @param time_stamp
+     * @param sign
+     * @param page
+     * @param pageCount
+     * @param callBack
+     */
+    public static void getEscortCollection(String account_token,String time_stamp,String sign,int page,int pageCount,CallBack callBack){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("page",page);
+        map.put("pageCount",pageCount);
+        get(MyConfig.getEscortCollection,map,callBack);
+    }
+
+    /**
+     * 约咖-收藏-取消关注
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param escort_collection_id
+     * @param callBack
+     */
+    public static void cancelCollection(String account_token,String time_stamp,String sign,int escort_collection_id,CallBack callBack){
+        Map<String ,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("escort_collection_id",escort_collection_id+"");
+        post4(MyConfig.cancelCollection,map,callBack);
+    }
+
+    /**
+     * 删除伴游路线点
+     * @param account_token
+     * @param place_id
+     * @param callBack
+     */
+    public static void deletePlace(String account_token,int place_id,CallBack callBack){
+        Map<String ,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("place_id",place_id+"");
+        post4(MyConfig.deletePlace,map,callBack);
+    }
+
+    /**
+     * 添加伴游路线点
+     * @param account_token
+     * @param place_name
+     * @param route_id
+     * @param city_id
+     * @param departure_address
+     * @param lng
+     * @param lat
+     * @param callBack
+     */
+    public static void addPlace(String account_token,String place_name,int route_id,String gaode_code,String departure_address,double lat,double lng,CallBack callBack){
+        Map<String ,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("place_name",place_name);
+        map.put("route_id",route_id+"");
+        map.put("gaode_code",gaode_code);
+        map.put("departure_address",departure_address);
+        map.put("lat",lat+"");
+        map.put("lng",lng+"");
+        post5(MyConfig.addPlace,map,callBack);
+    }
+
+    /**
+     * 约咖-撤销
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param escort_record_id
+     * @param callBack
+     */
+    public static void revokeEscortOrder(String account_token,String time_stamp,String sign,int escort_record_id,CallBack callBack){
+        Map<String ,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("escort_record_id",escort_record_id+"");
+        post4(MyConfig.revokeEscortOrder,map,callBack);
+    }
+
+    /**
+     * 约咖-删除
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param escort_record_id
+     * @param callBack
+     */
+    public static void deleteEscortRecords(String account_token,String time_stamp,String sign,int escort_record_id,CallBack callBack){
+        Map<String ,String> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("escort_record_id",escort_record_id+"");
+        post4(MyConfig.deleteEscortRecords,map,callBack);
+    }
+
+    /**
+     * 获取发布的记录(并重新发布)
+     * @param account_token
+     * @param time_stamp
+     * @param sign
+     * @param escort_record_id
+     * @param callBack
+     */
+    public static void getERInfo(String account_token,String time_stamp,String sign,int escort_record_id,CallBack callBack){
+        Map<String ,Object> map = new HashMap<>();
+        map.put("account_token",account_token);
+        map.put("time_stamp",time_stamp);
+        map.put("sign",sign);
+        map.put("escort_record_id",escort_record_id);
+        get(MyConfig.getERInfo,map,callBack);
     }
 }

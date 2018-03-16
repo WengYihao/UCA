@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.bean.user.OrderBean;
-import com.cn.uca.impl.yueka.TypeClickCallBack;
-import com.cn.uca.util.ToastXutil;
 
 import java.util.List;
 
@@ -20,13 +18,11 @@ import java.util.List;
 public class OrderAdapter extends BaseAdapter{
 	private List<OrderBean> list;
 	private Context context;
-	private TypeClickCallBack callBack;
 
 	public OrderAdapter(){}
-	public OrderAdapter(List<OrderBean> list, Context context,TypeClickCallBack callBack) {
+	public OrderAdapter(List<OrderBean> list, Context context) {
 		this.list = list;
 		this.context = context;
-		this.callBack = callBack;
 	}
 	public void setList(List<OrderBean> list) {
 		if (list != null) {
@@ -63,7 +59,6 @@ public class OrderAdapter extends BaseAdapter{
 			holder.price = (TextView)convertView.findViewById(R.id.price);
 			holder.time = (TextView)convertView.findViewById(R.id.time);
 			holder.place = (TextView)convertView.findViewById(R.id.place);
-			holder.back = (TextView)convertView.findViewById(R.id.back);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -101,30 +96,9 @@ public class OrderAdapter extends BaseAdapter{
         switch (list.get(position).getUser_order_state_id()){
             case 1:
                 holder.state.setText("已支付");
-				if (list.get(position).getCommodity_id() == 1){
-					holder.back.setText("退单");
-					holder.back.setTag(position);
-					holder.back.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							callBack.onClick(1,v);
-						}
-					});
-				}else{
-					holder.back.setVisibility(View.GONE);
-				}
                 break;
             case 2:
                 holder.state.setText("待支付");
-				holder.back.setText("");
-				holder.back.setBackgroundResource(R.mipmap.settlement_back);
-				holder.back.setTag(position);
-				holder.back.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						callBack.onClick(2,v);
-					}
-				});
                 break;
             case 3:
                 holder.state.setText("已失效");
@@ -153,19 +127,15 @@ public class OrderAdapter extends BaseAdapter{
 						holder.pic.setBackgroundResource(R.mipmap.spot_ticket_gray_state_back);
 						break;
 				}
-				holder.back.setVisibility(View.GONE);
                 break;
             case 4:
                 holder.state.setText("待确认");
-				holder.back.setVisibility(View.GONE);
                 break;
             case 5:
                 holder.state.setText("已取消");
-				holder.back.setVisibility(View.GONE);
                 break;
             case 6:
                 holder.state.setText("退单");
-				holder.back.setVisibility(View.GONE);
                 break;
         }
 		holder.name.setText(list.get(position).getMerchandise_order_title());
@@ -176,6 +146,6 @@ public class OrderAdapter extends BaseAdapter{
 		return convertView;
 	}
 	class ViewHolder {
-		TextView pic,type,state,name,price,time,place,back;
+		TextView pic,type,state,name,price,time,place;
 	}
 }

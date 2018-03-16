@@ -3,7 +3,7 @@ package com.cn.uca.config;
 public class MyConfig {
 	// 总接口
 	public static final String url = "http://www.szyouka.com:8080/youkatravel/api/";
-//	public static final String url = "http://192.168.1.103:80/youkatravel/api/";
+//	public static final String url = "http://192.168.1.107/youkatravel/api/";
 	public static final String sendCode = url+"user/query/sendSMS.do";//发送短信验证码
 	public static final String getWeChatToken = "https://api.weixin.qq.com/sns/oauth2/access_token";//获取微信token
 	public static final String weChatLogin = url+"/user/query/userLogin_weixin.do";//微信登录
@@ -42,7 +42,8 @@ public class MyConfig {
 	public static final String getUserState = url+"user/query/getUserState.do";//获取用户状态
 	public static final String fastLogin = url+"user/query/fastLogin.do";//快速登录
 	public static final String getEscortInfo = url+"escort/query/getEscortInfo.do";//获取约咖用户信息
-	public static final String photo = "http://www.szyouka.com:8080/youkatravel/api/util/pictureCompression.do?pictureUrl=";//图片压缩
+//	public static final String photo = "http://www.szyouka.com:8080/youkatravel/api/util/pictureCompression.do?pictureUrl=";//图片压缩
+	public static final String corpPhoto = "&compression=true";//图片压缩
 	public static final String getZhouBianTravel = url+"travel/query/getZhouBianTravel.do";//获取周边游
 	public static final String getJuiDian = url+"travel/query/getJuiDian.do";//获取周边游酒店
 //	public static final String getGuoNeiYou = url+"travel/query/getGuoNeiYou.do";//获取国内游
@@ -166,4 +167,18 @@ public class MyConfig {
 	public static final String getRegion = url +"travel/query/getRegion.do";//获取旅游地域信息
 	public static final String getStyle = url + "travel/query/getStyle.do";//获取旅游风格信息
 	public static final String getTourismInfo = url + "travel/query/getTourismInfo.do";//获取旅游详细信息
+	public static final String getEscortCollection = url + "escort/query/getEscortCollection.do";//获取游咖的收藏
+	public static final String cancelCollection = url + "escort/update/cancelCollection.do";//取消约咖关注
+	public static final String deletePlace = url +"escort/update/deletePlace.do";//删除伴游路线点
+	public static final String addPlace = url + "escort/update/addPlace.do";//添加伴游路线点
+    public static final String search = url + "home/query/search.do";//主页搜索
+	public static final String revokeEscortOrder = url + "escort/update/revokeEscortOrder.do";//约咖-我的发布-撤销
+	public static final String deleteEscortRecords = url + "escort/update/deleteEscortRecords.do";//删除我的发布记录
+    public static final String getLanguages = url + "util/getLanguages.do";//获取百度翻译语种
+	public static final String baiduTranslate = url + "util/baiduTranslate.do";//百度翻译
+	public static final String deleteOrder = url + "user/update/deleteOrder.do";//删除订单
+	public static final String getERInfo = url + "escort/query/getERInfo.do";//获取发布的记录
+	public static final String msgReminding = url + "user/query/msgReminding.do";//获取用户标记红点
+	public static final String firstRegisterGift = url + "gitf/firstRegisterGift.do";//注册领取优惠券
+	public static final String queryUserCoupon = url + "user/query/queryUserCoupon.do";//获取优惠券
  }

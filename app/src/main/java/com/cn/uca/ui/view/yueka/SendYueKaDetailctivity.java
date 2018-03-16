@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,12 +29,15 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.bean.home.lvpai.ImgAndContentBean;
 import com.cn.uca.bean.home.lvpai.SendContentbean;
 import com.cn.uca.bean.home.lvpai.SendImgBean;
+import com.cn.uca.bean.home.samecityka.ActionDescribeBean;
 import com.cn.uca.bean.home.samecityka.SendImgFileBean;
 import com.cn.uca.config.Constant;
 import com.cn.uca.config.MyApplication;
@@ -45,8 +49,10 @@ import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
+import com.cn.uca.view.dialog.LoadDialog;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -54,6 +60,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SendYueKaDetailctivity extends BaseBackActivity implements View.OnClickListener{
@@ -70,6 +77,9 @@ public class SendYueKaDetailctivity extends BaseBackActivity implements View.OnC
     private ArrayList<Object> list;//图文混合
     private Map<Integer,String> listImgNAME;//图片名
     private ArrayList<SendImgFileBean> listImg;//图片file
+    private int type = 0;
+    private int Tag = 0;
+    private List<ImageView> imageViewList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +87,27 @@ public class SendYueKaDetailctivity extends BaseBackActivity implements View.OnC
         setContentView(R.layout.activity_send_yueka_detail);
 
         initView();
+        getInfo();
     }
 
+    private void getInfo() {
+        Intent intent = getIntent();
+        if (intent != null){
+            List<ActionDescribeBean> list = intent.getParcelableArrayListExtra("list");
+            if (list != null){
+                for (ActionDescribeBean bean : list){
+                    switch (bean.getParagraph_type()){
+                        case "p":
+                            addContentItem(bean.getContent());
+                            break;
+                        case "img":
+                            addPicItem(bean.getImg_url());
+                            break;
+                    }
+                }
+            }
+        }
+    }
     private void initView() {
         back = (TextView)findViewById(R.id.back);
         finish = (TextView)findViewById(R.id.finish);
@@ -94,6 +123,7 @@ public class SendYueKaDetailctivity extends BaseBackActivity implements View.OnC
 
     }
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -107,31 +137,37 @@ public class SendYueKaDetailctivity extends BaseBackActivity implements View.OnC
                 showDialog();
                 break;
             case R.id.content:
-                addContentItem();
+                addContentItem("");
                 dialog.dismiss();
                 break;
             case R.id.pic:
-                addPicItem();
+                addPicItem("");
                 dialog.dismiss();
                 break;
         }
     }
     private void svaeDetail(){
+        LoadDialog.show(this);
+        Log.e("456",layout.getChildCount()+"-----size");
         for (int i = 0;i<layout.getChildCount();i++){
-            LinearLayout layoutItem = (LinearLayout)layout.getChildAt(i);// 获得子item的layout
+            RelativeLayout layoutItem = (RelativeLayout) layout.getChildAt(i);// 获得子item的layout
             EditText editText = (EditText)layoutItem.findViewById(R.id.content) ;
             if (editText == null ){//图片
                 SendImgBean bean = new SendImgBean();
-                bean.setImg_url(listImgNAME.get(i+1));
+                ImageView view = (ImageView)layoutItem.findViewById(R.id.pic);
+                bean.setImg_url(listImgNAME.get(view.getTag()));
                 bean.setParagraph_type("img");
                 list.add(bean);
             }else{//文字
+                Log.e("456",i+"********");
                 SendContentbean bean = new SendContentbean();
                 bean.setContent(editText.getText().toString());
                 bean.setParagraph_type("p");
                 list.add(bean);
             }
         }
+
+        Log.e("456",listImg.toString()+"--");
         ImgAndContentBean bean = new ImgAndContentBean();
         bean.setBeen(listImg);
         Gson gson = new Gson();
@@ -148,11 +184,13 @@ public class SendYueKaDetailctivity extends BaseBackActivity implements View.OnC
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
                 try {
                     if (i == 200) {
+                        LoadDialog.dismiss(SendYueKaDetailctivity.this);
                         JSONObject jsonObject = new JSONObject(new String(bytes, "UTF-8"));
                         Log.e("456", jsonObject.toString() + "--");
                         int code = jsonObject.getInt("code");
                         switch (code){
                             case 0:
+                                ToastXutil.show("保存成功");
                                 JSONObject object = jsonObject.getJSONObject("data");
                                 int id = object.getInt("escort_details_id");
                                 Intent intent = new Intent();
@@ -160,10 +198,16 @@ public class SendYueKaDetailctivity extends BaseBackActivity implements View.OnC
                                 setResult(0,intent);
                                 SendYueKaDetailctivity.this.finish();
                                 break;
+                            default:
+                                ToastXutil.show(jsonObject.getString("msg"));
+                                list.clear();
+                                listImg.clear();
+                                break;
                         }
                     }
                 }catch (Exception e){
 //                    LoadDialog.dismiss(AddMerchantActivity.this);
+                    LoadDialog.dismiss(SendYueKaDetailctivity.this);
                     Log.e("789",e.getMessage());
                 }
             }
@@ -174,20 +218,52 @@ public class SendYueKaDetailctivity extends BaseBackActivity implements View.OnC
             }
         });
     }
-    private void addContentItem(){
-        View itemContent = View.inflate(this, R.layout.action_detail_content_item,null);
-        layout.addView(itemContent);
-    }
-    private void addPicItem(){
-        final View itemPic = View.inflate(this, R.layout.action_detail_pic_item,null);
-        layout.addView(itemPic);
-        LinearLayout addLayout = (LinearLayout)itemPic.findViewById(R.id.addLayout);
-        addLayout.setOnClickListener(new View.OnClickListener() {
+    private void addContentItem(String text){
+        final View itemContent = View.inflate(this, R.layout.action_detail_content_item,null);
+        final TextView delete = (TextView)itemContent.findViewById(R.id.delete);
+        delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView = (ImageView) itemPic.findViewById(R.id.pic);
+                layout.removeView(itemContent);
+            }
+        });
+        if (text != ""){
+            EditText content = (EditText) itemContent.findViewById(R.id.content);
+            content.setText(text);
+        }
+        layout.addView(itemContent);
+    }
+    View itemPic = null;
+    private void addPicItem(final String url){
+        type = 0;
+        itemPic = View.inflate(this, R.layout.action_detail_pic_item,null);
+        final View view = itemPic;
+        imageView = (ImageView) itemPic.findViewById(R.id.pic);
+        imageView.setTag(imageViewList.size()+1);
+        final TextView delete = (TextView)view.findViewById(R.id.delete);
+        if (url != ""){
+            layout.addView(itemPic);
+            ImageLoader.getInstance().displayImage(url,imageView);
+            imageViewList.add(imageView);
+            Log.e("456",(int)imageView.getTag()+"-");
+        }else{
+            AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(SendYueKaDetailctivity.this, arrayString, title, onDialogClick);
+            dialog.show();
+        }
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type = 1;
+                Tag = (int)v.getTag();
+                Log.e("456",Tag+"**");
                 AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(SendYueKaDetailctivity.this, arrayString, title, onDialogClick);
                 dialog.show();
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                layout.removeView(view);
             }
         });
     }
@@ -234,10 +310,6 @@ public class SendYueKaDetailctivity extends BaseBackActivity implements View.OnC
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                ToastXutil.show("您已经拒绝过一次");
-            }
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.CAMERA_PERMISSIONS_REQUEST_CODE);
         } else {//有权限直接调用系统相机拍照
             if (SystemUtil.hasSDCard()) {
@@ -343,14 +415,33 @@ public class SendYueKaDetailctivity extends BaseBackActivity implements View.OnC
             if (msg.obj != null) {
                 File file = PhotoCompress.comp((Bitmap) msg.obj);
                 Bitmap bitmap= BitmapFactory.decodeFile(file.toString());
-                Drawable drawable = new BitmapDrawable(bitmap);
-                imageView.setImageDrawable(drawable);
-                String a = "图片_"+System.currentTimeMillis();
-                listImgNAME.put(layout.getChildCount(),a);
-                SendImgFileBean bean = new SendImgFileBean();
-                bean.setImgName(a);
-                bean.setFile(bitmap);
-                listImg.add(bean);
+                SendImgFileBean bean = null;
+                switch (type){
+                    case 0:
+                        layout.addView(itemPic);
+                        imageView.setImageBitmap(bitmap);
+                        imageViewList.add(imageView);
+                        String name1  = "图片_"+System.currentTimeMillis();
+                        listImgNAME.put((int) imageView.getTag(),name1);
+                        bean = new SendImgFileBean();
+                        bean.setImgName(name1);
+                        bean.setFile(bitmap);
+                        listImg.add(bean);
+                        break;
+                    case 1:
+                        for (ImageView view : imageViewList){
+                            if ((int)view.getTag() == Tag){
+                                view.setImageBitmap(bitmap);
+                                String name2  = "图片_"+System.currentTimeMillis();
+                                listImgNAME.put(Tag,name2);
+                                bean = new SendImgFileBean();
+                                bean.setImgName(name2);
+                                bean.setFile(bitmap);
+                                listImg.add(bean);
+                            }
+                        }
+                        break;
+                }
             }
         };
     };

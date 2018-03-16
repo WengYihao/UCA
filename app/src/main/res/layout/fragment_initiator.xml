@@ -80,7 +80,7 @@
                 android:text="验票"
                 android:layout_marginTop="@dimen/padding_8"/>
         </LinearLayout>
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/layout4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -90,16 +90,28 @@
             android:background="@color/white"
             android:padding="@dimen/padding_12">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/a"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/examine_back"/>
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/examine_back"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="审核"
+                    android:layout_marginTop="@dimen/padding_8"/>
+            </LinearLayout>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="审核"
-                android:layout_marginTop="@dimen/padding_8"/>
-        </LinearLayout>
+                android:id="@+id/examine_num"
+                android:layout_width="@dimen/padding_8"
+                android:layout_height="@dimen/padding_8"
+                android:layout_toRightOf="@id/a"
+                android:background="@drawable/circular_red_background"/>
+        </RelativeLayout>
     </LinearLayout>
     <ImageView
         android:layout_width="match_parent"
@@ -111,7 +123,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/layout5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -121,16 +133,28 @@
             android:background="@color/white"
             android:padding="@dimen/padding_12">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/b"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/my_settlement_back"/>
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/my_settlement_back"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="结算"
+                    android:layout_marginTop="@dimen/padding_8"/>
+            </LinearLayout>
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="结算"
-                android:layout_marginTop="@dimen/padding_8"/>
-        </LinearLayout>
+                android:id="@+id/settlement_num"
+                android:layout_width="@dimen/padding_8"
+                android:layout_height="@dimen/padding_8"
+                android:layout_toRightOf="@id/b"
+                android:background="@drawable/circular_red_background"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/layout6"

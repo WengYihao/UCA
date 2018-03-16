@@ -13,6 +13,8 @@ import com.cn.uca.R;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
+import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.ToastXutil;
 
 import org.json.JSONObject;
 
@@ -60,10 +62,19 @@ public class WalletActivity extends BaseBackActivity implements View.OnClickList
                 break;
             case R.id.layout1:
                 //明细
-                startActivity(new Intent(WalletActivity.this,WalletDetailActivity.class));
+                if (SharePreferenceXutil.isSuccess()){
+                    startActivity(new Intent(WalletActivity.this,WalletDetailActivity.class));
+                }else{
+                    ToastXutil.show("请先登录");
+                }
                 break;
             case R.id.layout2:
                 //优惠券
+                if (SharePreferenceXutil.isSuccess()){
+                    startActivity(new Intent(WalletActivity.this,CouponActivity.class));
+                }else{
+                    ToastXutil.show("请先登录");
+                }
                 break;
             case R.id.layout3:
                 startActivity(new Intent(WalletActivity.this,RechargeActivity.class));

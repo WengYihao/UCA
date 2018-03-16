@@ -467,10 +467,6 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                ToastXutil.show("您已经拒绝过一次");
-            }
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.CAMERA_PERMISSIONS_REQUEST_CODE);
         } else {//有权限直接调用系统相机拍照
             if (SystemUtil.hasSDCard()) {
@@ -627,6 +623,7 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                             enlistType.setText("在线报名");
                             listTicket = data.getParcelableArrayListExtra("ticketList");
                             listInfo = data.getStringArrayListExtra("infoList");
+                            Log.e("456",listInfo.toString());
                             break;
                         case 2 :
                             //无需报名
@@ -720,7 +717,7 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                                             }
                                             bean.setPurchase_ticket(true);
                                             if (listInfo != null){
-                                                bean.setFill_infos(gson.toJson(listInfo));
+                                                bean.setFill_infos(ListtoString(listInfo));
                                             }
                                             if (selectList.size() != 0){
                                                 bean.setLabels(ListtoString(selectList));

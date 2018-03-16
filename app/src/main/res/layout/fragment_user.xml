@@ -157,8 +157,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="登录/注册"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_22" />
+                        android:textColor="@color/white" />
 
                 </RelativeLayout>
             </RelativeLayout>

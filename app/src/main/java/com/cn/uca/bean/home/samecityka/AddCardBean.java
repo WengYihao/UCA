@@ -18,7 +18,7 @@ public class AddCardBean {
     private String user_card_name;
     private int user_card_type_id;
     private String weixin;
-    private InputStream file;
+    private File file;
 
     public String getAccount_token() {
         return account_token;
@@ -60,7 +60,7 @@ public class AddCardBean {
         return weixin;
     }
 
-    public InputStream getFile() {
+    public File getFile() {
         return file;
     }
 
@@ -104,7 +104,7 @@ public class AddCardBean {
         this.weixin = weixin;
     }
 
-    public void setFile(InputStream file) {
+    public void setFile(File file) {
         this.file = file;
     }
 

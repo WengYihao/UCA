@@ -1,6 +1,8 @@
 package com.cn.uca.ui.fragment.home.raider;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +23,7 @@ import com.cn.uca.adapter.home.raiders.RaidersAdapter;
 import com.cn.uca.bean.home.raider.RaidersBean;
 import com.cn.uca.bean.user.order.OrderTypeBean;
 import com.cn.uca.config.Constant;
+import com.cn.uca.db.DatabaseHelper;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.raider.BuyRaiderImpl;
 import com.cn.uca.impl.yueka.CollectionClickListener;
@@ -69,6 +72,7 @@ public class CityFragment extends Fragment implements CollectionClickListener,Bu
     private String cityStr = "";
     private int type = 0;//刷新加载状态1：刷新2：加载3：搜索
     private int integral;
+    private DatabaseHelper helper;
 
     @Nullable
     @Override
@@ -81,6 +85,7 @@ public class CityFragment extends Fragment implements CollectionClickListener,Bu
     }
 
     private void initView() {
+        helper = new DatabaseHelper(getActivity());
         refreshLayout = (RefreshLayout)view.findViewById(R.id.refreshLayout);
         loading = (LoadingLayout)view.findViewById(R.id.loading);
         letter = (ListView)view.findViewById(R.id.letter);
@@ -155,6 +160,7 @@ public class CityFragment extends Fragment implements CollectionClickListener,Bu
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (list.get(i).isLock()){
+                    InsertCity(list.get(i));
                     Intent intent = new Intent();
                     intent.setClass(getActivity(),RaidersDetailActivity.class);
                     intent.putExtra("id",list.get(i).getCity_raiders_id());
@@ -303,6 +309,48 @@ public class CityFragment extends Fragment implements CollectionClickListener,Bu
         });
     }
 
+    /**
+     * 插入历史查看
+     * @param bean
+     */
+    public void InsertCity(RaidersBean bean) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from lookHistory where city_name ='"
+                + bean.getCity_name() + "'", null);
+        if (cursor.getCount() > 0) { //
+            db.delete("lookHistory", "city_name = ?", new String[] { bean.getCity_name() });
+        }
+        StringBuffer buffer = new StringBuffer("insert into lookHistory (city_id,city_name,city_raiders_id,collection,lock,pacture_url,price) values (");
+        if (bean.isCollection()){
+            if (bean.isLock()){
+                buffer.append(bean.getCity_id()).append(",")
+                        .append("'" + bean.getCity_name() + "'").append(",")
+                        .append(bean.getCity_raiders_id()).append(",")
+                        .append("'" + 1 + "'").append(",")
+                        .append("'" + 1 + "'").append(",")
+                        .append("'" + bean.getPacture_url() + "'").append(",")
+                        .append("'" + bean.getPrice() + "'").append(")");
+            }else{
+                buffer.append(bean.getCity_id()).append(",")
+                        .append("'" + bean.getCity_name() + "'").append(",")
+                        .append(bean.getCity_raiders_id()).append(",")
+                        .append("'" + 1 + "'").append(",")
+                        .append("'" + 0 + "'").append(",")
+                        .append("'" + bean.getPacture_url() + "'").append(",")
+                        .append("'" + bean.getPrice() + "'").append(")");
+            }
+        }else{
+            buffer.append(bean.getCity_id()).append(",")
+                    .append("'" + bean.getCity_name() + "'").append(",")
+                    .append(bean.getCity_raiders_id()).append(",")
+                    .append("'" + 0 + "'").append(",")
+                    .append("'" + 0 + "'").append(",")
+                    .append("'" + bean.getPacture_url() + "'").append(",")
+                    .append("'" + bean.getPrice() + "'").append(")");
+        }
+        db.execSQL(buffer.toString());
+        db.close();
+    }
     @Override
     public void onCollectionClick(final View v) {
         RelativeLayout layout = (RelativeLayout) gridView.getChildAt((int) v.getTag());// 获得子item的layout

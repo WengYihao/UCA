@@ -109,7 +109,7 @@ public class ChinaPrintAdapter extends BaseAdapter {
             case 0:
                 holder.time.setText(list.get(position).getTravel_time());
                 holder.place.setText(list.get(position).getCity_name());
-                Uri uri = Uri.parse(MyConfig.photo+list.get(position).getPicture_url());
+                Uri uri = Uri.parse(list.get(position).getPicture_url()+MyConfig.corpPhoto);
                 holder.pic.setVisibility(View.VISIBLE);
                 holder.pic.setImageURI(uri);
                 holder.content.setText(list.get(position).getContent());

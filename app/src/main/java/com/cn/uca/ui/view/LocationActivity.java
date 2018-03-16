@@ -12,23 +12,32 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.Circle;
+import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.cn.uca.R;
+import com.cn.uca.ui.view.util.BaseBackActivity;
+import com.cn.uca.util.MapUtil;
 
-public class LocationActivity extends AppCompatActivity implements  LocationSource,AMapLocationListener{
+public class LocationActivity extends BaseBackActivity implements  LocationSource,AMapLocationListener{
 
     private final static String TAG = "LocationActivity";
-    private MapView mapView;
-    private AMap aMap;
-    private LocationSource.OnLocationChangedListener mListener;
-    private AMapLocationClient mlocationClient;
-    private AMapLocationClientOption mLocationOption;// 高德相关
-    private static double lat,lng;
-    private boolean isFirst = true;
+        private MapView mapView;
+        private AMap aMap;
+        private LocationSource.OnLocationChangedListener mListener;
+        private AMapLocationClient mlocationClient;
+        private AMapLocationClientOption mLocationOption;// 高德相关
+        private static double lat,lng;
+        private boolean isFirst = true;
+        private Circle mCircle;
+        private Marker mLocMarker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
+        com.amap.api.maps.MapsInitializer.loadWorldGridMap(false);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         initMap();
@@ -51,14 +60,20 @@ public class LocationActivity extends AppCompatActivity implements  LocationSour
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (mListener != null && aMapLocation != null){
             if (aMapLocation != null && aMapLocation.getErrorCode() == 0){
-                mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
+//                mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
                 if (isFirst){
                     aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 15));//定位成功移到当前定位点
+                    CircleOptions circleOptions = MapUtil.addCircle(
+                            new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()),
+                            aMapLocation.getAccuracy());
+                    MarkerOptions options = MapUtil.addMarker(
+                            new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), this);
+                    mCircle = aMap.addCircle(circleOptions);// 添加定位精度圆
+                    mLocMarker = aMap.addMarker(options);// 添加定位图标
                     isFirst = false;
-                    Log.i("TAG","123456789");
+                    lat = aMapLocation.getLatitude();
+                    lng = aMapLocation.getLongitude();
                 }
-                lat = aMapLocation.getLatitude();
-                lng = aMapLocation.getLongitude();
                 Log.i("TAG",lat+"---"+lng);
             }else{
                 Log.i("TAG",aMapLocation.getErrorCode()+"错误码"+aMapLocation.getErrorInfo()+"错误信息");

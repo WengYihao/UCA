@@ -1,6 +1,5 @@
 package com.cn.uca.ui.view.rongim;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.cn.uca.R;

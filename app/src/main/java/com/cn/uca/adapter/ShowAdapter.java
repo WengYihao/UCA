@@ -48,7 +48,7 @@ public class ShowAdapter extends BaseAdapter{
 		ViewHolder holder = null;
 		if (convertView == null) {
 			holder = new ViewHolder();
-			convertView = LayoutInflater.from(context).inflate(R.layout.show_item, parent, false);
+			convertView = LayoutInflater.from(context).inflate(R.layout.letter_item, parent, false);
 			holder.item = (TextView)convertView.findViewById(R.id.item);
 			convertView.setTag(holder);
 		} else {

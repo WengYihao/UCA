@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,13 +20,6 @@
             android:id="@+id/title"
             style="@style/style_title"
             android:text="@string/otherYueActivity_title_text"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/yueka_message"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/padding_10"/>
     </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
@@ -77,6 +70,7 @@
 
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/tobeCollar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -88,6 +82,7 @@
                         android:background="@mipmap/becom_lingka_back"
                         android:layout_gravity="center_horizontal"/>
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
@@ -235,4 +230,4 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+</com.cn.uca.view.StatusView>

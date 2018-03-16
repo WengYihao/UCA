@@ -7,12 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -38,11 +40,14 @@ import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBackValue;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.fragment.home.lvpai.PhotoFragment;
+import com.cn.uca.ui.view.home.samecityka.CardEditActivity;
 import com.cn.uca.ui.view.home.samecityka.MapChoiceActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.AndroidClass;
+import com.cn.uca.util.Bimp;
 import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.OpenPhoto;
+import com.cn.uca.util.PhotoCompress;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StringXutil;
@@ -79,7 +84,7 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
     private Uri imageUri;
     private String addressStr;
-    private ByteArrayInputStream bais;
+    private Bitmap bais;
     private PhotoFragment fragment;
     private ViewPager mPager;
     private ArrayList<Fragment> fragmentList;
@@ -232,7 +237,8 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
                                 map.put("phone",bean.getPhone());
                                 String sign = SignUtil.sign(map);
                                 bean.setSign(sign);
-                                HomeHttp.becomeMerchant(bean, bais,listPhoto,new AsyncHttpResponseHandler() {
+                                File file = PhotoCompress.comp(bais);
+                                HomeHttp.becomeMerchant(bean, file,listPhoto,new AsyncHttpResponseHandler() {
                                     @Override
                                     public void onSuccess(int i, Header[] headers, byte[] bytes) {
                                         LoadDialog.dismiss(MerchantEntryActivity.this);
@@ -329,33 +335,36 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
     }
 
     // 将进行剪裁后的图片显示到UI界面上
-    private void setPicToView(Intent picdata) {
-        Bundle bundle = picdata.getExtras();
-        if (bundle != null) {
-            final Bitmap photo = bundle.getParcelable("data");
-            new Thread() {
-                @Override
-                public void run() {
-                    if (photo != null) {
-                        handler.obtainMessage(0, photo).sendToTarget();
-                        //将bitmap转换成File类型
-                    }else {
-                        handler.obtainMessage(-1, null).sendToTarget();
+    private void setPicToView(File picdata) {
+        if (picdata != null){
+            try{
+                bais= BitmapFactory.decodeFile(picdata.toString());
+                new Thread() {
+                    @Override
+                    public void run() {
+                        if (bais != null) {
+                            handler.obtainMessage(0, bais).sendToTarget();
+                            //将bitmap转换成File类型
+                        } else {
+                            handler.obtainMessage(-1, null).sendToTarget();
+                        }
                     }
-                }
-            }.start();
+                }.start();
+            }catch (Exception e){
 
+            }
         }
     }
 
-    private Handler handler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
             if (msg.obj != null) {
                 Drawable drawable = new BitmapDrawable((Bitmap) msg.obj);
                 pic.setImageDrawable(drawable);
-                bais = new ByteArrayInputStream(GraphicsBitmapUtils.Bitmap2Bytes((Bitmap)msg.obj));
+                LoadDialog.show(MerchantEntryActivity.this);
             }
-        };
+        }
     };
 
     /**
@@ -417,50 +426,23 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
         startActivityForResult(photoPickerIntent, Constant.PHOTO_REQUEST_GALLERY);
     }
 
-    /**
-     * 剪裁图片
-     */
-    public  void cropImageUri(Uri orgUri,int size) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
-        intent.setDataAndType(orgUri, "image/*");
-        // crop为true是设置在开启的intent中设置显示的view可以剪裁
-        intent.putExtra("crop", "true");
-
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-
-        // outputX,outputY 是剪裁图片的宽高
-        intent.putExtra("outputX", size);
-        intent.putExtra("outputY", size);
-        intent.putExtra("return-data", true);
-        intent.putExtra("uri",orgUri);
-
-        startActivityForResult(intent, Constant.PHOTO_REQUEST_CUT);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        File file = null;
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case Constant.PHOTO_REQUEST_TAKEPHOTO:
-                    cropImageUri(imageUri, 480);
+                    setPicToView(fileUri);
                     break;
                 case Constant.PHOTO_REQUEST_GALLERY:
-                    if (SystemUtil.hasSDCard()) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                            cropImageUri(data.getData(), 480);
-                    } else {
-                        ToastXutil.show("设备没有SD卡！");
-                    }
-                    break;
-                case Constant.PHOTO_REQUEST_CUT:
-                    if (data != null) {
-                        setPicToView(data);
+                    if (data.getData() != null) {
+                        try{
+                            file = new File(SystemUtil.getRealPathFromURI(data.getData(),this));
+                            setPicToView(file);
+                        }catch (Exception e){
+                            ToastXutil.show("无法获取照片");
+                        }
                     }
                     break;
             }

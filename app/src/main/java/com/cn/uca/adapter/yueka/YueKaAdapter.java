@@ -144,7 +144,7 @@ public class YueKaAdapter extends BaseAdapter implements View.OnClickListener{
 				}else{
 					SimpleDraweeView draweeView = new SimpleDraweeView(context);
 					draweeView.setId(b);
-					Uri uri = Uri.parse(MyConfig.photo+list.get(position).getEscort_record_picture_urls().get(b));
+					Uri uri = Uri.parse(list.get(position).getEscort_record_picture_urls().get(b)+MyConfig.corpPhoto);
 					draweeView.setImageURI(uri);
 					draweeView.setOnClickListener(new View.OnClickListener() {
 						@Override

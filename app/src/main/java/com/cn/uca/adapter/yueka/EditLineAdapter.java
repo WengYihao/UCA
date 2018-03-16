@@ -9,17 +9,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cn.uca.R;
-import com.cn.uca.adapter.yueka.LinePointAdapter;
 import com.cn.uca.bean.yueka.PlacesBean;
 import com.cn.uca.bean.yueka.YueKaLineBean;
 import com.cn.uca.impl.yueka.ItemClickListener;
 import com.cn.uca.impl.yueka.LinePointCallBack;
 import com.cn.uca.util.SetListView;
-import com.cn.uca.util.lmxListviewHelper;
-import com.cn.uca.view.MyEditText;
-import com.cn.uca.view.MyListView;
+import com.cn.uca.view.NoScrollListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,21 +64,20 @@ public class EditLineAdapter extends BaseAdapter implements View.OnClickListener
 			holder = new ViewHolder();
 			convertView = LayoutInflater.from(context).inflate(R.layout.route_item, parent, false);
 			holder.arrowView = (TextView) convertView.findViewById(R.id.arrowView);
-			holder.trueLine = (TextView) convertView.findViewById(R.id.trueLine);
 			holder.editLine = (TextView)convertView.findViewById(R.id.editLine);
 			holder.lineName = (TextView)convertView.findViewById(R.id.lineName);
-			holder.listView = (MyListView)convertView.findViewById(R.id.listView);
+			holder.listView = (NoScrollListView)convertView.findViewById(R.id.listView);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		final LinePointAdapter lineAdapter;
-		holder.lineName.setHint(list.get(position).getRoute_name());
+		holder.lineName.setText(list.get(position).getRoute_name());
+		holder.lineName.setOnClickListener(this);
 		holder.arrowView.setOnClickListener(this);
-		holder.trueLine.setOnClickListener(this);
 		holder.editLine.setOnClickListener(this);
+		holder.lineName.setTag(position);
 		holder.arrowView.setTag(position);
-		holder.trueLine.setTag(position);
 		holder.editLine.setTag(position);
 		if (list.get(position).getPlaces() != null){
 			if (list.get(position).getPlaces().size() != 0){
@@ -109,7 +104,7 @@ public class EditLineAdapter extends BaseAdapter implements View.OnClickListener
 			case R.id.arrowView:
 				itemClickListener.clickShow(view);
 				break;
-			case R.id.trueLine:
+			case R.id.lineName:
 				itemClickListener.clickTrue(view);
 				break;
 			case R.id.editLine:
@@ -124,7 +119,7 @@ public class EditLineAdapter extends BaseAdapter implements View.OnClickListener
 	}
 
 	class ViewHolder {
-		TextView lineName,arrowView,trueLine,editLine;
-		MyListView listView;
+		TextView lineName,arrowView,editLine;
+		NoScrollListView listView;
 	}
 }

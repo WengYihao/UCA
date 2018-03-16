@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:gravity="center"
-                android:hint="请输入相册名称" />
+                android:hint="请输入名称" />
 
             <ImageView
                 android:id="@+id/iv_bottom_line2"

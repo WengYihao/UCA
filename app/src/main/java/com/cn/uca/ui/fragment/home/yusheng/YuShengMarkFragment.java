@@ -55,7 +55,7 @@ public class YuShengMarkFragment extends Fragment {
     private int page = 1;
     private Dialog dialog;
     private View inflate;
-    private TextView update,look,delete,btn_cancel;
+    private TextView update,delete,btn_cancel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
@@ -73,8 +73,6 @@ public class YuShengMarkFragment extends Fragment {
         markAdapter = new YuShengMarkAdapter(list,getActivity());
         listView.setAdapter(markAdapter);
 
-//        getLifeHistorical(1);
-
         refreshLayout.autoRefresh();
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -86,7 +84,7 @@ public class YuShengMarkFragment extends Fragment {
                         refreshlayout.finishRefresh();
                         refreshlayout.setLoadmoreFinished(false);
                     }
-                }, 1000);
+                }, 200);
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -99,16 +97,14 @@ public class YuShengMarkFragment extends Fragment {
                         getLifeHistorical(page);
                         refreshlayout.finishLoadmore();
                     }
-                }, 1000);
+                }, 200);
             }
         });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 show(list.get(position).getHistorical_id(),list.get(position).getRemaining_time(),list.get(position).getType(),list.get(position).getContent());
-
             }
         });
     }
@@ -157,8 +153,9 @@ public class YuShengMarkFragment extends Fragment {
         //填充对话框的布局
         inflate = LayoutInflater.from(getActivity()).inflate(R.layout.update_yusheng_dialog, null);
         //初始化控件
+        TextView look = (TextView)inflate.findViewById(R.id.look);
+        look.setVisibility(View.GONE);
         update = (TextView) inflate.findViewById(R.id.update);
-        look = (TextView)inflate.findViewById(R.id.look);
         delete = (TextView) inflate.findViewById(R.id.detele);
         btn_cancel = (TextView)inflate.findViewById(R.id.btn_cancel);
         update.setOnClickListener(new View.OnClickListener() {
@@ -177,23 +174,6 @@ public class YuShengMarkFragment extends Fragment {
                         break;
                 }
 
-            }
-        });
-        look.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                switch (type){
-                    case "day":
-                        ShowPopupWindow.dayPopupwindow(view,getActivity(),Integer.parseInt(time),"day",3,content);
-                        break;
-                    case "systemDay":
-
-                        break;
-                    case "month":
-                        ShowPopupWindow.dayPopupwindow(view,getActivity(),Integer.parseInt(time),"month",3,content);
-                        break;
-                }
             }
         });
         delete.setOnClickListener(new View.OnClickListener() {

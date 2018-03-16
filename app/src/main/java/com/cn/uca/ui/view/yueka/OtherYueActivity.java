@@ -8,10 +8,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
+import com.cn.uca.bean.user.UserInfo;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.server.yueka.YueKaHttp;
@@ -22,6 +25,8 @@ import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
@@ -36,6 +41,8 @@ public class OtherYueActivity extends BaseBackActivity implements View.OnClickLi
 
     private TextView back,name,age,sex;
     private CircleImageView pic;
+    private LinearLayout tobeCollar;
+    private RelativeLayout layout1,layout2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,42 +50,40 @@ public class OtherYueActivity extends BaseBackActivity implements View.OnClickLi
         setContentView(R.layout.activity_other_yue);
 
         initView();
-        getEscortInfo();
+        getUserInfo();
     }
 
-    private void getEscortInfo(){
-        YueKaHttp.getEscortInfo(10, new CallBack() {
+    private void getUserInfo(){
+        UserHttp.getUserBriefInfo(new CallBack() {
             @Override
             public void onResponse(Object response) {
-                Log.i("123",response.toString()+"---");
-                try {
-                    JSONObject jsonObject = new JSONObject(response.toString());
-                    int code  = jsonObject.getInt("code");
-                    if (code == 0){
-                        JSONObject object = jsonObject.getJSONObject("data");
-                        int sexId = object.getInt("sex_id");
-                        switch (sexId){
-                            case 1:
-                                sex.setBackgroundResource(R.mipmap.man);
-                                break;
-                            case 2:
-                                sex.setBackgroundResource(R.mipmap.woman);
-                                break;
-                            case 3:
-                                sex.setVisibility(View.GONE);
-                                break;
-                        }
-                        name.setText(object.getString("user_nick_name"));
-                        ImageLoader.getInstance().displayImage(object.getString("user_head_portrait"), pic);
-                        if (!StringXutil.isEmpty(object.getString("user_birth_date"))){
-                            Date date = SystemUtil.StringToUtilDate(object.getString("user_birth_date"));
-                            age.setText(SystemUtil.getAge(date)+"岁");
-                        }else{
-                            age.setVisibility(View.GONE);
-                        }
+                Gson gson = new Gson();
+                UserInfo info = gson.fromJson(response.toString(),new TypeToken<UserInfo>(){}.getType());
+                Log.e("456",info.getUser_head_portrait());
+                try{
+                    ImageLoader.getInstance().displayImage(info.getUser_head_portrait(), pic);
+                    name.setText(info.getUser_nick_name());
+                    if (info.getUser_birth_date()== null){
+                        age.setText("年龄: 未知");
+                    }else{
+                        Date date = SystemUtil.StringToUtilDate(info.getUser_birth_date());
+                        age.setText("年龄: "+SystemUtil.getAge(date)+"岁");
                     }
-                }catch (Exception e){
 
+                    switch (info.getSex_id()){
+                        case 1:
+                            sex.setText("性别: 男");
+                            break;
+                        case 2:
+                            sex.setText("性别: 女");
+                            break;
+                        case 3:
+                            sex.setText("性别: 保密");
+                            break;
+                    }
+
+                }catch (Exception e){
+                    Log.i("456",e.getMessage()+"报错");
                 }
             }
 
@@ -100,7 +105,16 @@ public class OtherYueActivity extends BaseBackActivity implements View.OnClickLi
         age = (TextView)findViewById(R.id.age);
         sex = (TextView)findViewById(R.id.sex);
 
+        tobeCollar = (LinearLayout)findViewById(R.id.tobeCollar);
+
+        layout1 = (RelativeLayout)findViewById(R.id.layout1);
+        layout2 = (RelativeLayout)findViewById(R.id.layout2);
+
+        layout1.setOnClickListener(this);
+        layout2.setOnClickListener(this);
+
         back.setOnClickListener(this);
+        tobeCollar.setOnClickListener(this);
     }
 
     @Override
@@ -109,8 +123,14 @@ public class OtherYueActivity extends BaseBackActivity implements View.OnClickLi
             case R.id.back:
                 this.finish();
                 break;
-            case R.id.state:
+            case R.id.tobeCollar:
                 getIdCardUrl();
+                break;
+            case R.id.layout1:
+                startActivity(new Intent(OtherYueActivity.this,YueKaCollectionActivity.class));
+                break;
+            case R.id.layout2:
+                ToastXutil.show("暂无数据哦，请先认证");
                 break;
         }
     }
@@ -124,7 +144,6 @@ public class OtherYueActivity extends BaseBackActivity implements View.OnClickLi
         UserHttp.getIdCardUrl(sign, time_stamp, account_token, new CallBack() {
             @Override
             public void onResponse(Object response) {
-                Log.i("123",response.toString());
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     int code = jsonObject.getInt("code");

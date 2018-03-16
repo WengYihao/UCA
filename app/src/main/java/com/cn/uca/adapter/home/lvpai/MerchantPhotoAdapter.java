@@ -73,7 +73,7 @@ public class MerchantPhotoAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Uri uri = Uri.parse(MyConfig.photo+list.get(position).getImg_url());
+        Uri uri = Uri.parse(list.get(position).getImg_url()+MyConfig.corpPhoto);
         holder.pic.setImageURI(uri);
         SetLayoutParams.setLinearLayout(holder.pic_layout, (MyApplication.width-20)*2/5,((MyApplication.width-20)*2/5)*3/4);
         holder.photo_name.setText(list.get(position).getAlbum_name());

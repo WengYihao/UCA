@@ -5,18 +5,21 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.yueka.SendYueKaActivity"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_40"
-        android:background="@drawable/gradient" >
+        android:background="@drawable/gradient">
+
         <TextView
             android:id="@+id/back"
-            style="@style/style_back"/>
+            style="@style/style_back" />
 
         <TextView
             android:id="@+id/title"
             style="@style/style_title"
-            android:text="@string/sendYueKaActivity_title_text"/>
+            android:text="@string/sendYueKaActivity_title_text" />
+
         <TextView
             android:id="@+id/more"
             android:layout_width="wrap_content"
@@ -50,6 +53,8 @@
                     android:layout_marginRight="@dimen/padding_15"
                     android:layout_weight="1"
                     android:background="@color/white"
+                    android:textColorHint="@color/milky"
+                    android:textSize="13sp"
                     android:hint="@string/sendYueKaActivity_edittext_hint"
                     android:padding="@dimen/padding_15" />
             </LinearLayout>
@@ -58,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:scaleType="matrix"
-                android:src="@color/grey2" />
+                android:src="@color/gray" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -95,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:scaleType="matrix"
-                android:src="@color/grey2" />
+                android:src="@color/gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -112,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:scaleType="matrix"
-                android:src="@color/grey2" />
+                android:src="@color/gray" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -170,7 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:scaleType="matrix"
-                android:src="@color/grey2" />
+                android:src="@color/gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -178,16 +183,23 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:padding="@dimen/padding_10"
-                android:visibility="gone">
+                android:padding="@dimen/padding_15">
 
                 <CheckBox
                     android:id="@+id/baoche"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/checkbox_normal"
+                    android:button="@null"
+                    android:layout_gravity="center_vertical"/>
+                <TextView
+
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/sendYueKaActivity_text5"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="@dimen/padding_5"/>
 
                 <LinearLayout
                     android:id="@+id/num"
@@ -197,12 +209,15 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <EditText
+                    <com.cn.uca.view.MyEditText
+                        android:id="@+id/servicePprice"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@color/white"
-                        android:hint="@string/sendYueKaActivity_text6" />
+                        android:hint="@string/sendYueKaActivity_text6"
+                        android:inputType="number"
+                        android:textSize="@dimen/text_12"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -212,6 +227,11 @@
                         android:textColor="@color/black" />
                 </LinearLayout>
             </LinearLayout>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:scaleType="matrix"
+                android:src="@color/gray" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -269,13 +289,15 @@
                     android:background="@color/gray"
                     android:gravity="center"
                     android:hint="@string/sendYueKaActivity_text10"
+                    android:textSize="13sp"
+                    android:textColorHint="@color/milky"
                     android:padding="@dimen/padding_15" />
             </LinearLayout>
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:scaleType="matrix"
-                android:src="@color/grey2" />
+                android:src="@color/gray" />
             <RelativeLayout
                 android:id="@+id/freeTime"
                 android:layout_width="match_parent"
@@ -306,7 +328,7 @@
                     android:layout_marginRight="@dimen/padding_10"
                     android:layout_toLeftOf="@id/endTime"
                     android:scaleType="matrix"
-                    android:src="@color/grey2" />
+                    android:src="@color/gray" />
 
                 <TextView
                     android:id="@+id/startTime"
@@ -363,7 +385,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:scaleType="matrix"
-                android:src="@color/grey2" />
+                android:src="@color/gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"

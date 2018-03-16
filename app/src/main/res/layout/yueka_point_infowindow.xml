@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="200dp"
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:background="@color/transparent"
+    android:id="@+id/layout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/five_circular_white_background">
+
+        <LinearLayout
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/padding_5"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_8">
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="望云顶"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_12"/>
+            <TextView
+                android:id="@+id/place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="望云顶"
+                android:layout_marginTop="@dimen/padding_5"
+                android:textColor="@color/milky"
+                android:textSize="@dimen/text_10"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/add"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:background="@color/ori"
+            android:gravity="center"
+            android:text="+"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/infowindow_back"
+            android:layout_centerHorizontal="true"/>
+    </RelativeLayout>
+</LinearLayout>

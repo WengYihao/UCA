@@ -3,6 +3,7 @@ package com.cn.uca.ui.view.yueka;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,6 +28,8 @@ import com.cn.uca.bean.datepicker.DateType;
 import com.cn.uca.bean.yueka.LineNameBean;
 import com.cn.uca.bean.yueka.ReleaseEscortRecordBean;
 import com.cn.uca.bean.yueka.SendYueKaBean;
+import com.cn.uca.bean.yueka.SendYueka;
+import com.cn.uca.bean.yueka.ServicesBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.datepicker.OnDoubleSureLisener;
@@ -34,6 +37,7 @@ import com.cn.uca.server.yueka.YueKaHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
+import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
@@ -50,13 +54,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SendYueKaActivity extends BaseBackActivity implements View.OnClickListener,OnDoubleSureLisener {
 
     private SendYueKaBean bean;
-    private TextView back,more,line_name,moreLine,explainMore,moreDetails,price,average_score_content,startTime,endTime,send;
-    private MyEditText yueka_name;
+    private TextView back,more,line_name,explainMore,moreDetails,price,average_score_content,startTime,endTime,send;
+    private MyEditText yueka_name,servicePprice;
     private EditText peopleNum;
     private HorizontalListView lineName;
     private RadioButton one,three;
@@ -67,10 +73,12 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
     private ReleaseEscortRecordBean escortRecordBean;
     private int id;
     private List<LineNameBean> list;
-    private List<String> stringList = new ArrayList<>();
     private List<String> linePoint;
     private boolean isShow = true;
     private PointAdapter pointAdapter;
+    private int escortId,roadId;
+    private String line_Name = "";
+    private SendYueka yuekaBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +86,21 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         setContentView(R.layout.activity_send_yue_ka);
 
         initView();
-        getReleaseInfo();
+        getInfo();
+
     }
 
+    private void getInfo(){
+        Intent intent = getIntent();
+        if (intent != null){
+            escortId = intent.getIntExtra("id",0);
+            line_Name = intent.getStringExtra("line");
+            roadId = intent.getIntExtra("roadId",0);
+            if (escortId != 0){
+                getERInfo(escortId);
+            }
+        }
+    }
     private void initView() {
         list = new ArrayList<>();
         linePoint = new ArrayList<>();
@@ -92,10 +112,10 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         lineName = (HorizontalListView)findViewById(R.id.lineName);
         pointAdapter = new PointAdapter(linePoint,this);
         lineName.setAdapter(pointAdapter);
-        moreLine = (TextView)findViewById(R.id.moreLine);
         price = (TextView)findViewById(R.id.price);
         average_score_content = (TextView)findViewById(R.id.average_score_content);
         yueka_name = (MyEditText)findViewById(R.id.yueka_name);
+        servicePprice = (MyEditText)findViewById(R.id.servicePprice);
         baoche = (CheckBox)findViewById(R.id.baoche);
         one = (RadioButton)findViewById(R.id.one);
         three = (RadioButton)findViewById(R.id.three);
@@ -109,13 +129,16 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         moreDetails = (TextView)findViewById(R.id.moreDetails);
         one.setOnClickListener(this);
         three.setOnClickListener(this);
+        line_name.setOnClickListener(this);
         baoche.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b){
                     num.setVisibility(View.VISIBLE);
+                    baoche.setBackgroundResource(R.drawable.checkbox_select);
                 }else{
                     num.setVisibility(View.GONE);
+                    baoche.setBackgroundResource(R.drawable.checkbox_normal);
                 }
             }
         });
@@ -130,13 +153,13 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         explainMore.setOnClickListener(this);
         back.setOnClickListener(this);
         more.setOnClickListener(this);
-        moreLine.setOnClickListener(this);
         supplement.setOnClickListener(this);
         freeTime.setOnClickListener(this);
 
         startTime.setText(SystemUtil.getFetureDate(1));
         endTime.setText(SystemUtil.getFetureDate(10));
 
+        getReleaseInfo();
     }
 
     private void getReleaseInfo(){
@@ -145,7 +168,6 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
             public void onResponse(Object response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
-                    Log.i("123",jsonObject.toString());
                     int code  = jsonObject.getInt("code");
                     switch (code){
                         case 0:
@@ -154,8 +176,6 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
                             bean = gson.fromJson(object.toString(),new TypeToken<SendYueKaBean>(){}.getType());
                             price.setText("￥"+(int)bean.getAverage_score_price()+"/天");
                             average_score_content.setText(bean.getAverage_score_content()+"\n"+bean.getDayDiscountContent()+"\n"+bean.getNumberDiscountContent());
-//                            dayDiscountContent.setText(bean.getDayDiscountContent());
-//                            numberDiscountContent.setText(bean.getNumberDiscountContent());
                             break;
                     }
                 }catch (Exception e){
@@ -179,89 +199,103 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         if (!StringXutil.isEmpty(lineName)){
             escortRecordBean.setEscort_record_name(lineName);
         }else{
-            ToastXutil.show("约咖名称不能为空");
+            ToastXutil.show("路线名称不能为空");
         }
-        if (!StringXutil.isEmpty(peopleNum.getText().toString().trim())){
-            try{
-                int num = Integer.parseInt(peopleNum.getText().toString().trim());
-                escortRecordBean.setRequirement_people_number(num);
-            }catch (Exception e){
-                ToastXutil.show("请输入数字");
-            }
+        if (escortRecordBean.getRoute_id() == 0){
+            ToastXutil.show("请选择一条路线");
         }else{
-            if (one.isChecked()){
-                escortRecordBean.setRequirement_people_number(1);
-            }else if(three.isChecked()){
-                escortRecordBean.setRequirement_people_number(3);
-            }
-        }
-        if (!StringXutil.isEmpty(timeForStart)){
-            escortRecordBean.setBeg_time(timeForStart);
-        }else{
-            escortRecordBean.setBeg_time(startTime.getText().toString());
-        }
-        if (!StringXutil.isEmpty(timeForEnd)){
-            escortRecordBean.setEnd_time(timeForEnd);
-        }else {
-            escortRecordBean.setEnd_time(endTime.getText().toString());
-        }
-        if (id != 0){
-            escortRecordBean.setEscort_details_id(id);
-        }else{
-            ToastXutil.show("编辑的详情没有保存");
-        }
-        escortRecordBean.setAccount_token(SharePreferenceXutil.getAccountToken());
-        Gson gson = new Gson();
-        escortRecordBean.setReleaseServices(gson.toJson(stringList));
-        Log.i("123",escortRecordBean.toString()+"--");
-        YueKaHttp.releaseEscortRecord(escortRecordBean, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                try {
-                    if (i == 200){
-                        JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
-                        Log.i("123",jsonObject.toString());
-                        int code = jsonObject.getInt("code");
-                        switch (code){
-                            case 0:
-                                ToastXutil.show("发布成功");
-                                SendYueKaActivity.this.finish();
-                                break;
-                            case 121:
-                                ToastXutil.show("日期格式不合法");
-                                break;
-                            case 125:
-                                ToastXutil.show("发布时间大于15天");
-                                break;
-                            case 130:
-                                ToastXutil.show("人数不能超过40");
-                                break;
-                            case 138:
-                                ToastXutil.show("次路线的路线点过少请添加后再次尝试");
-                                break;
-                            case 145:
-                                ToastXutil.show("伴游用户已发布信息");
-                                break;
-                            case 411:
-                                ToastXutil.show("当前日期已有安排");
-                                break;
-                            case 164:
-                                ToastXutil.show("约咖天数不能超过15天 ");
-                                break;
-                            default:
-                                ToastXutil.show("发布失败");
-                                break;
-                        }
-                    }
+            if (!StringXutil.isEmpty(peopleNum.getText().toString().trim())){
+                try{
+                    int num = Integer.parseInt(peopleNum.getText().toString().trim());
+                    escortRecordBean.setRequirement_people_number(num);
                 }catch (Exception e){
+                    ToastXutil.show("请输入数字");
+                }
+            }else{
+                if (one.isChecked()){
+                    escortRecordBean.setRequirement_people_number(1);
+                }else if(three.isChecked()){
+                    escortRecordBean.setRequirement_people_number(3);
                 }
             }
-
-            @Override
-            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-
+            if (!StringXutil.isEmpty(timeForStart)){
+                escortRecordBean.setBeg_time(timeForStart);
+            }else{
+                escortRecordBean.setBeg_time(startTime.getText().toString());
             }
-        });
+            if (!StringXutil.isEmpty(timeForEnd)){
+                escortRecordBean.setEnd_time(timeForEnd);
+            }else {
+                escortRecordBean.setEnd_time(endTime.getText().toString());
+            }
+            if (id != 0){
+                escortRecordBean.setEscort_details_id(id);
+            }else{
+                ToastXutil.show("编辑的详情没有保存");
+            }
+            escortRecordBean.setAccount_token(SharePreferenceXutil.getAccountToken());
+            if (baoche.isChecked()){
+                Gson gson = new Gson();
+                ServicesBean bean = new ServicesBean();
+                bean.setPrice(Double.parseDouble(servicePprice.getText().toString()));
+                bean.setService_function_id(1);
+                List<ServicesBean> list = new ArrayList<>();
+                list.add(bean);
+                String json = gson.toJson(list);
+                escortRecordBean.setReleaseServices(json);
+            }else{
+                escortRecordBean.setReleaseServices("[]");
+            }
+            YueKaHttp.releaseEscortRecord(escortRecordBean, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int i, Header[] headers, byte[] bytes) {
+                    try {
+                        if (i == 200){
+                            JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
+                            Log.i("123",jsonObject.toString());
+                            int code = jsonObject.getInt("code");
+                            switch (code){
+                                case 0:
+                                    ToastXutil.show("发布成功");
+                                    SendYueKaActivity.this.finish();
+                                    break;
+                                case 121:
+                                    ToastXutil.show("日期格式不合法");
+                                    break;
+                                case 125:
+                                    ToastXutil.show("发布时间大于15天");
+                                    break;
+                                case 130:
+                                    ToastXutil.show("人数不能超过40");
+                                    break;
+                                case 138:
+                                    ToastXutil.show("次路线的路线点过少请添加后再次尝试");
+                                    break;
+                                case 145:
+                                    ToastXutil.show("伴游用户已发布信息");
+                                    break;
+                                case 411:
+                                    ToastXutil.show("当前日期已有安排");
+                                    break;
+                                case 164:
+                                    ToastXutil.show("约咖天数不能超过15天 ");
+                                    break;
+                                default:
+                                    ToastXutil.show("发布失败");
+                                    break;
+                            }
+                        }
+                    }catch (Exception e){
+                    }
+                }
+
+                @Override
+                public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                }
+            });
+        }
+
     }
     @Override
     public void onClick(View view) {
@@ -284,13 +318,18 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
                 one.setTextColor(getResources().getColor(R.color.grey2));
                 one.setBackgroundColor(getResources().getColor(R.color.gray));
                 break;
-            case R.id.moreLine:
+            case R.id.line_name:
                 showNameDialog();
                 break;
             case R.id.supplement:
                 Intent intent = new Intent();
                 intent.setClass(SendYueKaActivity.this,SendYueKaDetailctivity.class);
-                startActivityForResult(intent,0);
+                if (escortId != 0){
+                    intent.putParcelableArrayListExtra("list",(ArrayList<? extends Parcelable>) yuekaBean.getParagraphs());
+                    startActivityForResult(intent,0);
+                }else{
+                    startActivityForResult(intent,0);
+                }
                 break;
             case R.id.freeTime:
                 showDatePickDialog(DateType.TYPE_YMD);
@@ -318,6 +357,7 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
         View inflate = LayoutInflater.from(this).inflate(R.layout.choose_city_dialog, null);
         final ListView listView = (ListView)inflate.findViewById(R.id.listView);
         Button btn_cancel = (Button)inflate.findViewById(R.id.btn_cancel);
+        btn_cancel.setText("路线预设");
         list.clear();
         for (int i = 0;i<bean.getEscortAllRoutes().size();i++){
             LineNameBean nameBean = new LineNameBean();
@@ -325,12 +365,16 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
             nameBean.setLine_name(bean.getEscortAllRoutes().get(i).getRoute_name());
             list.add(nameBean);
         }
+        if (list.size() == 0){
+            listView.setVisibility(View.GONE);
+        }
         LineNameAdapter adapter = new LineNameAdapter(list,this);
         listView.setAdapter(adapter);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                startActivity(new Intent(SendYueKaActivity.this,PresetManagerActivity.class));
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -340,7 +384,6 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
                 escortRecordBean.setRoute_id(list.get(i).getLine_id());
                 linePoint.clear();
                 for (int a = 0;a < bean.getEscortAllRoutes().size();a++){
-                    Log.i("123",bean.getEscortAllRoutes().get(a).getRoute_id()+"-"+list.get(i).getLine_id()+"-");
                     if (bean.getEscortAllRoutes().get(a).getRoute_id() == list.get(i).getLine_id()){
                         for (int b = 0;b <bean.getEscortAllRoutes().get(a).getPlaces().size();b++){
                             linePoint.add(bean.getEscortAllRoutes().get(a).getPlaces().get(b).getDeparture_address());
@@ -419,5 +462,58 @@ public class SendYueKaActivity extends BaseBackActivity implements View.OnClickL
                 endTime.setText(timeForEnd);
             }
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        initView();
+    }
+
+    private void getERInfo(int id){
+        Map<String ,Object> map = new HashMap<>();
+        String account_token = SharePreferenceXutil.getAccountToken();
+        map.put("account_token",account_token);
+        String time_stamp = SystemUtil.getCurrentDate2();
+        map.put("time_stamp",time_stamp);
+        map.put("escort_record_id",id);
+        String sign = SignUtil.sign(map);
+        YueKaHttp.getERInfo(account_token, time_stamp, sign, id, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            Gson gson = new Gson();
+                            yuekaBean = gson.fromJson(jsonObject.getJSONObject("data").toString(),new TypeToken<SendYueka>() {
+                            }.getType());
+                            yueka_name.setText(yuekaBean.getEscort_record_name());
+                            line_name.setText(line_Name);
+                            for (int i = 0;i<yuekaBean.getServiceFunctions().size();i++){
+                                if (yuekaBean.getServiceFunctions().get(i).getService_function_id() == 1){
+                                    baoche.setChecked(true);
+                                    num.setVisibility(View.VISIBLE);
+                                    servicePprice.setText((int)yuekaBean.getServiceFunctions().get(i).getPrice()+"");
+                                }
+                            }
+                            break;
+                    }
+                }catch (Exception e){
+
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
     }
 }

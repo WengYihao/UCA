@@ -20,4 +20,6 @@ public class NotificationReceiver extends PushMessageReceiver {
     public boolean onNotificationMessageClicked(Context context, PushNotificationMessage pushNotificationMessage) {
         return false;
     }
+
+
 }

@@ -281,7 +281,6 @@ public class CityActivity extends BaseBackActivity implements AbsListView.OnScro
             cursor.close();
             db.close();
         }catch (Exception e){
-            Log.i("123",e.getMessage()+"---");
         }
         return code;
     }

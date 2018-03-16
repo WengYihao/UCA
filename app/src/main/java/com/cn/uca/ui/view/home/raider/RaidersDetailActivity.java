@@ -50,6 +50,7 @@ import com.cn.uca.gaodeutil.NavigationUtil;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.raider.FindWayImpl;
 import com.cn.uca.impl.raider.RouteImpl;
+import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.home.yusheng.YuShengDetailsActivity;
@@ -406,16 +407,12 @@ public class RaidersDetailActivity extends BaseBackActivity implements LocationS
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ShowPopupWindow.spotDetail(RaidersDetailActivity.this,list.get(i).getIntroduce());
 //                Intent intent = new Intent();
 //                intent.setClass(RaidersDetailActivity.this,SpotDetailActivity.class);
 //                intent.putExtra("content",senicSpotList.get(i).getIntroduce());
 //                intent.putExtra("name",senicSpotList.get(i).getScenic_spot_name());
 //                startActivity(intent);
-//                dialog.dismiss();
-
-                Intent intent = new Intent();
-                intent.setClass(RaidersDetailActivity.this,RouteActivity.class);
-                startActivity(intent);
                 dialog2.dismiss();
             }
         });
@@ -475,6 +472,8 @@ public class RaidersDetailActivity extends BaseBackActivity implements LocationS
 
     String startName = null;
     String endName = null;
+    LatLng start = null;
+    LatLng end = null;
     @Override
     public void start(View v) {
         Log.e("456",(int)v.getTag()+"--");
@@ -484,41 +483,24 @@ public class RaidersDetailActivity extends BaseBackActivity implements LocationS
             }
             list.get((int)v.getTag()).setState(1);//起点
             startName = list.get((int)v.getTag()).getScenic_spot_name();
+            start = new LatLng(list.get((int)v.getTag()).getLat(),list.get((int)v.getTag()).getLng());
             adapter.setList(list);
         }else{
             //选择终点
             list.get((int)v.getTag()).setState(3);//终点
             adapter.setList(list);
             endName = list.get((int)v.getTag()).getScenic_spot_name();
-            Log.e("456",startName+"--"+endName);
+            end = new LatLng(list.get((int)v.getTag()).getLat(),list.get((int)v.getTag()).getLng());
+            show2(start,end);
+            dialog2.dismiss();
+//            ToastXutil.show(startName+"-"+endName);
+//            Intent intent = new Intent();
+//            intent.setClass(RaidersDetailActivity.this,RouteActivity.class);
+//            intent.putExtra("start",startName);
+//            intent.putExtra("end",endName);
+//            startActivity(intent);
+//            dialog2.dismiss();
         }
-
-//        if (startName == null){
-//            for (int i = 0;i<listView.getChildCount();i++){
-//                Log.e("789",i+"***");
-//                LinearLayout layout  = (LinearLayout) listView.getChildAt(i);
-//                TextView view = (TextView) layout.findViewById(R.id.start);
-//                view.setBackgroundResource(R.drawable.circular_white_background);
-//                view.setText("终");
-//                view.setTextColor(getResources().getColor(R.color.grey2));
-//            }
-//            LinearLayout layout = (LinearLayout) listView.getChildAt((int) v.getTag());
-//            TextView view = (TextView) layout.findViewById(R.id.start);
-//            view.setBackgroundResource(R.drawable.circular_ori_background);
-//            view.setText("起");
-//            view.setTextColor(getResources().getColor(R.color.white));
-//            startName = senicSpotList.get((int) v.getTag()).getScenic_spot_name();
-//        }else{
-//            if (endName == null){
-//                LinearLayout layout = (LinearLayout) listView.getChildAt((int) v.getTag());
-//                TextView view = (TextView) layout.findViewById(R.id.start);
-//                view.setBackgroundResource(R.drawable.circular_ori_background);
-//                view.setText("终");
-//                view.setTextColor(getResources().getColor(R.color.white));
-//                endName = senicSpotList.get((int) v.getTag()).getScenic_spot_name();
-//                ToastXutil.show("起点终点选择完毕");
-//            }
-//        }
     }
     private void show(final LatLng latLng){
        dialog = new Dialog(this,R.style.dialog_style);
@@ -549,6 +531,56 @@ public class RaidersDetailActivity extends BaseBackActivity implements LocationS
             public void onClick(View v) {
                 dialog.dismiss();
                 NavigationUtil.busNavi(new LatLng(lat,lng),latLng,RaidersDetailActivity.this);
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //将布局设置给Dialog
+        dialog.setContentView(inflate);
+        //获取当前Activity所在的窗体
+        Window dialogWindow = dialog.getWindow();
+        WindowManager.LayoutParams params = dialogWindow.getAttributes();
+        params.width = MyApplication.width;
+        //设置Dialog从窗体底部弹出
+        dialogWindow.setGravity( Gravity.BOTTOM);
+        dialogWindow.setAttributes(params);
+        StatusMargin.setFrameLayoutBottom(RaidersDetailActivity.this,inflate,0);
+        dialog.show();//显示对话框
+    }
+
+    private void show2(final LatLng start,final LatLng end){
+        dialog = new Dialog(this,R.style.dialog_style);
+        //填充对话框的布局
+        View inflate = LayoutInflater.from(this).inflate(R.layout.navi_type_dialog, null);
+        LinearLayout walk = (LinearLayout)inflate.findViewById(R.id.walk);
+        LinearLayout driver = (LinearLayout)inflate.findViewById(R.id.driver);
+        LinearLayout bus = (LinearLayout)inflate.findViewById(R.id.bus);
+        TextView cancel = (TextView)inflate.findViewById(R.id.cancel);
+        walk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                NavigationUtil.walkNavi(start,end,RaidersDetailActivity.this);
+            }
+        });
+
+        driver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                NavigationUtil.driverNavi(start,RaidersDetailActivity.this);
+            }
+        });
+
+        bus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                NavigationUtil.busNavi(start,end,RaidersDetailActivity.this);
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {

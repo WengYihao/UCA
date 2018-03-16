@@ -3,16 +3,14 @@ package com.cn.uca.ui.view.home.samecityka;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
 
 import com.cn.uca.R;
+import com.cn.uca.bean.MessageNumBean;
 import com.cn.uca.impl.ServiceBack;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.ui.fragment.home.samecityka.ActionSquareFragment;
 import com.cn.uca.ui.fragment.home.samecityka.MyActionFragment;
 import com.cn.uca.ui.view.util.BaseBackActivity;
-import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.BottomBar;
 
 public class SameCityKaActivity extends BaseBackActivity implements ServiceBack{
@@ -50,9 +48,9 @@ public class SameCityKaActivity extends BaseBackActivity implements ServiceBack{
                 ShowPopupWindow.seviceWindow(getWindow().getDecorView(),SameCityKaActivity.this,str,SameCityKaActivity.this);
             }
 
-
         });
         show(0);
+
     }
 
     private void show(int index) {
@@ -92,5 +90,21 @@ public class SameCityKaActivity extends BaseBackActivity implements ServiceBack{
     @Override
     public void sure() {
         startActivity(new Intent(SameCityKaActivity.this ,SendActionActivity.class));
+    }
+
+    private void setPoint(){
+        if (MessageNumBean.getInstens().getCc_refund_ticket_examine() != 0 ||
+                MessageNumBean.getInstens().getCc_settlement() != 0 ||
+                MessageNumBean.getInstens().getCc_sign_examine() != 0){
+            mBottomBar.setPoint(1);
+        }else{
+            mBottomBar.setPoint(0);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setPoint();
     }
 }

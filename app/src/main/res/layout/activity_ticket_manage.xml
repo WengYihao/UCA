@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.cn.uca.view.StatusView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.cn.uca.ui.view.home.samecityka.TicketManageActivity">
+    android:orientation="vertical">
     <RelativeLayout
+        android:id="@+id/llTitle"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/padding_40"
-        android:background="@drawable/gradient">
-
+        android:layout_height="40dp"
+        android:background="@drawable/gradient"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
         <TextView
             android:id="@+id/back"
-            style="@style/style_back" />
-
+            style="@style/style_back"/>
 
         <TextView
-            android:id="@+id/title"
-            style="@style/style_title"
-            android:text="票券管理" />
+            android:id="@+id/a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="票券管理"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16" />
     </RelativeLayout>
-    <LinearLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <ListView
-            android:id="@+id/listView"
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </ListView>
-    </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/no_data_pic"/>
+        </RelativeLayout>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </com.cn.uca.view.StatusView>

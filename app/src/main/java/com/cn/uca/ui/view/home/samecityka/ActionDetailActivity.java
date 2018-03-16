@@ -150,7 +150,21 @@ public class ActionDetailActivity extends BaseBackActivity implements View.OnCli
                 }
                 break;
             case R.id.join_action:
-                showCityDialog();
+                if (bean.getTickets().size() == 0){
+                    if (bean.getFillUserInfos().size() == 0){
+                        ToastXutil.show("该活动无需报名，直接参加");
+                    }else{
+                        Intent intent = new Intent();
+                        List<AddTicketBean> list = new ArrayList<>();
+                        intent.setClass(ActionDetailActivity.this,FillInfoActivity.class);
+                        intent.putExtra("id",id);
+                        intent.putParcelableArrayListExtra("ticketList",(ArrayList<? extends Parcelable>) list);
+                        intent.putParcelableArrayListExtra("infoList",(ArrayList<? extends Parcelable>) bean.getFillUserInfos());
+                        startActivity(intent);
+                    }
+                }else{
+                    showCityDialog();
+                }
                 break;
             case R.id.submit:
                 if (ticketList.size() != 0){

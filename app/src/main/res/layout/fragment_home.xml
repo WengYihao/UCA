@@ -2,15 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/gray">
     <com.cn.uca.view.StickyScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
         <RelativeLayout
             android:layout_below="@id/title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/gray">
             <RelativeLayout
                 android:id="@+id/aaa"
                 android:layout_width="match_parent"
@@ -23,92 +26,161 @@
             </RelativeLayout>
             <TextView
                 android:id="@+id/backlayout"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/home_back1"/>
+                android:background="@mipmap/home_back1"
+                android:layout_centerHorizontal="true"/>
             <LinearLayout
                 android:id="@+id/ll_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:padding="10dp"
                 android:layout_marginLeft="@dimen/padding_15"
                 android:layout_marginRight="@dimen/padding_15"
                 android:layout_below="@+id/backlayout"
-                android:background="@color/white">
-                <LinearLayout
+                android:layout_marginTop="@dimen/padding_12">
+                <RelativeLayout
+                    android:id="@+id/samecityka"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/five_circular_white_background"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/padding_12"
+                        android:layout_marginBottom="@dimen/padding_12">
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/samecityka_back"
+                        android:layout_gravity="center"/>
+
+                        <TextView
+                            android:id="@+id/textView16"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_10"
+                            android:gravity="center"
+                            android:text="同城咖"
+                            android:textSize="@dimen/text_12"
+                            android:textColor="@color/grey" />
+                    </LinearLayout>
+                   <TextView
+                       android:id="@+id/home_samecityka_num"
+                       android:layout_width="@dimen/padding_8"
+                       android:layout_height="@dimen/padding_8"
+                       android:background="@drawable/circular_red_background"
+                       android:layout_alignParentRight="true"/>
+                </RelativeLayout>
+                <ImageView
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="matrix"
+                    android:src="@color/gray" />
+                <RelativeLayout
+                    android:id="@+id/yueka"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/five_circular_white_background"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/padding_12"
+                        android:layout_marginBottom="@dimen/padding_12">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/yueka_background"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_10"
+                            android:gravity="center"
+                            android:text="约咖"
+                            android:textSize="@dimen/text_12"
+                            android:textColor="@color/grey" />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/home_yueka_num"
+                        android:layout_width="@dimen/padding_8"
+                        android:layout_height="@dimen/padding_8"
+                        android:background="@drawable/circular_red_background"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
+                <ImageView
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="matrix"
+                    android:src="@color/gray" />
+                <RelativeLayout
                     android:id="@+id/yusheng"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:background="@drawable/five_circular_white_background"
                     android:layout_weight="1">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/yusheng_back"
-                        android:layout_gravity="center"/>
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/yushengActivity_title_text"
-                        android:gravity="center"
-                        android:textColor="@color/grey"
-                        android:layout_marginTop="@dimen/padding_10"/>
-                </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/padding_12"
+                        android:layout_marginBottom="@dimen/padding_12">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/yusheng_back"
+                            android:layout_gravity="center"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/yushengActivity_title_text"
+                            android:gravity="center"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_12"
+                            android:layout_marginTop="@dimen/padding_10"/>
+                    </LinearLayout>
+                </RelativeLayout>
                 <ImageView
-                    android:layout_width="1dp"
+                    android:layout_width="5dp"
                     android:layout_height="match_parent"
                     android:scaleType="matrix"
                     android:src="@color/gray" />
-                <LinearLayout
-                android:id="@+id/oneRaiders"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/raiders_back" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/raiderActivity_title_text"
-                    android:gravity="center"
-                    android:textColor="@color/grey"
-                    android:layout_marginTop="@dimen/padding_10"/>
-                </LinearLayout>
-                <ImageView
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:scaleType="matrix"
-                    android:src="@color/gray" />
-                <LinearLayout
-                    android:id="@+id/footprint"
+                <RelativeLayout
+                    android:id="@+id/oneRaiders"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:background="@drawable/five_circular_white_background"
                     android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:background="@mipmap/footprint_back" />
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/addFootPrintActivity_title_text"
-                        android:gravity="center"
-                        android:textColor="@color/grey"
-                        android:layout_marginTop="@dimen/padding_10"/>
-                </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/padding_12"
+                        android:layout_marginBottom="@dimen/padding_12">
+                        <TextView
+                            android:id="@+id/textView8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@mipmap/raiders_back" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/raiderActivity_title_text"
+                            android:gravity="center"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_12"
+                            android:layout_marginTop="@dimen/padding_10"/>
+                    </LinearLayout>
+                </RelativeLayout>
+
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_content2"
@@ -116,153 +188,161 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:padding="10dp"
                 android:layout_marginLeft="@dimen/padding_15"
                 android:layout_marginRight="@dimen/padding_15"
                 android:layout_below="@+id/ll_content"
-                android:layout_marginTop="@dimen/padding_8"
-                android:background="@color/white">
+                android:layout_marginTop="@dimen/padding_5">
 
-                <LinearLayout
-                    android:id="@+id/samecityka"
+                <RelativeLayout
+                    android:id="@+id/chuxing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/samecityka_back"
-                        android:layout_gravity="center"/>
-
-                    <TextView
-                        android:id="@+id/textView16"
+                    android:layout_weight="1"
+                    android:background="@drawable/five_circular_white_background">
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/padding_10"
-                        android:gravity="center"
-                        android:text="同城咖"
-                        android:textColor="@color/grey" />
-                </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/padding_12"
+                        android:layout_marginBottom="@dimen/padding_12">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@mipmap/chuxing_background" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_10"
+                            android:gravity="center"
+                            android:text="出行"
+                            android:textSize="@dimen/text_12"
+                            android:textColor="@color/grey" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
                 <ImageView
-                    android:layout_width="1dp"
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="matrix"
+                    android:src="@color/gray" />
+                <RelativeLayout
+                    android:id="@+id/travel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/five_circular_white_background"
+                    android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/padding_12"
+                        android:layout_marginBottom="@dimen/padding_12">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@mipmap/travel_background" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/homeFragment_text2"
+                            android:gravity="center"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_12"
+                            android:layout_marginTop="@dimen/padding_10"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+                <ImageView
+                    android:layout_width="5dp"
                     android:layout_height="match_parent"
                     android:scaleType="matrix"
                     android:src="@color/gray" />
 
-                <ImageView
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:scaleType="matrix"
-                    android:src="@color/gray" />
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/lvpai"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-
-                    <TextView
+                    android:layout_weight="1"
+                    android:background="@drawable/five_circular_white_background">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/padding_12"
+                        android:layout_marginBottom="@dimen/padding_12">
+                        <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@mipmap/lvpai_back" />
 
-                    <TextView
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/padding_10"
+                            android:gravity="center"
+                            android:text="旅拍"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_12" /></LinearLayout>
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="matrix"
+                    android:src="@color/gray" />
+                <RelativeLayout
+                    android:id="@+id/more"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/five_circular_white_background"
+                    android:layout_weight="1">
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="旅拍"
-                        android:gravity="center"
-                        android:textColor="@color/grey"
-                        android:layout_marginTop="@dimen/padding_10"/>
-                </LinearLayout>
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/padding_12"
+                        android:layout_marginBottom="@dimen/padding_12">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:background="@mipmap/more_background" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="更多"
+                            android:gravity="center"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_12"
+                            android:layout_marginTop="@dimen/padding_10"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_content3"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:padding="@dimen/padding_10"
-                android:layout_below="@+id/ll_content2"
-                android:layout_marginLeft="@dimen/padding_15"
-                android:layout_marginRight="@dimen/padding_15"
-                android:background="@color/white"
-                android:layout_marginTop="@dimen/padding_8">
+                android:layout_below="@id/ll_content2">
 
-                <LinearLayout
-                    android:id="@+id/planeTicket"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/getGift"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/plant_ticket_background"
-                        android:layout_gravity="center"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeFragment_text1"
-                        android:gravity="center"
-                        android:textColor="@color/grey"
-                        android:layout_marginTop="@dimen/padding_10"/>
-                </LinearLayout>
-                <ImageView
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:scaleType="matrix"
-                    android:src="@color/gray" />
-                <LinearLayout
-                    android:id="@+id/tourism"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:background="@mipmap/new_background"
+                    android:layout_marginTop="@dimen/padding_20"
+                    android:layout_marginBottom="@dimen/padding_20"
+                    android:layout_centerHorizontal="true"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/travel_background"
-                        android:layout_gravity="center"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeFragment_text2"
-                        android:gravity="center"
-                        android:textColor="@color/grey"
-                        android:layout_marginTop="@dimen/padding_10"/>
-
-                </LinearLayout>
-                <ImageView
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:scaleType="matrix"
-                    android:src="@color/gray" />
-                <LinearLayout
-                    android:id="@+id/hotel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@mipmap/hotel_background"
-                        android:layout_gravity="center"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/homeFragment_text3"
-                        android:gravity="center"
-                        android:textColor="@color/grey"
-                        android:layout_marginTop="@dimen/padding_10"/>
-
-                </LinearLayout>
-            </LinearLayout>
-
+            </RelativeLayout>
         </RelativeLayout>
     </com.cn.uca.view.StickyScrollView>
     <RelativeLayout
@@ -308,4 +388,13 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/padding_15"/>
     </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/home_back2"
+        android:layout_marginLeft="28dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="28dp" />
 </RelativeLayout>

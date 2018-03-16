@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -32,4 +32,10 @@
             android:padding="@dimen/padding_2"
             android:text="文本" />
     </RelativeLayout>
-</LinearLayout>
+    <TextView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/delete_ori_back"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>

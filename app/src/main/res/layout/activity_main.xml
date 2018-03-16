@@ -13,7 +13,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="45dp"
         android:background="@color/white">
 
         <RelativeLayout
@@ -42,42 +42,9 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="3dp"
                     android:text="@string/homeFragment_menu_home_text"
+                    android:textSize="@dimen/text_10"
                     android:textColor="@color/ori" />
             </LinearLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/yueka_layout"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <LinearLayout
-                android:id="@+id/ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
-
-                <ImageView
-                    android:id="@+id/yueka_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/yueka_normal" />
-
-                <TextView
-                    android:id="@+id/yueka_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="3dp"
-                    android:text="@string/homeFragment_menu_yueka_text"
-                    android:textColor="@color/ori" />
-            </LinearLayout>
-
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/user_layout"
@@ -86,10 +53,12 @@
             android:layout_weight="1">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/layout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_centerInParent="true">
 
                 <ImageView
                     android:id="@+id/user_image"
@@ -105,18 +74,17 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="3dp"
                     android:text="@string/homeFragment_menu_user_text"
+                    android:textSize="@dimen/text_10"
                     android:textColor="@color/ori" />
             </LinearLayout>
             <com.cn.uca.view.DragPointView
                 android:id="@+id/seal_num"
-                android:layout_width="19dp"
-                android:layout_height="19dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:visibility="invisible"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/padding_30"
-                android:layout_marginTop="@dimen/padding_5"/>
+                android:layout_toRightOf="@id/layout"/>
         </RelativeLayout>
 
 

@@ -49,4 +49,12 @@
         <item>旅拍</item>
         <item>门票</item>
     </array>
+    <array name="yueka_order_type">
+        <item>全部</item>
+        <item>审核</item>
+        <item>进行中</item>
+        <item>完成</item>
+        <item>退单</item>
+        <item>失效</item>
+    </array>
 </resources>

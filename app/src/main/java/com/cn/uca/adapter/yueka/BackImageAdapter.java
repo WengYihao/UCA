@@ -81,7 +81,7 @@ public class BackImageAdapter extends BaseAdapter implements BackImageListener{
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		Uri uri = Uri.parse(MyConfig.photo+list.get(position).getCover_photo_url());
+		Uri uri = Uri.parse(list.get(position).getCover_photo_url()+MyConfig.corpPhoto);
 		holder.pic.setImageURI(uri);
 		return convertView;
 	}

@@ -1106,7 +1106,7 @@ public class HomeHttp extends BaseServer {
      * @param stream
      * @param handler
      */
-    public static void becomeMerchant(BecomeMerchantBean bean, InputStream stream,List<SendImgFileBean> list, AsyncHttpResponseHandler handler){
+    public static void becomeMerchant(BecomeMerchantBean bean, File file,List<SendImgFileBean> list, AsyncHttpResponseHandler handler){
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("account_token",bean.getAccount_token());
@@ -1119,7 +1119,11 @@ public class HomeHttp extends BaseServer {
         params.put("overseas_tour",bean.getOverseas_tour());
         params.put("weixin",bean.getWeixin());
         params.put("position",bean.getPosition());
-        params.put("head_portrait",stream);
+        try{
+            params.put("head_portrait",file);
+        }catch (Exception e){
+
+        }
         params.put("phone",bean.getPhone());
         params.put("pictures",bean.getPictures());
         for (int i = 0;i<list.size();i++){
@@ -1898,6 +1902,78 @@ public class HomeHttp extends BaseServer {
         map.put("account_token",account_token);
         map.put("tourism_id",tourism_id);
         get(MyConfig.getTourismInfo,map,callBack);
+    }
+
+    /**
+     * 主页搜索
+     * @param account_token
+     * @param time_stamp
+     * @param keyword
+     * @param handler
+     */
+    public static void search(String sign,String account_token,String time_stamp,String keyword,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sign",sign);
+        params.put("time_stamp", time_stamp);
+        params.put("account_token",account_token);
+        params.put("keyword",keyword);
+        client.get(MyConfig.search,params,handler);
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("sign",sign);
+//        map.put("time_stamp",time_stamp);
+//        map.put("account_token",account_token);
+//        map.put("keyword",keyword);
+//        String url = "http://www.szyouka.com:8080/youkatravel/api/home/query/search.do?account_token=46827912F2280B500338542A52EFF67D&time_stamp=20180308101155&keyword=深圳&sign=7CAB13DE8717B8FCCFB1FBDD649EBC6E";
+//        get(url,null,callBack);
+    }
+
+    /**
+     * 获取百度翻译语种
+     * @param sign
+     * @param time_stamp
+     * @param callBack
+     */
+    public static void getLanguages(String sign,String time_stamp,CallBack callBack){
+        Map<String,Object> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        get(MyConfig.getLanguages,map,callBack);
+    }
+
+    /**
+     * 百度翻译
+     * @param sign
+     * @param time_stamp
+     * @param from
+     * @param to
+     * @param q
+     * @param handler
+     */
+    public static void baiduTranslate(String sign,String time_stamp,String from,String to,String q,AsyncHttpResponseHandler handler){
+        AsyncHttpClient client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("sign",sign);
+        params.put("time_stamp", time_stamp);
+        params.put("from",from);
+        params.put("to",to);
+        params.put("q",q);
+        client.get(MyConfig.baiduTranslate,params,handler);
+    }
+
+    /**
+     * 注册领取优惠券
+     * @param sign
+     * @param time_stamp
+     * @param account_token
+     * @param callBack
+     */
+    public static void firstRegisterGift(String sign,String time_stamp,String account_token ,CallBack callBack){
+        Map<String,String> map = new HashMap<>();
+        map.put("sign",sign);
+        map.put("time_stamp",time_stamp);
+        map.put("account_token",account_token);
+        post4(MyConfig.firstRegisterGift,map,callBack);
     }
 }
 

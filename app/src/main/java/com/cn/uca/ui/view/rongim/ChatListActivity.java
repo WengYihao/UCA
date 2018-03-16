@@ -106,7 +106,7 @@ public class ChatListActivity extends BaseBackActivity implements ViewPager.OnPa
                     .appendQueryParameter(Conversation.ConversationType.GROUP.getName(), "false")//群组
                     .appendQueryParameter(Conversation.ConversationType.PUBLIC_SERVICE.getName(), "false")//公共服务号
                     .appendQueryParameter(Conversation.ConversationType.APP_PUBLIC_SERVICE.getName(), "false")//订阅号
-//                    .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
+                    .appendQueryParameter(Conversation.ConversationType.SYSTEM.getName(), "false")//系统
                     .appendQueryParameter(Conversation.ConversationType.DISCUSSION.getName(), "false")
                     .build();
             mConversationsTypes = new Conversation.ConversationType[]{
@@ -114,8 +114,11 @@ public class ChatListActivity extends BaseBackActivity implements ViewPager.OnPa
                     Conversation.ConversationType.GROUP,
                     Conversation.ConversationType.PUBLIC_SERVICE,
                     Conversation.ConversationType.APP_PUBLIC_SERVICE,
-//                    Conversation.ConversationType.SYSTEM,
-                    Conversation.ConversationType.DISCUSSION
+                    Conversation.ConversationType.SYSTEM,
+                    Conversation.ConversationType.DISCUSSION,
+                    Conversation.ConversationType.PUBLIC_SERVICE,
+                    Conversation.ConversationType.PUSH_SERVICE,
+                    Conversation.ConversationType.APP_PUBLIC_SERVICE
             };
             listFragment.setUri(uri);
             mConversationListFragment = listFragment;
@@ -148,7 +151,7 @@ public class ChatListActivity extends BaseBackActivity implements ViewPager.OnPa
 
                         @Override
                         public void onSuccess(String s) {
-                            Log.i("123",s+"id");
+                            Log.e("789",s+"id");
                         }
 
                         @Override

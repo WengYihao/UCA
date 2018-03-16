@@ -287,22 +287,22 @@ public class ConversationActivity extends BaseBackActivity {
      * 判断是否是 Push 消息，判断是否需要做 connect 操作
      */
     private void isPushMessage(Intent intent) {
-        Log.i("123","999999999999999");
+        Log.e("123","999999999999999");
         if (intent == null || intent.getData() == null)
             return;
         //push
         if (intent.getData().getScheme().equals("rong") && intent.getData().getQueryParameter("isFromPush") != null) {
-            Log.i("123","11111111111111");
+            Log.e("123","11111111111111");
             //通过intent.getData().getQueryParameter("push") 为true，判断是否是push消息
             if (intent.getData().getQueryParameter("isFromPush").equals("true")) {
-                Log.i("123","222222222222");
+                Log.e("123","222222222222");
                 //只有收到系统消息和不落地 push 消息的时候，pushId 不为 null。而且这两种消息只能通过 server 来发送，客户端发送不了。
                 isFromPush = true;
                 enterActivity();
             } else if (RongIM.getInstance().getCurrentConnectionStatus().equals(RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED)) {
-                Log.i("123","3333333333333333");
+                Log.e("123","3333333333333333");
                 if (intent.getData().getPath().contains("conversation/system")) {
-                    Log.i("123","4444444444444");
+                    Log.e("123","4444444444444");
                     Intent intent1 = new Intent(ConversationActivity.this, ChatListActivity.class);
                     intent1.putExtra("systemconversation", true);
                     startActivity(intent1);
@@ -311,9 +311,9 @@ public class ConversationActivity extends BaseBackActivity {
                 }
                 enterActivity();
             } else {
-                Log.i("123","55555555555");
+                Log.e("123","55555555555");
                 if (intent.getData().getPath().contains("conversation/system")) {
-                    Log.i("123","6666666666666");
+                    Log.e("123","6666666666666");
                     Intent intent1 = new Intent(ConversationActivity.this, ChatListActivity.class);
                     intent1.putExtra("systemconversation", true);
                     startActivity(intent1);
@@ -321,13 +321,13 @@ public class ConversationActivity extends BaseBackActivity {
                     return;
                 }
                 enterFragment(mConversationType, mTargetId);
-                Log.i("123","8888888888888");
+                Log.e("123","8888888888888");
             }
 
         } else {
-            Log.i("123","////////////");
+            Log.e("123","////////////");
             if (RongIM.getInstance().getCurrentConnectionStatus().equals(RongIMClient.ConnectionStatusListener.ConnectionStatus.DISCONNECTED)) {
-                Log.i("123","-------------------");
+                Log.e("123","-------------------");
 //                if (mDialog != null && !mDialog.isShowing()) {
 //                    mDialog.show();
 //                }
@@ -338,7 +338,7 @@ public class ConversationActivity extends BaseBackActivity {
                     }
                 }, 300);
             } else {
-                Log.i("123","*********************");
+                Log.e("123","*********************");
                 enterFragment(mConversationType, mTargetId);
             }
         }

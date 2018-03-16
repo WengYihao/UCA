@@ -8,14 +8,17 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.ui.view.util.BaseBackActivity;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 /**
  * 票券管理
  */
 public class TicketManageActivity extends BaseBackActivity implements View.OnClickListener {
 
+    private RefreshLayout refreshLayout;
     private TextView back;
-    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +30,35 @@ public class TicketManageActivity extends BaseBackActivity implements View.OnCli
 
     private void initView() {
         back = (TextView)findViewById(R.id.back);
-        listView = (ListView) findViewById(R.id.listView);
-        back.setOnClickListener(this);
+        refreshLayout = (RefreshLayout)findViewById(R.id.refreshLayout);
+        refreshLayout.setEnableAutoLoadmore(true);//开启自动加载功能（非必须）
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(final RefreshLayout refreshlayout) {
+                refreshlayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshlayout.finishRefresh();
+                        refreshlayout.setLoadmoreFinished(false);
+                    }
+                }, 2000);
+            }
+        });
+        refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(final RefreshLayout refreshlayout) {
+                refreshlayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshlayout.finishLoadmore();
+                    }
+                }, 2000);
+            }
+        });
+        //触发自动刷新
+        refreshLayout.autoRefresh();
     }
+
 
     @Override
     public void onClick(View v) {

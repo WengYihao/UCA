@@ -1,5 +1,6 @@
 package com.cn.uca.ui.view.home.raider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,6 +47,8 @@ public class RouteActivity extends BaseBackActivity implements View.OnClickListe
     private String mCurrentCityName = "北京";
     private RelativeLayout mBottomLayout;
     private TextView mRotueTimeDes, mRouteDetailDes;
+    private String startName = "";
+    private String endName = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +56,20 @@ public class RouteActivity extends BaseBackActivity implements View.OnClickListe
         setContentView(R.layout.activity_route);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
+
+        getInfo();
         initView();
         init();
         setfromandtoMarker();
         searchRouteResult(Constant.ROUTE_TYPE_WALK,RouteSearch.WALK_DEFAULT);
+    }
+
+    private void getInfo() {
+        Intent intent = getIntent();
+        if (intent != null){
+            startName = intent.getStringExtra("start");
+            endName = intent.getStringExtra("end");
+        }
     }
 
     private void initView() {
@@ -77,6 +90,9 @@ public class RouteActivity extends BaseBackActivity implements View.OnClickListe
         walk.setOnClickListener(this);
         transit.setOnClickListener(this);
         drive.setOnClickListener(this);
+
+        start.setText(startName);
+        end.setText(endName);
     }
 
     /**

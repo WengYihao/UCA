@@ -6,14 +6,25 @@ package com.cn.uca.bean.home.raider;
  */
 
 public class RaidersBean {
-    private String pacture_url;
+    private int city_id;
     private String city_name;
-    private double price;
-    private long file_resources_size;
-    private boolean lock;
     private int city_raiders_id;
     private boolean collection;
-    private int city_id;
+    private boolean lock;
+    private String pacture_url;
+    private double price;
+    private long file_resources_size;
+    private int select;
+
+//    public RaidersBean(int city_id,String city_name,int city_raiders_id,boolean collection,boolean lock,String pacture_url,double price){
+//        this.city_id = city_id;
+//        this.city_name = city_name;
+//        this.city_raiders_id = city_raiders_id;
+//        this.collection = collection;
+//        this.lock = lock;
+//        this.pacture_url = pacture_url;
+//        this.price = price;
+//    }
 
     public String getPacture_url() {
         return pacture_url;
@@ -79,17 +90,25 @@ public class RaidersBean {
         this.city_id = city_id;
     }
 
+    public int getSelect() {
+        return select;
+    }
+
+    public void setSelect(int select) {
+        this.select = select;
+    }
+
     @Override
     public String toString() {
         return "RaidersBean{" +
-                "pacture_url='" + pacture_url + '\'' +
+                "city_id=" + city_id +
                 ", city_name='" + city_name + '\'' +
-                ", price=" + price +
-                ", file_resources_size=" + file_resources_size +
-                ", lock=" + lock +
                 ", city_raiders_id=" + city_raiders_id +
                 ", collection=" + collection +
-                ", city_id=" + city_id +
+                ", lock=" + lock +
+                ", pacture_url='" + pacture_url + '\'' +
+                ", price=" + price +
+                ", file_resources_size=" + file_resources_size +
                 '}';
     }
 }

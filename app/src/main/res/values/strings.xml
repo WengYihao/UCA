@@ -122,7 +122,7 @@
     <string name="presetManagerActivity_add_line">添加路线</string>
     <string name="raiderActivity_title_text">攻略</string>
     <string name="raiderDetailActivity_title_text">城市攻略</string>
-    <string name="raiderDetailActivity_spot_list">景点列表</string>
+    <string name="raiderDetailActivity_spot_list">景点行程</string>
     <string name="raiderDetailActivity_radier_text">攻略</string>
     <string name="raiderDetailActivity_line_text">路线</string>
     <string name="raiderDetailActivity_off_line">离线</string>
@@ -131,7 +131,7 @@
     <string name="seachActivity_hint1">推荐搜索</string>
     <string name="seachActivity_hint2">历史搜索</string>
     <string name="sendYueKaActivity_title_text">发布约咖</string>
-    <string name="sendYueKaActivity_edittext_hint">请输入约咖名称</string>
+    <string name="sendYueKaActivity_edittext_hint">请输入路线名称</string>
     <string name="sendYueKaActivity_text1">路线设定</string>
     <string name="sendYueKaActivity_text2">请选择路线</string>
     <string name="sendYueKaActivity_text3">基础价格</string>

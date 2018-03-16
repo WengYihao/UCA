@@ -25,6 +25,7 @@ import com.cn.uca.config.MyApplication;
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.util.L;
+import com.cn.uca.util.ToastXutil;
 
 public class BaseServer {
 	/**
@@ -99,6 +100,7 @@ public class BaseServer {
 							callBack.onResponse(jsonObject.getJSONObject("data").toString());
 						}else{
 							callBack.onErrorMsg(jsonObject.getString("msg").toString());
+							ToastXutil.show(jsonObject.getString("msg").toString());
 						}
 					}catch (Exception e){
 						Log.i("post3 erroe",e.getMessage()+"封装报错");
@@ -139,6 +141,7 @@ public class BaseServer {
 						}else{
 							callBack.onResponse(code);
 							callBack.onErrorMsg(jsonObject.getString("msg").toString());
+							ToastXutil.show(jsonObject.getString("msg").toString());
 						}
 					}catch (Exception e){
 						Log.i("post4",e.getMessage()+"封装报错");
@@ -179,6 +182,7 @@ public class BaseServer {
 						}else{
 							callBack.onResponse(response);
 							callBack.onErrorMsg(jsonObject.getString("msg").toString());
+							ToastXutil.show(jsonObject.getString("msg").toString());
 						}
 					}catch (Exception e){
 
@@ -235,19 +239,33 @@ public class BaseServer {
 		StringRequest request = new StringRequest(url, new Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-				try {
+//				try {
+
+//					if (response != null) {
+//						callback.onResponse(response);
+//					}
+//				} catch (Exception e) {
+//
+//				}
+				try{
 					Log.e("volley get response", response);
-					if (response != null) {
+					JSONObject jsonObject = new JSONObject(response);
+					int code = jsonObject.getInt("code");
+					if (code == 0){
 						callback.onResponse(response);
+					}else{
+						callback.onResponse(response);
+						callback.onErrorMsg(jsonObject.getString("msg").toString());
+						ToastXutil.show(jsonObject.getString("msg").toString());
 					}
-				} catch (Exception e) {
+				}catch (Exception e){
 					Log.e("volley getlll", e.toString());
 				}
 			}
 		}, new ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				L.e("volley get", error.toString());
+				L.e("volley get", error.getMessage()+"-"+error.getCause()+"-"+error.getLocalizedMessage()+"-"+error.toString());
 			}
 		});
 		request.setRetryPolicy(new DefaultRetryPolicy(60000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));

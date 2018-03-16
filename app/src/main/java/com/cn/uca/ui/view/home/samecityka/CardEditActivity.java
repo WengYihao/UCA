@@ -3,10 +3,13 @@ package com.cn.uca.ui.view.home.samecityka;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -25,15 +28,24 @@ import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.cn.uca.R;
+import com.cn.uca.adapter.ShowAdapter;
 import com.cn.uca.bean.home.samecityka.AddCardBean;
 import com.cn.uca.config.Constant;
+import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.ItemClick;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
@@ -41,8 +53,11 @@ import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.AndroidClass;
 import com.cn.uca.util.GraphicsBitmapUtils;
 import com.cn.uca.util.OpenPhoto;
+import com.cn.uca.util.PhotoCompress;
+import com.cn.uca.util.SetLayoutParams;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
+import com.cn.uca.util.StatusMargin;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
@@ -63,22 +78,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CardEditActivity extends BaseBackActivity implements View.OnClickListener,ItemClick{
+public class CardEditActivity extends BaseBackActivity implements View.OnClickListener{
 
     private TextView back,delete,name,type,typename,type_name,phone,finish,name_type;
     private LinearLayout typeLayout;
     private EditText nameet,phoneet,typenameet,introduction;
     private CircleImageView pic;
     private RelativeLayout layout;
-//    private int id;
     private String mold;
     private  List<String> list;
     private String[] arrayString = { "拍照", "相册" };
     private String title = "上传照片";
     private File fileUri = new File(Environment.getExternalStorageDirectory().getPath() + "/photo.jpg");
     private Uri imageUri;
-    private byte[] photodata = null;
-    private ByteArrayInputStream bais;
+    private Bitmap bais;
     private String cardName,companyName,cardUrl,cardContent,phoneNumber;
     private int cardType = 1;
 
@@ -207,7 +220,7 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
                 ToastXutil.show("删除");
                 break;
             case R.id.layout:
-                ShowPopupWindow.show(this,list,layout,this);
+               bb();
                 break;
             case R.id.pic:
                 AlertDialog.Builder dialog = AndroidClass.getListDialogBuilder(this, arrayString, title, onDialogClick);
@@ -218,8 +231,8 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
                 if (StringXutil.isEmpty(cardName)){
                     ToastXutil.show("称呼不能为空");
                 }else{
-                    if (photodata != null){
-                        bais = new ByteArrayInputStream(photodata);
+                    if (bais != null){
+                        File file = PhotoCompress.comp(bais);
                         if (bais != null){
                             phoneNumber = phoneet.getText().toString();
                             if (StringXutil.isEmpty(phoneNumber)){
@@ -239,7 +252,7 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
                                         bean.setCorporate_name("");
                                         bean.setUser_card_name(cardName);
                                         bean.setUser_card_type_id(cardType);
-                                        bean.setFile(bais);
+                                        bean.setFile(file);
                                         bean.setWeixin("");
                                         bean.setSign(signUp(bean));
                                         addUserCard(bean);
@@ -256,7 +269,7 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
                                             bean.setCorporate_name("");
                                             bean.setUser_card_name(cardName);
                                             bean.setUser_card_type_id(cardType);
-                                            bean.setFile(bais);
+                                            bean.setFile(file);
                                             bean.setLearning_name(companyName);
                                             bean.setWeixin("");
                                             bean.setSign(signUp(bean));
@@ -274,7 +287,7 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
                                             bean.setLearning_name("");
                                             bean.setUser_card_name(cardName);
                                             bean.setUser_card_type_id(cardType);
-                                            bean.setFile(bais);
+                                            bean.setFile(file);
                                             bean.setCorporate_name(companyName);
                                             bean.setWeixin("");
                                             bean.setSign(signUp(bean));
@@ -291,31 +304,106 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
                 break;
         }
     }
+    //类型选择弹窗
+//    private void show(List<String> list, final ItemClick click){
+//        int totalHeight = 0;
+//        final Dialog dialog = new Dialog(this,R.style.dialog_style);
+//        View show = LayoutInflater.from(this).inflate(R.layout.show_list, null);
+//        Button btn_cancel = (Button)show.findViewById(R.id.btn_cancel);
+//        btn_cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//        ListView listView = (ListView)show.findViewById(R.id.listView);
+//        ShowAdapter showAdapter = new ShowAdapter(list,this);
+//        listView.setAdapter(showAdapter);
+//        for (int i = 0; i<showAdapter.getCount();i++) {
+//            View listItem = showAdapter.getView(i, null, listView);
+//            listItem.measure(0, 0); // 计算子项View 的宽高
+//            int list_child_item_height = listItem.getMeasuredHeight() + listView.getDividerHeight();
+//            totalHeight += list_child_item_height; // 统计所有子项的总高度
+//        }
+//        //将布局设置给Dialog
+//        dialog.setContentView(show);
+//        //获取当前Activity所在的窗体
+//        Window dialogWindow = dialog.getWindow();
+//        //设置Dialog从窗体底部弹出
+//        dialogWindow.setGravity(Gravity.BOTTOM);
+//        dialog.show();//显示对话框
+//        SetLayoutParams.setFrameLayout(show, MyApplication.width,totalHeight);
+//        StatusMargin.setFrameLayoutBottom(this,show,20);
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                click.click(i);
+//                dialog.dismiss();
+//            }
+//        });
+//    }
 
-    @Override
-    public void click(int i) {
-        switch (list.get(i)){
-            case "个人":
+    private void bb(){
+        final Dialog dialog = new Dialog(this,R.style.dialog_style);
+        //填充对话框的布局
+        View inflate = LayoutInflater.from(this).inflate(R.layout.update_yusheng_dialog, null);
+        //初始化控件
+        TextView update = (TextView) inflate.findViewById(R.id.update);
+        TextView look = (TextView)inflate.findViewById(R.id.look);
+        TextView delete = (TextView) inflate.findViewById(R.id.detele);
+        TextView btn_cancel = (TextView)inflate.findViewById(R.id.btn_cancel);
+        update.setText("个人");
+        look.setText("学校");
+        delete.setText("企业");
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
                 cardType = 1;
                 type.setBackgroundResource(R.mipmap.personal_type);
                 type_name.setText("个人");
                 typeLayout.setVisibility(View.GONE);
-                break;
-            case "学校":
+            }
+        });
+        look.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
                 cardType = 2;
                 type.setBackgroundResource(R.mipmap.college_type);
                 type_name.setText("学校");
                 typeLayout.setVisibility(View.VISIBLE);
                 name_type.setText("学校名称");
-                break;
-            case "企业":
+            }
+        });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 cardType = 3;
                 type.setBackgroundResource(R.mipmap.enterprise_type);
                 type_name.setText("企业");
                 typeLayout.setVisibility(View.VISIBLE);
                 name_type.setText("企业名称");
-                break;
-        }
+            }
+        });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //将布局设置给Dialog
+        dialog.setContentView(inflate);
+        //获取当前Activity所在的窗体
+        Window dialogWindow = dialog.getWindow();
+        WindowManager.LayoutParams params = dialogWindow.getAttributes();
+        params.width = MyApplication.width;
+        //设置Dialog从窗体底部弹出
+        dialogWindow.setGravity( Gravity.BOTTOM);
+        dialogWindow.setAttributes(params);
+        StatusMargin.setFrameLayoutBottom(this,inflate,0);
+        dialog.show();//显示对话框
     }
 
     private String signUp(AddCardBean bean){
@@ -330,7 +418,6 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
         map.put("user_card_type_id",bean.getUser_card_type_id());
         map.put("weixin",bean.getWeixin());
         String sign = SignUtil.sign(map);
-        Log.i("123",sign+"签名");
         return sign;
     }
     private void addUserCard(AddCardBean bean){
@@ -388,10 +475,6 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-//                ToastXutil.show("您已经拒绝过一次");
-//            }
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE}, Constant.CAMERA_PERMISSIONS_REQUEST_CODE);
             takePicture();
         } else {//有权限直接调用系统相机拍照
@@ -473,80 +556,53 @@ public class CardEditActivity extends BaseBackActivity implements View.OnClickLi
         }
     }
     // 将进行剪裁后的图片显示到UI界面上
-    private void setPicToView(Intent picdata) {
-        Bundle bundle = picdata.getExtras();
-        if (bundle != null) {
-            final Bitmap photo = bundle.getParcelable("data");
-            new Thread() {
-                @Override
-                public void run() {
-                    if (photo != null) {
-                        handler.obtainMessage(0, photo).sendToTarget();
-                        //将bitmap转换成File类型
-                    }else {
-                        handler.obtainMessage(-1, null).sendToTarget();
+    private void setPicToView(File picdata) {
+        if (picdata != null){
+            try{
+                bais= BitmapFactory.decodeFile(picdata.toString());
+                new Thread() {
+                    @Override
+                    public void run() {
+                        if (bais != null) {
+                            handler.obtainMessage(0, bais).sendToTarget();
+                            //将bitmap转换成File类型
+                        } else {
+                            handler.obtainMessage(-1, null).sendToTarget();
+                        }
                     }
-                }
-            }.start();
+                }.start();
+            }catch (Exception e){
 
+            }
         }
     }
+
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             if (msg.obj != null) {
                 Drawable drawable = new BitmapDrawable((Bitmap) msg.obj);
                 pic.setImageDrawable(drawable);
-                photodata = GraphicsBitmapUtils.Bitmap2Bytes((Bitmap) msg.obj);
-                ByteArrayInputStream bais = new ByteArrayInputStream(photodata);
             }
         }
     };
-    /**
-     * 剪裁图片
-     */
-    public  void cropImageUri(Uri orgUri,int size) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        }
-        intent.setDataAndType(orgUri, "image/*");
-        // crop为true是设置在开启的intent中设置显示的view可以剪裁
-        intent.putExtra("crop", "true");
 
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-
-        // outputX,outputY 是剪裁图片的宽高
-        intent.putExtra("outputX", size);
-        intent.putExtra("outputY", size);
-        intent.putExtra("return-data", true);
-        intent.putExtra("uri",orgUri);
-
-        startActivityForResult(intent, Constant.PHOTO_REQUEST_CUT);
-    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        File file = null;
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case Constant.PHOTO_REQUEST_TAKEPHOTO:
-                    cropImageUri(imageUri, 480);
+                    setPicToView(fileUri);
                     break;
                 case Constant.PHOTO_REQUEST_GALLERY:
-                    if (SystemUtil.hasSDCard()) {
-                        Uri newUri = Uri.parse(OpenPhoto.getPath(this, data.getData()));
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                            newUri = FileProvider.getUriForFile(this, "com.cn.uca.fileprovider", new File(newUri.getPath()));
-                        cropImageUri( newUri,480);
-                    } else {
-                        ToastXutil.show("设备没有SD卡！");
-                    }
-                    break;
-                case Constant.PHOTO_REQUEST_CUT:
-                    if (data != null) {
-                        setPicToView(data);
+                    if (data.getData() != null) {
+                        try{
+                            file = new File(SystemUtil.getRealPathFromURI(data.getData(),this));
+                            setPicToView(file);
+                        }catch (Exception e){
+                            ToastXutil.show("无法获取照片");
+                        }
                     }
                     break;
             }

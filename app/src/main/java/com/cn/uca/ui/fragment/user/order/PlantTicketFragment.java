@@ -16,7 +16,6 @@ import com.cn.uca.adapter.user.OrderAdapter;
 import com.cn.uca.bean.user.OrderBean;
 import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
-import com.cn.uca.impl.yueka.TypeClickCallBack;
 import com.cn.uca.loading.LoadingLayout;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.util.ToastXutil;
@@ -33,7 +32,7 @@ import java.util.List;
  * Created by asus on 2018/1/11.
  */
 
-public class PlantTicketFragment extends Fragment implements View.OnClickListener,TypeClickCallBack {
+public class PlantTicketFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private LoadingLayout loading;
@@ -61,7 +60,7 @@ public class PlantTicketFragment extends Fragment implements View.OnClickListene
 
         listView = (ListView)view.findViewById(R.id.listView);
         list = new ArrayList<>();
-        orderAdapter = new OrderAdapter(list,getActivity(),this);
+        orderAdapter = new OrderAdapter(list,getActivity());
         listView.setAdapter(orderAdapter);
 
         title01.setOnClickListener(this);
@@ -131,10 +130,5 @@ public class PlantTicketFragment extends Fragment implements View.OnClickListene
 
                 break;
         }
-    }
-
-    @Override
-    public void onClick(int type, View v) {
-
     }
 }

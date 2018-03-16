@@ -183,6 +183,10 @@
 -keep class com.ta.utdid2.** { *;}
 -keep class com.ut.device.** { *;}
 
+##讯飞
+-keep class com.iflytek.**{*;}
+-keepattributes Signature
+
 
 
 

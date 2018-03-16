@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.view.yueka.PresetManagerActivity"
     android:orientation="vertical">
 
@@ -20,45 +21,51 @@
             android:text="@string/presetManagerActivity_title_text"/>
     </RelativeLayout>
 
-    <ScrollView
-        android:id="@+id/container"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RelativeLayout
+        android:layout_height="match_parent">
+        <ScrollView
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <com.cn.uca.view.RdListView
-                android:id="@+id/listView"
+            android:layout_height="wrap_content">
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@color/gray"
-                android:dividerHeight="@dimen/padding_8"
-                android:descendantFocusability="afterDescendants">
-            </com.cn.uca.view.RdListView>
+                android:layout_height="match_parent">
+                <com.cn.uca.view.RdListView
+                    android:id="@+id/listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@color/gray"
+                    android:dividerHeight="@dimen/padding_8"
+                    android:descendantFocusability="afterDescendants">
+                </com.cn.uca.view.RdListView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/listView"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:padding="@dimen/padding_8">
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/add_back"/>
-
-                <TextView
-                    android:id="@+id/add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_below="@id/listView"
+                    android:orientation="horizontal"
                     android:gravity="center"
-                    android:text="@string/presetManagerActivity_add_line"
-                    android:textColor="@color/ori"
-                    android:textSize="@dimen/text_16"
-                    android:layout_marginLeft="@dimen/padding_8"/>
-            </LinearLayout>
+                    android:padding="@dimen/padding_8">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/add_back"/>
 
-        </RelativeLayout>
-    </ScrollView>
+                    <TextView
+                        android:id="@+id/add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/presetManagerActivity_add_line"
+                        android:textColor="@color/ori"
+                        android:textSize="@dimen/text_16"
+                        android:layout_marginLeft="@dimen/padding_8"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+        </ScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
 </com.cn.uca.view.StatusView>

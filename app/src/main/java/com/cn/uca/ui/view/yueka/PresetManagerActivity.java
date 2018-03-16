@@ -1,13 +1,19 @@
 package com.cn.uca.ui.view.yueka;
 
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Parcelable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -16,7 +22,9 @@ import com.cn.uca.adapter.yueka.EditLineAdapter;
 import com.cn.uca.adapter.yueka.LinePointAdapter;
 import com.cn.uca.bean.yueka.PlacesBean;
 import com.cn.uca.bean.yueka.YueKaLineBean;
+import com.cn.uca.config.MyApplication;
 import com.cn.uca.impl.CallBack;
+import com.cn.uca.impl.lvpai.AddAlbumBack;
 import com.cn.uca.impl.yueka.ItemClickListener;
 import com.cn.uca.impl.yueka.LinePointCallBack;
 import com.cn.uca.server.yueka.YueKaHttp;
@@ -28,20 +36,23 @@ import com.cn.uca.view.MyEditText;
 import com.cn.uca.view.RdListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PresetManagerActivity extends BaseBackActivity implements View.OnClickListener,ItemClickListener,LinePointCallBack {
+public class PresetManagerActivity extends BaseBackActivity implements View.OnClickListener,ItemClickListener,LinePointCallBack,AddAlbumBack{
 
     private TextView back,add;
     private RdListView listView;
     private List<YueKaLineBean> listData;
     private EditLineAdapter editLineAdapter;
     private int index;
-    private List<PlacesBean> listPlaces;
+    private RefreshLayout refreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +60,36 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
         setContentView(R.layout.activity_preset_manager);
 
         initView();
-        getAllLine();
     }
 
     private void initView() {
+        refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
         back = (TextView)findViewById(R.id.back);
         listView = (RdListView) findViewById(R.id.listView);
         add = (TextView) findViewById(R.id.add);
         back.setOnClickListener(this);
         add.setOnClickListener(this);
         listData = new ArrayList<>();
-        listPlaces = new ArrayList<>();
         editLineAdapter = new EditLineAdapter(listData,PresetManagerActivity.this,this,this);
         listView.setAdapter(editLineAdapter);
+        refreshLayout.setEnableAutoLoadmore(true);//开启自动加载功能（非必须）
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(final RefreshLayout refreshlayout) {
+                refreshlayout.getLayout().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshlayout.finishRefresh();
+                        refreshlayout.setLoadmoreFinished(false);
+                        getAllLine();
+                    }
+                }, 1000);
+            }
+        });
+       refreshLayout.setEnableLoadmore(false);
+        //触发自动刷新
+        refreshLayout.autoRefresh();
+
         SetListView.setListViewHeightBasedOnChildren(listView);
         listView.setDelButtonClickListener(new RdListView.DelButtonClickListener() {
             @Override
@@ -86,9 +114,101 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
                 this.finish();
                 break;
             case R.id.add:
-                addLine();
+                addresspopuWindow(this);
                 break;
         }
+    }
+
+    private void addresspopuWindow(final AddAlbumBack back){
+        View inflate = LayoutInflater.from(this).inflate(R.layout.lvpai_addpic_dialog, null);
+        TextView title = (TextView)inflate.findViewById(R.id.title);
+        final EditText albumname = (EditText)inflate.findViewById(R.id.albumname);
+        TextView positiveButton = (TextView)inflate.findViewById(R.id.positiveButton);//确定
+        TextView negativeButton = (TextView)inflate.findViewById(R.id.negativeButton);//取消
+        title.setText("添加路线");
+        albumname.setHint("请输入路线方案名称");
+        final PopupWindow popupWindow = new PopupWindow(inflate, MyApplication.width,
+                MyApplication.height/3, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER,0,0);
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (albumname.getText().toString() != null){
+                    back.determine(albumname.getText().toString());
+                    popupWindow.dismiss();
+                }else{
+                    ToastXutil.show("相册名不能为空");
+                }
+            }
+        });
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+    }
+
+    private void updateresspopuWindow(final int id,final String name){
+        View inflate = LayoutInflater.from(this).inflate(R.layout.lvpai_addpic_dialog, null);
+        TextView title = (TextView)inflate.findViewById(R.id.title);
+        final EditText albumname = (EditText)inflate.findViewById(R.id.albumname);
+        albumname.setText(name);
+        TextView positiveButton = (TextView)inflate.findViewById(R.id.positiveButton);//确定
+        TextView negativeButton = (TextView)inflate.findViewById(R.id.negativeButton);//取消
+        title.setText("修改路线名");
+        final PopupWindow popupWindow = new PopupWindow(inflate, MyApplication.width,
+                MyApplication.height/3, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER,0,0);
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (albumname.getText().toString() != null){
+                    YueKaHttp.updateLineName(id,albumname.getText().toString(), new CallBack() {
+                        @Override
+                        public void onResponse(Object response) {
+                            Log.i("123",response.toString());
+                            try {
+                                if ((int)response == 0){
+                                    ToastXutil.show("修改成功");
+                                    popupWindow.dismiss();
+                                    refreshLayout.autoRefresh();
+                                }
+                            }
+                            catch (Exception e){
+                                Log.i("456",e.getMessage()+"//*/");
+                            }
+                        }
+
+                        @Override
+                        public void onErrorMsg(String errorMsg) {
+                            popupWindow.dismiss();
+                            ToastXutil.show(errorMsg);
+                        }
+
+                        @Override
+                        public void onError(VolleyError error) {
+
+                        }
+                    });
+
+                }else{
+                    ToastXutil.show("路线名不能为空");
+                }
+            }
+        });
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
     }
 
     /**
@@ -106,8 +226,11 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
                             Gson gson = new Gson();
                             List<YueKaLineBean> bean = gson.fromJson(jsonObject.getJSONArray("data").toString(),new TypeToken<List<YueKaLineBean>>() {
                             }.getType());
-                            listData.addAll(bean);
-                            editLineAdapter.setList(listData);
+                            if (bean.size() > 0){
+                                listData.clear();
+                                listData.addAll(bean);
+                                editLineAdapter.setList(listData);
+                            }
                             break;
                     }
                 }catch (Exception e){
@@ -130,22 +253,29 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
     /**
      * 添加路线
      */
-    private void addLine() {
-        YueKaHttp.addLine(new CallBack() {
+    private void addLine(String name) {
+        YueKaHttp.addLine(name,new CallBack() {
             @Override
             public void onResponse(Object response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
-                    YueKaLineBean bean = new YueKaLineBean();
-                    bean.setRoute_id(jsonObject.getInt("route_id"));
-                    bean.setRoute_name(jsonObject.getString("route_name"));
-                    bean.setEscort_id(jsonObject.getInt("escort_id"));
-                    ArrayList<PlacesBean> list = new ArrayList<PlacesBean>();
-                    bean.setPlaces(list);
-                    listData.add(bean);
-                    editLineAdapter.setList(listData);
-                    ToastXutil.show("添加路线成功");
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case 0:
+                            YueKaLineBean bean = new YueKaLineBean();
+                            bean.setRoute_id(jsonObject.getJSONObject("data").getInt("route_id"));
+                            bean.setRoute_name(jsonObject.getJSONObject("data").getString("route_name"));
+                            bean.setEscort_id(jsonObject.getJSONObject("data").getInt("escort_id"));
+                            ArrayList<PlacesBean> list = new ArrayList<PlacesBean>();
+                            bean.setPlaces(list);
+                            listData.add(bean);
+                            editLineAdapter.setList(listData);
+                            ToastXutil.show("添加路线成功");
+                            break;
+                    }
+
                 }catch (Exception e){
+                    Log.e("456",e.getMessage());
                 }
             }
 
@@ -221,43 +351,9 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
      */
     @Override
     public void clickTrue(View v) {
-        LinearLayout layout = (LinearLayout)listView.getChildAt((int) v.getTag());// 获得子item的layout
-        final TextView text = (MyEditText)layout.findViewById(R.id.lineName);
-
-        final String routeName = text.getText().toString().trim();
-        final int id = listData.get((int) v.getTag()).getRoute_id();
-        YueKaHttp.updateLineName(id,routeName, new CallBack() {
-            @Override
-            public void onResponse(Object response) {
-                Log.i("123",response.toString());
-                try {
-                    if ((int)response == 0){
-                        ToastXutil.show("修改成功");
-                        text.setText("");
-                        text.setHint(routeName);
-                        for (int i = 0;i<listData.size();i++){
-                            if (listData.get(i).getRoute_id() == id){
-                                listData.get(i).setRoute_name(routeName);
-                                editLineAdapter.setList(listData);
-                            }
-                        }
-                    }
-                }
-                catch (Exception e){
-                    Log.i("456",e.getMessage()+"//*/");
-                }
-            }
-
-            @Override
-            public void onErrorMsg(String errorMsg) {
-
-            }
-
-            @Override
-            public void onError(VolleyError error) {
-
-            }
-        });
+        String routeName = listData.get((int) v.getTag()).getRoute_name();
+        int id = listData.get((int) v.getTag()).getRoute_id();
+        updateresspopuWindow(id,routeName);
     }
 
     /**
@@ -278,19 +374,7 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0){
-            if (data != null){
-                List<PlacesBean> list;
-                listPlaces = data.getParcelableArrayListExtra("list");
-                Log.i("123",listPlaces.size()+"--");
-                int route_id = data.getIntExtra("id",0);
-                for (YueKaLineBean yueKaLineBean : listData) {
-                    if(yueKaLineBean.getRoute_id() == route_id){
-                        yueKaLineBean.setPlaces(listPlaces);
-                        break;
-                    }
-                }
-                editLineAdapter.setList(listData);
-            }
+           refreshLayout.autoRefresh();
         }
     }
 
@@ -312,5 +396,10 @@ public class PresetManagerActivity extends BaseBackActivity implements View.OnCl
             }
         };
         helper.enableChangeItems(true);
+    }
+
+    @Override
+    public void determine(String name) {
+        addLine(name);
     }
 }

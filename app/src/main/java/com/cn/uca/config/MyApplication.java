@@ -10,7 +10,6 @@ import com.cn.uca.config.wechat.WeChatManager;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.loading.LoadingLayout;
 import com.cn.uca.server.QueryHttp;
-import com.cn.uca.ui.view.rongim.ChatListActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.StringXutil;
@@ -19,6 +18,7 @@ import com.cn.uca.util.ToastXutil;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.iflytek.cloud.SpeechUtility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -33,12 +33,9 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.xiaomi.channel.commonutils.logger.LoggerInterface;
-import com.xiaomi.mipush.sdk.Logger;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -53,13 +50,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.jpush.android.api.JPushInterface;
 import io.rong.imkit.RongIM;
-import io.rong.imkit.userInfoCache.RongUserInfoManager;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.model.Message;
 import io.rong.imlib.model.UserInfo;
 import io.rong.push.RongPushClient;
-import io.rong.push.common.RongException;
 
 public class MyApplication extends Application {
 
@@ -97,20 +92,21 @@ public class MyApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		getScreen(this);
-		RongPushClient.registerMiPush(this, "2882303761517653802", "5761765373802");
+		SpeechUtility.createUtility(this, "appid=" + "5a1bbc2e");//讯飞文字转语音
 		RongIM.init(this);
+//		com.amap.api.maps.MapsInitializer.loadWorldGridMap(true);//加载世界地图
 		LoadingLayout.getConfig().setEmptyText("抱歉，暂无数据").setEmptyImage(R.mipmap.no_data_pic);
 		SmartRefreshLayout.setDefaultRefreshHeaderCreater(new DefaultRefreshHeaderCreater() {
 			@Override
 			public RefreshHeader createRefreshHeader(Context context, RefreshLayout layout) {
-				layout.setPrimaryColorsId(R.color.white, R.color.black3);//全局设置主题颜色
+				layout.setPrimaryColorsId(R.color.transparent, R.color.black3);//全局设置主题颜色
 				return new ClassicsHeader(context).setSpinnerStyle(SpinnerStyle.Translate);
 			}
 		});
 		SmartRefreshLayout.setDefaultRefreshFooterCreater(new DefaultRefreshFooterCreater() {
 			@Override
 			public RefreshFooter createRefreshFooter(Context context, RefreshLayout layout) {
-				layout.setPrimaryColorsId(R.color.white, R.color.gray2);//全局设置主题颜色
+				layout.setPrimaryColorsId(R.color.transparent, R.color.gray2);//全局设置主题颜色
 				return new ClassicsFooter(context).setSpinnerStyle(SpinnerStyle.Translate);
 			}
 		});
@@ -137,10 +133,7 @@ public class MyApplication extends Application {
 
 		SharePreferenceXutil.saveChannelId("12345678998547854");
 		if (SharePreferenceXutil.getRongToken() != ""){
-			Log.e("456","----");
 			connectRongServer(SharePreferenceXutil.getRongToken());
-		}else {
-			Log.e("456","****");
 		}
 	}
 	public static RequestQueue getHttpQueue() {
@@ -192,7 +185,6 @@ public class MyApplication extends Application {
 				QueryHttp.sendCode(code,sign,time_stamp, new CallBack() {
 					@Override
 					public void onResponse(Object response) {
-						Log.i("123",response.toString());
 						if ((int)response == 0){
 							ToastXutil.show("已发送短信验证码至+86"+code);
 						}
@@ -224,18 +216,15 @@ public class MyApplication extends Application {
 		RongIM.connect(token, new RongIMClient.ConnectCallback() {
 			@Override
 			public void onSuccess(String userId) {
-				Log.e("456","成功");
 				getInfo(userId);
 			}
 
 			@Override
 			public void onError(RongIMClient.ErrorCode errorCode) {
-				Log.e("123",errorCode+"---报错");
 			}
 
 			@Override
 			public void onTokenIncorrect() {
-				Log.e("123","---报错");
 			}
 		});
 	}

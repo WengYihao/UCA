@@ -17,6 +17,8 @@ public class PlacesBean implements Parcelable{
     private int place_id;
     private int city_id;
     private int order;
+    private String gaode_code;
+    private String alpha_2_code;
 
     public String getDeparture_address() {
         return departure_address;
@@ -54,6 +56,14 @@ public class PlacesBean implements Parcelable{
         this.departure_address = departure_address;
     }
 
+    public String getGaode_code() {
+        return gaode_code;
+    }
+
+    public String getAlpha_2_code() {
+        return alpha_2_code;
+    }
+
     public void setPlace_name(String place_name) {
         this.place_name = place_name;
     }
@@ -82,20 +92,13 @@ public class PlacesBean implements Parcelable{
         this.order = order;
     }
 
-    @Override
-    public String toString() {
-        return "PlacesBean{" +
-                "departure_address='" + departure_address + '\'' +
-                ", place_name='" + place_name + '\'' +
-                ", route_id=" + route_id +
-                ", lng=" + lng +
-                ", lat=" + lat +
-                ", place_id=" + place_id +
-                ", city_id=" + city_id +
-                ", order=" + order +
-                '}';
+    public void setGaode_code(String gaode_code) {
+        this.gaode_code = gaode_code;
     }
 
+    public void setAlpha_2_code(String alpha_2_code) {
+        this.alpha_2_code = alpha_2_code;
+    }
     /**
      * 必须实现Parcelable.Creator接口，否则在获取该类数据的时候会报错
      *
@@ -124,7 +127,8 @@ public class PlacesBean implements Parcelable{
             bean.setOrder(source.readInt());
             bean.setLng(source.readDouble());
             bean.setLat(source.readDouble());
-
+            bean.setGaode_code(source.readString());
+            bean.setAlpha_2_code(source.readString());
             return bean;
         }
 
@@ -148,6 +152,7 @@ public class PlacesBean implements Parcelable{
         parcel.writeInt(order);
         parcel.writeDouble(lng);
         parcel.writeDouble(lat);
-
+        parcel.writeString(gaode_code);
+        parcel.writeString(alpha_2_code);
     }
 }

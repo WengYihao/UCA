@@ -66,7 +66,7 @@ public class CitySpotTicketAdapter extends BaseAdapter{
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		Uri uri = Uri.parse(MyConfig.photo+list.get(position).getPicture_url());
+		Uri uri = Uri.parse(list.get(position).getPicture_url()+MyConfig.corpPhoto);
 		holder.pic.setImageURI(uri);
 		holder.name.setText(list.get(position).getScenic_spot_name());
 		holder.product_num.setText("共"+list.get(position).getProduct_quantity()+"个产品");

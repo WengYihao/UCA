@@ -1,20 +1,15 @@
 package com.cn.uca.ui.view.yueka;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
-import android.os.Parcelable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -34,35 +29,42 @@ import com.amap.api.maps.model.CircleOptions;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.maps.model.Polyline;
+import com.amap.api.maps.model.PolylineOptions;
 import com.amap.api.services.core.AMapException;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeAddress;
+import com.amap.api.services.geocoder.RegeocodeQuery;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
+import com.android.volley.VolleyError;
 import com.cn.uca.R;
 import com.cn.uca.adapter.home.samecityka.SearchResultAdapter;
+import com.cn.uca.adapter.infowindow.LineInfoWinAdapter;
+import com.cn.uca.adapter.yueka.YuekaLineAdapter;
+import com.cn.uca.bean.home.raider.RaidersUtilBean;
 import com.cn.uca.bean.yueka.PlacesBean;
+import com.cn.uca.impl.CallBack;
+import com.cn.uca.impl.yueka.PointClickImpl;
 import com.cn.uca.server.yueka.YueKaHttp;
-import com.cn.uca.ui.view.home.samecityka.SearchResultActivity;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.MapUtil;
+import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.StringXutil;
-import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.MyEditText;
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import org.apache.http.Header;
+import com.google.gson.reflect.TypeToken;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-public class LineChoiceActivity extends BaseBackActivity implements  LocationSource,AMapLocationListener,View.OnClickListener,AMap.OnMarkerDragListener,PoiSearch.OnPoiSearchListener{
+public class LineChoiceActivity extends BaseBackActivity implements AMap.OnMarkerClickListener,AMap.OnMapClickListener,LocationSource,AMapLocationListener,GeocodeSearch.OnGeocodeSearchListener,View.OnClickListener,AMap.OnMarkerDragListener,PoiSearch.OnPoiSearchListener,PointClickImpl{
 
     private MapView mapView;
     private AMap aMap;
@@ -72,20 +74,10 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
     private AMapLocationClientOption mLocationOption;// 高德相关
     private boolean isFirst = true;
     private static double lat,lng;
-    private RelativeLayout addView;
-    private TextView add;
-    private Map<Integer,List<TextView>> mapTextView;
-    private Map<Integer,List<Marker>> mapMarker;
-    private Map<Integer,List<EditText>> mapEditText;
-    private List<TextView> listTextView;
-    private List<Marker> listMarker;
-    private List<EditText> listEditText;
     private Marker screenMarker = null;
-    Marker markerC;
     private UiSettings mUiSettings;
-    private List<PlacesBean> listAdd,listShow,listAll;
-    private int id,clickViewId;
-    private TextView finish,delete,back;
+    private List<PlacesBean> listShow;
+    private TextView finish,back;
     private Circle mCircle;
     private Marker mLocMarker;
     private String keyWord = "";
@@ -97,12 +89,22 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
     private List<PoiItem> list;
     private String city;//当前定位城市
     private ListView listView;
+    private YuekaLineAdapter lineAdapter;
+    private ListView lineList;
+    private Marker curShowWindowMarker;
+    private PolylineOptions polt;
+    private Polyline polyline;
+    private List<Marker> listMarker = new ArrayList<>();
+    private int id;//路线id
+    private Marker searchMarker;
+    private GeocodeSearch geocoderSearch;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_choice);
+        com.amap.api.maps.MapsInitializer.loadWorldGridMap(true);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
 
@@ -116,10 +118,10 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
         if (intent != null){
             id = intent.getIntExtra("id",0);
             listShow  = intent.getParcelableArrayListExtra("places");
-            if (listShow.size() > 0){
-                for (int i = 0; i < listShow.size();i++){
-                    final  TextView textView = new TextView(this);
-                    setAddView(textView,1);
+            if (listShow != null){
+                if (listShow.size() > 0){
+                    lineAdapter.setList(listShow);
+                    refresh(listShow);
                 }
             }
         }
@@ -127,31 +129,19 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
     private void initView() {
         back = (TextView)findViewById(R.id.back);
         search = (MyEditText)findViewById(R.id.search);
-        addView = (RelativeLayout)findViewById(R.id.addView);
-        add = (TextView)findViewById(R.id.add);
+        lineList = (ListView)findViewById(R.id.lineList);
         finish = (TextView)findViewById(R.id.finish);
-        delete = (TextView)findViewById(R.id.delete);
         listView = (ListView)findViewById(R.id.listView);
         list = new ArrayList<>();
         adapter = new SearchResultAdapter(list,this);
         listView.setAdapter(adapter);
         back.setOnClickListener(this);
-        add.setOnClickListener(this);
         finish.setOnClickListener(this);
-        delete.setOnClickListener(this);
-        RelativeLayout.LayoutParams linearParams =(RelativeLayout.LayoutParams) add.getLayoutParams(); //取控件textView当前的布局参数
-        linearParams.setMargins(SystemUtil.dipTopx(this,20),0,0,SystemUtil.dipTopx(this,200));
-        add.setLayoutParams(linearParams);
-        mapTextView = new HashMap<>();
-        mapEditText = new HashMap<>();
-        mapMarker = new HashMap<>();
-        listTextView = new ArrayList<>();
         listMarker =  new ArrayList<>();
-        listEditText = new ArrayList<>();
-        listAdd = new ArrayList<>();
         listShow = new ArrayList<>();
-        listAll = new ArrayList<>();
 
+        lineAdapter = new YuekaLineAdapter(listShow,this,this);
+        lineList.setAdapter(lineAdapter);
         search.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -171,8 +161,23 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (searchMarker != null){
+                    searchMarker.remove();
+                }
                 double lat = list.get(position).getLatLonPoint().getLatitude();
                 double lng = list.get(position).getLatLonPoint().getLongitude();
+                searchMarker = aMap.addMarker(MapUtil.addMarker(lat,lng,R.mipmap.icon_point1));
+                RaidersUtilBean utilBean = new RaidersUtilBean();
+                utilBean.setType("add");
+                PlacesBean bean = new PlacesBean();
+                bean.setPlace_name(list.get(position).getCityName());
+                bean.setDeparture_address(list.get(position).getTitle());
+                bean.setLat(lat);
+                bean.setLng(lng);
+                utilBean.setObject(bean);
+                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 10));//定位成功移到当前定位点
+                searchMarker.setObject(utilBean);
+                searchMarker.showInfoWindow();
                 listView.setVisibility(View.GONE);
             }
         });
@@ -189,6 +194,18 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
         poiSearch.searchPOIAsyn();
     }
 
+    @Override
+    public void onMapClick(LatLng latLng) {
+        if (curShowWindowMarker.isInfoWindowShown()){
+            curShowWindowMarker.hideInfoWindow();
+        }
+        if (screenMarker.isInfoWindowShown()){
+            screenMarker.hideInfoWindow();
+        }
+        if (searchMarker.isInfoWindowShown()){
+            searchMarker.hideInfoWindow();
+        }
+    }
     /**
      * 在屏幕中心添加一个Marker
      */
@@ -218,23 +235,42 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
         aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition position) {
-//                position.target.
             }
 
             @Override
             public void onCameraChangeFinish(CameraPosition postion) {
                 //屏幕中心的Marker跳动
 //                Log.i("123",postion.target.latitude+"---"+postion.target.longitude);
+                if (searchMarker != null){
+                    searchMarker.remove();
+                }
+                //屏幕中心的Marker跳动
+                double lat = postion.target.latitude;
+                double lng = postion.target.longitude;
+                searchMarker = aMap.addMarker(MapUtil.addMarker(lat,lng,R.mipmap.icon_point1));
+                getAddressByLatlng(new LatLng(lat,lng));
             }
         });
     }
 
+    private void getAddressByLatlng(LatLng latLng) {
+        //逆地理编码查询条件：逆地理编码查询的地理坐标点、查询范围、坐标类型。
+        LatLonPoint latLonPoint = new LatLonPoint(latLng.latitude, latLng.longitude);
+        RegeocodeQuery query = new RegeocodeQuery(latLonPoint, 500f, GeocodeSearch.AMAP);
+        //异步查询
+        geocoderSearch.getFromLocationAsyn(query);
+    }
+
     private void setUpMap() {
         aMap.setLocationSource(this);
-//        aMap.setMyLocationType(AMap.LOCATION_TYPE_MAP_ROTATE);// 跟随模式
         mUiSettings.setZoomPosition(AMapOptions.ZOOM_POSITION_RIGHT_CENTER);// 缩放按钮右中显示
+        aMap.setOnMapClickListener(this);
         aMap.setOnMarkerDragListener(this);
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
+        aMap.setOnMarkerClickListener(this);
+        aMap.setInfoWindowAdapter(new LineInfoWinAdapter(this,this));
+        geocoderSearch = new GeocodeSearch(this);
+        geocoderSearch.setOnGeocodeSearchListener(this);
     }
 
     @Override
@@ -242,7 +278,7 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
         if (mListener != null && aMapLocation != null){
             if (aMapLocation != null && aMapLocation.getErrorCode() == 0){
                 if (isFirst){
-                    aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 15));//定位成功移到当前定位点
+                    aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()), 10));//定位成功移到当前定位点
                     CircleOptions circleOptions = MapUtil.addCircle(
                             new LatLng(aMapLocation.getLatitude(), aMapLocation.getLongitude()),
                             aMapLocation.getAccuracy());
@@ -332,239 +368,25 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
             case R.id.back:
                 this.finish();
                 break;
-            case R.id.add:
-                TextView textView = new TextView(this);
-                setAddView(textView,2);
-                break;
             case R.id.finish:
-                addLinePoint();
-                break;
-            case R.id.delete:
-                ToastXutil.show(clickViewId+"---");
-                deletePoint(clickViewId);
+                setResult(0,new Intent());
+                this.finish();
                 break;
 
         }
     }
 
-    /**
-     * 添加按钮
-     * @param view1
-     * @param type
-     */
-    private void setAddView(final TextView view1,int type){
-        if (mapTextView.size() <= 5){
-            listTextView.add(view1);
-            view1.setId(listTextView.size());
-            switch (type){
-                case 1:
-                    view1.setText(listShow.get(listTextView.size()-1).getDeparture_address());
-                    Marker maker = aMap.addMarker(new MarkerOptions().position(new LatLng(listShow.get(listTextView.size()-1).getLat(),listShow.get(listTextView.size()-1).getLng()))
-                            .title("地点："+listTextView.size())
-                            .snippet(listShow.get(listTextView.size()-1).getDeparture_address())
-                            .draggable(true)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-                    listMarker.add(maker);
-                    mapMarker.put(listTextView.size(),listMarker);
-                    break;
-                case 2:
-                    view1.setText(listTextView.size()+"");
-                    break;
-            }
-            mapTextView.put(listTextView.size(),listTextView);
-            view1.setGravity(Gravity.CENTER);
-            view1.setBackgroundResource(R.color.ori);
-            view1.setTextColor(getResources().getColor(R.color.white));
-            RelativeLayout.LayoutParams param1 = new RelativeLayout.LayoutParams(SystemUtil.dipTopx(this,40), SystemUtil.dipTopx(this,40));
-            param1.setMargins(SystemUtil.dipTopx(this,20),0,0,SystemUtil.dipTopx(this,10));
-            if (listTextView.size()-1 >0){
-                param1.addRule(RelativeLayout.ABOVE,listTextView.size()-1);
-            }else{
-                param1.addRule(RelativeLayout.ABOVE, R.id.add);//此控件在id为1的控件的下边
-            }
-            addView.addView(view1,param1);
-            final EditText editText = new EditText(this);
-            listEditText.add(editText);
-            editText.setId(listEditText.size()+10);
-            mapEditText.put(listEditText.size()+10,listEditText);
-            editText.setText(listTextView.get(listTextView.size()-1).getText());
-            editText.setGravity(Gravity.CENTER);
-            editText.setBackgroundResource(R.color.white);
-            editText.setTextSize(14);
-            editText.setTextColor(getResources().getColor(R.color.black));
-            RelativeLayout.LayoutParams param2 = new RelativeLayout.LayoutParams(SystemUtil.dipTopx(this,120), SystemUtil.dipTopx(this,40));
-            param2.setMargins(0,0,0,SystemUtil.dipTopx(this,10));
-            if (listTextView.size()-1 >0){
-                param2.addRule(RelativeLayout.ABOVE,listTextView.size()-1);
-            }else{
-                param2.addRule(RelativeLayout.ABOVE, R.id.add);//此控件在id为1的控件的下边
-            }
-            param2.addRule(RelativeLayout.RIGHT_OF,listTextView.size());
-            addView.addView(editText,param2);
-            editText.setVisibility(View.GONE);
-            view1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (view1.getText().equals("完成")){
-                        delete.setVisibility(View.GONE);
-                        view1.setText(editText.getText().toString());
-                        view1.setBackgroundColor(getResources().getColor(R.color.ori));
-                        editText.setVisibility(View.GONE);
-                        if (listMarker.size() < listTextView.size()){
-                            for (Integer idText :mapTextView.keySet()){
-                                if (mapMarker.get(view.getId()) == null){
-                                    //不存在
-                                    Marker maker = aMap.addMarker(new MarkerOptions().position(new LatLng(screenMarker.getPosition().latitude,screenMarker.getPosition().longitude))
-                                            .title("地点："+view.getId())
-                                            .snippet(mapEditText.get(view.getId()+10).get(view.getId()-1).getText().toString())
-                                            .draggable(true)
-                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)));
-                                    maker.showInfoWindow();
-                                    listMarker.add(maker);
-                                    mapMarker.put(view.getId(),listMarker);
-                                    Log.i("123",maker.getPosition().latitude+"***"+maker.getPosition().longitude+"添加上去的");
-                                }else{
-                                    //存在
-
-                                }
-                            }
-                        }else{
-                            markerC.hideInfoWindow();
-                        }
-                    }else{
-                        delete.setVisibility(View.VISIBLE);
-                        clickViewId = view.getId();
-                        for (Integer idMarker :mapMarker.keySet()){
-                            if (mapMarker.get(view.getId()) != null){
-                                markerC = (Marker)mapMarker.get(view.getId()).get(view.getId()-1);
-                                markerC.showInfoWindow();
-                                aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(markerC.getPosition().latitude, markerC.getPosition().longitude), 15));
-                                EditText ed = mapEditText.get(view.getId()+10).get(view.getId()-1);
-                                ed.addTextChangedListener(new TextWatcher() {
-                                    @Override
-                                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                                    }
-
-                                    @Override
-                                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                                        markerC.setSnippet(charSequence.toString());
-                                    }
-
-                                    @Override
-                                    public void afterTextChanged(Editable editable) {
-
-                                    }
-                                });
-                            }else{
-                                Log.i("123","null"+view.getId());
-                            }
-                        }
-                        for (int i = 0;i<listTextView.size();i++){
-                            listTextView.get(i).setText(listEditText.get(i).getText().toString());
-                            listTextView.get(i).setBackgroundColor(getResources().getColor(R.color.ori));
-                            listEditText.get(i).setVisibility(View.GONE);
-                        }
-                        view1.setText("完成");
-                        view1.setBackgroundColor(getResources().getColor(R.color.blue));
-                        editText.setVisibility(View.VISIBLE);
-                    }
-                }
-            });
-        }else{
-            ToastXutil.show("路线点最多只能添加6个");
-        }
-    }
-
-    /**
-     * 添加路线点
-     */
-    private void addLinePoint(){
-        if (mapTextView.size() >0){
-            Set<Integer> set = mapTextView.keySet();
-            Object [] objects = set.toArray();
-            for (int i = listShow.size(); i < objects.length ; i++){
-                PlacesBean bean = new PlacesBean();
-                bean.setCity_id(2);
-                bean.setDeparture_address(mapTextView.get(i+1).get(i).getText().toString());
-                bean.setLat(mapMarker.get(i+1).get(i).getPosition().latitude);
-                bean.setLng(mapMarker.get(i+1).get(i).getPosition().longitude);
-                bean.setOrder(i+1);
-                bean.setPlace_name("深圳");
-                bean.setRoute_id(id);
-                listAdd.add(bean);
-            }
-            try {
-                Gson gson = new Gson();
-                YueKaHttp.addLinePoint(gson.toJson(listAdd), new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int i, Header[] headers, byte[] bytes) {
-                        try {
-                            if (i == 200){
-                                JSONObject jsonObject =new JSONObject(new String(bytes,"UTF-8"));
-                                int code  = jsonObject.getInt("code");
-                                switch (code){
-                                    case 0:
-                                        ToastXutil.show("添加成功");
-                                        for (int a = 0;a < listAdd.size();a++){
-                                            listAll.add(listAdd.get(a));
-                                        }
-                                        for (int b = 0;b < listShow.size();b++){
-                                            listAll.add(listShow.get(b));
-                                        }
-                                        Intent intent = new Intent();
-                                        intent.putParcelableArrayListExtra("list",(ArrayList<? extends Parcelable>) listAll);
-                                        intent.putExtra("id",id);
-                                        setResult(0,intent);
-                                        LineChoiceActivity.this.finish();
-                                        break;
-                                }
-                            }
-                        }catch (Exception e){
-                            Log.i("123",e.getMessage()+"/*/*");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-                        Log.i("123",i+"----");
-                    }
-                });
-            }catch (Exception e){
-                Log.i("456",e.getMessage()+"/*/*");
-            }
-        }else{
-            ToastXutil.show("请添加路线点");
-        }
-
-    }
-
-    /**
-     * 删除路线点
-     */
-    private void deletePoint(int indext){
-//        addView.removeAllViews();//先清除所有按钮
-//        mapMarker.get(indext).get(0).remove();//清除弹出来的窗体
-        for (Integer in :mapMarker.keySet()){
-            if (in <indext){
-                mapMarker.put(indext,mapMarker.get(in));
-                mapMarker.remove(in);
-            }
-        }
-    }
     @Override
     public void onMarkerDragStart(Marker marker) {
-
     }
 
     @Override
     public void onMarkerDrag(Marker marker) {
-
     }
 
     @Override
     public void onMarkerDragEnd(Marker marker) {
-        Log.i("124",marker.getPosition().latitude+"**"+marker.getPosition().longitude+"拖完的坐标");
+
     }
 
     @Override
@@ -589,6 +411,155 @@ public class LineChoiceActivity extends BaseBackActivity implements  LocationSou
 
     @Override
     public void onPoiItemSearched(PoiItem poiItem, int i) {
+
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        marker.showInfoWindow();
+        curShowWindowMarker = marker;
+        return true;
+    }
+
+    @Override
+    public void deleteBack(int type, int id) {
+        deletePlace(id);
+    }
+
+    @Override
+    public void addBack(String city, String place,String code, double lat, double lng) {
+        addPlace(city, place, code,lat, lng);
+    }
+    //删除路线点
+    private void deletePlace(final int id){
+        String token = SharePreferenceXutil.getAccountToken();
+        YueKaHttp.deletePlace(token, id, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                if ((int)response == 0){
+                    ToastXutil.show("删除成功");
+                    for (int i = 0;i <listShow.size();i++){
+                        if (listShow.get(i).getPlace_id() == id){
+                            listShow.remove(i);
+                            lineAdapter.setList(listShow);
+                            refresh(listShow);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
+    //添加路线点
+    private void addPlace(String city,String place,String code,double lat,double lng){
+        String token = SharePreferenceXutil.getAccountToken();
+        YueKaHttp.addPlace(token, city , id,code,place, lat, lng, new CallBack() {
+            @Override
+            public void onResponse(Object response) {
+                try{
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    int code = jsonObject.getInt("code");
+                    switch (code){
+                        case  0:
+                            ToastXutil.show("添加成功");
+                            Gson gson = new Gson();
+                            PlacesBean bean = gson.fromJson(jsonObject.getJSONObject("data").toString(),new TypeToken<PlacesBean>() {
+                            }.getType());
+                            listShow.add(bean);
+                            lineAdapter.setList(listShow);
+                            refresh(listShow);
+                            if (searchMarker.isInfoWindowShown()){
+                                searchMarker.hideInfoWindow();
+                                searchMarker.remove();
+                            }
+                            break;
+                    }
+                }catch (Exception e){
+
+                }
+            }
+
+            @Override
+            public void onErrorMsg(String errorMsg) {
+                ToastXutil.show(errorMsg);
+            }
+
+            @Override
+            public void onError(VolleyError error) {
+
+            }
+        });
+    }
+    //刷新地图点、线路
+    private void refresh(List<PlacesBean> list){
+        polt = new PolylineOptions();
+        if (listMarker.size() != 0){//移除路线点marker
+            MapUtil.removeMarker(listMarker);
+            listMarker.clear();
+        }
+        if (polyline != null){
+            polyline.remove();
+        }
+        for (int a = 0;a < list.size();a++){
+            Marker marker = null;
+            switch (a){
+                case 0:
+                    marker = aMap.addMarker(MapUtil.addMarker(list.get(a).getLat(),list.get(a).getLng(),R.mipmap.icon_point1));
+                    break;
+                case 1:
+                    marker = aMap.addMarker(MapUtil.addMarker(list.get(a).getLat(),list.get(a).getLng(),R.mipmap.icon_point2));
+                    break;
+                case 2:
+                    marker = aMap.addMarker(MapUtil.addMarker(list.get(a).getLat(),list.get(a).getLng(),R.mipmap.icon_point3));
+                    break;
+                case 3:
+                    marker = aMap.addMarker(MapUtil.addMarker(list.get(a).getLat(),list.get(a).getLng(),R.mipmap.icon_point4));
+                    break;
+                case 4:
+                    marker = aMap.addMarker(MapUtil.addMarker(list.get(a).getLat(),list.get(a).getLng(),R.mipmap.icon_point5));
+                    break;
+                case 5:
+                    marker = aMap.addMarker(MapUtil.addMarker(list.get(a).getLat(),list.get(a).getLng(),R.mipmap.icon_point6));
+                    break;
+            }
+            listMarker.add(marker);
+            RaidersUtilBean utilBean = new RaidersUtilBean();
+            utilBean.setType("delete");
+            utilBean.setObject(list.get(a));
+            marker.setObject(utilBean);
+            polt.add(new LatLng(list.get(a).getLat(),list.get(a).getLng()));
+        }
+        polt.width(10).geodesic(true).color(Color.BLACK);
+        polyline =  aMap.addPolyline(polt);
+    }
+
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+        RegeocodeAddress regeocodeAddress = regeocodeResult.getRegeocodeAddress();
+        RaidersUtilBean utilBean = new RaidersUtilBean();
+        utilBean.setType("add");
+        PlacesBean bean = new PlacesBean();
+        bean.setGaode_code(regeocodeAddress.getCityCode());
+        bean.setPlace_name(regeocodeAddress.getPois().get(0).getTitle());
+        bean.setDeparture_address(regeocodeAddress.getPois().get(0).getSnippet());
+        bean.setLat(searchMarker.getPosition().latitude);
+        bean.setLng(searchMarker.getPosition().longitude);
+        utilBean.setObject(bean);
+        searchMarker.setObject(utilBean);
+        searchMarker.showInfoWindow();
+    }
+
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
 
     }
 }

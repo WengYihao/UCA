@@ -51,7 +51,7 @@ public class LinePopupWindow {
             lineid.add(id);
         }
         View show = LayoutInflater.from(context).inflate(R.layout.show_list, null);
-        ListView listView = (ListView)show.findViewById(R.id.list);
+        ListView listView = (ListView)show.findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

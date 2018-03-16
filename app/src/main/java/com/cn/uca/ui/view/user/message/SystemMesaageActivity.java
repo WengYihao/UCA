@@ -3,7 +3,9 @@ package com.cn.uca.ui.view.user.message;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -12,13 +14,11 @@ import com.cn.uca.adapter.user.SystemMessageAdapter;
 import com.cn.uca.bean.user.message.MessageBean;
 import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
-import com.cn.uca.loading.LoadingLayout;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SignUtil;
 import com.cn.uca.util.SystemUtil;
-import com.cn.uca.util.ToastXutil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -35,30 +35,31 @@ import java.util.Map;
 public class SystemMesaageActivity extends BaseBackActivity implements View.OnClickListener {
 
     private TextView back;
-    private LoadingLayout loading;
     private ListView listView;
     private SystemMessageAdapter adapter;
     private List<MessageBean> list;
+    private int count = 0;
     private int page = Constant.PAGE;
     private int pageCount = Constant.PAGE_COUNT;
     private RefreshLayout refreshLayout;
-
+    private LinearLayout layout;
+    private RelativeLayout no_layout;//没有数据布局
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_system_mesaage);
 
         initView();
-        getPushUser();
 
     }
 
     private void initView() {
         back = (TextView)findViewById(R.id.back);
         refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
-        loading = (LoadingLayout)findViewById(R.id.loading);
         listView = (ListView)findViewById(R.id.listView);
 
+        layout = (LinearLayout)findViewById(R.id.layout);
+        no_layout = (RelativeLayout)findViewById(R.id.no_layout);
         back.setOnClickListener(this);
 
         list = new ArrayList<>();
@@ -71,11 +72,12 @@ public class SystemMesaageActivity extends BaseBackActivity implements View.OnCl
                 refreshlayout.getLayout().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getPushUser();
+                        count = 0;
+                        getPushUser(1,page,pageCount);
                         refreshlayout.finishRefresh();
                         refreshlayout.setLoadmoreFinished(false);
                     }
-                }, 1000);
+                }, 200);
             }
         });
         refreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
@@ -84,17 +86,17 @@ public class SystemMesaageActivity extends BaseBackActivity implements View.OnCl
                 refreshlayout.getLayout().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        page++;
-                        getPushUser();
+                        count++;
+                        getPushUser(2,count+page,pageCount);
                         refreshlayout.finishLoadmore();
                     }
-                }, 1000);
+                }, 200);
             }
         });
+        refreshLayout.autoRefresh();
     }
 
-    private void getPushUser(){
-        loading.setStatus(LoadingLayout.Loading);
+    private void getPushUser(final int type,int page,int pageCount){
         Map<String,Object> map = new HashMap<>();
         String account_token = SharePreferenceXutil.getAccountToken();
         map.put("account_token",account_token);
@@ -112,23 +114,28 @@ public class SystemMesaageActivity extends BaseBackActivity implements View.OnCl
                     int code = jsonObject.getInt("code");
                     switch (code){
                         case 0:
-                            loading.setStatus(LoadingLayout.Success);
                             Gson gson = new Gson();
                             List<MessageBean> bean = gson.fromJson(jsonObject.getJSONObject("data").getJSONArray("pushUsers").toString(),new TypeToken<List<MessageBean>>() {
                             }.getType());
-                            if (bean.size() > 0){
-                                list.clear();
-                                list.addAll(bean);
-                                adapter.setList(list);
-                            }else{
-                                if (list.size() != 0){
-                                    list.clear();
-                                    adapter.setList(list);
-                                    ToastXutil.show("没有更多数据了");
-                                }else {
-                                    //没有数据
-                                    loading.setStatus(LoadingLayout.Empty);
-                                }
+                            switch (type){
+                                case 1://刷新
+                                    if (bean.size() > 0){
+                                        layout.setVisibility(View.VISIBLE);
+                                        no_layout.setVisibility(View.GONE);
+                                        list.clear();
+                                        list.addAll(bean);
+                                        adapter.setList(list);
+                                    }else{
+                                        layout.setVisibility(View.GONE);
+                                        no_layout.setVisibility(View.VISIBLE);
+                                    }
+                                    break;
+                                case 2://加载
+                                    if (bean.size() > 0){
+                                        list.addAll(bean);
+                                        adapter.setList(list);
+                                    }
+                                    break;
                             }
                             break;
                     }

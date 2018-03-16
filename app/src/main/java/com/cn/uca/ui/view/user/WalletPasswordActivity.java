@@ -222,6 +222,10 @@ public class WalletPasswordActivity extends BaseBackActivity implements View.OnC
                             secondPwd = null;
                             passwordView.setText("");
                             break;
+                        case 740:
+                            LoadDialog.dismiss(WalletPasswordActivity.this);
+                            WalletPasswordActivity.this.finish();
+                            break;
                         default:
                             LoadDialog.dismiss(WalletPasswordActivity.this);
                             break;
@@ -233,7 +237,7 @@ public class WalletPasswordActivity extends BaseBackActivity implements View.OnC
 
             @Override
             public void onErrorMsg(String errorMsg) {
-
+                ToastXutil.show(errorMsg);
             }
 
             @Override

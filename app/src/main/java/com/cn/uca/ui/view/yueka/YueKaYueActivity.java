@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.cn.uca.R;
@@ -14,7 +15,6 @@ import com.cn.uca.adapter.user.OrderAdapter;
 import com.cn.uca.bean.user.OrderBean;
 import com.cn.uca.config.Constant;
 import com.cn.uca.impl.CallBack;
-import com.cn.uca.impl.yueka.TypeClickCallBack;
 import com.cn.uca.loading.LoadingLayout;
 import com.cn.uca.server.user.UserHttp;
 import com.cn.uca.ui.view.user.order.YueKaOrderDetailActivity;
@@ -29,8 +29,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class YueKaYueActivity extends BaseBackActivity implements View.OnClickListener,TypeClickCallBack {
+public class YueKaYueActivity extends BaseBackActivity implements View.OnClickListener {
 
+    private TextView back;
     private LoadingLayout loading;
     private RadioButton title01,title02,title03,title04,title05;
     private List<OrderBean> list;
@@ -49,6 +50,8 @@ public class YueKaYueActivity extends BaseBackActivity implements View.OnClickLi
 
 
     private void initView() {
+        back = (TextView)findViewById(R.id.back);
+        back.setOnClickListener(this);
         loading = (LoadingLayout)findViewById(R.id.loading);
         title01 = (RadioButton)findViewById(R.id.title01);
         title02 = (RadioButton)findViewById(R.id.title02);
@@ -57,7 +60,7 @@ public class YueKaYueActivity extends BaseBackActivity implements View.OnClickLi
         title05 = (RadioButton)findViewById(R.id.title05);
         listView = (ListView)findViewById(R.id.listView);
         list = new ArrayList<>();
-        orderAdapter = new OrderAdapter(list,this,this);
+        orderAdapter = new OrderAdapter(list,this);
         listView.setAdapter(orderAdapter);
 
         title01.setOnClickListener(this);
@@ -128,6 +131,9 @@ public class YueKaYueActivity extends BaseBackActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.back:
+                this.finish();
+                break;
             case R.id.title01:
                 list.clear();
                 getUserOrder("all");
@@ -149,10 +155,5 @@ public class YueKaYueActivity extends BaseBackActivity implements View.OnClickLi
                 getUserOrder("complete");
                 break;
         }
-    }
-
-    @Override
-    public void onClick(int type, View v) {
-
     }
 }

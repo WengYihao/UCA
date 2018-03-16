@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white">
+<TextView
+    android:id="@+id/multiplexing"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="重新发布"
+    android:padding="@dimen/padding_12"
+    android:gravity="center"
+    android:textColor="@color/grey"/>
+    <TextView
+        android:id="@+id/widerrufen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="撤销"
+        android:padding="@dimen/padding_12"
+        android:gravity="center"
+        android:textColor="@color/grey"/>
+    <TextView
+        android:id="@+id/delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="删除"
+        android:padding="@dimen/padding_12"
+        android:gravity="center"
+        android:textColor="@color/grey"/>
+
+</LinearLayout>

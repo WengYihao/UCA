@@ -80,6 +80,7 @@ public class MapChoiceActivity extends BaseBackActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_choice);
+        com.amap.api.maps.MapsInitializer.loadWorldGridMap(true);
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         getInfo();
@@ -182,7 +183,7 @@ public class MapChoiceActivity extends BaseBackActivity implements View.OnClickL
     protected void doSearchQuery(double lat,double lng) {
         LoadDialog.show(this);
         currentPage = 0;
-        query = new PoiSearch.Query("", "", "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+        query = new PoiSearch.Query("", "地点", "");// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
         query.setPageSize(20);// 设置每页最多返回多少条poiitem
         query.setPageNum(currentPage);// 设置查第一页
 

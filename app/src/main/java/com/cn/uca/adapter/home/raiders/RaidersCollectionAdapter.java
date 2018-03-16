@@ -23,10 +23,12 @@ import java.util.List;
 public class RaidersCollectionAdapter extends BaseAdapter{
 	private List<RaidersBean> list;
 	private Context context;
+	private CollectionClickListener listener;
 
-	public RaidersCollectionAdapter(List<RaidersBean> list, Context context) {
+	public RaidersCollectionAdapter(List<RaidersBean> list, Context context,CollectionClickListener listener) {
 		this.list = list;
 		this.context = context;
+		this.listener = listener;
 	}
 	public void setList(List<RaidersBean> list) {
 		if (list != null) {
@@ -59,6 +61,7 @@ public class RaidersCollectionAdapter extends BaseAdapter{
 			holder.layout = (RelativeLayout)convertView.findViewById(R.id.layout);
 			holder.pic = (SimpleDraweeView)convertView.findViewById(R.id.pic);
 			holder.name = (TextView)convertView.findViewById(R.id.name);
+			holder.collection = (TextView)convertView.findViewById(R.id.collection);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -67,10 +70,18 @@ public class RaidersCollectionAdapter extends BaseAdapter{
 		Uri uri = Uri.parse(list.get(position).getPacture_url());
 		holder.pic.setImageURI(uri);
 		holder.layout.getBackground().setAlpha(120);
-		float a = (float)list.get(position).getFile_resources_size()/1024/1024;
-		int index = (a+"").indexOf(".");
-		Log.i("123",a+"---");
-//		holder.size.setText((a+"").substring(0,index+2)+"m");
+		if (list.get(position).isCollection()) {
+			holder.collection.setBackgroundResource(R.mipmap.collection_white);
+		} else {
+			holder.collection.setBackgroundResource(R.mipmap.nocollection_white);
+		}
+		holder.collection.setTag(position);
+		holder.collection.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				listener.onCollectionClick(v);
+			}
+		});
 		return convertView;
 	}
 	class ViewHolder {
