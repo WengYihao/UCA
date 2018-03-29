@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="group_list_black_textview">#353535</color>
     <color name="group_list_gray">#999999</color>
+    <color name="star_color">#fea743</color>
 </resources>

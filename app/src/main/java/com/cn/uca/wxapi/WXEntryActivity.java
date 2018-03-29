@@ -62,6 +62,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
                     SendAuth.Resp newResp = (SendAuth.Resp) resp;
                     String code = newResp.code;
                     //获取微信传回的code--------
+                    Log.e("456",code+"---返回code");
                     QueryHttp.getWeChatAccessToken(code,this) ;
                 }
                 break;
@@ -86,7 +87,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
     public void onResponse(Object response) {
         try {
             JSONObject jsonObject = new JSONObject(response.toString());
-            Log.e("123",jsonObject.toString()+"---");
+            Log.e("456",jsonObject.toString()+"授权返回值");
             Gson gson = new Gson();
             WeChatAccessToken token = gson.fromJson(jsonObject.toString(),new TypeToken<WeChatAccessToken>(){}.getType());
             MyApplication.getInstance().setAccessToken(token);
@@ -101,6 +102,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
                 }
             }
         }catch (Exception e){
+            Log.e("456",e.getMessage()+"---请求报错");
             finish();
         }
     }
@@ -113,6 +115,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler,Call
 
     @Override
     public void onError(VolleyError error) {
+        Log.e("456",error.getMessage()+"授权登录报错");
     }
 
     //微信登录

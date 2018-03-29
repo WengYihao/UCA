@@ -420,9 +420,10 @@ public class MerchantEntryActivity extends BaseBackActivity implements OnClickLi
      * 打开相册的请求码
      */
     public void openPic() {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, Constant.PHOTO_REQUEST_GALLERY);
+        //启动相册
+        Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
+        albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(albumIntent,  Constant.PHOTO_REQUEST_GALLERY);
     }
 
     @Override

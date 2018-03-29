@@ -31,7 +31,7 @@ public class ActionSearchActivity extends BaseBackActivity implements View.OnCli
         back.setOnClickListener(this);
         search = (MyEditText)findViewById(R.id.search);
         SpannableString ss = new SpannableString("搜索活动关键字/时间/位置等");//定义hint的值
-        AbsoluteSizeSpan ass = new AbsoluteSizeSpan(12,true);//设置字体大小 true表示单位是sp
+        AbsoluteSizeSpan ass = new AbsoluteSizeSpan(10,true);//设置字体大小 true表示单位是sp
         ss.setSpan(ass, 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         search.setHint(new SpannedString(ss));
     }

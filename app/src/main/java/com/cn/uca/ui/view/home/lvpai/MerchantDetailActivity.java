@@ -24,6 +24,7 @@ import com.cn.uca.config.BannerConfig;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
+import com.cn.uca.ownerview.MyRatingBar;
 import com.cn.uca.popupwindows.ShowPopupWindow;
 import com.cn.uca.server.home.HomeHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
@@ -36,7 +37,6 @@ import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.Banner;
 import com.cn.uca.view.CircleImageView;
 import com.cn.uca.view.HorizontalListView;
-import com.cn.uca.view.RatingStarView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -55,7 +55,7 @@ public class MerchantDetailActivity extends BaseBackActivity implements View.OnC
 
     private Banner banner;
     private TextView back,pic_num,username,score,follow,address,phone,call,teamcontent;
-    private RatingStarView star;
+    private MyRatingBar star;
     private LinearLayout pic_layout,address_layout,personal_tailor,all_commodity;
     private CircleImageView user_pic;
     private int id;
@@ -95,7 +95,7 @@ public class MerchantDetailActivity extends BaseBackActivity implements View.OnC
         address = (TextView)findViewById(R.id.address);//商家地址
         phone = (TextView)findViewById(R.id.phone);//商家手机号
         call = (TextView)findViewById(R.id.call);//拨打商家手机号
-        star = (RatingStarView)findViewById(R.id.star);//星级评分
+        star = (MyRatingBar)findViewById(R.id.star);//星级评分
         pic_layout = (LinearLayout)findViewById(R.id.pic_layout);//相册
         address_layout = (LinearLayout)findViewById(R.id.address_layout);//其他分址
         personal_tailor = (LinearLayout)findViewById(R.id.personal_tailor);//私人订制

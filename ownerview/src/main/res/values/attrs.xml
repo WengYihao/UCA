@@ -22,4 +22,13 @@
         <attr name="kswTextOff" format="string"/>
         <attr name="kswTextMarginH" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="MyRatingBar">
+        <attr name="progressColor" format="color"></attr>
+        <attr name="starWidth" format="dimension"></attr>
+        <attr name="starHeight" format="dimension"></attr>
+        <attr name="rating" format="float"></attr>
+        <attr name="starDrawable" format="reference"></attr>
+        <attr name="space" format="dimension"></attr>
+        <attr name="isIndicator" format="boolean"></attr>
+    </declare-styleable>
 </resources>

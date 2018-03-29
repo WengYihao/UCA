@@ -14,12 +14,12 @@ import com.cn.uca.bean.yueka.EscortRecordsBean;
 import com.cn.uca.config.MyApplication;
 import com.cn.uca.config.MyConfig;
 import com.cn.uca.impl.yueka.CollectionClickListener;
+import com.cn.uca.ownerview.MyRatingBar;
 import com.cn.uca.util.OpenPhoto;
 import com.cn.uca.util.StringXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.view.CircleImageView;
 import com.cn.uca.view.FluidLayout;
-import com.cn.uca.view.RatingStarView;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.generic.RoundingParams;
@@ -78,7 +78,7 @@ public class YueKaAdapter extends BaseAdapter implements View.OnClickListener{
 			holder.age = (TextView)convertView.findViewById(R.id.age);
 			holder.sex = (TextView)convertView.findViewById(R.id.sex);
 			holder.click = (TextView)convertView.findViewById(R.id.click);
-			holder.start = (RatingStarView)convertView.findViewById(R.id.start);
+			holder.start = (MyRatingBar)convertView.findViewById(R.id.start);
 			holder.price = (TextView)convertView.findViewById(R.id.price);
 			holder.sum = (TextView)convertView.findViewById(R.id.sum);
 			holder.evaluate = (TextView)convertView.findViewById(R.id.evaluate);
@@ -198,6 +198,6 @@ public class YueKaAdapter extends BaseAdapter implements View.OnClickListener{
 		TextView name,age,sex,click,price,sum,evaluate,count;
 		FluidLayout fluidLayout;
 		FluidLayout img;
-		RatingStarView start;
+		MyRatingBar start;
 	}
 }

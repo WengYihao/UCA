@@ -507,9 +507,10 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
      * 打开相册的请求码
      */
     public void openPic() {
-        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, Constant.PHOTO_REQUEST_GALLERY);
+        //启动相册
+        Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
+        albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+        startActivityForResult(albumIntent,  Constant.PHOTO_REQUEST_GALLERY);
     }
     /**
      * 权限回调
@@ -719,6 +720,7 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                                             if (listInfo != null){
                                                 bean.setFill_infos(ListtoString(listInfo));
                                             }
+                                            Log.e("456",selectList.size()+"---"+detail+"详情1");
                                             if (selectList.size() != 0){
                                                 bean.setLabels(ListtoString(selectList));
                                                 if (!StringXutil.isEmpty(detail)){
@@ -784,7 +786,7 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                                                 ToastXutil.show("请选择活动标签");
                                             }
                                         }else{
-                                            ToastXutil.show("请添加线下活动信息");
+                                            ToastXutil.show("在线报名需要添加名票");
                                         }
                                         break;
                                     case 2:
@@ -798,6 +800,7 @@ public class SendActionActivity extends BaseBackActivity implements View.OnClick
                                                 break;
                                         }
                                         bean.setFill_infos("");
+                                        Log.e("456",selectList.size()+"---"+detail+"详情1");
                                         if (selectList.size() != 0){
                                             bean.setLabels(ListtoString(selectList));
                                             if (!StringXutil.isEmpty(detail)){

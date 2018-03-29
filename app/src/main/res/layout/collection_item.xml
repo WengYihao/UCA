@@ -45,13 +45,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="@dimen/padding_10">
-            <com.cn.uca.view.RatingStarView
+            <com.cn.uca.ownerview.MyRatingBar
                 android:id="@+id/start"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/padding_20"
-                app:starForegroundColor="@color/yellow"
-                app:enableSelectRating="false"
-                app:rating="4"/>
+                app:space="3dp"
+                app:starHeight="15dp"
+                app:starWidth="15dp"
+                app:starDrawable="@mipmap/ic_star_border"
+                app:progressColor="@color/star_color"
+                app:rating="4.3"
+                app:isIndicator="true"
+                android:layout_height="wrap_content">
+            </com.cn.uca.ownerview.MyRatingBar>
         </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"

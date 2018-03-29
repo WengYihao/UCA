@@ -14,6 +14,7 @@ import com.cn.uca.adapter.yueka.OrderCourseAdapter;
  import com.cn.uca.bean.MessageNumBean;
  import com.cn.uca.impl.CallBack;
  import com.cn.uca.impl.ServiceBack;
+ import com.cn.uca.ownerview.MyRatingBar;
  import com.cn.uca.popupwindows.ShowPopupWindow;
  import com.cn.uca.server.yueka.YueKaHttp;
  import com.cn.uca.ui.view.rongim.ChatListActivity;
@@ -23,7 +24,6 @@ import com.cn.uca.util.SharePreferenceXutil;
 import com.cn.uca.util.SystemUtil;
 import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.CircleImageView;
- import com.cn.uca.view.RatingStarView;
  import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONObject;
@@ -38,7 +38,7 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
 
     private TextView back,message,state,name,age,sex;
     private CircleImageView pic;
-    private RatingStarView start;
+    private MyRatingBar start;
     private OrderCourseAdapter orderCourseAdapter;
     private CommentAdapter commentAdapter;
     private RelativeLayout layout,layout1,layout2,layout3,layout4,layout5,layout6,layout8,layout9;
@@ -62,7 +62,7 @@ public class OrderYueActivity extends BaseBackActivity implements View.OnClickLi
         back = (TextView)findViewById(R.id.back);
         message = (TextView)findViewById(R.id.message);
         state = (TextView)findViewById(R.id.state);
-        start = (RatingStarView)findViewById(R.id.start);
+        start = (MyRatingBar)findViewById(R.id.start);
         name = (TextView)findViewById(R.id.name);
         sex = (TextView)findViewById(R.id.sex);
         age = (TextView)findViewById(R.id.age);

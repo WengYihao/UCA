@@ -21,6 +21,7 @@ import com.cn.uca.config.BannerConfig;
 import com.cn.uca.impl.CallBack;
 import com.cn.uca.impl.banner.OnBannerListener;
 import com.cn.uca.loader.GlideImageLoader;
+import com.cn.uca.ownerview.MyRatingBar;
 import com.cn.uca.popupwindows.BuyYuaKaPopupWindow;
 import com.cn.uca.server.yueka.YueKaHttp;
 import com.cn.uca.ui.view.util.BaseBackActivity;
@@ -34,7 +35,6 @@ import com.cn.uca.util.ToastXutil;
 import com.cn.uca.view.Banner;
 import com.cn.uca.view.CircleImageView;
 import com.cn.uca.view.FluidLayout;
-import com.cn.uca.view.RatingStarView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -58,7 +58,7 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
     private int recordId,chatId;
     private TextView back,title,collection,name,age,sex,sum,price,maxPeople,title03,title04;
     private CircleImageView pic;
-    private RatingStarView start;
+    private MyRatingBar start;
     private ArrayList<PlacesBean> list;
     private String url;
     private FluidLayout lable;
@@ -103,7 +103,7 @@ public class YueChatActivity extends BaseBackActivity implements View.OnClickLis
         price = (TextView) findViewById(R.id.price);
         maxPeople = (TextView)findViewById(R.id.maxPeople);
         pic = (CircleImageView)findViewById(R.id.pic);
-        start = (RatingStarView)findViewById(R.id.start);
+        start = (MyRatingBar)findViewById(R.id.start);
         title03 = (TextView)findViewById(R.id.title03);
         title04 = (TextView)findViewById(R.id.title04);
 

@@ -5,8 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.cn.uca.ui.view.TestActivity">
-<ListView
-    android:id="@+id/listView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"></ListView>
+
+    <com.cn.uca.ownerview.MyRatingBar
+        android:layout_width="wrap_content"
+        android:layout_marginTop="50dp"
+        app:space="3dp"
+        app:starHeight="15dp"
+        app:starWidth="15dp"
+        app:starDrawable="@mipmap/ic_star_border"
+        app:progressColor="@color/ori"
+        app:rating="2.5"
+        app:isIndicator="true"
+        android:layout_height="wrap_content">
+    </com.cn.uca.ownerview.MyRatingBar>
 </android.support.constraint.ConstraintLayout>

@@ -87,17 +87,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="@dimen/padding_5">
-
-                    <com.cn.uca.view.RatingStarView
+                    <com.cn.uca.ownerview.MyRatingBar
                         android:id="@+id/start"
                         android:layout_width="wrap_content"
-                        android:layout_height="12dp"
-                        app:rating="1"
-                        app:starBackgroundColor="@color/white"
-                        app:starForegroundColor="@color/ori"
-                        app:starNum="5"
-                        app:strokeColor="@color/ori" />
-
+                        android:layout_marginTop="50dp"
+                        app:space="3dp"
+                        app:starHeight="15dp"
+                        app:starWidth="15dp"
+                        app:starDrawable="@mipmap/ic_star_border"
+                        app:progressColor="@color/star_color"
+                        app:rating="4.3"
+                        app:isIndicator="true"
+                        android:layout_height="wrap_content">
+                    </com.cn.uca.ownerview.MyRatingBar>
                     <TextView
                         android:id="@+id/comment_num"
                         android:layout_width="wrap_content"

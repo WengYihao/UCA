@@ -2,6 +2,7 @@ package com.cn.uca.ui.view.home.samecityka;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
 import android.widget.Switch;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.bean.home.samecityka.SetTicketInfoBean;
 import com.cn.uca.config.MyApplication;
+import com.cn.uca.impl.samecityka.TicketName;
 import com.cn.uca.impl.yusheng.EditItemClick;
 import com.cn.uca.ui.view.util.BaseBackActivity;
 import com.cn.uca.util.AndroidBug5497Workaround;
@@ -34,7 +37,7 @@ import com.cn.uca.view.MyEditText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnListActivity extends BaseBackActivity implements View.OnClickListener,EditItemClick{
+public class EnListActivity extends BaseBackActivity implements View.OnClickListener,EditItemClick,TicketName{
 
     private TextView back,finish,online,unwanted,notice,charge,free;
     private CheckBox abroad;
@@ -111,7 +114,6 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
         genTag(recommendList,recommendView);
         selectList.add("姓名");
         selectList.add("电话");
-//        addTicketItem();
     }
 
     @Override
@@ -126,6 +128,7 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
                         if (abroad.isChecked()){
                             for(int i = 0;i<layout.getChildCount();i++){
                                 SetTicketInfoBean bean = new SetTicketInfoBean();
+                                TextView ticketName = (TextView)layout.getChildAt(i).findViewById(R.id.ticket_name);
                                 CheckBox checkPrice = (CheckBox)layout.getChildAt(i).findViewById(R.id.checkPrice);
                                 CheckBox checkSum = (CheckBox)layout.getChildAt(i).findViewById(R.id.checkSum);
                                 CheckBox checkMax = (CheckBox)layout.getChildAt(i).findViewById(R.id.checkMax);
@@ -133,7 +136,7 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
                                 EditText price = (EditText)layout.getChildAt(i).findViewById(R.id.price);
                                 EditText sum = (EditText)layout.getChildAt(i).findViewById(R.id.sum);
                                 EditText maxNum = (EditText)layout.getChildAt(i).findViewById(R.id.maxNum);
-                                bean.setTicket_name("门票"+i);
+                                bean.setTicket_name(ticketName.getText().toString());
                                 if (checkPrice.isChecked()){
                                     bean.setPrice(0);
                                 }else{
@@ -235,17 +238,54 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
                 break;
         }
     }
+    private void addresspopuWindow(final TextView view,final TicketName name){
+        View inflate = LayoutInflater.from(this).inflate(R.layout.lvpai_addpic_dialog, null);
+        final TextView title = (TextView)inflate.findViewById(R.id.title);
+        title.setText("添加门票");
+        final EditText albumname = (EditText)inflate.findViewById(R.id.albumname);
+        TextView positiveButton = (TextView)inflate.findViewById(R.id.positiveButton);//确定
+        TextView negativeButton = (TextView)inflate.findViewById(R.id.negativeButton);//取消
+
+
+        final PopupWindow popupWindow = new PopupWindow(inflate, MyApplication.width,
+                MyApplication.height/3, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable(null, ""));
+        popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER,0,0);
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (albumname.getText().toString() != null){
+                    name.getName(view,albumname.getText().toString());
+                    popupWindow.dismiss();
+                }else{
+                    ToastXutil.show("门票名不能为空");
+                }
+            }
+        });
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+    }
     private void addTicketItem(){
         final View itemview = View.inflate(this, R.layout.add_ticket_item,null);
         layout.addView(itemview);
+        final TextView ticket_name = (TextView)itemview.findViewById(R.id.ticket_name);
         final TextView delete = (TextView)itemview.findViewById(R.id.delete);
-
-//        final TextView ha = (TextView)itemview.findViewById(R.id.ha);
-//        final TextView icon = (TextView)itemview.findViewById(R.id.icon);
         final CheckBox checkPrice = (CheckBox)itemview.findViewById(R.id.checkPrice);
         final CheckBox checkSum = (CheckBox)itemview.findViewById(R.id.checkSum);
         final CheckBox checkMax = (CheckBox)itemview.findViewById(R.id.checkMax);
         final Switch examine = (Switch)itemview.findViewById(R.id.examine) ;
+        ticket_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addresspopuWindow(ticket_name,EnListActivity.this);
+            }
+        });
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -383,5 +423,10 @@ public class EnListActivity extends BaseBackActivity implements View.OnClickList
     @Override
     public void click(View view) {
         ToastXutil.show((int)view.getTag()+"---");
+    }
+
+    @Override
+    public void getName(TextView view, String name) {
+        view.setText(name);
     }
 }

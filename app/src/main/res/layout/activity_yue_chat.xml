@@ -177,17 +177,20 @@
                                 android:text="456"
                                 android:textColor="@color/ori" />
 
-                            <com.cn.uca.view.RatingStarView
+                            <com.cn.uca.ownerview.MyRatingBar
                                 android:id="@+id/start"
                                 android:layout_width="wrap_content"
-                                android:layout_height="12dp"
+                                app:space="3dp"
+                                app:starHeight="15dp"
+                                app:starWidth="15dp"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="@dimen/padding_15"
-                                app:rating="4"
-                                app:starBackgroundColor="@color/white"
-                                app:starForegroundColor="@color/ori"
-                                app:starNum="5"
-                                app:strokeColor="@color/ori" />
+                                app:starDrawable="@mipmap/ic_star_border"
+                                app:progressColor="@color/star_color"
+                                app:rating="2.5"
+                                app:isIndicator="true"
+                                android:layout_height="wrap_content">
+                            </com.cn.uca.ownerview.MyRatingBar>
                         </LinearLayout>
 
                         <LinearLayout

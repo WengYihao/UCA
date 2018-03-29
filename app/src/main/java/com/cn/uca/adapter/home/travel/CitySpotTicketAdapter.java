@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.cn.uca.R;
 import com.cn.uca.bean.home.travel.CitySpotTicketBean;
 import com.cn.uca.config.MyConfig;
-import com.cn.uca.view.RatingStarView;
+import com.cn.uca.ownerview.MyRatingBar;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
@@ -58,7 +58,7 @@ public class CitySpotTicketAdapter extends BaseAdapter{
 			holder.pic = (SimpleDraweeView)convertView.findViewById(R.id.pic);
 			holder.name = (TextView)convertView.findViewById(R.id.name);
 			holder.product_num = (TextView)convertView.findViewById(R.id.product_num);
-			holder.start = (RatingStarView)convertView.findViewById(R.id.start);
+			holder.start = (MyRatingBar)convertView.findViewById(R.id.start);
 			holder.comment_num = (TextView)convertView.findViewById(R.id.comment_num);
 			holder.address = (TextView)convertView.findViewById(R.id.address);
 			holder.price = (TextView)convertView.findViewById(R.id.price);
@@ -83,6 +83,6 @@ public class CitySpotTicketAdapter extends BaseAdapter{
 	class ViewHolder {
 		SimpleDraweeView pic;
 		TextView name,product_num,comment_num,address,price;
-		RatingStarView start;
+		MyRatingBar start;
 	}
 }

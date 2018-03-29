@@ -75,12 +75,18 @@
                     android:layout_marginTop="@dimen/padding_5"
                     android:orientation="horizontal">
 
-                    <com.cn.uca.view.RatingStarView
+                    <com.cn.uca.ownerview.MyRatingBar
                         android:id="@+id/start"
                         android:layout_width="wrap_content"
-                        android:layout_height="12dp"
-                        app:rating="1.5"
-                        app:starNum="5" />
+                        app:space="3dp"
+                        app:starHeight="15dp"
+                        app:starWidth="15dp"
+                        app:starDrawable="@mipmap/ic_star_border"
+                        app:progressColor="@color/star_color"
+                        app:rating="2.5"
+                        app:isIndicator="true"
+                        android:layout_height="wrap_content">
+                    </com.cn.uca.ownerview.MyRatingBar>
                     <TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"

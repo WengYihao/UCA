@@ -149,17 +149,20 @@
                        android:layout_height="wrap_content"
                        android:text="星级:"
                        android:layout_gravity="center_vertical"/>
-                   <com.cn.uca.view.RatingStarView
+                   <com.cn.uca.ownerview.MyRatingBar
                        android:id="@+id/start"
                        android:layout_width="wrap_content"
-                       android:layout_height="@dimen/padding_12"
+                       app:space="3dp"
+                       app:starHeight="15dp"
+                       app:starWidth="15dp"
+                       android:layout_gravity="center_vertical"
                        android:layout_marginLeft="@dimen/padding_8"
-                       app:rating="4"
-                       app:starBackgroundColor="@color/white"
-                       app:starForegroundColor="@color/ori"
-                       app:strokeColor="@color/ori"
-                       app:starNum="5"
-                       android:layout_gravity="center_vertical"/>
+                       app:starDrawable="@mipmap/ic_star_border"
+                       app:progressColor="@color/star_color"
+                       app:rating="2.5"
+                       app:isIndicator="true"
+                       android:layout_height="wrap_content">
+                   </com.cn.uca.ownerview.MyRatingBar>
                    <TextView
                        android:layout_width="14dp"
                        android:layout_height="14dp"

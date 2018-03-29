@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.cn.uca.R;
 import com.cn.uca.bean.user.CollectionBean;
-import com.cn.uca.view.RatingStarView;
+import com.cn.uca.ownerview.MyRatingBar;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class CollectionAdapter extends BaseAdapter{
 			holder.name = (TextView)convertView.findViewById(R.id.name);
 			holder.type = (TextView)convertView.findViewById(R.id.type);
 			holder.price = (TextView)convertView.findViewById(R.id.price);
-			holder.start = (RatingStarView)convertView.findViewById(R.id.start);
+			holder.start = (MyRatingBar)convertView.findViewById(R.id.start);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -72,6 +72,6 @@ public class CollectionAdapter extends BaseAdapter{
 	class ViewHolder {
 		ImageView pic;
 		TextView name,type,price;
-		RatingStarView start;
+		MyRatingBar start;
 	}
 }

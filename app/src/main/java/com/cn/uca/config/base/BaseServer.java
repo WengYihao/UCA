@@ -240,15 +240,7 @@ public class BaseServer {
 			public void onResponse(String response) {
 				try{
 					Log.e("volley get response", response);
-					JSONObject jsonObject = new JSONObject(response);
-					int code = jsonObject.getInt("code");
-					if (code == 0){
-						callback.onResponse(response);
-					}else{
-						callback.onResponse(response);
-						callback.onErrorMsg(jsonObject.getString("msg").toString());
-//						ToastXutil.show(jsonObject.getString("msg").toString());
-					}
+					callback.onResponse(response);
 				}catch (Exception e){
 					Log.e("volley getlll", e.toString());
 				}
